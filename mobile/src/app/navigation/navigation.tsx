@@ -1,16 +1,20 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+
 import Home from '../../pages/Home';
 
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator();
-
+  const Tab = createBottomTabNavigator();
   return (
     <>
-      <RootStack.Navigator>
-        <RootStack.Screen name="Home" component={Home} />
-        <RootStack.Screen name="Cataloge" component={Home} />
-        <RootStack.Screen name="Profile" component={Home} />
-      </RootStack.Navigator>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Home1" component={Home} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </>
   );
 };
