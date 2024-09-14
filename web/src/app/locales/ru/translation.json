@@ -1,0 +1,5 @@
+{
+  "title": "Vite + React (на русском)",
+  "countMessage": "Счёт: {{count}}",
+  "editText": "Отредактируйте <code>src/App.tsx</code> и сохраните для обновления"
+}
