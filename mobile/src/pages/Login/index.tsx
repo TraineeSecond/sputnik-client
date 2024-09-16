@@ -4,10 +4,9 @@ import {TextStyles} from '../../shared/libs/helpers/textStyles';
 import {LoginPageStyles as styles} from './styles';
 import Input from '../../shared/ui/Input';
 import {useLoginStore} from './model/store';
-import {login} from './api/login';
 
 const Login = () => {
-  const {email, password, setEmail, setPassword} = useLoginStore();
+  const {email, password, setEmail, setPassword, login} = useLoginStore();
 
   const handleLogin = async () => {
     const result = await login(email, password);

@@ -6,7 +6,6 @@ import {TextStyles} from '../../shared/libs/helpers/textStyles';
 import {Colors} from '../../shared/libs/helpers/colors';
 import {RegisterPageStyles as styles} from './styles';
 import Input from '../../shared/ui/Input';
-import {register} from './api/register';
 import {useRegisterStore} from './model/store';
 
 const Login = () => {
@@ -23,6 +22,7 @@ const Login = () => {
     setPassword,
     setConfirmPassword,
     setChecked,
+    register,
   } = useRegisterStore();
 
   const handleRegister = async () => {
