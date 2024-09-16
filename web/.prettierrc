@@ -9,6 +9,7 @@
     "^react$",
     "<THIRD_PARTY_MODULES>",
     "^antd/dist/reset.css$",
+    "^.+\\.styles(\\.ts)?$",
     "^.+\\.css$"
   ],
   "importOrderSeparation": true,
