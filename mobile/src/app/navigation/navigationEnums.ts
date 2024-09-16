@@ -1,5 +1,6 @@
 export enum Stacks {
   MAIN = 'Main',
+  HOME_TAB = 'HomeTab',
 }
 
 export enum Screens {

@@ -1,7 +1,7 @@
-import Home from './Home/Home';
-import Catalog from './Catalog/Catalog';
-import Map from './Map/Map';
-import Profile from './Profile/Profile';
-import Cart from './Cart/Cart';
+import Home from './Home/ui/Home';
+import Catalog from './Catalog/ui/Catalog';
+import Map from './Map/ui/Map';
+import Profile from './Profile/ui/Profile';
+import Cart from './Cart/ui/Cart';
 
 export {Profile, Map, Catalog, Home, Cart};

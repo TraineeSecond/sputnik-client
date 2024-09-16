@@ -1,35 +1,47 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createNavigationContainerRef} from '@react-navigation/native';
-import {MainTabsNavigator} from './Stacks/index.ts';
+import {RootStackParamsList} from './navigationTypes.ts';
 import {Screens, Stacks} from './navigationEnums.ts';
 import {TouchableOpacity} from 'react-native';
-import {Cart} from '../../pages';
-import {CartIcon, TruckIcon} from '../../shared/icons/Icons.tsx';
+import {Cart} from 'pages';
+import {CartIcon, TruckIcon} from 'shared/icons/Icons';
+import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
+import {Colors, IconStyles} from 'shared/libs/helpers';
+import {MainTabsNavigator} from './stacks';
 
 export const RootNavigator = () => {
-  const RootStack = createNativeStackNavigator();
+  const RootStack = createNativeStackNavigator<RootStackParamsList>();
+  const navigation = useAppNavigation();
+
+  const handleNavigateToHome = () => {
+    navigation.navigate(Stacks.HOME_TAB);
+  };
+
+  const handleNavigateToCart = () => {
+    navigation.navigate(Screens.CART);
+  };
 
   return (
     <RootStack.Navigator>
       <RootStack.Screen
         name={Stacks.MAIN}
         component={MainTabsNavigator}
-        options={({navigation}) => ({
+        options={() => ({
           headerTitle: 'GOZON',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate(Screens.HOME)}>
+            <TouchableOpacity onPress={handleNavigateToHome}>
               <TruckIcon
-                fill="green"
-                style={{width: 24, height: 24, marginLeft: 15, marginRight: 5}}
+                width={IconStyles.medium.width}
+                height={IconStyles.medium.height}
               />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate(Screens.CART)}>
+            <TouchableOpacity onPress={handleNavigateToCart}>
               <CartIcon
-                fill="gray"
-                style={{width: 24, height: 24, marginRight: 15}}
+                fill={IconStyles.medium.changeColor(Colors.Gray100).color}
+                width={IconStyles.medium.width}
+                height={IconStyles.medium.height}
               />
             </TouchableOpacity>
           ),
@@ -39,12 +51,3 @@ export const RootNavigator = () => {
     </RootStack.Navigator>
   );
 };
-
-export const navigationRef = createNavigationContainerRef();
-
-export function navigate(name: string, params?: any) {
-  if (navigationRef.isReady()) {
-    //@ts-ignore
-    navigationRef.navigate(name, params);
-  }
-}

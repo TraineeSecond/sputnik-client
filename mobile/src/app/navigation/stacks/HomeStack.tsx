@@ -1,10 +1,11 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home} from '../../../pages';
+import {Home} from 'pages';
 import {Screens} from '../navigationEnums';
+import {HomeStackParamsList} from '../navigationTypes';
 
 const HomeStackNavigator = () => {
-  const HomeStack = createNativeStackNavigator();
+  const HomeStack = createNativeStackNavigator<HomeStackParamsList>();
 
   return (
     <HomeStack.Navigator>

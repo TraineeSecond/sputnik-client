@@ -6,16 +6,13 @@ import {
   MapStackNavigator,
   ProfileStackNavigator,
 } from '.';
-import {
-  CatalogIcon,
-  HomeIcon,
-  MapIcon,
-  ProfileIcon,
-} from '../../../shared/icons/Icons';
+import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons/Icons';
 import {Screens} from '../navigationEnums';
+import {MainTabsStackParamsList} from '../navigationTypes';
+import {Colors} from 'shared/libs/helpers/colors';
 
 const MainTabsNavigator = () => {
-  const MainTabsStack = createBottomTabNavigator();
+  const MainTabsStack = createBottomTabNavigator<MainTabsStackParamsList>();
 
   return (
     <MainTabsStack.Navigator
@@ -30,8 +27,8 @@ const MainTabsNavigator = () => {
           if (route.name === Screens.PROFILE_TAB)
             return <ProfileIcon {...iconProps} />;
         },
-        tabBarActiveTintColor: 'green',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: Colors.Green500,
+        tabBarInactiveTintColor: Colors.Gray100,
         headerShown: false,
       })}>
       <MainTabsStack.Screen
