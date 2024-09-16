@@ -6,7 +6,6 @@ import {TextStyles} from '../../shared/libs/helpers/textStyles';
 import {Colors} from '../../shared/libs/helpers/colors';
 import {RegisterPageStyles as styles} from './styles';
 import Input from '../../shared/ui/Input';
-import axios from 'axios';
 import {register} from './api/register';
 import {useRegisterStore} from './model/store';
 

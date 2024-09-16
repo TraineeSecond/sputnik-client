@@ -1,16 +1,17 @@
 import React from 'react';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider} from '@ui-kitten/components';
+import {NavigationContainer} from '@react-navigation/native';
+import {RootNavigator} from './navigation/navigation';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-
-function App(): React.JSX.Element {
+export const App = () => {
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <Register />
-    </ApplicationProvider>
+    <NavigationContainer>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <RootNavigator />
+      </ApplicationProvider>
+    </NavigationContainer>
   );
-}
-
-export default App;
+};

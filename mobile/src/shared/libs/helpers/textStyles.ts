@@ -49,6 +49,7 @@ class TextStyle {
     this.fontFamily = fontFamily;
     this.lineHeight = lineHeight;
   }
+
   fontSize: number;
   fontWeight: fontWeight;
   color: Colors;
