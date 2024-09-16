@@ -18,6 +18,10 @@ const Input: React.FC<InputType> = ({
   isPassword = false,
   isEmail = false,
 }) => {
+  const handleChangeText = (value: string) => {
+    setValue(value);
+  };
+
   return (
     <TextInput
       value={value}
@@ -26,7 +30,7 @@ const Input: React.FC<InputType> = ({
       keyboardType={isEmail ? 'email-address' : 'default'}
       autoCapitalize="none"
       placeholderTextColor={Colors.Gray100}
-      onChangeText={text => setValue(text)}
+      onChangeText={handleChangeText}
       style={[styles.input, TextStyles.p1.changeColor(Colors.Gray200)]}
     />
   );
