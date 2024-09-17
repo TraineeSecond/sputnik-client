@@ -48,6 +48,7 @@ export const RootNavigator = () => {
         })}
       />
       <RootStack.Screen name={Screens.CART} component={Cart} />
+      <RootStack.Screen name={Screens.AUTH} component={Cart} />
     </RootStack.Navigator>
   );
 };

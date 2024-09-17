@@ -1,18 +1,21 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import {TextStyles} from '../../shared/libs/helpers/textStyles';
-import {LoginPageStyles as styles} from './styles';
-import Input from '../../shared/ui/Input';
-import {useLoginStore} from './model/store';
+import Input from 'shared/ui/Input';
+import {TextStyles} from 'shared/libs/helpers';
+import {LoginStyles as styles} from './styles';
+import {useAuthStore} from 'pages/Auth';
 
-const Login = () => {
-  const {email, password, setEmail, setPassword, login} = useLoginStore();
+export const Login = () => {
+  const {email, password, setEmail, setPassword, login, setIsLoginPage} =
+    useAuthStore();
 
   const handleLogin = async () => {
     const result = await login(email, password);
   };
 
-  const handleNavigate = () => {};
+  const handleNavigate = () => {
+    setIsLoginPage(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -36,5 +39,3 @@ const Login = () => {
     </View>
   );
 };
-
-export default Login;

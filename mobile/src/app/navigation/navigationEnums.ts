@@ -14,6 +14,5 @@ export enum Screens {
   MAP = 'Map',
   PROFILE = 'Profile',
   CART = 'Cart',
-  LOGIN = 'Login',
-  REGISTER = 'Register',
+  AUTH = 'Auth',
 }

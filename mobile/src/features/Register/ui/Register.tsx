@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Radio} from '@ui-kitten/components';
 
-import {TextStyles} from '../../shared/libs/helpers/textStyles';
-import {Colors} from '../../shared/libs/helpers/colors';
-import {RegisterPageStyles as styles} from './styles';
-import Input from '../../shared/ui/Input';
-import {useRegisterStore} from './model/store';
+import Input from 'shared/ui/Input';
+import {Colors, TextStyles} from 'shared/libs/helpers';
+import {RegisterStyles as styles} from './styles';
+import {useAuthStore} from 'pages/Auth';
 
-const Login = () => {
+export const Register = () => {
   const {
     name,
     surname,
@@ -23,7 +22,8 @@ const Login = () => {
     setConfirmPassword,
     setChecked,
     register,
-  } = useRegisterStore();
+    setIsLoginPage,
+  } = useAuthStore();
 
   const handleRegister = async () => {
     const result = await register(email, password, checked, name);
@@ -33,7 +33,9 @@ const Login = () => {
     setChecked(!checked);
   };
 
-  const handleNavigate = () => {};
+  const handleNavigate = () => {
+    setIsLoginPage(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -90,5 +92,3 @@ const Login = () => {
     </View>
   );
 };
-
-export default Login;

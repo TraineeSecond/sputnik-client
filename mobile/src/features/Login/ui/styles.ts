@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from '../../shared/libs/helpers/colors';
+import {Colors} from 'shared/libs/helpers/colors';
 
-export const RegisterPageStyles = StyleSheet.create({
+export const LoginStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.White100,
@@ -19,22 +19,9 @@ export const RegisterPageStyles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  containerseller: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderColor: Colors.Black200,
-    borderWidth: 1,
-    marginVertical: 10,
-  },
-
   button1: {
-    alignItems: 'center',
     backgroundColor: Colors.Purple100,
-    width: 327,
+    paddingHorizontal: 126,
     paddingVertical: 11,
     borderRadius: 12,
     marginTop: 22,
