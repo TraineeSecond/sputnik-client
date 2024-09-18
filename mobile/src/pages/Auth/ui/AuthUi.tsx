@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
-import {useAuthStore} from '../model/store';
 import {Register} from 'features/Register';
 import {Login} from 'features/Login/';
+import {useIsLoginStore} from 'shared/stores/isLoginStore';
 
 export const AuthUi: FC = () => {
-  const {isLoginPage} = useAuthStore();
+  const {isLoginPage} = useIsLoginStore();
   return <>({isLoginPage ? <Login /> : <Register />})</>;
 };

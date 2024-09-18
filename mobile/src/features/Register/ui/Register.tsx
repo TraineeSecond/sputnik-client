@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Radio} from '@ui-kitten/components';
 
 import Input from 'shared/ui/Input';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {RegisterStyles as styles} from './styles';
-import {useAuthStore} from 'pages/Auth';
-
+import {useRegisterStore} from '../model/store';
+import {useIsLoginStore} from 'shared/stores/isLoginStore';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {useUserStore} from 'entities/user';
 export const Register = () => {
   const {
     name,
@@ -22,11 +24,19 @@ export const Register = () => {
     setConfirmPassword,
     setChecked,
     register,
-    setIsLoginPage,
-  } = useAuthStore();
+  } = useRegisterStore();
+  const {setIsLoginPage} = useIsLoginStore();
+  const {setUser} = useUserStore();
+
+  const navigation = useAppNavigation();
 
   const handleRegister = async () => {
     const result = await register(email, password, checked, name);
+    if (result.message === 'Пользователь зарегистрирован') {
+      setIsLoginPage(false);
+      navigation.navigate('HomeTab');
+      setUser(result.user);
+    }
   };
 
   const handleRadioChange = () => {

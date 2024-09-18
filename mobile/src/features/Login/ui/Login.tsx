@@ -3,14 +3,27 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import Input from 'shared/ui/Input';
 import {TextStyles} from 'shared/libs/helpers';
 import {LoginStyles as styles} from './styles';
-import {useAuthStore} from 'pages/Auth';
+import {useIsLoginStore} from 'shared/stores/isLoginStore';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {useLoginStore} from '../model/store';
+import {useUserStore} from 'entities/user';
 
 export const Login = () => {
-  const {email, password, setEmail, setPassword, login, setIsLoginPage} =
-    useAuthStore();
+  const {email, password, setEmail, setPassword, login} = useLoginStore();
+
+  const {setIsLoginPage} = useIsLoginStore();
+
+  const {setUser} = useUserStore();
+
+  const navigation = useAppNavigation();
 
   const handleLogin = async () => {
     const result = await login(email, password);
+    if (result.message === 'Пользователь зарегистрирован') {
+      setIsLoginPage(false);
+      navigation.navigate('HomeTab');
+      setUser(result.user);
+    }
   };
 
   const handleNavigate = () => {
