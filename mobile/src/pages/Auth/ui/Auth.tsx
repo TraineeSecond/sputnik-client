@@ -2,8 +2,7 @@ import {Login, Register} from 'features';
 import React, {FC} from 'react';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 
-export const AuthUi: FC = () => {
+export const Auth: FC = () => {
   const {isLoginPage} = useIsLoginStore();
-
-  return <>({isLoginPage ? <Login /> : <Register />})</>;
+  return <>{isLoginPage ? <Login /> : <Register />}</>;
 };

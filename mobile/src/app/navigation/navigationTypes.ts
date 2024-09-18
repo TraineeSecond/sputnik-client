@@ -28,5 +28,4 @@ export type MapStackParamsList = {
 
 export type ProfileStackParamsList = {
   Profile: undefined;
-  Auth: undefined;
 };

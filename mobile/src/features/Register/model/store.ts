@@ -28,6 +28,7 @@ type RegisterStore = {
     password: string,
     checked: boolean,
     name: string,
+    surname: string,
   ) => Promise<returnedRegisterData>;
 };
 
@@ -53,6 +54,7 @@ export const useRegisterStore = create<RegisterStore>()(set => ({
     password: string,
     checked: boolean,
     name: string,
+    surname: string,
   ) => {
     try {
       const {data} = await axios.post(
@@ -62,12 +64,21 @@ export const useRegisterStore = create<RegisterStore>()(set => ({
           password,
           role: checked ? 'seller' : 'buyer',
           name,
+          surname,
         },
       );
 
       return data;
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.response) {
+        // Если сервер вернул ошибку с сообщением
+        console.error('Ошибка сервера:', error.response.data.message);
+        throw new Error(error.response.data.message);
+      } else {
+        // Ошибка на стороне клиента или сети
+        console.error('Ошибка клиента:', error.message);
+        throw new Error('Ошибка клиента: ' + error.message);
+      }
     }
   },
 }));

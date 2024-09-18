@@ -34,8 +34,10 @@ export const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[TextStyles.h1, {marginBottom: 41}]}>Авторизация</Text>
-      <Input value={email} setValue={setEmail} placeholder="Введите логин" />
+      <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
+        Авторизация
+      </Text>
+      <Input value={email} setValue={setEmail} placeholder="Введите почту" />
 
       <Input
         value={password}

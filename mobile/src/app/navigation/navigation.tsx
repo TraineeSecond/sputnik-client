@@ -8,6 +8,7 @@ import {CartIcon, TruckIcon} from 'shared/icons/Icons';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
 import {Colors, IconStyles} from 'shared/libs/helpers';
 import {MainTabsNavigator} from './stacks';
+import {Auth} from 'pages/Auth';
 
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();
@@ -48,7 +49,7 @@ export const RootNavigator = () => {
         })}
       />
       <RootStack.Screen name={Screens.CART} component={Cart} />
-      <RootStack.Screen name={Screens.AUTH} component={Cart} />
+      <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>
   );
 };

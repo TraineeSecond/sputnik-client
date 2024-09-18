@@ -1,12 +1,64 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {useUserStore} from 'entities/user';
+import {Auth} from 'pages/Auth/ui/Auth';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
+import {CardIcon, ForwardIcon} from 'shared/icons/Icons';
 
 const Profile = () => {
+  const {token, user} = useUserStore();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Profile</Text>
-    </View>
+    <>
+      {token ? (
+        <View style={styles.container}>
+          <Text
+            style={[
+              TextStyles.h2.changeColor(Colors.Black200),
+              styles.textCenter,
+            ]}>
+            Профиль
+          </Text>
+          <Image
+            style={styles.image}
+            source={require('shared/assets/images/tempimage.png')}
+          />
+          <Text
+            style={[
+              TextStyles.p2.changeColor(Colors.Black200),
+              styles.textCenter,
+            ]}>
+            {`${user.name} ${user.surname}`}
+          </Text>
+
+          <View style={styles.menuContainer}>
+            <TouchableOpacity style={styles.menuItem}>
+              <CardIcon width={24} height={24} fill={Colors.Gray100} />
+              <Text style={styles.menuItemText}>Методы оплаты</Text>
+              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem}>
+              <CardIcon width={24} height={24} fill={Colors.Gray100} />
+              <Text style={styles.menuItemText}>Методы оплаты</Text>
+              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem}>
+              <CardIcon width={24} height={24} fill={Colors.Gray100} />
+              <Text style={styles.menuItemText}>Методы оплаты</Text>
+              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem}>
+              <CardIcon width={24} height={24} fill={Colors.Gray100} />
+              <Text style={styles.menuItemText}>Методы оплаты</Text>
+              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <Auth />
+      )}
+    </>
   );
 };
 

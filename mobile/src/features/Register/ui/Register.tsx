@@ -33,7 +33,7 @@ export const Register = () => {
   const navigation = useAppNavigation();
 
   const handleRegister = async () => {
-    const result = await register(email, password, checked, name);
+    const result = await register(email, password, checked, name, surname);
     if (result.message === 'Пользователь зарегистрирован') {
       setIsLoginPage(true);
       navigation.navigate(Stacks.HOME_TAB);
@@ -52,7 +52,9 @@ export const Register = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[TextStyles.h1, {marginBottom: 41}]}>Регистрация</Text>
+      <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
+        Регистрация
+      </Text>
       <Input value={name} setValue={setName} placeholder="Введите имя" />
 
       <Input
