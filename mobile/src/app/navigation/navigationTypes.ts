@@ -3,6 +3,7 @@ import {NavigatorScreenParams} from '@react-navigation/native';
 export type RootStackParamsList = {
   Main: NavigatorScreenParams<MainTabsStackParamsList>;
   Cart: undefined;
+  Auth: undefined;
   HomeTab: undefined;
 };
 
