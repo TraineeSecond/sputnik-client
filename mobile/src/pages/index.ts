@@ -5,3 +5,4 @@ import Profile from './Profile/ui/Profile';
 import Cart from './Cart/ui/Cart';
 
 export {Profile, Map, Catalog, Home, Cart};
+export * from './Auth';

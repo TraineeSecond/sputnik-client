@@ -6,6 +6,7 @@ import {LoginStyles as styles} from './styles';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useLoginStore} from '../model/store';
+import {Stacks} from 'navigation/navigationEnums';
 import {useUserStore} from 'entities/user';
 
 export const Login = () => {
@@ -13,16 +14,17 @@ export const Login = () => {
 
   const {setIsLoginPage} = useIsLoginStore();
 
-  const {setUser} = useUserStore();
+  const {setUser, setToken} = useUserStore();
 
   const navigation = useAppNavigation();
 
   const handleLogin = async () => {
     const result = await login(email, password);
-    if (result.message === 'Пользователь зарегистрирован') {
-      setIsLoginPage(false);
-      navigation.navigate('HomeTab');
+    if (result.message === 'Успешная авторизация') {
+      setIsLoginPage(true);
+      navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
+      setToken(result.token);
     }
   };
 

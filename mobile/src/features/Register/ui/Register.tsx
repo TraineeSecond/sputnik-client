@@ -9,6 +9,8 @@ import {useRegisterStore} from '../model/store';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useUserStore} from 'entities/user';
+import {Stacks} from 'navigation/navigationEnums';
+
 export const Register = () => {
   const {
     name,
@@ -26,16 +28,17 @@ export const Register = () => {
     register,
   } = useRegisterStore();
   const {setIsLoginPage} = useIsLoginStore();
-  const {setUser} = useUserStore();
+  const {setUser, setToken} = useUserStore();
 
   const navigation = useAppNavigation();
 
   const handleRegister = async () => {
     const result = await register(email, password, checked, name);
     if (result.message === 'Пользователь зарегистрирован') {
-      setIsLoginPage(false);
-      navigation.navigate('HomeTab');
+      setIsLoginPage(true);
+      navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
+      setToken(result.token);
     }
   };
 
