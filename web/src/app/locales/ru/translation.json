@@ -1,3 +1,12 @@
 {
-  "заголовок": "Vite + React (на русском)"
+  "header": {
+    "searchPlaceholder": "Поиск...",
+    "profile": "Профиль",
+    "cart": "Корзина",
+    "changeLanguage": "Сменить язык"
+  },
+  "menu": {
+    "home": "Главная",
+    "about": "О нас"
+  }
 }
