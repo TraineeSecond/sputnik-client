@@ -1,8 +1,6 @@
 import {User} from 'entities/user';
+import {storage} from 'shared/libs/storage';
 import {create} from 'zustand';
-import {MMKV} from 'react-native-mmkv';
-
-const storage = new MMKV();
 
 type ProfileStore = {
   user: User;
