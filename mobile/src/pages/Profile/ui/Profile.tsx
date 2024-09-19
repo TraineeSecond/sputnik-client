@@ -27,19 +27,16 @@ const Profile = () => {
   >(undefined);
 
   const handlePaymentMethods = () => {
-    console.log('Переход к методам оплаты');
     // navigation.navigate('PaymentMethods');
   };
 
   const handlePurchaseHistory = () => {
-    console.log('Переход к истории покупок');
     // история покупок
   };
 
   // Функция для выхода из аккаунта
   const handleLogout = () => {
     clearUserData();
-    console.log('Выход из аккаунта');
     // на траницу логина
   };
 
