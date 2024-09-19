@@ -1,6 +1,8 @@
 import {User} from 'entities/user';
 import {create} from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {MMKV} from 'react-native-mmkv';
+
+const storage = new MMKV();
 
 type ProfileStore = {
   user: User;
@@ -8,7 +10,7 @@ type ProfileStore = {
   setToken: (token: string) => void;
   setUser: (user: User) => void;
   loadUserData: () => Promise<void>;
-  clearUserData: () => Promise<void>;
+  clearUserData: () => void;
 };
 
 export const useUserStore = create<ProfileStore>(set => ({
@@ -20,17 +22,17 @@ export const useUserStore = create<ProfileStore>(set => ({
     surname: '',
   },
   token: '',
-  setToken: async (token: string) => {
+  setToken: (token: string) => {
     set({token});
-    await AsyncStorage.setItem('token', token);
+    storage.set('token', token);
   },
-  setUser: async (user: User) => {
+  setUser: (user: User) => {
     set({user});
-    await AsyncStorage.setItem('user', JSON.stringify(user));
+    storage.set('user', JSON.stringify(user));
   },
   loadUserData: async () => {
-    const token = await AsyncStorage.getItem('token');
-    const user = await AsyncStorage.getItem('user');
+    const token = storage.getString('token');
+    const user = storage.getString('user');
     if (token) {
       set({token});
     }
@@ -38,12 +40,12 @@ export const useUserStore = create<ProfileStore>(set => ({
       set({user: JSON.parse(user)});
     }
   },
-  clearUserData: async () => {
+  clearUserData: () => {
     set({
       user: {id: '', email: '', role: '', name: '', surname: ''},
       token: '',
     });
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('user');
+    storage.delete('token');
+    storage.delete('user');
   },
 }));
