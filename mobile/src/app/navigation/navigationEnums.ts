@@ -15,4 +15,7 @@ export enum Screens {
   PROFILE = 'Profile',
   CART = 'Cart',
   AUTH = 'Auth',
+  SETTINGS = 'Settings',
+  ORDERS = 'Orders',
+  PAYMENTSMETHODS = 'PaymentMethods',
 }

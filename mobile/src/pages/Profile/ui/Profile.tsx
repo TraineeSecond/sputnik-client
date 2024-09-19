@@ -1,15 +1,8 @@
-import React from 'react';
-import {
-  Icon,
-  Menu,
-  MenuGroup,
-  MenuItem,
-  IconElement,
-  IndexPath,
-} from '@ui-kitten/components';
+import React, {useState} from 'react';
+import {Menu, MenuItem, IndexPath} from '@ui-kitten/components';
 import {Image, Text, View} from 'react-native';
+import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
 
-import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/Auth/ui/Auth';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
@@ -18,26 +11,36 @@ import {
   ForwardIcon,
   HistoryIcon,
   LogOutIcon,
+  SettingsIcon,
 } from 'shared/icons/Icons';
+import {useUserStore} from 'entities/user';
+import {useNavigation} from '@react-navigation/native';
+import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
+import {Screens} from 'app/navigation/navigationEnums';
 
 const Profile = () => {
   const {token, user, clearUserData} = useUserStore();
-  const [selectedIndex, setSelectedIndex] = React.useState<
-    IndexPath | undefined
-  >(undefined);
+  const [selectedIndex, setSelectedIndex] = useState<IndexPath | undefined>(
+    undefined,
+  );
+
+  const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
 
   const handlePaymentMethods = () => {
-    // navigation.navigate('PaymentMethods');
+    navigation.navigate(Screens.PAYMENTSMETHODS);
   };
 
   const handlePurchaseHistory = () => {
-    // история покупок
+    navigation.navigate(Screens.ORDERS);
+  };
+
+  const handleSettings = () => {
+    navigation.navigate(Screens.SETTINGS);
   };
 
   // Функция для выхода из аккаунта
   const handleLogout = () => {
     clearUserData();
-    // на траницу логина
   };
 
   return (
@@ -76,6 +79,12 @@ const Profile = () => {
                 accessoryLeft={HistoryIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handlePurchaseHistory}
+              />
+              <MenuItem
+                title="Настройки"
+                accessoryLeft={SettingsIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handleSettings}
               />
               <MenuItem
                 title="Выйти из аккаунта"

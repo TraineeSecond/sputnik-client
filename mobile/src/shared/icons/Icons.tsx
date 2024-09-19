@@ -24,6 +24,9 @@ export const LogOutIcon = (props: any) => (
 export const HistoryIcon = (props: any) => (
   <Icon {...props} name="archive-outline" />
 );
+export const SettingsIcon = (props: any) => (
+  <Icon {...props} name="settings-2-outline" />
+);
 
 //archive-outline
 

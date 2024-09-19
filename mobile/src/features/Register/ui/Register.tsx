@@ -8,8 +8,8 @@ import {RegisterStyles as styles} from './styles';
 import {useRegisterStore} from '../model/store';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {useUserStore} from 'entities/user';
 import {Stacks} from 'navigation/navigationEnums';
+import {useUserStore} from 'entities/user';
 
 export const Register = () => {
   const {
