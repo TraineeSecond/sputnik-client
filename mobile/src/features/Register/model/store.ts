@@ -72,16 +72,8 @@ export const useRegisterStore = create<RegisterStore>()(set => ({
       );
 
       return data;
-    } catch (error: any) {
-      if (error.response) {
-        // Если сервер вернул ошибку с сообщением
-        console.error('Ошибка сервера:', error.response.data.message);
-        throw new Error(error.response.data.message);
-      } else {
-        // Ошибка на стороне клиента или сети
-        console.error('Ошибка клиента:', error.message);
-        throw new Error('Ошибка клиента: ' + error.message);
-      }
+    } catch (error) {
+      console.error(error);
     }
   },
 }));
