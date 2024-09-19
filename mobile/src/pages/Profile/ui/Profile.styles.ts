@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from '../../../shared/libs/helpers/colors';
+import {Colors} from 'shared/libs/helpers/colors';
 
 export const ProfilePageStyles = StyleSheet.create({
   container: {

@@ -1,15 +1,14 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from '../../../shared/libs/helpers/colors';
+import {Colors} from 'shared/libs/helpers/colors';
 
 export const HomePageStyles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: Colors.White100,
   },
-  text: {
-    fontSize: 24,
-    color: 'gray',
+  marginBottom: {
+    marginBottom: 25,
+  },
+  promo: {
+    height: 350,
   },
 });

@@ -9,6 +9,7 @@ import {useRegisterStore} from '../model/store';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useUserStore} from 'entities/user';
+
 export const Register = () => {
   const {
     name,

@@ -2,10 +2,18 @@ export enum Colors {
   Blue100 = '#101242',
   Black100 = '#000000',
   Black200 = '#272728',
-  Gray100 = '#B7B7B8',
-  Gray200 = '#292929',
-  Gray300 = '#F3F3F3',
+
+  Gray100 = '#F5F5F5',
+  Gray200 = '#EEEEEE',
+  Gray300 = '#E0E0E0',
+  Gray400 = '#BDBDBD',
+  Gray500 = '#9E9E9E',
+
+  Green400 = '#66BB6A',
+  Green500 = '#4CAF50',
+
   White100 = '#FFFFFF',
   Purple100 = '#614FE0',
-  Green500 = '#4CAF50',
+  Yellow500 = '#EAB308',
+  Red500 = '#EF4444',
 }

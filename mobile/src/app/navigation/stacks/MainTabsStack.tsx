@@ -27,8 +27,8 @@ const MainTabsNavigator = () => {
           if (route.name === Screens.PROFILE_TAB)
             return <ProfileIcon {...iconProps} />;
         },
-        tabBarActiveTintColor: Colors.Green500,
-        tabBarInactiveTintColor: Colors.Gray100,
+        tabBarActiveTintColor: Colors.Green400,
+        tabBarInactiveTintColor: Colors.Gray500,
         headerShown: false,
       })}>
       <MainTabsStack.Screen

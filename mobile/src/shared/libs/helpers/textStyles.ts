@@ -25,6 +25,7 @@ type FontFamily =
   | 'Unbounded-SemiBold';
 
 interface ITextStyle {
+  span1: TextStyle;
   p1: TextStyle;
   p2: TextStyle;
   p3: TextStyle;
@@ -68,6 +69,7 @@ class TextStyle {
 }
 
 export const TextStyles: ITextStyle = {
+  span1: new TextStyle(12, '900', Colors.Gray100, 'Unbounded-Black'),
   p1: new TextStyle(16, '700', Colors.Gray100, 'Unbounded-Regular'),
   p2: new TextStyle(18, '700', Colors.Gray100, 'Unbounded-Regular', 26),
   p3: new TextStyle(20, '700', Colors.Gray100, 'Unbounded-Regular'),

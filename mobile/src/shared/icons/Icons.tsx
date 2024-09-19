@@ -13,3 +13,4 @@ export const ProfileIcon = (props: any) => (
   <Icon {...props} name="person-outline" />
 );
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;
+export const StarIcon = (props: any) => <Icon {...props} name="star" />;
