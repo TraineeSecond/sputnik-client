@@ -6,6 +6,7 @@ import {Cart} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
 import {MainTabsNavigator} from './stacks';
 import {Header} from 'widgets';
+import {Auth} from 'pages';
 
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();
@@ -22,7 +23,7 @@ export const RootNavigator = () => {
       />
 
       <RootStack.Screen name={Screens.CART} component={Cart} />
-      <RootStack.Screen name={Screens.AUTH} component={Cart} />
+      <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>
   );
 };

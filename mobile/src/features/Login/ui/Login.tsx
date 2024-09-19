@@ -6,23 +6,27 @@ import {LoginStyles as styles} from './styles';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useLoginStore} from '../model/store';
+import {Stacks} from 'navigation/navigationEnums';
 import {useUserStore} from 'entities/user';
 
 export const Login = () => {
-  const {email, password, setEmail, setPassword, login} = useLoginStore();
+  const {email, password, setEmail, setPassword, login, clear} =
+    useLoginStore();
 
   const {setIsLoginPage} = useIsLoginStore();
 
-  const {setUser} = useUserStore();
+  const {setUser, setToken} = useUserStore();
 
   const navigation = useAppNavigation();
 
   const handleLogin = async () => {
     const result = await login(email, password);
-    if (result.message === 'Пользователь зарегистрирован') {
-      setIsLoginPage(false);
-      navigation.navigate('HomeTab');
+    if (result.message === 'Успешная авторизация') {
+      setIsLoginPage(true);
+      clear();
+      navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
+      setToken(result.token);
     }
   };
 
@@ -32,8 +36,10 @@ export const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[TextStyles.h1, {marginBottom: 41}]}>Авторизация</Text>
-      <Input value={email} setValue={setEmail} placeholder="Введите логин" />
+      <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
+        Авторизация
+      </Text>
+      <Input value={email} setValue={setEmail} placeholder="Введите почту" />
 
       <Input
         value={password}
@@ -47,7 +53,7 @@ export const Login = () => {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={handleNavigate} style={styles.button2}>
-        <Text style={TextStyles.button2}>зарегестрироваться</Text>
+        <Text style={TextStyles.button2}>Зарегистрироваться</Text>
       </TouchableOpacity>
     </View>
   );

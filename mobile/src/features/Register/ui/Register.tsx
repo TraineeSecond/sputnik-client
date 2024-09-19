@@ -8,6 +8,7 @@ import {RegisterStyles as styles} from './styles';
 import {useRegisterStore} from '../model/store';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {Stacks} from 'navigation/navigationEnums';
 import {useUserStore} from 'entities/user';
 
 export const Register = () => {
@@ -25,18 +26,21 @@ export const Register = () => {
     setConfirmPassword,
     setChecked,
     register,
+    clear,
   } = useRegisterStore();
   const {setIsLoginPage} = useIsLoginStore();
-  const {setUser} = useUserStore();
+  const {setUser, setToken} = useUserStore();
 
   const navigation = useAppNavigation();
 
   const handleRegister = async () => {
-    const result = await register(email, password, checked, name);
+    const result = await register(email, password, checked, name, surname);
     if (result.message === 'Пользователь зарегистрирован') {
-      setIsLoginPage(false);
-      navigation.navigate('HomeTab');
+      setIsLoginPage(true);
+      clear();
+      navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
+      setToken(result.token);
     }
   };
 
@@ -50,7 +54,9 @@ export const Register = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[TextStyles.h1, {marginBottom: 41}]}>Регистрация</Text>
+      <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
+        Регистрация
+      </Text>
       <Input value={name} setValue={setName} placeholder="Введите имя" />
 
       <Input

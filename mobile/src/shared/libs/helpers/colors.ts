@@ -13,6 +13,7 @@ export enum Colors {
   Green500 = '#4CAF50',
 
   White100 = '#FFFFFF',
+  Pink100 = '#E2D5F5',
   Purple100 = '#614FE0',
   Yellow500 = '#EAB308',
   Red500 = '#EF4444',

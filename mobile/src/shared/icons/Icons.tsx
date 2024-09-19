@@ -12,5 +12,23 @@ export const CatalogIcon = (props: any) => (
 export const ProfileIcon = (props: any) => (
   <Icon {...props} name="person-outline" />
 );
+export const CardIcon = (props: any) => (
+  <Icon {...props} name="credit-card-outline" />
+);
+export const ForwardIcon = (props: any) => (
+  <Icon {...props} name="arrow-ios-forward-outline" />
+);
+export const LogOutIcon = (props: any) => (
+  <Icon {...props} name="log-out-outline" />
+);
+export const HistoryIcon = (props: any) => (
+  <Icon {...props} name="archive-outline" />
+);
+export const SettingsIcon = (props: any) => (
+  <Icon {...props} name="settings-2-outline" />
+);
+
+//archive-outline
+
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;
 export const StarIcon = (props: any) => <Icon {...props} name="star" />;

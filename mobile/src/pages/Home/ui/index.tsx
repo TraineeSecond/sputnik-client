@@ -1,7 +1,7 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {ScrollView} from 'react-native';
 import {HomePageStyles as styles} from './Home.styles';
-import {Promo} from '../../../shared/ui/Promo';
+import {Promo} from 'shared/ui';
 import {Slider} from 'widgets';
 import {FilterItem, ProductItem} from 'shared/ui';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
@@ -12,9 +12,15 @@ import {
   promoPicture,
   promoPictureSecond,
 } from 'shared/assets/mockData';
+import {useUserStore} from 'entities/user';
 
 export const Home = () => {
+  const {loadUserData} = useUserStore();
   const navigation = useAppNavigation();
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
 
   const handleProductPress = (productId: string) => {
     //  navigation.navigate(карточкаТовара)
