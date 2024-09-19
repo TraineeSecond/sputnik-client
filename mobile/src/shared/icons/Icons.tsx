@@ -18,5 +18,10 @@ export const CardIcon = (props: any) => (
 export const ForwardIcon = (props: any) => (
   <Icon {...props} name="arrow-ios-forward-outline" />
 );
+export const LogOutIcon = (props: any) => (
+  <Icon {...props} name="log-out-outline" />
+);
+
+//log-out-outline
 
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;

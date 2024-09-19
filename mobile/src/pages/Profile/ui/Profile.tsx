@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/Auth/ui/Auth';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
-import {CardIcon, ForwardIcon} from 'shared/icons/Icons';
+import {CardIcon, ForwardIcon, LogOutIcon} from 'shared/icons/Icons';
 
 const Profile = () => {
-  const {token, user} = useUserStore();
+  const {token, user, clearUserData} = useUserStore();
+
+  const handleLogout = () => {
+    clearUserData();
+  };
 
   return (
     <>
@@ -48,9 +52,9 @@ const Profile = () => {
               <Text style={styles.menuItemText}>Методы оплаты</Text>
               <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
-              <CardIcon width={24} height={24} fill={Colors.Gray100} />
-              <Text style={styles.menuItemText}>Методы оплаты</Text>
+            <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
+              <LogOutIcon width={24} height={24} fill={Colors.Gray100} />
+              <Text style={styles.menuItemText}>Выйти из аккаунта</Text>
               <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
             </TouchableOpacity>
           </View>
