@@ -28,4 +28,7 @@ export type MapStackParamsList = {
 
 export type ProfileStackParamsList = {
   Profile: undefined;
+  Settings: undefined;
+  Orders: undefined;
+  PaymentMethods: undefined;
 };
