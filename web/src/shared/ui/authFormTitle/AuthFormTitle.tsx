@@ -1,17 +1,11 @@
-import { Typography } from 'antd';
-
-const { Title } = Typography;
+import { StyledTitle } from './AuthFormTitle.styles';
 
 interface AuthTitleProps {
   text: string;
 }
 
 const AuthTitle = ({ text }: AuthTitleProps) => {
-  return (
-    <Title level={2} style={{ textAlign: 'center', marginTop: '50px' }}>
-      {text}
-    </Title>
-  );
+  return <StyledTitle level={2}>{text}</StyledTitle>;
 };
 
 export default AuthTitle;

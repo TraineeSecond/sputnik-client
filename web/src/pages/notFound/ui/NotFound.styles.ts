@@ -2,18 +2,19 @@ import { blue } from '@ant-design/colors';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const ErrorMessage = styled.div`
-  margin-top: 50px;
+export const StyledSection = styled.section`
+  display: flex;
+  flex-direction: column;
 `;
 
-export const ErrorTitle = styled.h1`
-  font-size: 32px;
+export const StyledH1 = styled.h1`
+  font-size: 2rem;
   color: black;
   font-weight: bold;
 `;
 
 export const StyledLink = styled(Link)`
-  font-size: 18px;
+  font-size: 1.125rem;
   color: ${blue[5]};
   text-decoration: none;
 

@@ -1,6 +1,15 @@
-import { useAuthStore } from '../../model/authStore';
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { message } from 'antd';
 import { Rule } from 'antd/lib/form';
+import { useAuthStore } from 'features/auth/model/authStore';
+
+import {
+  StyledButton,
+  StyledCheckbox,
+  StyledForm,
+  StyledFormItem,
+  StyledInput,
+  StyledPasswordInput,
+} from './RegisterForm.styles';
 
 interface RegisterFormValues {
   firstName: string;
@@ -33,7 +42,7 @@ const getConfirmPasswordRules = (
 ): Rule[] => [
   { required: true, message: 'Повторите ваш пароль!' },
   {
-    validator(_, value) {
+    validator(_, value: string) {
       if (!value || getFieldValue('password') === value) {
         return Promise.resolve();
       }
@@ -43,7 +52,7 @@ const getConfirmPasswordRules = (
 ];
 
 const RegisterForm = () => {
-  const [form] = Form.useForm();
+  const [form] = StyledForm.useForm();
   const { register } = useAuthStore();
 
   const handleRegister = async (values: RegisterFormValues) => {
@@ -66,47 +75,45 @@ const RegisterForm = () => {
   };
 
   return (
-    <Form
+    <StyledForm
       form={form}
       name='register'
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onFinish={handleRegister}
-      style={{ maxWidth: '400px', margin: '0 auto' }}
+      onFinish={(values) => handleRegister(values as RegisterFormValues)}
     >
-      <Form.Item name='firstName' rules={getFirstNameRules()}>
-        <Input placeholder='Имя' />
-      </Form.Item>
+      <StyledFormItem name='firstName' rules={getFirstNameRules()}>
+        <StyledInput placeholder='Имя' />
+      </StyledFormItem>
 
-      <Form.Item name='lastName' rules={getLastNameRules()}>
-        <Input placeholder='Фамилия' />
-      </Form.Item>
+      <StyledFormItem name='lastName' rules={getLastNameRules()}>
+        <StyledInput placeholder='Фамилия' />
+      </StyledFormItem>
 
-      <Form.Item name='email' rules={getEmailRules()}>
-        <Input placeholder='Email' />
-      </Form.Item>
+      <StyledFormItem name='email' rules={getEmailRules()}>
+        <StyledInput placeholder='Email' />
+      </StyledFormItem>
 
-      <Form.Item name='password' rules={getPasswordRules()}>
-        <Input.Password placeholder='Пароль' />
-      </Form.Item>
+      <StyledFormItem name='password' rules={getPasswordRules()}>
+        <StyledPasswordInput placeholder='Пароль' />
+      </StyledFormItem>
 
-      <Form.Item
+      <StyledFormItem
         name='confirmPassword'
         dependencies={['password']}
         rules={getConfirmPasswordRules(form.getFieldValue)}
       >
-        <Input.Password placeholder='Повторить пароль' />
-      </Form.Item>
+        <StyledPasswordInput placeholder='Повторить пароль' />
+      </StyledFormItem>
 
-      <Form.Item name='isSeller' valuePropName='checked'>
-        <Checkbox>Стать продавцом</Checkbox>
-      </Form.Item>
+      <StyledFormItem name='isSeller' valuePropName='checked'>
+        <StyledCheckbox>Стать продавцом</StyledCheckbox>
+      </StyledFormItem>
 
-      <Form.Item>
-        <Button type='primary' htmlType='submit' block>
+      <StyledFormItem>
+        <StyledButton type='primary' htmlType='submit' block>
           Зарегистрироваться
-        </Button>
-      </Form.Item>
-    </Form>
+        </StyledButton>
+      </StyledFormItem>
+    </StyledForm>
   );
 };
 

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import { StyledParagraph } from './AuthFormParagraph.styles';
+
 interface AuthParagraphProps {
   question: string;
   linkText: string;
@@ -8,9 +10,9 @@ interface AuthParagraphProps {
 
 const AuthParagraph = ({ question, linkText, linkTo }: AuthParagraphProps) => {
   return (
-    <p style={{ textAlign: 'center' }}>
+    <StyledParagraph>
       {question} <Link to={linkTo}>{linkText}</Link>
-    </p>
+    </StyledParagraph>
   );
 };
 

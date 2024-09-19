@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { AuthResponse, AuthState, JwtPayload } from 'features/auth/model/types';
 import { jwtDecode } from 'jwt-decode';
+import api from 'shared/api/api';
 import { create } from 'zustand';
 
 const decodeAndValidateToken = (token: string): JwtPayload | null => {
@@ -25,10 +25,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   register: async (data) => {
     try {
-      const response = await axios.post<AuthResponse>(
-        'https://domennameabcdef.ru/api/register',
-        data,
-      );
+      const response = await api.post<AuthResponse>('/register', data);
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
@@ -45,14 +42,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (email, password) => {
     try {
-      const response = await axios.post<AuthResponse>(
-        'https://domennameabcdef.ru/api/login',
-        {
-          email,
-          password,
-        },
-      );
-
+      const response = await api.post<AuthResponse>('/login', {
+        email,
+        password,
+      });
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);

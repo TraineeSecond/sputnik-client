@@ -1,9 +1,10 @@
 import { RegisterForm } from 'features';
 import { AuthFormParagraph, AuthFormTitle } from 'shared';
+import { AuthLayout } from 'widgets';
 
 const Register = () => {
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', marginTop: '50px' }}>
+    <AuthLayout>
       <AuthFormTitle text='Регистрация' />
       <RegisterForm />
       <AuthFormParagraph
@@ -11,7 +12,7 @@ const Register = () => {
         linkText='Войти'
         linkTo='/login'
       />
-    </div>
+    </AuthLayout>
   );
 };
 

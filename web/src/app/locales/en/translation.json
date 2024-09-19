@@ -1,12 +1,8 @@
 {
-  "header": {
-    "searchPlaceholder": "Search...",
-    "profile": "Profile",
-    "cart": "Cart",
-    "changeLanguage": "Change Language"
-  },
-  "menu": {
-    "home": "Home",
-    "about": "About"
-  }
+  "поиск_плейсхолдер": "Search...",
+  "профиль": "Profile",
+  "корзина": "Cart",
+  "сменить_язык": "Change Language",
+  "главная": "Home",
+  "выставить_товар": "List Item"
 }

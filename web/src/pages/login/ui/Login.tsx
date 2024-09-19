@@ -1,9 +1,10 @@
 import { LoginForm } from 'features';
 import { AuthFormParagraph, AuthFormTitle } from 'shared';
+import { AuthLayout } from 'widgets';
 
 const Login = () => {
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', textAlign: 'center' }}>
+    <AuthLayout>
       <AuthFormTitle text='Вход' />
       <LoginForm />
       <AuthFormParagraph
@@ -11,7 +12,7 @@ const Login = () => {
         linkText='Зарегистрироваться'
         linkTo='/register'
       />
-    </div>
+    </AuthLayout>
   );
 };
 

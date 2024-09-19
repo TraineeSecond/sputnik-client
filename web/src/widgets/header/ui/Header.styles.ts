@@ -1,19 +1,17 @@
+import { Button, Input } from 'antd';
 import styled from 'styled-components';
 
-const HeaderStyled = styled.div`
+export const StyledContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
   gap: 1rem;
 `;
 
-const SearchInputStyled = styled.div`
+export const StyledSearchInput = styled.div`
+  display: flex;
   flex-grow: 1;
 `;
 
-const styles = {
-  header: HeaderStyled,
-  searchInput: SearchInputStyled,
-};
+export const StyledButton = styled(Button)``;
 
-export default styles;
+export const StyledSearch = styled(Input.Search)``;

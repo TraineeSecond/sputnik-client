@@ -1,9 +1,9 @@
-import { Header } from 'widgets';
+import { MainLayout } from 'widgets';
 
 const CreateListing = () => {
   return (
     <>
-      <Header />
+      <MainLayout>CreateListing</MainLayout>
     </>
   );
 };

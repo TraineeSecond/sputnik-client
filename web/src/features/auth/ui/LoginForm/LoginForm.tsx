@@ -1,5 +1,13 @@
-import { useAuthStore } from '../../model/authStore';
-import { Button, Form, Input, message } from 'antd';
+import { message } from 'antd';
+import { useAuthStore } from 'features/auth/model/authStore';
+
+import {
+  StyledButton,
+  StyledFormItem,
+  StyledInput,
+  StyledLoginForm,
+  StyledPasswordInput,
+} from './LoginForm.styles';
 
 interface LoginFormValues {
   email: string;
@@ -24,26 +32,24 @@ const LoginForm = () => {
   const passwordRules = [{ required: true, message: 'Введите ваш пароль!' }];
 
   return (
-    <Form
+    <StyledLoginForm
       name='login'
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onFinish={handleLogin}
-      style={{ maxWidth: '400px', margin: '0 auto' }}
+      onFinish={(values) => handleLogin(values as LoginFormValues)}
     >
-      <Form.Item name='email' rules={emailRules}>
-        <Input placeholder='Email' />
-      </Form.Item>
+      <StyledFormItem name='email' rules={emailRules}>
+        <StyledInput placeholder='Email' />
+      </StyledFormItem>
 
-      <Form.Item name='password' rules={passwordRules}>
-        <Input.Password placeholder='Пароль' />
-      </Form.Item>
+      <StyledFormItem name='password' rules={passwordRules}>
+        <StyledPasswordInput placeholder='Пароль' />
+      </StyledFormItem>
 
-      <Form.Item>
-        <Button type='primary' htmlType='submit' block>
+      <StyledFormItem>
+        <StyledButton type='primary' htmlType='submit' block>
           Войти
-        </Button>
-      </Form.Item>
-    </Form>
+        </StyledButton>
+      </StyledFormItem>
+    </StyledLoginForm>
   );
 };
 

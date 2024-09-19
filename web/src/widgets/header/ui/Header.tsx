@@ -5,13 +5,17 @@ import {
   ShoppingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Button, Input } from 'antd';
 import { useAuthStore } from 'features/auth/model/authStore';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { changeLanguage } from 'shared/utils/i18nUtils/changeLanguage';
 
-import styles from 'widgets/header/ui/Header.styles';
+import {
+  StyledButton,
+  StyledContainer,
+  StyledSearch,
+  StyledSearchInput,
+} from 'widgets/header/ui/Header.styles';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -37,54 +41,54 @@ const Header = () => {
   };
 
   return (
-    <styles.header>
-      <Button
+    <StyledContainer>
+      <StyledButton
         size='large'
         icon={<HomeOutlined />}
-        aria-label={t('menu.home')}
+        aria-label={t('главная')}
         onClick={goToHome}
       />
 
-      <styles.searchInput>
-        <Input.Search
+      <StyledSearchInput>
+        <StyledSearch
           size='large'
-          placeholder={t('header.searchPlaceholder')}
+          placeholder={t('поиск_плейсхолдер')}
           enterButton
         />
-      </styles.searchInput>
+      </StyledSearchInput>
 
-      <Button
+      <StyledButton
         size='large'
         icon={<GlobalOutlined />}
-        aria-label={t('header.changeLanguage')}
+        aria-label={t('сменить_язык')}
         onClick={changeLanguage}
       />
 
-      <Button
+      <StyledButton
         size='large'
         icon={<UserOutlined />}
-        aria-label={t('header.profile')}
+        aria-label={t('профиль')}
         onClick={goToProfile}
       />
 
       {userRole === 'buyer' && (
-        <Button
+        <StyledButton
           size='large'
           icon={<ShoppingOutlined />}
-          aria-label={t('header.cart')}
+          aria-label={t('корзина')}
           onClick={goToCart}
         />
       )}
 
       {userRole === 'seller' && (
-        <Button
+        <StyledButton
           size='large'
           icon={<PlusOutlined />}
-          aria-label={t('header.createProduct')}
+          aria-label={t('выставить_товар')}
           onClick={goToCreateListing}
         />
       )}
-    </styles.header>
+    </StyledContainer>
   );
 };
 

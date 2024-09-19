@@ -1,6 +1,12 @@
-import { Button } from 'antd';
 import { useAuthStore } from 'features/auth/model/authStore';
-import { Header } from 'widgets';
+import { MainLayout } from 'widgets';
+
+import {
+  ProfileSection,
+  StyledButton,
+  StyledH1,
+  StyledParagraph,
+} from './Profile.styles';
 
 const Profile = () => {
   const { logout, user } = useAuthStore();
@@ -10,17 +16,17 @@ const Profile = () => {
   };
 
   return (
-    <>
-      <Header />
-      <div style={{ marginTop: '20px' }}>
-        <h1>User.name {user?.name}!</h1>
-        <h1>User.role {user?.role}!</h1>
-        <p>This is your profile.</p>
-        <Button type='primary' onClick={handleLogout}>
+    <MainLayout>
+      <ProfileSection>
+        <StyledH1>Ваш профиль</StyledH1>
+        <StyledParagraph>Пользователь: {user?.name}!</StyledParagraph>
+        <StyledParagraph>Роль: {user?.role}!</StyledParagraph>
+        <StyledParagraph>Email: {user?.email}!</StyledParagraph>
+        <StyledButton type='primary' onClick={handleLogout}>
           Выйти из аккаунта
-        </Button>
-      </div>
-    </>
+        </StyledButton>
+      </ProfileSection>
+    </MainLayout>
   );
 };
 

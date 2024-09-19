@@ -1,13 +1,9 @@
-import { Header } from 'widgets';
+import { MainLayout } from 'widgets';
 
 const Cart = () => {
   return (
     <>
-      <Header />
-      <div>
-        <h1>Cart Page</h1>
-        <p>This is your shopping cart.</p>
-      </div>
+      <MainLayout>Cart</MainLayout>
     </>
   );
 };

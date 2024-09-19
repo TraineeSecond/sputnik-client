@@ -1,16 +1,15 @@
-import { Header } from 'widgets';
+import { MainLayout } from 'widgets';
 
-import { ErrorMessage, ErrorTitle, StyledLink } from './NotFound.styles';
+import { StyledH1, StyledLink, StyledSection } from './NotFound.styles';
 
 const NotFound = () => {
   return (
-    <>
-      <Header />
-      <ErrorMessage>
-        <ErrorTitle>Произошла ошибка!</ErrorTitle>
+    <MainLayout>
+      <StyledSection>
+        <StyledH1>Произошла ошибка!</StyledH1>
         <StyledLink to='/'>Вернуться на главную</StyledLink>
-      </ErrorMessage>
-    </>
+      </StyledSection>
+    </MainLayout>
   );
 };
 
