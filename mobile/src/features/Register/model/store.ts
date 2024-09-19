@@ -23,6 +23,7 @@ type RegisterStore = {
   setConfirmPassword: (text: string) => void;
   setChecked: (prev: boolean) => void;
   setIsRegistered: (prev: boolean) => void;
+  clear: () => void;
   register: (
     email: string,
     password: string,
@@ -48,6 +49,8 @@ export const useRegisterStore = create<RegisterStore>()(set => ({
   setConfirmPassword: (text: string) => set({confirmPassword: text}),
   setChecked: (prev: boolean) => set({checked: !prev}),
   setIsRegistered: (prev: boolean) => set({isRegistered: !prev}),
+  clear: () =>
+    set({email: '', password: '', checked: false, name: '', surname: ''}),
 
   register: async (
     email: string,

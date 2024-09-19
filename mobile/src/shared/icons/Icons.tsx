@@ -21,7 +21,10 @@ export const ForwardIcon = (props: any) => (
 export const LogOutIcon = (props: any) => (
   <Icon {...props} name="log-out-outline" />
 );
+export const HistoryIcon = (props: any) => (
+  <Icon {...props} name="archive-outline" />
+);
 
-//log-out-outline
+//archive-outline
 
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;

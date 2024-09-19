@@ -13,6 +13,7 @@ type LoginStore = {
   password: string;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
+  clear: () => void;
   login: (email: string, password: string) => Promise<returnedLoginData>;
 };
 
@@ -35,4 +36,6 @@ export const useLoginStore = create<LoginStore>(set => ({
       console.error(error);
     }
   },
+
+  clear: () => set({email: '', password: ''}),
 }));

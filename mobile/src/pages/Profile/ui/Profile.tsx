@@ -1,16 +1,46 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import {
+  Icon,
+  Menu,
+  MenuGroup,
+  MenuItem,
+  IconElement,
+  IndexPath,
+} from '@ui-kitten/components';
+import {Image, Text, View} from 'react-native';
+
 import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/Auth/ui/Auth';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
-import {CardIcon, ForwardIcon, LogOutIcon} from 'shared/icons/Icons';
+import {
+  CardIcon,
+  ForwardIcon,
+  HistoryIcon,
+  LogOutIcon,
+} from 'shared/icons/Icons';
 
 const Profile = () => {
   const {token, user, clearUserData} = useUserStore();
+  const [selectedIndex, setSelectedIndex] = React.useState<
+    IndexPath | undefined
+  >(undefined);
 
+  const handlePaymentMethods = () => {
+    console.log('Переход к методам оплаты');
+    // navigation.navigate('PaymentMethods');
+  };
+
+  const handlePurchaseHistory = () => {
+    console.log('Переход к истории покупок');
+    // история покупок
+  };
+
+  // Функция для выхода из аккаунта
   const handleLogout = () => {
     clearUserData();
+    console.log('Выход из аккаунта');
+    // на траницу логина
   };
 
   return (
@@ -37,26 +67,26 @@ const Profile = () => {
           </Text>
 
           <View style={styles.menuContainer}>
-            <TouchableOpacity style={styles.menuItem}>
-              <CardIcon width={24} height={24} fill={Colors.Gray100} />
-              <Text style={styles.menuItemText}>Методы оплаты</Text>
-              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
-              <CardIcon width={24} height={24} fill={Colors.Gray100} />
-              <Text style={styles.menuItemText}>Методы оплаты</Text>
-              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
-              <CardIcon width={24} height={24} fill={Colors.Gray100} />
-              <Text style={styles.menuItemText}>Методы оплаты</Text>
-              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
-              <LogOutIcon width={24} height={24} fill={Colors.Gray100} />
-              <Text style={styles.menuItemText}>Выйти из аккаунта</Text>
-              <ForwardIcon width={24} height={24} fill={Colors.Gray100} />
-            </TouchableOpacity>
+            <Menu onSelect={index => setSelectedIndex(index)}>
+              <MenuItem
+                title="Методы оплаты"
+                accessoryLeft={CardIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handlePaymentMethods}
+              />
+              <MenuItem
+                title="История покупок"
+                accessoryLeft={HistoryIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handlePurchaseHistory}
+              />
+              <MenuItem
+                title="Выйти из аккаунта"
+                accessoryLeft={LogOutIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handleLogout}
+              />
+            </Menu>
           </View>
         </View>
       ) : (

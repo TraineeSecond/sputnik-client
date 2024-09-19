@@ -10,7 +10,8 @@ import {Stacks} from 'navigation/navigationEnums';
 import {useUserStore} from 'entities/user';
 
 export const Login = () => {
-  const {email, password, setEmail, setPassword, login} = useLoginStore();
+  const {email, password, setEmail, setPassword, login, clear} =
+    useLoginStore();
 
   const {setIsLoginPage} = useIsLoginStore();
 
@@ -22,6 +23,7 @@ export const Login = () => {
     const result = await login(email, password);
     if (result.message === 'Успешная авторизация') {
       setIsLoginPage(true);
+      clear();
       navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
       setToken(result.token);

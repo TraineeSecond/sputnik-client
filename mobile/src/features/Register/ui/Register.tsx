@@ -26,6 +26,7 @@ export const Register = () => {
     setConfirmPassword,
     setChecked,
     register,
+    clear,
   } = useRegisterStore();
   const {setIsLoginPage} = useIsLoginStore();
   const {setUser, setToken} = useUserStore();
@@ -36,6 +37,7 @@ export const Register = () => {
     const result = await register(email, password, checked, name, surname);
     if (result.message === 'Пользователь зарегистрирован') {
       setIsLoginPage(true);
+      clear();
       navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
       setToken(result.token);
