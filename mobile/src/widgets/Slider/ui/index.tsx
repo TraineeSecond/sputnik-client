@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
+import {SliderStyles as styles} from './Slider.styles';
+import {Filter} from 'entities/filter';
+import {Product} from 'entities/product';
 
 type SliderProps = {
   title?: string;
-  data: any;
-  renderItem: ({item, index}: {item: any; index: number}) => React.ReactElement;
+  data: Product[] | Filter[];
+  renderItem: ({item, index}: {item: any; index: number}) => ReactElement;
   style?: object;
 };
 
@@ -25,26 +28,15 @@ export const Slider = ({title, data, style, renderItem}: SliderProps) => {
         </View>
       )}
       <FlatList
+        key={title}
         horizontal
         data={data}
         initialNumToRender={5}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => `${title}-${item.id}`}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{gap: 10, paddingHorizontal: 10}}
+        contentContainerStyle={styles.flatList}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    gap: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    paddingHorizontal: 10,
-  },
-});

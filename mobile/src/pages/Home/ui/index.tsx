@@ -1,9 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import {ScrollView} from 'react-native';
-import {HomePageStyles as styles} from './Home.styles';
-import {Promo} from 'shared/ui';
 import {Slider} from 'widgets';
-import {FilterItem, ProductItem} from 'shared/ui';
+import {FilterItem, ProductItem, Promo} from 'shared/ui';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {
@@ -13,6 +11,9 @@ import {
   promoPictureSecond,
 } from 'shared/assets/mockData';
 import {useUserStore} from 'entities/user';
+import {HomePageStyles as styles} from './Home.styles';
+import {Filter} from 'entities/filter';
+import {Product} from 'entities/product';
 
 export const Home = () => {
   const {loadUserData} = useUserStore();
@@ -44,9 +45,9 @@ export const Home = () => {
   );
 
   const renderFilterItem = useCallback(
-    ({item, index}: {item: any; index: number}) => (
+    ({item}: {item: Filter}) => (
       <FilterItem
-        key={index}
+        key={item.id}
         item={item}
         onPress={() => handleFilterPress(item.keyWord)}
       />
@@ -55,9 +56,9 @@ export const Home = () => {
   );
 
   const renderProductItem = useCallback(
-    ({item, index}: {item: any; index: number}) => (
+    ({item}: {item: Product}) => (
       <ProductItem
-        key={index}
+        key={item.id}
         item={item}
         onPress={() => handleProductPress(item.id)}
       />
@@ -74,19 +75,19 @@ export const Home = () => {
       />
       <Slider
         title="Категории"
-        data={categories}
+        data={categories as Filter[]} //временно
         renderItem={renderFilterItem}
         style={styles.marginBottom}
       />
       <Slider
         title="Для вас"
-        data={products}
+        data={products as Product[]} //временно
         renderItem={renderProductItem}
         style={styles.marginBottom}
       />
       <Slider
         title="Подборка на лето"
-        data={products}
+        data={products as Product[]} //временно
         renderItem={renderProductItem}
         style={styles.marginBottom}
       />

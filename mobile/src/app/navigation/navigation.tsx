@@ -2,11 +2,10 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamsList} from './navigationTypes.ts';
 import {Screens, Stacks} from './navigationEnums.ts';
-import {Cart} from 'pages';
+import {Cart, Auth} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
 import {MainTabsNavigator} from './stacks';
 import {Header} from 'widgets';
-import {Auth} from 'pages';
 
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();

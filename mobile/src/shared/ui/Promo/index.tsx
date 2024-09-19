@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from 'react-native';
+import {PromoStyles as styles} from './Promo.styles';
 
 type PromoProps = {
   style?: object;
@@ -22,15 +23,3 @@ export const Promo = ({style, image}: PromoProps) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    position: 'relative',
-    backgroundColor: 'blue',
-  },
-  bannerImage: {
-    width: '100%',
-    height: '100%',
-  },
-});

@@ -11,7 +11,7 @@ import {Screens} from '../navigationEnums';
 import {MainTabsStackParamsList} from '../navigationTypes';
 import {Colors} from 'shared/libs/helpers/colors';
 
-const MainTabsNavigator = () => {
+export const MainTabsNavigator = () => {
   const MainTabsStack = createBottomTabNavigator<MainTabsStackParamsList>();
 
   return (
@@ -50,5 +50,3 @@ const MainTabsNavigator = () => {
     </MainTabsStack.Navigator>
   );
 };
-
-export default MainTabsNavigator;

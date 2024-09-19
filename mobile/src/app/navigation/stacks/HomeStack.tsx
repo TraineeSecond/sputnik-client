@@ -4,7 +4,7 @@ import {Home} from 'pages';
 import {Screens} from '../navigationEnums';
 import {HomeStackParamsList} from '../navigationTypes';
 
-const HomeStackNavigator = () => {
+export const HomeStackNavigator = () => {
   const HomeStack = createNativeStackNavigator<HomeStackParamsList>();
 
   return (
@@ -17,5 +17,3 @@ const HomeStackNavigator = () => {
     </HomeStack.Navigator>
   );
 };
-
-export default HomeStackNavigator;

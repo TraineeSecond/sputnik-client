@@ -4,7 +4,7 @@ import {Map} from 'pages';
 import {Screens} from '../navigationEnums';
 import {MapStackParamsList} from '../navigationTypes';
 
-const MapStackNavigator = () => {
+export const MapStackNavigator = () => {
   const MapStack = createNativeStackNavigator<MapStackParamsList>();
 
   return (
@@ -17,5 +17,3 @@ const MapStackNavigator = () => {
     </MapStack.Navigator>
   );
 };
-
-export default MapStackNavigator;

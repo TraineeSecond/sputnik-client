@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import Input from 'shared/ui/Input';
+import {Input} from 'shared/ui';
 import {TextStyles} from 'shared/libs/helpers';
 import {LoginStyles as styles} from './styles';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';

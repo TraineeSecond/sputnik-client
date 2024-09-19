@@ -1,2 +1,2 @@
-export * from './Header/ui/Header';
-export * from './Slider/ui/Slider';
+export * from './Header/ui';
+export * from './Slider/ui';
