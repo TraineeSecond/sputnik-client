@@ -1,5 +1,12 @@
 {
   "settings": "Настройки",
   "back": "Назад",
-  "languageSelection": "Выбор языка"
+  "languageSelection": "Выбор языка",
+  "profile": "Профиль",
+  "paymentMethods": "Методы оплаты",
+  "purchaseHistory": "История покупок",
+  "logout": "Выйти из аккаунта",
+  "home": "Главная",
+  "catalog": "Каталог",
+  "map": "Карта"
 }

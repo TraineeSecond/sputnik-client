@@ -1,5 +1,12 @@
 {
   "settings": "Settings",
   "back": "Back",
-  "languageSelection": "Language Selection"
+  "languageSelection": "Language Selection",
+  "profile": "Profile",
+  "paymentMethods": "Payment Methods",
+  "purchaseHistory": "Purchase History",
+  "logout": "Log Out",
+  "home": "Home",
+  "catalog": "Catalog",
+  "map": "Map"
 }
