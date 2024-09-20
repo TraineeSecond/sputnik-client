@@ -11,7 +11,7 @@ import {
   HistoryIcon,
   LogOutIcon,
   SettingsIcon,
-} from 'shared/icons/Icons';
+} from 'shared/icons';
 import {useUserStore} from 'entities/user';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ProfileStackParamsList} from 'app/navigation/navigationTypes';

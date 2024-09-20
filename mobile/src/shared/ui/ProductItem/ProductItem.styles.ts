@@ -8,15 +8,24 @@ export const ProductItemStyles = StyleSheet.create({
     gap: 3,
   },
   imageContainer: {
+    position: 'relative',
     width: 210,
     height: 210,
     backgroundColor: Colors.Gray200,
     borderRadius: 10,
   },
+  favoriteIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 10,
+    padding: 6,
+    borderRadius: '100%',
+    backgroundColor: Colors.Black100Opacity20,
+  },
   image: {
     width: 210,
     height: 210,
-    marginBottom: 5,
   },
   header: {
     flexDirection: 'row',

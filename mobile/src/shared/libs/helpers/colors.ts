@@ -2,6 +2,7 @@ export enum Colors {
   Blue100 = '#101242',
   Black100 = '#000000',
   Black200 = '#272728',
+  Black100Opacity20 = '#00000020',
 
   Gray100 = '#F5F5F5',
   Gray200 = '#EEEEEE',

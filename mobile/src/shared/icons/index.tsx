@@ -27,7 +27,10 @@ export const HistoryIcon = (props: any) => (
 export const SettingsIcon = (props: any) => (
   <Icon {...props} name="settings-2-outline" />
 );
-
+export const HeartOutlineIcon = (props: any) => (
+  <Icon {...props} name="heart-outline" />
+);
+export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
 //archive-outline
 
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;

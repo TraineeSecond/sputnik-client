@@ -6,7 +6,7 @@ import {
   MapStackNavigator,
   ProfileStackNavigator,
 } from '.';
-import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons/Icons';
+import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons';
 import {Screens} from '../navigationEnums';
 import {MainTabsStackParamsList} from '../navigationTypes';
 import {Colors} from 'shared/libs/helpers/colors';

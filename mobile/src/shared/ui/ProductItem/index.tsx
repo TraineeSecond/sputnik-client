@@ -1,7 +1,7 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {Product} from 'entities/product';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import {StarIcon} from 'shared/icons/Icons';
+import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {ProductItemStyles as styles} from './ProductItem.styles';
 
@@ -22,6 +22,13 @@ export const ProductItem = memo(({item, onPress}: ProductItemProps) => {
     reviewsCount,
   } = item;
 
+  const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
+
+  const handleFavoritePress = () => {
+    setIsFavorite(!isFavorite);
+    // добавление в избранное
+  };
+
   return (
     <TouchableOpacity
       id={id}
@@ -29,6 +36,23 @@ export const ProductItem = memo(({item, onPress}: ProductItemProps) => {
       style={styles.container}
       activeOpacity={1}>
       <View style={styles.imageContainer}>
+        <TouchableOpacity
+          onPress={handleFavoritePress}
+          style={styles.favoriteIcon}>
+          {isFavorite ? (
+            <HeartFilledIcon
+              fill={Colors.Red500}
+              width={IconStyles.medium.width}
+              height={IconStyles.medium.height}
+            />
+          ) : (
+            <HeartOutlineIcon
+              fill={Colors.Gray500}
+              width={IconStyles.medium.width}
+              height={IconStyles.medium.height}
+            />
+          )}
+        </TouchableOpacity>
         <Image source={image} style={styles.image} />
       </View>
       <View style={styles.header}>
