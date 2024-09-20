@@ -20,20 +20,20 @@ interface RegisterFormValues {
   isSeller: boolean;
 }
 
-const getFirstNameRules = (): Rule[] => [
+const firstNameRules: Rule[] = [
   { required: true, message: 'Введите ваше имя!' },
 ];
 
-const getLastNameRules = (): Rule[] => [
+const lastNameRules: Rule[] = [
   { required: true, message: 'Введите вашу фамилию!' },
 ];
 
-const getEmailRules = (): Rule[] => [
+const emailRules: Rule[] = [
   { required: true, message: 'Введите ваш email!' },
   { type: 'email', message: 'Введите корректный email!' },
 ];
 
-const getPasswordRules = (): Rule[] => [
+const passwordRules: Rule[] = [
   { required: true, message: 'Введите ваш пароль!' },
 ];
 
@@ -80,19 +80,19 @@ const RegisterForm = () => {
       name='register'
       onFinish={(values) => handleRegister(values as RegisterFormValues)}
     >
-      <StyledFormItem name='firstName' rules={getFirstNameRules()}>
+      <StyledFormItem name='firstName' rules={firstNameRules}>
         <StyledInput placeholder='Имя' />
       </StyledFormItem>
 
-      <StyledFormItem name='lastName' rules={getLastNameRules()}>
+      <StyledFormItem name='lastName' rules={lastNameRules}>
         <StyledInput placeholder='Фамилия' />
       </StyledFormItem>
 
-      <StyledFormItem name='email' rules={getEmailRules()}>
+      <StyledFormItem name='email' rules={emailRules}>
         <StyledInput placeholder='Email' />
       </StyledFormItem>
 
-      <StyledFormItem name='password' rules={getPasswordRules()}>
+      <StyledFormItem name='password' rules={passwordRules}>
         <StyledPasswordInput placeholder='Пароль' />
       </StyledFormItem>
 
