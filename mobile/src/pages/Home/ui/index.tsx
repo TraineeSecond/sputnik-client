@@ -45,24 +45,52 @@ export const Home = () => {
   );
 
   const renderFilterItem = useCallback(
-    ({item}: {item: Filter}) => (
-      <FilterItem
-        key={item.id}
-        item={item}
-        onPress={() => handleFilterPress(item.keyWord)}
-      />
-    ),
+    ({item}: {item: Filter}) => {
+      const {id, title, image, keyWord} = item;
+      const handlePress = () => handleFilterPress(keyWord);
+
+      return (
+        <FilterItem
+          key={id}
+          id={id}
+          title={title}
+          image={image}
+          onPress={handlePress}
+        />
+      );
+    },
     [handleFilterPress],
   );
 
   const renderProductItem = useCallback(
-    ({item}: {item: Product}) => (
-      <ProductItem
-        key={item.id}
-        item={item}
-        onPress={() => handleProductPress(item.id)}
-      />
-    ),
+    ({item}: {item: Product}) => {
+      const {
+        id,
+        title,
+        image,
+        price,
+        brand,
+        totalScore,
+        reviewsCount,
+        priceWithDiscount,
+      } = item;
+      const handlePress = () => handleProductPress(id);
+
+      return (
+        <ProductItem
+          id={id}
+          key={id}
+          title={title}
+          image={image}
+          price={price}
+          brand={brand}
+          totalScore={totalScore}
+          reviewsCount={reviewsCount}
+          priceWithDiscount={priceWithDiscount}
+          onPress={handlePress}
+        />
+      );
+    },
     [handleProductPress],
   );
 
