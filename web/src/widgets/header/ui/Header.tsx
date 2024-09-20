@@ -45,29 +45,25 @@ const Header = () => {
       <StyledButton
         size='large'
         icon={<HomeOutlined />}
-        aria-label={t('главная')}
+        aria-label={t('Главная')}
         onClick={goToHome}
       />
 
       <StyledSearchInput>
-        <StyledSearch
-          size='large'
-          placeholder={t('поиск_плейсхолдер')}
-          enterButton
-        />
+        <StyledSearch size='large' placeholder={t('Поиск...')} enterButton />
       </StyledSearchInput>
 
       <StyledButton
         size='large'
         icon={<GlobalOutlined />}
-        aria-label={t('сменить_язык')}
+        aria-label={t('Сменить язык')}
         onClick={changeLanguage}
       />
 
       <StyledButton
         size='large'
         icon={<UserOutlined />}
-        aria-label={t('профиль')}
+        aria-label={t('Профиль')}
         onClick={goToProfile}
       />
 
@@ -75,7 +71,7 @@ const Header = () => {
         <StyledButton
           size='large'
           icon={<ShoppingOutlined />}
-          aria-label={t('корзина')}
+          aria-label={t('Корзина')}
           onClick={goToCart}
         />
       )}
@@ -84,7 +80,7 @@ const Header = () => {
         <StyledButton
           size='large'
           icon={<PlusOutlined />}
-          aria-label={t('выставить_товар')}
+          aria-label={t('Выставить товар')}
           onClick={goToCreateListing}
         />
       )}
