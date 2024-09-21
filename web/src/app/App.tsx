@@ -1,15 +1,15 @@
-import { useTranslation } from 'react-i18next';
+import AuthProvider from 'app/providers/authProvider';
+import AppRoutes from 'app/routes/AppRoutes';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import { StyledH1 } from 'app/App.styles';
-
-function App() {
-  const { t } = useTranslation();
-
+const App = () => {
   return (
-    <>
-      <StyledH1>{t('заголовок')}</StyledH1>
-    </>
+    <Router>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {IndexPath, Menu, MenuItem} from '@ui-kitten/components';
 import {Image, Text, View} from 'react-native';
 
+import {useTranslation} from 'react-i18next';
 import {Auth} from 'pages';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
@@ -22,6 +23,7 @@ export const Profile = () => {
   const [selectedIndex, setSelectedIndex] = useState<IndexPath | undefined>(
     undefined,
   );
+  const {t} = useTranslation(); // Initialize i18n
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
 
@@ -37,7 +39,6 @@ export const Profile = () => {
     navigation.navigate(Screens.SETTINGS);
   };
 
-  // Функция для выхода из аккаунта
   const handleLogout = () => {
     clearUserData();
   };
@@ -51,7 +52,7 @@ export const Profile = () => {
               TextStyles.h2.changeColor(Colors.Black200),
               styles.textCenter,
             ]}>
-            Профиль
+            {t('profile')}
           </Text>
           <Image
             style={styles.image}
@@ -68,25 +69,25 @@ export const Profile = () => {
           <View style={styles.menuContainer}>
             <Menu onSelect={index => setSelectedIndex(index)}>
               <MenuItem
-                title="Методы оплаты"
+                title={t('Методы оплаты')}
                 accessoryLeft={CardIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handlePaymentMethods}
               />
               <MenuItem
-                title="История покупок"
+                title={t('История покупок')}
                 accessoryLeft={HistoryIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handlePurchaseHistory}
               />
               <MenuItem
-                title="Настройки"
+                title={t('Настройки')}
                 accessoryLeft={SettingsIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleSettings}
               />
               <MenuItem
-                title="Выйти из аккаунта"
+                title={t('Выйти из аккаунта')}
                 accessoryLeft={LogOutIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleLogout}

@@ -10,8 +10,11 @@ import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons';
 import {Screens} from '../navigationEnums';
 import {MainTabsStackParamsList} from '../navigationTypes';
 import {Colors} from 'shared/libs/helpers/colors';
+import {useTranslation} from 'react-i18next';
 
 export const MainTabsNavigator = () => {
+  const {t} = useTranslation();
+
   const MainTabsStack = createBottomTabNavigator<MainTabsStackParamsList>();
 
   return (
@@ -34,18 +37,22 @@ export const MainTabsNavigator = () => {
       <MainTabsStack.Screen
         name={Screens.HOME_TAB}
         component={HomeStackNavigator}
+        options={{title: t('Главная')}}
       />
       <MainTabsStack.Screen
         name={Screens.CATALOG_TAB}
         component={CatalogStackNavigator}
+        options={{title: t('Каталог')}}
       />
       <MainTabsStack.Screen
         name={Screens.MAP_TAB}
         component={MapStackNavigator}
+        options={{title: t('Карта')}}
       />
       <MainTabsStack.Screen
         name={Screens.PROFILE_TAB}
         component={ProfileStackNavigator}
+        options={{title: t('Профиль')}}
       />
     </MainTabsStack.Navigator>
   );
