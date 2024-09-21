@@ -1,6 +1,7 @@
 import {translations} from 'app/locales';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
+import {storage} from './storage';
 
 const resources = {
   en: {
@@ -11,11 +12,13 @@ const resources = {
   },
 };
 
+const savedLanguage = storage.getString('language') || 'ru';
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',
+    lng: savedLanguage,
     interpolation: {
       escapeValue: false,
     },

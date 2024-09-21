@@ -6,6 +6,6 @@ type i18nStore = {
 };
 
 export const useIsLoginStore = create<i18nStore>(set => ({
-  language: 'Русский',
+  language: 'ru',
   setLanguage: (language: string) => set({language}),
 }));

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
 
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {SettingsStyles as styles} from './Settings.styles';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import i18n from 'shared/libs/i18n';
-import {useTranslation} from 'react-i18next';
+import {storage} from 'shared/libs/storage';
 
 const data = ['Русский', 'English'];
 
@@ -19,8 +20,8 @@ export const Settings = () => {
 
   const displayValue = data[selectedIndex.row];
 
-  const renderOption = (title: string, index: number) => (
-    <SelectItem key={index} title={title} />
+  const renderOption = (item: string, ix: number) => (
+    <SelectItem key={ix} title={item} />
   );
 
   const handleSelect = (index: IndexPath | IndexPath[]) => {
@@ -28,26 +29,18 @@ export const Settings = () => {
       return;
     }
 
+    const selectedLanguage = data[index.row] === 'Русский' ? 'ru' : 'en';
     setSelectedIndex(index);
-    data[index.row] === 'Русский'
-      ? i18n.changeLanguage('ru')
-      : i18n.changeLanguage('en');
-    if (data[index.row] === 'Русский') {
-      i18n.changeLanguage('ru');
-    } else if (data[index.row] === 'English') {
-      i18n.changeLanguage('en');
-    }
+    i18n.changeLanguage(selectedLanguage);
+
+    storage.set('language', selectedLanguage);
   };
 
   useEffect(() => {
-    // Получаем текущий язык через i18next
-    const currentLanguage = i18n.language;
-
-    if (currentLanguage === 'ru') {
-      setSelectedIndex(new IndexPath(0));
-    } else if (currentLanguage === 'en') {
-      setSelectedIndex(new IndexPath(1));
-    }
+    const savedLanguage = storage.getString('language') || 'ru';
+    i18n.changeLanguage(savedLanguage);
+    const index = savedLanguage === 'ru' ? 0 : 1;
+    setSelectedIndex(new IndexPath(index));
   }, []);
 
   const handleGoBack = () => {
@@ -58,22 +51,22 @@ export const Settings = () => {
     <View style={styles.container}>
       <TouchableOpacity onPress={handleGoBack}>
         <Text style={TextStyles.p3.changeColor(Colors.Black200)}>
-          {t('back')}
+          {t('Назад')}
         </Text>
       </TouchableOpacity>
       <Text style={TextStyles.h3.changeColor(Colors.Black200)}>
-        {t('settings')}
+        {t('Настройки')}
       </Text>
 
       <Text style={TextStyles.p3.changeColor(Colors.Black100)}>
-        {t('languageSelection')}
+        {t('Выбор языка')}
       </Text>
       <Select
         placeholder="Default"
         value={displayValue}
         selectedIndex={selectedIndex}
         onSelect={handleSelect}>
-        {data.map((title, index) => renderOption(title, index))}
+        {data.map((title, ix) => renderOption(title, ix))}
       </Select>
     </View>
   );

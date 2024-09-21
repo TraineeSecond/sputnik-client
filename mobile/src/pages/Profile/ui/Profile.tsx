@@ -70,25 +70,25 @@ const Profile = () => {
           <View style={styles.menuContainer}>
             <Menu onSelect={index => setSelectedIndex(index)}>
               <MenuItem
-                title={t('paymentMethods')}
+                title={t('Методы оплаты')}
                 accessoryLeft={CardIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handlePaymentMethods}
               />
               <MenuItem
-                title={t('purchaseHistory')}
+                title={t('История покупок')}
                 accessoryLeft={HistoryIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handlePurchaseHistory}
               />
               <MenuItem
-                title={t('settings')}
+                title={t('Настройки')}
                 accessoryLeft={SettingsIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleSettings}
               />
               <MenuItem
-                title={t('logout')}
+                title={t('Выйти из аккаунта')}
                 accessoryLeft={LogOutIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleLogout}

@@ -36,22 +36,22 @@ const MainTabsNavigator = () => {
       <MainTabsStack.Screen
         name={Screens.HOME_TAB}
         component={HomeStackNavigator}
-        options={{title: t('home')}}
+        options={{title: t('Главная')}}
       />
       <MainTabsStack.Screen
         name={Screens.CATALOG_TAB}
         component={CatalogStackNavigator}
-        options={{title: t('catalog')}}
+        options={{title: t('Каталог')}}
       />
       <MainTabsStack.Screen
         name={Screens.MAP_TAB}
         component={MapStackNavigator}
-        options={{title: t('map')}}
+        options={{title: t('Карта')}}
       />
       <MainTabsStack.Screen
         name={Screens.PROFILE_TAB}
         component={ProfileStackNavigator}
-        options={{title: t('profile')}}
+        options={{title: t('Профиль')}}
       />
     </MainTabsStack.Navigator>
   );
