@@ -1,6 +1,7 @@
 /**
  * @format
  */
+import 'intl-pluralrules';
 
 import {AppRegistry} from 'react-native';
 import {App} from './src/app/App';
