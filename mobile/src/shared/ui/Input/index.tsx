@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, TextInput} from 'react-native';
-import {Colors} from '../libs/helpers/colors';
-import {TextStyles} from '../libs/helpers/textStyles';
+import {TextInput} from 'react-native';
+import {Colors, TextStyles} from '../../libs/helpers';
+import {InputStyles as styles} from './Input.styles';
 
 type InputType = {
   value: string;
@@ -11,13 +11,13 @@ type InputType = {
   setValue: (text: string) => void;
 };
 
-const Input: React.FC<InputType> = ({
+export const Input = ({
   value,
   setValue,
   placeholder,
   isPassword = false,
   isEmail = false,
-}) => {
+}: InputType) => {
   const handleChangeText = (value: string) => {
     setValue(value);
   };
@@ -35,17 +35,3 @@ const Input: React.FC<InputType> = ({
     />
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    backgroundColor: Colors.Gray300,
-    borderRadius: 12,
-    paddingVertical: 13,
-    paddingHorizontal: 16,
-    width: 275,
-    height: 48,
-    marginBottom: 20,
-  },
-});
-
-export default Input;

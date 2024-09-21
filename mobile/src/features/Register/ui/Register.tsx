@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Radio} from '@ui-kitten/components';
 
-import Input from 'shared/ui/Input';
+import {Input} from 'shared/ui';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {RegisterStyles as styles} from './styles';
 import {useRegisterStore} from '../model/store';

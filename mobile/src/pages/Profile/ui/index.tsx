@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {Menu, MenuItem, IndexPath} from '@ui-kitten/components';
+import {IndexPath, Menu, MenuItem} from '@ui-kitten/components';
 import {Image, Text, View} from 'react-native';
-import {NavigationProp} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
 
-import {Auth} from 'pages/Auth/ui/Auth';
+import {useTranslation} from 'react-i18next';
+import {Auth} from 'pages';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
 import {
@@ -13,13 +12,13 @@ import {
   HistoryIcon,
   LogOutIcon,
   SettingsIcon,
-} from 'shared/icons/Icons';
+} from 'shared/icons';
 import {useUserStore} from 'entities/user';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {Screens} from 'app/navigation/navigationEnums';
 
-const Profile = () => {
+export const Profile = () => {
   const {token, user, clearUserData} = useUserStore();
   const [selectedIndex, setSelectedIndex] = useState<IndexPath | undefined>(
     undefined,
@@ -102,5 +101,3 @@ const Profile = () => {
     </>
   );
 };
-
-export default Profile;

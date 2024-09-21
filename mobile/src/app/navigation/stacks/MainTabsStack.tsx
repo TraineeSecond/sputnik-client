@@ -6,14 +6,15 @@ import {
   MapStackNavigator,
   ProfileStackNavigator,
 } from '.';
-import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons/Icons';
+import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons';
 import {Screens} from '../navigationEnums';
 import {MainTabsStackParamsList} from '../navigationTypes';
 import {Colors} from 'shared/libs/helpers/colors';
 import {useTranslation} from 'react-i18next';
 
-const MainTabsNavigator = () => {
-  const {t} = useTranslation(); // Initialize i18n
+export const MainTabsNavigator = () => {
+  const {t} = useTranslation();
+
   const MainTabsStack = createBottomTabNavigator<MainTabsStackParamsList>();
 
   return (
@@ -29,8 +30,8 @@ const MainTabsNavigator = () => {
           if (route.name === Screens.PROFILE_TAB)
             return <ProfileIcon {...iconProps} />;
         },
-        tabBarActiveTintColor: Colors.Green500,
-        tabBarInactiveTintColor: Colors.Gray100,
+        tabBarActiveTintColor: Colors.Green400,
+        tabBarInactiveTintColor: Colors.Gray500,
         headerShown: false,
       })}>
       <MainTabsStack.Screen
@@ -56,5 +57,3 @@ const MainTabsNavigator = () => {
     </MainTabsStack.Navigator>
   );
 };
-
-export default MainTabsNavigator;

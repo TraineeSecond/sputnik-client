@@ -16,6 +16,8 @@ const config = {
       pages: path.resolve(__dirname, 'src/pages'),
       app: path.resolve(__dirname, 'src/app'),
       navigation: path.resolve(__dirname, 'src/app/navigation'),
+      widgets: path.resolve(__dirname, 'src/widgets'),
+      features: path.resolve(__dirname, 'src/features'),
     },
   },
   watchFolders: [path.resolve(__dirname, 'src')],
