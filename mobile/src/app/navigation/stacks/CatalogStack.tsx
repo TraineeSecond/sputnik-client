@@ -4,7 +4,7 @@ import {Catalog} from 'pages';
 import {Screens} from '../navigationEnums';
 import {CatalogStackParamsList} from '../navigationTypes';
 
-const CatalogStackNavigator = () => {
+export const CatalogStackNavigator = () => {
   const CatalogStack = createNativeStackNavigator<CatalogStackParamsList>();
 
   return (
@@ -17,5 +17,3 @@ const CatalogStackNavigator = () => {
     </CatalogStack.Navigator>
   );
 };
-
-export default CatalogStackNavigator;

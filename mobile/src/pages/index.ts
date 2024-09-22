@@ -1,8 +1,8 @@
-import Home from './Home/ui/Home';
-import Catalog from './Catalog/ui/Catalog';
-import Map from './Map/ui/Map';
-import Profile from './Profile/ui/Profile';
-
-export {Profile, Map, Catalog, Home};
-export * from './Auth';
-export * from './Cart';
+export * from './Home/ui';
+export * from './Catalog/ui';
+export * from './Map/ui';
+export * from './Profile/ui';
+export * from './Cart/ui';
+export * from './Auth/ui';
+export * from './Settings/ui';
+export * from './Orders/ui';

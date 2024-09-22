@@ -1,12 +1,10 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Profile} from 'pages';
 import {Screens} from '../navigationEnums';
 import {ProfileStackParamsList} from '../navigationTypes';
-import {Settings} from 'pages/Settings';
-import {Orders} from 'pages/Orders';
+import {Orders, Settings, Profile} from 'pages';
 
-const ProfileStackNavigator = () => {
+export const ProfileStackNavigator = () => {
   const ProfileStack = createNativeStackNavigator<ProfileStackParamsList>();
 
   return (
@@ -29,5 +27,3 @@ const ProfileStackNavigator = () => {
     </ProfileStack.Navigator>
   );
 };
-
-export default ProfileStackNavigator;

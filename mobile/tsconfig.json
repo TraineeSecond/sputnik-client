@@ -9,6 +9,7 @@
       "pages/*": ["pages/*"],
       "app/*": ["app/*"],
       "navigation/*": ["app/navigation/*"],
+      "widgets/*": ["app/widgets/*"]
     }
   }
 }
