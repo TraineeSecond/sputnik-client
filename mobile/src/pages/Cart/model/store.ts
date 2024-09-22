@@ -1,6 +1,5 @@
 import {create} from 'zustand';
 import {CartItemType} from 'entities/CartItem';
-import {CartItems} from 'shared/assets/mockData';
 
 type CartStore = {
   items: CartItemType[];
@@ -10,10 +9,11 @@ type CartStore = {
   incrementItem: (id: string) => void;
   decrementItem: (id: string) => void;
   clearCart: () => void;
+  setItems: (items: CartItemType[]) => void;
 };
 
 export const useCartStore = create<CartStore>(set => ({
-  items: CartItems,
+  items: [],
 
   addItem: item => set(state => ({items: [...state.items, item]})),
 
@@ -37,4 +37,6 @@ export const useCartStore = create<CartStore>(set => ({
     })),
 
   clearCart: () => set({items: []}),
+
+  setItems: items => set({items}),
 }));

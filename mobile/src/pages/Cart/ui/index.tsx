@@ -1,13 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, Alert} from 'react-native';
 import {Button} from '@ui-kitten/components';
 import {useCartStore} from '../model/store';
 import {CartItem} from 'shared/ui';
 import {CartPageStyles as styles} from './Cart.styles';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {RootStackParamsList} from 'app/navigation/navigationTypes';
+import {Screens} from 'app/navigation/navigationEnums';
+
+type CartRouteProp = RouteProp<RootStackParamsList, Screens.CART>;
 
 export const Cart = () => {
-  const {items, incrementItem, decrementItem, clearCart, removeItem} =
+  const {items, setItems, incrementItem, decrementItem, clearCart, removeItem} =
     useCartStore();
+  const route = useRoute<CartRouteProp>();
+
+  const Data = route.params.data;
+
+  console.log(Data);
+
+  useEffect(() => {
+    setItems(Data);
+
+    return () => {
+      setItems([]);
+      console.log(items);
+    };
+  }, [Data]);
 
   const handleCheckout = () => {
     if (items.length === 0) {

@@ -6,6 +6,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {CartIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {HeaderStyles as styles} from './Header.styles';
+import {CartItems} from 'shared/assets/mockData';
 
 type HeaderProps = {
   navigation: NavigationProp<RootStackParamsList>;
@@ -17,7 +18,7 @@ export const Header = ({navigation}: HeaderProps) => {
   };
 
   const handleNavigateToCart = () => {
-    navigation.navigate(Screens.CART);
+    navigation.navigate(Screens.CART, {data: CartItems});
   };
 
   return (
