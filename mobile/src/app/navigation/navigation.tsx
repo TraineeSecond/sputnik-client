@@ -1,18 +1,21 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {RootStackParamsList} from './navigationTypes.ts';
-import {Screens, Stacks} from './navigationEnums.ts';
 import {TouchableOpacity} from 'react-native';
+import {useTranslation} from 'react-i18next';
+
 import {Cart} from 'pages';
 import {CartIcon, TruckIcon} from 'shared/icons/Icons';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
-import {Colors, IconStyles} from 'shared/libs/helpers';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {MainTabsNavigator} from './stacks';
 import {Auth} from 'pages/Auth';
+import {Screens, Stacks} from './navigationEnums.ts';
+import {RootStackParamsList} from './navigationTypes.ts';
 
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();
   const navigation = useAppNavigation();
+  const {t} = useTranslation();
 
   const handleNavigateToHome = () => {
     navigation.navigate(Stacks.HOME_TAB);
@@ -48,7 +51,15 @@ export const RootNavigator = () => {
           ),
         })}
       />
-      <RootStack.Screen name={Screens.CART} component={Cart} />
+      <RootStack.Screen
+        name={Screens.CART}
+        component={Cart}
+        options={{
+          title: t('Корзина'),
+          headerTitleAlign: 'center',
+          headerTitleStyle: TextStyles.h2.changeColor(Colors.Purple100),
+        }}
+      />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>
   );

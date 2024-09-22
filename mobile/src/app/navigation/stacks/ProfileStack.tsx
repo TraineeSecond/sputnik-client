@@ -3,7 +3,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Profile} from 'pages';
 import {Screens} from '../navigationEnums';
 import {ProfileStackParamsList} from '../navigationTypes';
-import {PaymentMethods} from 'pages/PaymentMethods';
 import {Settings} from 'pages/Settings';
 import {Orders} from 'pages/Orders';
 
@@ -15,11 +14,6 @@ const ProfileStackNavigator = () => {
       <ProfileStack.Screen
         name={Screens.PROFILE}
         component={Profile}
-        options={{headerShown: false}}
-      />
-      <ProfileStack.Screen
-        name={Screens.PAYMENTSMETHODS}
-        component={PaymentMethods}
         options={{headerShown: false}}
       />
       <ProfileStack.Screen
