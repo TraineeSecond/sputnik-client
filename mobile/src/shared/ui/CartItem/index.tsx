@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+
 import {CartItemStyles as styles} from './CartItem.styles';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 
@@ -14,55 +16,54 @@ type CartItemProps = {
   title: string;
   image: ImageSourcePropType;
   price: number;
+  quantity: number;
   onIncrement: () => void;
   onDecrement: () => void;
-  quantity: number;
+  onRemove: () => void;
 };
 
 export const CartItem: React.FC<CartItemProps> = ({
   title,
   image,
   price,
+  quantity,
   onIncrement,
   onDecrement,
-  quantity,
+  onRemove,
 }) => {
-  return (
-    <View style={styles.container}>
-      <Image width={85} height={85} style={styles.image} source={image} />
-      <View style={styles.infoContainer}>
-        <Text
-          style={[
-            TextStyles.p1.changeColor(Colors.Black200),
-            styles.productName,
-          ]}
-          numberOfLines={1}>
-          {title}
-        </Text>
-        <Text
-          style={[
-            TextStyles.p1.changeColor(Colors.Black100),
-            styles.productPrice,
-          ]}>
-          ${price.toFixed(2)}
-        </Text>
-      </View>
+  const renderRightActions = () => (
+    <TouchableOpacity style={styles.deleteButton} onPress={onRemove}>
+      <Text style={styles.deleteButtonText}>Удалить</Text>
+    </TouchableOpacity>
+  );
 
-      <View style={styles.counterContainer}>
-        <TouchableOpacity style={styles.counterButton} onPress={onDecrement}>
-          <Text style={TextStyles.span1}>-</Text>
-        </TouchableOpacity>
-        <Text
-          style={[
-            TextStyles.span1.changeColor(Colors.Black100),
-            styles.counterValue,
-          ]}>
-          {quantity}
-        </Text>
-        <TouchableOpacity style={styles.counterButton} onPress={onIncrement}>
-          <Text style={TextStyles.span1}>+</Text>
-        </TouchableOpacity>
+  return (
+    <Swipeable renderRightActions={renderRightActions}>
+      <View style={styles.container}>
+        <Image style={styles.image} source={image} />
+        <View style={styles.infoContainer}>
+          <Text style={styles.productName} numberOfLines={1}>
+            {title}
+          </Text>
+          <Text style={styles.productPrice}>{`${price} ₽`}</Text>
+        </View>
+
+        <View style={styles.counterContainer}>
+          <TouchableOpacity style={styles.counterButton} onPress={onDecrement}>
+            <Text style={TextStyles.span1}>-</Text>
+          </TouchableOpacity>
+          <Text
+            style={[
+              TextStyles.span1.changeColor(Colors.Black100),
+              styles.counterValue,
+            ]}>
+            {quantity}
+          </Text>
+          <TouchableOpacity style={styles.counterButton} onPress={onIncrement}>
+            <Text style={TextStyles.span1}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </Swipeable>
   );
 };

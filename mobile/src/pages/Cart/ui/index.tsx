@@ -1,59 +1,48 @@
-import React, {useState} from 'react';
-import {Alert, FlatList} from 'react-native';
-import {CartPageStyles as styles} from './Cart.styles';
-import {CartItem} from 'shared/ui';
+import React from 'react';
+import {FlatList, Alert} from 'react-native';
 import {Button} from '@ui-kitten/components';
-import {CartItems} from 'shared/assets/mockData';
-import {CartItemType} from 'entities/CartItem';
+import {useCartStore} from '../model/store';
+import {CartItem} from 'shared/ui';
+import {CartPageStyles as styles} from './Cart.styles';
 
 export const Cart = () => {
-  const [cartItems, setCartItems] = useState(CartItems);
+  const {items, incrementItem, decrementItem, clearCart, removeItem} =
+    useCartStore();
 
-  const handleIncrement = (id: string) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? {...item, quantity: item.quantity + 1} : item,
-      ),
-    );
-  };
-
-  const handleDecrement = (id: string) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id && item.quantity > 1
-          ? {...item, quantity: item.quantity - 1}
-          : item,
-      ),
-    );
-  };
-
-  const handleBuy = () => {
+  const handleCheckout = () => {
+    if (items.length === 0) {
+      Alert.alert('Корзина пуста');
+      return;
+    }
     Alert.alert('Заказ успешно оформлен');
-    setCartItems([]);
+    clearCart();
   };
-
-  const renderCartItem = ({item}: {item: CartItemType}) => (
-    <CartItem
-      id={item.id}
-      title={item.title}
-      image={item.image}
-      price={item.price}
-      quantity={item.quantity}
-      onIncrement={() => handleIncrement(item.id)}
-      onDecrement={() => handleDecrement(item.id)}
-    />
-  );
 
   return (
     <>
       <FlatList
-        data={cartItems}
-        keyExtractor={item => item.id}
-        renderItem={renderCartItem}
+        data={items}
+        renderItem={({item}) => {
+          const handleIncrement = () => incrementItem(item.id);
+          const handleDecrement = () => decrementItem(item.id);
+          const handleRemove = () => removeItem(item.id);
+          return (
+            <CartItem
+              id={item.id}
+              title={item.title}
+              image={item.image}
+              price={item.price}
+              quantity={item.quantity}
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              onRemove={handleRemove}
+            />
+          );
+        }}
         contentContainerStyle={{paddingBottom: 60}}
       />
-      <Button status="success" onPress={handleBuy} style={styles.button}>
-        Checkout
+      <Button style={styles.button} status="success" onPress={handleCheckout}>
+        Оформить заказ
       </Button>
     </>
   );

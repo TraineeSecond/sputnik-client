@@ -51,4 +51,15 @@ export const CartItemStyles = StyleSheet.create({
     marginHorizontal: 8,
     fontSize: 16,
   },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
