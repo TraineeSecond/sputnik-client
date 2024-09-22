@@ -6,10 +6,6 @@ export const CartPageStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.White100,
   },
-  text: {
-    fontSize: 24,
-    color: 'gray',
-  },
   centerText: {
     textAlign: 'center',
   },

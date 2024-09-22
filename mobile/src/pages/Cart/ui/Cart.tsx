@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {FlatList, Alert} from 'react-native';
+import {FlatList, Alert, View, ScrollView} from 'react-native';
 import {Button} from '@ui-kitten/components';
 import {useCartStore} from '../model/store';
 import {CartItem} from 'shared/ui';
@@ -17,14 +17,12 @@ export const Cart = () => {
 
   const Data = route.params.data;
 
-  console.log(Data);
-
   useEffect(() => {
     setItems(Data);
 
     return () => {
       setItems([]);
-      console.log(items);
+      console.log('Unmounted');
     };
   }, [Data]);
 
@@ -38,9 +36,33 @@ export const Cart = () => {
   };
 
   return (
-    <>
-      <FlatList
-        data={items}
+    <View>
+      <ScrollView contentContainerStyle={{paddingBottom: 60}}>
+        {items.map(item => {
+          const handleIncrement = () => incrementItem(item.id);
+          const handleDecrement = () => decrementItem(item.id);
+          const handleRemove = () => removeItem(item.id);
+
+          return (
+            <CartItem
+              key={`${item.title}-${item.id}`}
+              id={item.id}
+              title={item.title}
+              image={item.image}
+              price={item.price}
+              quantity={item.quantity}
+              onIncrement={handleIncrement}
+              onDecrement={handleDecrement}
+              onRemove={handleRemove}
+            />
+          );
+        })}
+      </ScrollView>
+      {/* <FlatList
+        data={cartItems}
+        keyExtractor={item => `${item.title}-${item.id}`}
+        contentContainerStyle={{paddingBottom: 60}}
+        initialNumToRender={5}
         renderItem={({item}) => {
           const handleIncrement = () => incrementItem(item.id);
           const handleDecrement = () => decrementItem(item.id);
@@ -58,11 +80,10 @@ export const Cart = () => {
             />
           );
         }}
-        contentContainerStyle={{paddingBottom: 60}}
-      />
+      /> */}
       <Button style={styles.button} status="success" onPress={handleCheckout}>
         Оформить заказ
       </Button>
-    </>
+    </View>
   );
 };

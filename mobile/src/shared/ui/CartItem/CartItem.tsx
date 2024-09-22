@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from 'react-native';
-
+//import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'; //сломать может, react-native-reanimated
 import {CartItemStyles as styles} from './CartItem.styles';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 
@@ -30,6 +30,7 @@ export const CartItem: React.FC<CartItemProps> = ({
   onDecrement,
   onRemove,
 }) => {
+  // Функция для рендера кнопки удаления
   const renderRightActions = () => (
     <TouchableOpacity style={styles.deleteButton} onPress={onRemove}>
       <Text style={styles.deleteButtonText}>Удалить</Text>
