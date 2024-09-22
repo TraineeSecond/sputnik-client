@@ -19,6 +19,7 @@ export const MainTabsNavigator = () => {
 
   return (
     <MainTabsStack.Navigator
+      detachInactiveScreens={false}
       screenOptions={({route}) => ({
         tabBarIcon: ({color, size}) => {
           const iconProps = {fill: color, style: {width: size, height: size}};

@@ -11,9 +11,8 @@ import {
   promoPictureSecond,
 } from 'shared/assets/mockData';
 import {useUserStore} from 'entities/user';
+import {Filter, Product} from 'entities';
 import {HomePageStyles as styles} from './Home.styles';
-import {Filter} from 'entities/filter';
-import {Product} from 'entities/product';
 
 export const Home = () => {
   const {loadUserData} = useUserStore();
@@ -24,7 +23,12 @@ export const Home = () => {
   }, []);
 
   const handleProductPress = (productId: string) => {
-    //  navigation.navigate(карточкаТовара)
+    const product = products.find(p => p.id === productId); // временно не берем из стора а из мока
+    if (product) {
+      navigation.navigate(Screens.PRODUCT, {
+        product,
+      });
+    }
   };
 
   const handlePromoPress = (pageId: number) => {

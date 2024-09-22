@@ -131,6 +131,8 @@ export const products = [
     brand: 'Ralpf Loren',
     reviewsCount: 12,
     totalScore: 3,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     id: '2',
@@ -140,6 +142,8 @@ export const products = [
     brand: 'Husqvarna AB',
     reviewsCount: 1442,
     totalScore: 4.9,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     id: '3',
@@ -148,12 +152,16 @@ export const products = [
     price: 122000,
     priceWithDiscount: 99999,
     brand: 'Apple',
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     id: '4',
     title: 'Без бренда и отзывов',
     image: require('../images/mock/tshirt.png'),
     price: 4999,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     id: '5',
@@ -163,12 +171,16 @@ export const products = [
     priceWithDiscount: 499,
     reviewsCount: 1,
     totalScore: 1,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     id: '6',
     title: 'Очень длинное наименование товара',
     image: require('../images/mock/tshirt.png'),
     price: 99,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     id: '7',
@@ -176,6 +188,8 @@ export const products = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
     image: require('../images/mock/tshirt.png'),
     price: 7900,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
   {
     brand: 'Tovar',
@@ -185,6 +199,8 @@ export const products = [
     price: 10,
     reviewsCount: 2,
     totalScore: 4,
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
   },
 ];
 

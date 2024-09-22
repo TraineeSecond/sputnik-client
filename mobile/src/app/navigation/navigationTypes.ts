@@ -1,10 +1,14 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
+import {Product} from 'entities/product';
+
+export type ProductRouteParams = {product: Product};
 
 export type RootStackParamsList = {
   Main: NavigatorScreenParams<MainTabsStackParamsList>;
   Cart: undefined;
   Auth: undefined;
   HomeTab: undefined;
+  Product: ProductRouteParams;
 };
 
 export type MainTabsStackParamsList = {
@@ -16,10 +20,12 @@ export type MainTabsStackParamsList = {
 
 export type HomeStackParamsList = {
   Home: undefined;
+  Product: ProductRouteParams;
 };
 
 export type CatalogStackParamsList = {
   Catalog: undefined;
+  Product: ProductRouteParams;
 };
 
 export type MapStackParamsList = {

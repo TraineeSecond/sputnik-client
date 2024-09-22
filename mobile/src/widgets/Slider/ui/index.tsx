@@ -12,6 +12,10 @@ type SliderProps = {
 };
 
 export const Slider = ({title, data, style, renderItem}: SliderProps) => {
+  // const renderItemWrapper = ({item}) => (
+  //   <View style={styles.itemContainer}>{renderItem({item})}</View>
+  // );
+
   return (
     <View style={StyleSheet.compose(styles.container, style)}>
       {title && (
@@ -26,7 +30,14 @@ export const Slider = ({title, data, style, renderItem}: SliderProps) => {
           </TouchableOpacity>
         </View>
       )}
-      <FlatList
+      <View style={styles.flatList}>
+        {data.map(item => (
+          <View key={`${title}-${item.id}`} style={styles.itemContainer}>
+            {renderItem({item})}
+          </View>
+        ))}
+      </View>
+      {/* <FlatList
         horizontal
         key={title}
         data={data}
@@ -35,7 +46,7 @@ export const Slider = ({title, data, style, renderItem}: SliderProps) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatList}
         keyExtractor={item => `${title}-${item.id}`}
-      />
+      /> */}
     </View>
   );
 };
