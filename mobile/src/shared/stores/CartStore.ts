@@ -41,7 +41,6 @@ export const useCartStore = create<CartStore>(set => ({
         },
       );
       set({items: data.basket.basketItems});
-      console.log('Корзина создана');
       return data;
     } catch (error: any) {
       console.error(error.message);
@@ -62,7 +61,6 @@ export const useCartStore = create<CartStore>(set => ({
       set({items: data.basket.basketItems});
     } catch (error: any) {
       if (error.response?.status === 404) {
-        console.log('Корзина не найдена, создаем новую...');
         // Если у пользователя не было корзины то вызываем функцию для создания корзины
         await useCartStore.getState().createCartFirstTime(token, id);
       } else {
