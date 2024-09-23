@@ -8,6 +8,7 @@ import {SettingsStyles as styles} from './Settings.styles';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import i18n from 'shared/libs/i18n';
 import {storage} from 'shared/libs/storage';
+import {BackIcon} from 'shared/icons';
 
 const data = ['Русский', 'English'];
 
@@ -49,14 +50,12 @@ export const Settings = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleGoBack}>
+      <TouchableOpacity style={styles.backContainer} onPress={handleGoBack}>
+        <BackIcon />
         <Text style={TextStyles.p3.changeColor(Colors.Black200)}>
           {t('Назад')}
         </Text>
       </TouchableOpacity>
-      <Text style={TextStyles.h3.changeColor(Colors.Black200)}>
-        {t('Настройки')}
-      </Text>
 
       <Text style={TextStyles.p3.changeColor(Colors.Black100)}>
         {t('Выбор языка')}

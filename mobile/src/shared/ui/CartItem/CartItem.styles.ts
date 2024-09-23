@@ -52,10 +52,11 @@ export const CartItemStyles = StyleSheet.create({
     fontSize: 16,
   },
   deleteButton: {
-    backgroundColor: 'red',
+    position: 'absolute',
+    top: 15,
+    right: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 80,
   },
   deleteButtonText: {
     color: 'white',

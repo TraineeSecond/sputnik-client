@@ -45,7 +45,7 @@ export const Cart = () => {
 
           return (
             <CartItem
-              key={`${item.title}-${item.id}`}
+              key={item.id}
               id={item.id}
               title={item.title}
               image={item.image}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Icon} from '@ui-kitten/components';
+import {Colors} from 'shared/libs/helpers';
 
 export const CartIcon = (props: any) => (
   <Icon {...props} name="shopping-cart-outline" />
@@ -31,7 +32,9 @@ export const HeartOutlineIcon = (props: any) => (
   <Icon {...props} name="heart-outline" />
 );
 export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
-//archive-outline
 
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;
 export const StarIcon = (props: any) => <Icon {...props} name="star" />;
+export const RemoveIcon = (props: any) => <Icon {...props} name="trash-2" />;
+export const FlagIcon = (props: any) => <Icon {...props} name="flag-outline" />;
+export const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;

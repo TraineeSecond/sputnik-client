@@ -6,7 +6,13 @@ import {useTranslation} from 'react-i18next';
 import {Auth} from 'pages';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
-import {ForwardIcon, HistoryIcon, LogOutIcon, SettingsIcon} from 'shared/icons';
+import {
+  FlagIcon,
+  ForwardIcon,
+  HistoryIcon,
+  LogOutIcon,
+  SettingsIcon,
+} from 'shared/icons';
 import {useUserStore} from 'entities/user';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
@@ -65,8 +71,8 @@ export const Profile = () => {
                 onPress={handlePurchaseHistory}
               />
               <MenuItem
-                title={t('Настройки')}
-                accessoryLeft={SettingsIcon}
+                title={t('Настройки языка')}
+                accessoryLeft={FlagIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleSettings}
               />
