@@ -15,10 +15,10 @@ export const RootNavigator = () => {
   return (
     <RootStack.Navigator
       screenOptions={({route}) => ({
-        header: () => <Header navigation={navigation} route={route} />,
+        header: () => <Header navigation={navigation} routeName={route.name} />,
       })}>
       <RootStack.Screen name={Stacks.MAIN} component={MainTabsNavigator} />
-      {/* <RootStack.Screen name={Screens.PRODUCT} component={Product} /> */}
+      <RootStack.Screen name={Screens.PRODUCT} component={Product} />
       <RootStack.Screen name={Screens.CART} component={Cart} />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>

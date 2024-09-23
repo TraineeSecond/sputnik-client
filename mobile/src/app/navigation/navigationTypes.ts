@@ -20,12 +20,10 @@ export type MainTabsStackParamsList = {
 
 export type HomeStackParamsList = {
   Home: undefined;
-  Product: ProductRouteParams;
 };
 
 export type CatalogStackParamsList = {
   Catalog: undefined;
-  Product: ProductRouteParams;
 };
 
 export type MapStackParamsList = {

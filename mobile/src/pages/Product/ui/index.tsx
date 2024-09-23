@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView} from 'react-native';
 import {RouteProp} from '@react-navigation/native';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {ProductPageStyles as styles} from './Home.styles';
+import {ProductPageStyles as styles} from './Product.styles';
 import {ProductInfo} from 'features/ProductInfo';
 
 type ProductProps = {

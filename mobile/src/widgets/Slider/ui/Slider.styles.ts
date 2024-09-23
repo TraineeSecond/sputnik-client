@@ -16,8 +16,4 @@ export const SliderStyles = StyleSheet.create({
     gap: 10,
     paddingHorizontal: 10,
   },
-  itemContainer: {
-    // display: 'flex',
-    // flexDirection: 'row',
-  },
 });

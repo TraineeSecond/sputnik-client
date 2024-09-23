@@ -1,9 +1,4 @@
-import {
-  NavigationProp,
-  NavigationState,
-  PartialState,
-  RouteProp,
-} from '@react-navigation/native';
+import {NavigationProp} from '@react-navigation/native';
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import React from 'react';
@@ -15,15 +10,10 @@ import {navigationRef} from 'app/navigation/navigation';
 
 type HeaderProps = {
   navigation: NavigationProp<RootStackParamsList>;
-  route?: RouteProp<RootStackParamsList, keyof RootStackParamsList>;
+  routeName: string;
 };
 
-export const Header = ({navigation, route}: HeaderProps) => {
-  // const navigationState = navigationRef.getRootState();
-  // const activeRouteName = navigationState;
-
-  // console.log(navigationState);
-
+export const Header = ({navigation, routeName}: HeaderProps) => {
   const handleGoBack = () => {
     navigationRef.goBack();
   };
@@ -36,13 +26,9 @@ export const Header = ({navigation, route}: HeaderProps) => {
     navigation.navigate(Screens.CART);
   };
 
-  console.log(navigationRef.getRootState().routes[0]);
-
   return (
     <View style={styles.container}>
-      {/* {activeRouteName === Screens.PRODUCT ? ( */}
-
-      {true ? (
+      {routeName === Screens.PRODUCT ? (
         <TouchableOpacity onPress={handleGoBack}>
           <ArrowBack
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
@@ -55,7 +41,6 @@ export const Header = ({navigation, route}: HeaderProps) => {
           <Text style={TextStyles.p3.changeColor(Colors.Green500)}>GOZON</Text>
         </TouchableOpacity>
       )}
-
       <TouchableOpacity onPress={handleNavigateToCart}>
         <CartIcon
           fill={IconStyles.medium.changeColor(Colors.Gray500).color}
