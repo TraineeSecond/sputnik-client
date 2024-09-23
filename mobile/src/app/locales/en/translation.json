@@ -8,5 +8,7 @@
   "Главная": "Home",
   "Каталог": "Catalog",
   "Карта": "Map",
-  "Корзина": "Cart"
+  "Корзина": "Cart",
+  "Пустая корзина": "Your cart is empty, please add something",
+  "Оформить заказ": "Place an order"
 }

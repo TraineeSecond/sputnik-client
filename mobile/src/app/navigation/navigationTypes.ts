@@ -1,9 +1,8 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
-import {CartItemType} from 'entities/CartItem';
 
 export type RootStackParamsList = {
   Main: NavigatorScreenParams<MainTabsStackParamsList>;
-  Cart: {data: CartItemType[]};
+  Cart: undefined;
   Auth: undefined;
   HomeTab: undefined;
 };
