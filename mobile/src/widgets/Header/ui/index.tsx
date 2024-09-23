@@ -15,7 +15,7 @@ type HeaderProps = {
 
 export const Header = ({navigation, routeName}: HeaderProps) => {
   const handleGoBack = () => {
-    navigationRef.goBack();
+    navigation.goBack();
   };
 
   const handleNavigateToHome = () => {

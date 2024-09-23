@@ -4,6 +4,7 @@ import {ProductInfoStyles as styles} from './styles';
 import {Product} from 'entities/product';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
+import {useTranslation} from 'react-i18next';
 
 type ProductInfoProps = {
   product: Product;
@@ -11,6 +12,7 @@ type ProductInfoProps = {
 
 export const ProductInfo = ({product}: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
+  const {t} = useTranslation();
 
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);
@@ -101,12 +103,12 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.addToCartButton}>
             <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-              В корзину
+              {t('В корзину')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buyNowButton}>
             <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-              Купить сейчас
+              {t('Купить сейчас')}
             </Text>
           </TouchableOpacity>
         </View>
