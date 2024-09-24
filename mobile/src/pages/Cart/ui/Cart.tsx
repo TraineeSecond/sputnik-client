@@ -34,7 +34,7 @@ export const Cart = () => {
     getItems(token, user.id);
 
     setIsLoading(false);
-  }, [items]);
+  }, []);
 
   const handleCheckout = () => {
     if (items.length === 0) {
@@ -53,7 +53,7 @@ export const Cart = () => {
     return (
       <CartItem
         key={item.id}
-        id={item.id}
+        id={item.id.toString()}
         title={item.title}
         image={item.image}
         price={item.price}
@@ -82,6 +82,8 @@ export const Cart = () => {
       <Rect x="372" y="43" rx="5" ry="5" width="30" height="30" />
     </ContentLoader>
   );
+
+  console.log(items.length);
 
   return (
     <View style={styles.container}>

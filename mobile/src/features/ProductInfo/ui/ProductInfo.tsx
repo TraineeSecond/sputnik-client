@@ -5,6 +5,8 @@ import {Product} from 'entities/product';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {useTranslation} from 'react-i18next';
+import {useCartStore} from 'shared/stores/CartStore';
+import {useUserStore} from 'entities/user';
 
 type ProductInfoProps = {
   product: Product;
@@ -14,9 +16,24 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
   const {t} = useTranslation();
 
+  const {addItem} = useCartStore();
+  const {token, user} = useUserStore();
+
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);
     // добавление в избранное
+  };
+
+  const tempItem = {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    image: product.image,
+    quantity: 111,
+  };
+
+  const handleAddToCart = () => {
+    addItem(tempItem, token, user.id);
   };
 
   return (
@@ -101,7 +118,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
           </Text>
         </View>
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.addToCartButton}>
+          <TouchableOpacity
+            onPress={handleAddToCart}
+            style={styles.addToCartButton}>
             <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
               {t('В корзину')}
             </Text>

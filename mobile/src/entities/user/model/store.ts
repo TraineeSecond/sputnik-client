@@ -13,7 +13,7 @@ type ProfileStore = {
 
 export const useUserStore = create<ProfileStore>(set => ({
   user: {
-    id: '',
+    id: 0,
     email: '',
     role: '',
     name: '',
@@ -31,6 +31,7 @@ export const useUserStore = create<ProfileStore>(set => ({
   loadUserData: async () => {
     const token = storage.getString('token');
     const user = storage.getString('user');
+    console.log(user);
     if (token) {
       set({token});
     }
@@ -40,7 +41,7 @@ export const useUserStore = create<ProfileStore>(set => ({
   },
   clearUserData: () => {
     set({
-      user: {id: '', email: '', role: '', name: '', surname: ''},
+      user: {id: 0, email: '', role: '', name: '', surname: ''},
       token: '',
     });
     storage.delete('token');

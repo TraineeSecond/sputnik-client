@@ -6,22 +6,32 @@ import {CartItems} from 'shared/assets/mockData';
 
 const makePostRequest = async (
   token: string,
-  userid: string,
+  userid: number,
   items: CartItemType[],
 ) => {
   try {
+    console.log(items);
+    const formattedItems = items.map(item => ({
+      productid: item.id,
+      quantity: item.quantity,
+    }));
+
+    console.log('userid', userid);
+    console.log('formattedItems ', formattedItems);
+
     const {data} = await axios.post(
       'https://domennameabcdef.ru/api/basket',
       {
-        userid,
-        items,
+        userid: userid,
+        items: formattedItems,
       },
       {
         headers: {
-          token: token,
+          token,
         },
       },
     );
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
@@ -34,23 +44,23 @@ type CartStore = {
 
   setIsLoading(isLoading: boolean): void;
 
-  getItems: (token: string, id: string) => Promise<void>;
-  createCartFirstTime: (token: string, id: string) => Promise<void>;
-  addItem: (item: CartItemType, token: string, id: string) => Promise<void>;
-  removeItem: (id: string, token: string, userid: string) => Promise<void>;
-  incrementItem: (id: string, token: string, userid: string) => Promise<void>;
-  decrementItem: (id: string, token: string, userid: string) => Promise<void>;
-  clearCart: (token: string, userid: string) => Promise<void>;
+  getItems: (token: string, id: number) => Promise<void>;
+  createCartFirstTime: (token: string, id: number) => Promise<void>;
+  addItem: (item: CartItemType, token: string, id: number) => Promise<void>;
+  removeItem: (id: number, token: string, userid: number) => Promise<void>;
+  incrementItem: (id: number, token: string, userid: number) => Promise<void>;
+  decrementItem: (id: number, token: string, userid: number) => Promise<void>;
+  clearCart: (token: string, userid: number) => Promise<void>;
   setItems: (items: CartItemType[]) => void;
 };
 
 export const useCartStore = create<CartStore>(set => ({
-  items: CartItems,
+  items: [],
   isLoading: true,
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
 
-  createCartFirstTime: async (token: string, id: string) => {
+  createCartFirstTime: async (token: string, id: number) => {
     try {
       const data = await makePostRequest(token, id, []);
       console.log('createCartFirstTime', data);
@@ -64,7 +74,7 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  getItems: async (token: string, id: string) => {
+  getItems: async (token: string, id: number) => {
     try {
       const {data} = await axios.get('https://domennameabcdef.ru/api/basket', {
         params: {
@@ -74,7 +84,6 @@ export const useCartStore = create<CartStore>(set => ({
           token: token,
         },
       });
-      console.log('getItems', data);
 
       if (data?.basket?.basketItems) {
         set({items: data.basket.basketItems});
@@ -90,23 +99,23 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  addItem: async (item: CartItemType, token: string, userid: string) => {
+  addItem: async (item: CartItemType, token: string, userid: number) => {
     const newItems = [...useCartStore.getState().items, item];
     try {
       const data = await makePostRequest(token, userid, newItems);
-      console.log('addItem', data);
 
       if (data?.basket?.basketItems) {
+        console.log(data.basket.basketItems);
         set({items: data.basket.basketItems});
       } else {
-        console.error('Ошибка при добавлении товара в корзину');
+        //console.error('Ошибка при добавлении товара в корзину');
       }
     } catch (error) {
       console.error(error);
     }
   },
 
-  removeItem: async (id: string, token: string, userid: string) => {
+  removeItem: async (id: number, token: string, userid: number) => {
     const newItems = useCartStore
       .getState()
       .items.filter(item => item.id !== id);
@@ -122,7 +131,7 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  incrementItem: async (id: string, token: string, userid: string) => {
+  incrementItem: async (id: number, token: string, userid: number) => {
     const newItems = useCartStore
       .getState()
       .items.map(item =>
@@ -140,7 +149,7 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  decrementItem: async (id: string, token: string, userid: string) => {
+  decrementItem: async (id: number, token: string, userid: number) => {
     const newItems = useCartStore
       .getState()
       .items.map(item =>
@@ -160,7 +169,7 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  clearCart: async (token: string, userid: string) => {
+  clearCart: async (token: string, userid: number) => {
     try {
       const data = await makePostRequest(token, userid, []);
       if (data?.basket?.basketItems) {

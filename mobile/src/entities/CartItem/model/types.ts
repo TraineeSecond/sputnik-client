@@ -1,7 +1,7 @@
 import {ImageSourcePropType} from 'react-native';
 
 export type CartItemType = {
-  id: string;
+  id: number;
   title: string;
   price: number;
   image: ImageSourcePropType;

@@ -20,8 +20,6 @@ export const ProfileStackNavigator = () => {
         component={Settings}
         options={{headerShown: false}}
       />
-      <ProfileStack.Screen name={Screens.ORDERS} component={Orders} />
-      <ProfileStack.Screen name={Screens.SETTINGS} component={Settings} />
     </ProfileStack.Navigator>
   );
 };

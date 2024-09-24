@@ -1,7 +1,7 @@
 import {ImageSourcePropType} from 'react-native';
 
 export type Product = {
-  id: string;
+  id: number;
   title: string;
   brand?: string;
   price: number;
