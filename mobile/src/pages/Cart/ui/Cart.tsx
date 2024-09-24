@@ -42,12 +42,12 @@ export const Cart = () => {
       return;
     }
     Alert.alert('Заказ успешно оформлен');
-    clearCart();
+    clearCart(token, user.id);
   };
 
   const renderItem = (item: CartItemType) => {
-    const handleIncrement = () => incrementItem(item.id);
-    const handleDecrement = () => decrementItem(item.id);
+    const handleIncrement = () => incrementItem(item.id, token, user.id);
+    const handleDecrement = () => decrementItem(item.id, token, user.id);
     const handleRemove = () => removeItem(item.id, token, user.id);
 
     return (
@@ -87,7 +87,7 @@ export const Cart = () => {
     <View style={styles.container}>
       {isLoading ? (
         <ScrollView contentContainerStyle={{paddingBottom: 60}}>
-          {[1, 2, 3].map((_, index) => renderSkeleton(index))}
+          {[1, 2, 3, 4, 5].map((_, index) => renderSkeleton(index))}
         </ScrollView>
       ) : items.length > 0 ? (
         <>
