@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {SliderStyles as styles} from './Slider.styles';
 import {Filter, Product} from 'entities';
+import {useTranslation} from 'react-i18next';
 
 type SliderProps = {
   title?: string;
@@ -12,6 +13,8 @@ type SliderProps = {
 };
 
 export const Slider = ({title, data, style, renderItem}: SliderProps) => {
+  const {t} = useTranslation();
+
   return (
     <View style={StyleSheet.compose(styles.container, style)}>
       {title && (
@@ -21,7 +24,7 @@ export const Slider = ({title, data, style, renderItem}: SliderProps) => {
           </Text>
           <TouchableOpacity>
             <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
-              Посмотреть все
+              {t('Посмотреть все')}
             </Text>
           </TouchableOpacity>
         </View>

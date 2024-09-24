@@ -8,12 +8,8 @@ export const HomeStackNavigator = () => {
   const HomeStack = createNativeStackNavigator<HomeStackParamsList>();
 
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name={Screens.HOME}
-        component={Home}
-        options={{headerShown: false}}
-      />
+    <HomeStack.Navigator screenOptions={{headerShown: false}}>
+      <HomeStack.Screen name={Screens.HOME} component={Home} />
     </HomeStack.Navigator>
   );
 };

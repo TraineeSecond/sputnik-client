@@ -1,10 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export const SliderStyles = StyleSheet.create({
-  flatList: {
-    gap: 10,
-    paddingHorizontal: 10,
-  },
   container: {
     gap: 10,
   },
@@ -12,6 +8,12 @@ export const SliderStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'baseline',
+    paddingHorizontal: 10,
+  },
+  flatList: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
     paddingHorizontal: 10,
   },
 });
