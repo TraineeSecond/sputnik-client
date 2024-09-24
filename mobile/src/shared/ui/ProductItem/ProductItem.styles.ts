@@ -9,6 +9,8 @@ export const ProductItemStyles = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 210,
     height: 210,
     backgroundColor: Colors.Gray200,

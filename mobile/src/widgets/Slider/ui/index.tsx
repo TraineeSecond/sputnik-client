@@ -37,7 +37,7 @@ export const Slider = ({title, data, style, renderItem}: SliderProps) => {
         renderItem={renderItem}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatList}
-        keyExtractor={item => `${title}-${item}`}
+        keyExtractor={item => `${title}-${JSON.stringify(item)}`}
       />
     </View>
   );

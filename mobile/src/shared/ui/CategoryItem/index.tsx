@@ -7,17 +7,17 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
-import {FilterItemStyles as styles} from './FilterItem.styles';
+import {CategoryItemStyles as styles} from './CategoryItem.styles';
 
-type FilterItemProps = {
+type CategoryItemProps = {
   id: string;
   title: string;
   image?: ImageSourcePropType;
   onPress: () => void;
 };
 
-export const FilterItem = memo(
-  ({id, title, image, onPress}: FilterItemProps) => {
+export const CategoryItem = memo(
+  ({id, title, image, onPress}: CategoryItemProps) => {
     return (
       <TouchableOpacity
         id={id}

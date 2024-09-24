@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Colors} from 'shared/libs/helpers';
 
-export const FilterItemStyles = StyleSheet.create({
+export const CategoryItemStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',

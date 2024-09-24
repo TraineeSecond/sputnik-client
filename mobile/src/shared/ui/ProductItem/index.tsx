@@ -12,26 +12,24 @@ import {ProductItemStyles as styles} from './ProductItem.styles';
 
 type ProductItemProps = {
   id: string;
-  title: string;
-  image: ImageSourcePropType;
+  name: string;
+  image?: ImageSourcePropType;
   price: number;
-  brand?: string;
-  priceWithDiscount?: number;
-  totalScore?: number;
-  reviewsCount?: number;
+  newPrice: number;
+  sellerName: string;
+  sellerSurname: string;
   onPress: () => void;
 };
 
 export const ProductItem = memo(
   ({
     id,
-    title,
+    name,
     image,
     price,
-    brand,
-    priceWithDiscount,
-    totalScore,
-    reviewsCount,
+    newPrice,
+    sellerName,
+    sellerSurname,
     onPress,
   }: ProductItemProps) => {
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
@@ -40,6 +38,11 @@ export const ProductItem = memo(
       setIsFavorite(!isFavorite);
       // добавление в избранное
     };
+
+    const seller = `${sellerName} ${sellerSurname}`;
+    const hasDiscount = newPrice < price;
+
+    //TODO: Отзывы, картинка
 
     return (
       <TouchableOpacity
@@ -65,15 +68,20 @@ export const ProductItem = memo(
               />
             )}
           </TouchableOpacity>
-          <Image source={image} style={styles.image} />
-        </View>
-        <View style={styles.header}>
-          {brand && (
-            <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
-              {brand}
+          {image ? (
+            <Image source={image} style={styles.image} />
+          ) : (
+            <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+              {name}
             </Text>
           )}
-          {totalScore && (
+        </View>
+        <View style={styles.header}>
+          <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+            {seller}
+          </Text>
+          {/* Отзывы мок */}
+          {true && (
             <View style={styles.reviews}>
               <StarIcon
                 fill={IconStyles.small.changeColor(Colors.Yellow500).color}
@@ -81,11 +89,11 @@ export const ProductItem = memo(
                 height={IconStyles.small.height}
               />
               <Text style={TextStyles.span1.changeColor(Colors.Black200)}>
-                {totalScore}{' '}
+                {5}{' '}
               </Text>
-              {reviewsCount && (
+              {true && (
                 <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
-                  {`(${reviewsCount})`}
+                  {`(${23})`}
                 </Text>
               )}
             </View>
@@ -94,12 +102,12 @@ export const ProductItem = memo(
         <Text
           style={TextStyles.p1.changeColor(Colors.Black200)}
           numberOfLines={1}>
-          {title}
+          {name}
         </Text>
-        {priceWithDiscount ? (
+        {hasDiscount ? (
           <View style={styles.priceContainer}>
             <Text style={TextStyles.p1.changeColor(Colors.Red500)}>
-              {`${priceWithDiscount} ₽`}
+              {`${newPrice} ₽`}
             </Text>
             <Text
               style={[

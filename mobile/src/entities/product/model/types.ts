@@ -1,13 +1,11 @@
-import {ImageSourcePropType} from 'react-native';
+import {User} from 'entities/user';
 
 export type Product = {
-  id: string;
-  title: string;
-  brand?: string;
-  price: number;
-  totalScore?: number;
-  reviewsCount?: number;
-  priceWithDiscount?: number;
-  image: ImageSourcePropType;
+  id: number;
+  category: string;
   description: string;
+  name: string;
+  price: number;
+  new_price: number;
+  user: User;
 };

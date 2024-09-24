@@ -1,11 +1,13 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {Text, ScrollView} from 'react-native';
 import {CatalogPageStyles as styles} from './Catalog.styles';
+import {useProductListStore} from 'entities/productList';
 
 export const Catalog = () => {
+  const {productList} = useProductListStore();
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.text}>Catalog</Text>
-    </View>
+    </ScrollView>
   );
 };
