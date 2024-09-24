@@ -12,7 +12,7 @@ import {FilterItemStyles as styles} from './FilterItem.styles';
 type FilterItemProps = {
   id: string;
   title: string;
-  image: ImageSourcePropType;
+  image?: ImageSourcePropType;
   onPress: () => void;
 };
 
@@ -25,7 +25,13 @@ export const FilterItem = memo(
         style={styles.container}
         activeOpacity={1}>
         <View style={styles.imageContainer}>
-          <Image source={image} style={styles.image} />
+          {image ? (
+            <Image source={image} style={styles.image} />
+          ) : (
+            <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+              {title}
+            </Text>
+          )}
         </View>
         <Text
           style={TextStyles.span1.changeColor(Colors.Black200)}

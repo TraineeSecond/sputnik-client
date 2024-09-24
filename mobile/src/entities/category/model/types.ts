@@ -1,8 +1,7 @@
 import {ImageSourcePropType} from 'react-native';
 
-export type Filter = {
+export type Category = {
   id: string;
   title: string;
   image: ImageSourcePropType;
-  keyWord: string;
 };

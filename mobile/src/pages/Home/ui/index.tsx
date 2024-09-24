@@ -10,19 +10,35 @@ import {
   promoPicture,
   promoPictureSecond,
 } from 'shared/assets/mockData';
-import {useUserStore} from 'entities/user';
-import {Filter, Product} from 'entities';
 import {HomePageStyles as styles} from './Home.styles';
 import {useTranslation} from 'react-i18next';
+import {useUserStore} from 'entities/user';
+import {useProductListStore} from 'entities/productList';
 
 export const Home = () => {
-  const {loadUserData} = useUserStore();
-  const navigation = useAppNavigation();
   const {t} = useTranslation();
+  const navigation = useAppNavigation();
+  const {loadUserData} = useUserStore();
+  const {
+    productList,
+    categories,
+    fetchProducts,
+    fetchCategories,
+    isLoading,
+    error,
+  } = useProductListStore();
 
   useEffect(() => {
-    loadUserData();
+    const loadData = async () => {
+      // fetchProducts();
+      fetchCategories();
+      // loadUserData();
+    };
+    loadData();
   }, []);
+
+  // console.log('категории', categories);
+  // console.log('продукты', productList);
 
   const handleProductPress = (productId: string) => {
     const product = products.find(p => p.id === productId); // временно не берем из стора а из мока
@@ -39,7 +55,7 @@ export const Home = () => {
   };
 
   const handleFilterPress = useCallback(
-    (keyWord: string) => {
+    (title: string) => {
       navigation.navigate(Stacks.MAIN, {
         screen: Screens.CATALOG_TAB,
         params: {
@@ -52,16 +68,13 @@ export const Home = () => {
   );
 
   const renderFilterItem = useCallback(
-    ({item}: {item: Filter}) => {
-      const {id, title, image, keyWord} = item;
-      const handlePress = () => handleFilterPress(keyWord);
-
+    ({item, index}: {item: string; index: number}) => {
+      const handlePress = () => handleFilterPress(item);
       return (
         <FilterItem
-          key={id}
-          id={id}
-          title={title}
-          image={image}
+          key={index}
+          id={`${index}`}
+          title={item}
           onPress={handlePress}
         />
       );
@@ -110,11 +123,11 @@ export const Home = () => {
       />
       <Slider
         title={t('Категории')}
-        data={categories as Filter[]} //временно
+        data={categories}
         renderItem={renderFilterItem}
         style={styles.marginBottom}
       />
-      <Slider
+      {/* <Slider
         title="Для вас" // получаем из запроса
         data={products as Product[]} //временно
         renderItem={renderProductItem}
@@ -125,7 +138,7 @@ export const Home = () => {
         data={products as Product[]} //временно
         renderItem={renderProductItem}
         style={styles.marginBottom}
-      />
+      /> */}
       <Promo
         image={promoPictureSecond}
         style={styles.promo}
