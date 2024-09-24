@@ -58,10 +58,9 @@ export const useCartStore = create<CartStore>(set => ({
         },
       });
 
-      set({items: data.basket.basketItems});
+      set({items: data?.basket?.basketItems});
     } catch (error: any) {
       if (error.response?.status === 404) {
-        // Если у пользователя не было корзины то вызываем функцию для создания корзины
         await useCartStore.getState().createCartFirstTime(token, id);
       } else {
         console.error('Ошибка при получении корзины:', error);
@@ -83,7 +82,11 @@ export const useCartStore = create<CartStore>(set => ({
           },
         },
       );
-      set({items: data.basket.basketItems});
+      if (data?.basket?.basketItems) {
+        set({items: data.basket.basketItems});
+      } else {
+        console.error('Ошибка при добавлении товара в корзину:');
+      }
     } catch (error: any) {
       console.error(error.message);
     }
@@ -104,7 +107,7 @@ export const useCartStore = create<CartStore>(set => ({
           },
         },
       );
-      set({items: data.basket.basketItems});
+      set({items: data?.basket?.basketItems});
     } catch (error) {
       console.error(error);
     }
@@ -112,10 +115,6 @@ export const useCartStore = create<CartStore>(set => ({
       items: useCartStore.getState().items.filter(item => item.id !== id),
     });
   },
-
-  //set(state => ({
-  //   items: state.items.filter(item => item.id !== id),
-  // }));
 
   incrementItem: id =>
     set(state => ({
@@ -133,21 +132,9 @@ export const useCartStore = create<CartStore>(set => ({
       ),
     })),
 
+  //TODO: добавить запрос на отчистку корзины при заказе
+
   clearCart: () => set({items: []}),
 
   setItems: items => set({items}),
 }));
-
-// try {
-//   await axios.delete(`https://domennameabcdef.ru/api/basket/${id}`, {
-//     headers: {
-//       token: token,
-//     },
-//   });
-
-//   set(state => ({
-//     items: state.items.filter(item => item.id !== id),
-//   }));
-// } catch (error) {
-//   console.error(error);
-// }

@@ -32,6 +32,7 @@ export const HeartOutlineIcon = (props: any) => (
   <Icon {...props} name="heart-outline" />
 );
 export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
+export const ArrowBack = (props: any) => <Icon {...props} name="arrow-back" />;
 
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;
 export const StarIcon = (props: any) => <Icon {...props} name="star" />;

@@ -4,11 +4,11 @@ import {useTranslation} from 'react-i18next';
 
 import {RootStackParamsList} from './navigationTypes.ts';
 import {Screens, Stacks} from './navigationEnums.ts';
-import {Cart, Auth} from 'pages';
+import {Cart, Auth, Product} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
 import {MainTabsNavigator} from './stacks';
 import {Header} from 'widgets';
-import {Colors, TextStyles} from 'shared/libs/helpers';
+import {createNavigationContainerRef} from '@react-navigation/native';
 
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();
@@ -16,24 +16,16 @@ export const RootNavigator = () => {
   const {t} = useTranslation();
 
   return (
-    <RootStack.Navigator>
-      <RootStack.Screen
-        name={Stacks.MAIN}
-        component={MainTabsNavigator}
-        options={() => ({
-          header: () => <Header navigation={navigation} />,
-        })}
-      />
-      <RootStack.Screen
-        name={Screens.CART}
-        component={Cart}
-        options={{
-          title: t('Корзина'),
-          headerTitleAlign: 'center',
-          headerTitleStyle: TextStyles.h2.changeColor(Colors.Green500),
-        }}
-      />
+    <RootStack.Navigator
+      screenOptions={({route}) => ({
+        header: () => <Header navigation={navigation} routeName={route.name} />,
+      })}>
+      <RootStack.Screen name={Stacks.MAIN} component={MainTabsNavigator} />
+      <RootStack.Screen name={Screens.PRODUCT} component={Product} />
+      <RootStack.Screen name={Screens.CART} component={Cart} />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>
   );
 };
+
+export const navigationRef = createNavigationContainerRef();
