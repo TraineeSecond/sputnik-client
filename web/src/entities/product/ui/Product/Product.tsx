@@ -1,8 +1,7 @@
-import { Button, Card, Col, Row, Typography } from 'antd';
 import { Product as ProductInterface } from 'entities/product/model/types';
 import React from 'react';
-
-const { Title, Text } = Typography;
+import { StyledCard, StyledDescriptionText, StyledRow, StyledText, StyledTitle } from './Product.style';
+import { StyledButton } from 'widgets/header/ui/Header.styles';
 
 interface ProductProps extends Omit<ProductInterface, 'user'> {
   user: {
@@ -10,17 +9,15 @@ interface ProductProps extends Omit<ProductInterface, 'user'> {
   };
 }
 
-
-
 interface PriceInfoProps {
   price: number,
   new_price: number
 }
-const PriceInfo: React.FC<PriceInfoProps> = ({ price, new_price }) => {
+const PriceRender: React.FC<PriceInfoProps> = ({ price, new_price }) => {
   if (price == new_price) {
-    return <Text strong>{price}Р</Text>
+    return <StyledText strong>{price}Р</StyledText>
   }
-  return <><Text delete>{price}Р</Text> <Text strong>{new_price}Р</Text></>
+  return <><StyledText delete>{price}Р</StyledText> <StyledText strong>{new_price}Р</StyledText></>
 
 }
 
@@ -33,9 +30,8 @@ const Product: React.FC<ProductProps> = ({
   user,
 }) => {
   return (
-    <Card
+    <StyledCard
       hoverable
-      style={{ width: 300 }}
       cover={
         <img
           alt={name}
@@ -43,30 +39,18 @@ const Product: React.FC<ProductProps> = ({
         />
       }
     >
-      <Row>
-        <Col span={24}>
-          <Title level={4}>{name}</Title>
-        </Col>
-        <Col span={24}>
-          <Text type='secondary'>категория: {category}</Text>
-        </Col>
-        <Col span={24}>
-          <Text>описание: {description}</Text>
-        </Col>
-        <Col span={24}>
-          <Text>
-            {"цена: "}
-            <PriceInfo price={price} new_price={new_price} />
-          </Text>
-        </Col>
-        <Col span={24} style={{ marginTop: '10px' }}>
-          <Button type='primary'>перейти</Button>
-        </Col>
-        <Col span={24} style={{ marginTop: '10px' }}>
-          <Text type='secondary'>продавец: {user.name}</Text>
-        </Col>
-      </Row>
-    </Card>
+      <StyledRow>
+        <StyledTitle level={4}>{name}</StyledTitle>
+        <StyledText type='secondary'>категория: {category}</StyledText>
+        <StyledDescriptionText>описание: {description}</StyledDescriptionText>
+        <StyledText>
+          {"цена: "}
+          <PriceRender price={price} new_price={new_price} />
+        </StyledText>
+        <StyledButton type='primary'>перейти</StyledButton>
+        <StyledText type='secondary'>продавец: {user.name}</StyledText>
+      </StyledRow>
+    </StyledCard >
   );
 };
 

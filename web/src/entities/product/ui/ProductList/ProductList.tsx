@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import Product from '../Product/Product';
+import { Product } from 'entities';
 import { useProductStore } from 'entities/product/model/productStore';
 
 import styles from './ProductList.styles';

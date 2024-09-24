@@ -15,3 +15,5 @@ export interface Product {
   userid: number;
   user: User;
 }
+
+export type ProductsResponse = Product[]
