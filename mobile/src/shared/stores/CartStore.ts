@@ -40,7 +40,11 @@ export const useCartStore = create<CartStore>(set => ({
           },
         },
       );
-      set({items: data.basket.basketItems});
+      if (data?.basket?.basketItems) {
+        set({items: data.basket.basketItems});
+      } else {
+        console.error('Ошибка при создании корзины');
+      }
       return data;
     } catch (error: any) {
       console.error(error.message);
@@ -58,7 +62,11 @@ export const useCartStore = create<CartStore>(set => ({
         },
       });
 
-      set({items: data?.basket?.basketItems});
+      if (data?.basket?.basketItems) {
+        set({items: data.basket.basketItems});
+      } else {
+        console.error('Ошибка при получении корзины');
+      }
     } catch (error: any) {
       if (error.response?.status === 404) {
         await useCartStore.getState().createCartFirstTime(token, id);
@@ -90,7 +98,6 @@ export const useCartStore = create<CartStore>(set => ({
     } catch (error: any) {
       console.error(error.message);
     }
-    set(state => ({items: [...state.items, item]}));
   },
 
   removeItem: async (id: string, token: string, userid: string) => {
@@ -107,7 +114,11 @@ export const useCartStore = create<CartStore>(set => ({
           },
         },
       );
-      set({items: data?.basket?.basketItems});
+      if (data?.basket?.basketItems) {
+        set({items: data.basket.basketItems});
+      } else {
+        console.error('Ошибка при удалении из корзины');
+      }
     } catch (error) {
       console.error(error);
     }
