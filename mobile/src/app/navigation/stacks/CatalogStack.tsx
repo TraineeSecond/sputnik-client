@@ -8,12 +8,8 @@ export const CatalogStackNavigator = () => {
   const CatalogStack = createNativeStackNavigator<CatalogStackParamsList>();
 
   return (
-    <CatalogStack.Navigator>
-      <CatalogStack.Screen
-        name={Screens.CATALOG}
-        component={Catalog}
-        options={{headerShown: false}}
-      />
+    <CatalogStack.Navigator screenOptions={{headerShown: false}}>
+      <CatalogStack.Screen name={Screens.CATALOG} component={Catalog} />
     </CatalogStack.Navigator>
   );
 };

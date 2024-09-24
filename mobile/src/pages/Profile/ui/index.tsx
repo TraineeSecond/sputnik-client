@@ -23,7 +23,7 @@ export const Profile = () => {
   const [selectedIndex, setSelectedIndex] = useState<IndexPath | undefined>(
     undefined,
   );
-  const {t} = useTranslation(); // Initialize i18n
+  const {t} = useTranslation();
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
 

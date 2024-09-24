@@ -8,12 +8,8 @@ export const MapStackNavigator = () => {
   const MapStack = createNativeStackNavigator<MapStackParamsList>();
 
   return (
-    <MapStack.Navigator>
-      <MapStack.Screen
-        name={Screens.MAP}
-        component={Map}
-        options={{headerShown: false}}
-      />
+    <MapStack.Navigator screenOptions={{headerShown: false}}>
+      <MapStack.Screen name={Screens.MAP} component={Map} />
     </MapStack.Navigator>
   );
 };

@@ -11,20 +11,27 @@ import {
   promoPictureSecond,
 } from 'shared/assets/mockData';
 import {useUserStore} from 'entities/user';
+import {Filter, Product} from 'entities';
 import {HomePageStyles as styles} from './Home.styles';
-import {Filter} from 'entities/filter';
-import {Product} from 'entities/product';
+import {useTranslation} from 'react-i18next';
 
 export const Home = () => {
   const {loadUserData} = useUserStore();
   const navigation = useAppNavigation();
+  const {t} = useTranslation();
 
   useEffect(() => {
     loadUserData();
   }, []);
 
   const handleProductPress = (productId: string) => {
-    //  navigation.navigate(карточкаТовара)
+    const product = products.find(p => p.id === productId); // временно не берем из стора а из мока
+
+    if (product) {
+      navigation.navigate(Screens.PRODUCT, {
+        product,
+      });
+    }
   };
 
   const handlePromoPress = (pageId: number) => {
@@ -102,19 +109,19 @@ export const Home = () => {
         style={[styles.marginBottom, styles.promo]}
       />
       <Slider
-        title="Категории"
+        title={t('Категории')}
         data={categories as Filter[]} //временно
         renderItem={renderFilterItem}
         style={styles.marginBottom}
       />
       <Slider
-        title="Для вас"
+        title="Для вас" // получаем из запроса
         data={products as Product[]} //временно
         renderItem={renderProductItem}
         style={styles.marginBottom}
       />
       <Slider
-        title="Подборка на лето"
+        title="Подборка на лето" // получаем из запроса
         data={products as Product[]} //временно
         renderItem={renderProductItem}
         style={styles.marginBottom}
