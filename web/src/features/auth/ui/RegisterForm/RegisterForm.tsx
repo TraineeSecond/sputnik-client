@@ -1,6 +1,7 @@
-import { message } from 'antd';
 import { Rule } from 'antd/lib/form';
 import { useAuthStore } from 'features/auth/model/authStore';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import {
   StyledButton,
@@ -8,7 +9,9 @@ import {
   StyledForm,
   StyledFormItem,
   StyledInput,
+  StyledParagraph,
   StyledPasswordInput,
+  StyledTitle,
 } from './RegisterForm.styles';
 
 interface RegisterFormValues {
@@ -20,40 +23,10 @@ interface RegisterFormValues {
   isSeller: boolean;
 }
 
-const firstNameRules: Rule[] = [
-  { required: true, message: 'Введите ваше имя!' },
-];
-
-const lastNameRules: Rule[] = [
-  { required: true, message: 'Введите вашу фамилию!' },
-];
-
-const emailRules: Rule[] = [
-  { required: true, message: 'Введите ваш email!' },
-  { type: 'email', message: 'Введите корректный email!' },
-];
-
-const passwordRules: Rule[] = [
-  { required: true, message: 'Введите ваш пароль!' },
-];
-
-const getConfirmPasswordRules = (
-  getFieldValue: (field: string) => string,
-): Rule[] => [
-  { required: true, message: 'Повторите ваш пароль!' },
-  {
-    validator(_, value: string) {
-      if (!value || getFieldValue('password') === value) {
-        return Promise.resolve();
-      }
-      return Promise.reject(new Error('Пароли не совпадают!'));
-    },
-  },
-];
-
 const RegisterForm = () => {
   const [form] = StyledForm.useForm();
   const { register } = useAuthStore();
+  const { t } = useTranslation();
 
   const handleRegister = async (values: RegisterFormValues) => {
     const { firstName, lastName, email, password, isSeller } = values;
@@ -68,32 +41,64 @@ const RegisterForm = () => {
       });
     } catch (error) {
       console.error('Ошибка при регистрации:', error);
-      message.error(
-        'Не удалось зарегистрироваться. Пожалуйста, попробуйте снова.',
-      );
     }
   };
+
+  const firstNameRules: Rule[] = [
+    { required: true, message: t('Введите ваше имя') },
+  ];
+
+  const lastNameRules: Rule[] = [
+    { required: true, message: t('Введите вашу фамилию') },
+  ];
+
+  const emailRules: Rule[] = [
+    { required: true, message: t('Введите ваш email') },
+    { type: 'email', message: t('Введите корректный email') },
+  ];
+
+  const passwordRules: Rule[] = [
+    { required: true, message: t('Введите ваш пароль') },
+  ];
+
+  const getConfirmPasswordRules = (
+    getFieldValue: (field: string) => string,
+  ): Rule[] => [
+    { required: true, message: t('Повторите ваш пароль') },
+    {
+      validator(_, value: string) {
+        if (!value || getFieldValue('password') === value) {
+          return Promise.resolve();
+        }
+        return Promise.reject(new Error(t('Пароли не совпадают')));
+      },
+    },
+  ];
 
   return (
     <StyledForm
       form={form}
       name='register'
+      layout='vertical'
+      size='large'
       onFinish={(values) => handleRegister(values as RegisterFormValues)}
     >
+      <StyledTitle level={2}>{t('Регистрация')}</StyledTitle>
+
       <StyledFormItem name='firstName' rules={firstNameRules}>
-        <StyledInput placeholder='Имя' />
+        <StyledInput placeholder={t('Имя')} />
       </StyledFormItem>
 
       <StyledFormItem name='lastName' rules={lastNameRules}>
-        <StyledInput placeholder='Фамилия' />
+        <StyledInput placeholder={t('Фамилия')} />
       </StyledFormItem>
 
       <StyledFormItem name='email' rules={emailRules}>
-        <StyledInput placeholder='Email' />
+        <StyledInput placeholder={t('Email')} />
       </StyledFormItem>
 
       <StyledFormItem name='password' rules={passwordRules}>
-        <StyledPasswordInput placeholder='Пароль' />
+        <StyledPasswordInput placeholder={t('Пароль')} />
       </StyledFormItem>
 
       <StyledFormItem
@@ -101,18 +106,21 @@ const RegisterForm = () => {
         dependencies={['password']}
         rules={getConfirmPasswordRules(form.getFieldValue)}
       >
-        <StyledPasswordInput placeholder='Повторить пароль' />
+        <StyledPasswordInput placeholder={t('Повторить пароль')} />
       </StyledFormItem>
 
       <StyledFormItem name='isSeller' valuePropName='checked'>
-        <StyledCheckbox>Стать продавцом</StyledCheckbox>
+        <StyledCheckbox>{t('Стать продавцом')}</StyledCheckbox>
       </StyledFormItem>
 
       <StyledFormItem>
         <StyledButton type='primary' htmlType='submit' block>
-          Зарегистрироваться
+          {t('Зарегистрироваться')}
         </StyledButton>
       </StyledFormItem>
+      <StyledParagraph>
+        {t('Уже есть аккаунт?')} <Link to='/login'>{t('Войти')}</Link>
+      </StyledParagraph>
     </StyledForm>
   );
 };

@@ -1,9 +1,12 @@
+import { ProductListingForm } from 'features';
 import { MainLayout } from 'widgets';
 
 const CreateListing = () => {
   return (
     <>
-      <MainLayout>CreateListing</MainLayout>
+      <MainLayout>
+        <ProductListingForm />
+      </MainLayout>
     </>
   );
 };

@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 const ProductListStyled = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 15px;
+  margin-bottom: 1rem;
 `;
 
 const styles = {
