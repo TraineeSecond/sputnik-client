@@ -51,7 +51,9 @@ export const Product = ({route}: ProductProps) => {
       }>
       {error && (
         <ShowError
-          textError={`${t('Ошибка')} ${t('Попробуйте перезагрузить страницу')}`}
+          textError={`${t('Ошибка.')} ${t(
+            'Попробуйте перезагрузить страницу',
+          )}`}
         />
       )}
       {isLoading && !refreshing && renderLoader()}
