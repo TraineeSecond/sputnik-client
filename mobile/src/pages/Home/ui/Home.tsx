@@ -14,14 +14,17 @@ import {useUserStore} from 'entities/user';
 import {Filter, Product} from 'entities';
 import {HomePageStyles as styles} from './Home.styles';
 import {useTranslation} from 'react-i18next';
+import {useCartStore} from 'shared/stores/CartStore';
 
 export const Home = () => {
   const {loadUserData} = useUserStore();
+  const {loadBasket} = useCartStore();
   const navigation = useAppNavigation();
   const {t} = useTranslation();
 
   useEffect(() => {
     loadUserData();
+    loadBasket();
   }, []);
 
   const handleProductPress = (productId: string) => {

@@ -1,27 +1,32 @@
 import {create} from 'zustand';
 import axios from 'axios';
 
-import {CartItemType} from 'entities/CartItem';
+import {
+  CartItemsFromServerType,
+  CartItemType,
+  ICartFromServer,
+} from 'entities/CartItem';
+import {storage} from 'shared/libs/storage';
 
-const makePostRequest = async (
+const makePatchRequest = async (
   token: string,
-  userid: number,
+  id: number,
   items: CartItemType[],
 ) => {
   try {
     console.log(items);
     const formattedItems = items.map(item => ({
-      productid: item.id,
       quantity: item.quantity,
+      productId: item.id,
     }));
 
-    console.log('userid', userid);
+    console.log('idBasket', id);
     console.log('formattedItems ', formattedItems);
 
-    const {data} = await axios.post(
+    const {data} = await axios.patch(
       'https://domennameabcdef.ru/api/basket',
       {
-        userid: userid,
+        id,
         items: formattedItems,
       },
       {
@@ -31,55 +36,46 @@ const makePostRequest = async (
       },
     );
 
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.error(error);
+    if (data?.basket?.basketItems) {
+      return data;
+    }
+  } catch (error: any) {
+    console.error(error.response);
   }
 };
 
 type CartStore = {
+  id: number;
+  itemsFromServer: CartItemsFromServerType[];
   items: CartItemType[];
   isLoading: boolean;
 
   setIsLoading(isLoading: boolean): void;
 
   getItems: (token: string, id: number) => Promise<void>;
-  createCartFirstTime: (token: string, id: number) => Promise<void>;
   addItem: (item: CartItemType, token: string, id: number) => Promise<void>;
   removeItem: (id: number, token: string, userid: number) => Promise<void>;
   incrementItem: (id: number, token: string, userid: number) => Promise<void>;
   decrementItem: (id: number, token: string, userid: number) => Promise<void>;
   clearCart: (token: string, userid: number) => Promise<void>;
   getItemById: (id: number, token: string) => Promise<CartItemType | undefined>;
-  setItems: (items: CartItemType[]) => void;
+  setBasket: (basket: ICartFromServer) => void;
+  loadBasket: () => Promise<void>;
 };
 
 export const useCartStore = create<CartStore>(set => ({
+  id: 0,
   items: [],
+  itemsFromServer: [],
   isLoading: true,
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
-
-  createCartFirstTime: async (token: string, id: number) => {
-    try {
-      const data = await makePostRequest(token, id, []);
-      console.log('createCartFirstTime', data);
-      if (data?.basket?.basketItems) {
-        set({items: data.basket.basketItems});
-      } else {
-        console.error('Ошибка при создании корзины');
-      }
-    } catch (error) {
-      console.error('Ошибка при создании корзины:', error);
-    }
-  },
 
   getItems: async (token: string, id: number) => {
     try {
       const {data} = await axios.get('https://domennameabcdef.ru/api/basket', {
         params: {
-          userid: id,
+          id,
         },
         headers: {
           token: token,
@@ -109,25 +105,20 @@ export const useCartStore = create<CartStore>(set => ({
           ),
         );
 
-        // Оставляем только успешные элементы
         const filteredItems = detailedItems.filter(item => item !== null);
         set({items: filteredItems as CartItemType[]});
       } else {
         console.error('Ошибка при получении корзины');
       }
     } catch (error: any) {
-      if (error.response?.status === 404) {
-        await useCartStore.getState().createCartFirstTime(token, id);
-      } else {
-        console.error('Ошибка при получении корзины:', error);
-      }
+      console.error('Ошибка при получении корзины:', error);
     }
   },
 
-  addItem: async (item: CartItemType, token: string, userid: number) => {
+  addItem: async (item: CartItemType, token: string, id: number) => {
     const newItems = [...useCartStore.getState().items, item];
     try {
-      const data = await makePostRequest(token, userid, newItems);
+      const data = await makePatchRequest(token, id, newItems);
 
       if (data?.basket?.basketItems) {
         const basketItems = data.basket.basketItems;
@@ -166,7 +157,7 @@ export const useCartStore = create<CartStore>(set => ({
       .getState()
       .items.filter(item => item.id !== id);
     try {
-      const data = await makePostRequest(token, userid, newItems);
+      const data = await makePatchRequest(token, userid, newItems);
       if (data?.basket?.basketItems) {
         set({items: data.basket.basketItems});
       } else {
@@ -184,9 +175,32 @@ export const useCartStore = create<CartStore>(set => ({
         item.id === id ? {...item, quantity: item.quantity + 1} : item,
       );
     try {
-      const data = await makePostRequest(token, userid, newItems);
+      const data = await makePatchRequest(token, userid, newItems);
+      console.log(data);
       if (data?.basket?.basketItems) {
-        set({items: data.basket.basketItems});
+        const basketItems = data.basket.basketItems;
+
+        const detailedItems = await Promise.all(
+          basketItems.map(
+            async (basketItem: {productid: number; quantity: number}) => {
+              const itemDetails = await useCartStore
+                .getState()
+                .getItemById(basketItem.productid, token);
+
+              if (itemDetails) {
+                return {
+                  ...itemDetails,
+                  quantity: basketItem.quantity,
+                };
+              }
+              return null;
+            },
+          ),
+        );
+
+        // Оставляем только успешные элементы
+        const filteredItems = detailedItems.filter(item => item !== null);
+        set({items: filteredItems as CartItemType[]});
       } else {
         console.error('Ошибка при обновлении количества товара в корзине');
       }
@@ -204,9 +218,32 @@ export const useCartStore = create<CartStore>(set => ({
           : item,
       );
     try {
-      const data = await makePostRequest(token, userid, newItems);
+      const data = await makePatchRequest(token, userid, newItems);
+      console.log(data);
       if (data?.basket?.basketItems) {
-        set({items: data.basket.basketItems});
+        const basketItems = data.basket.basketItems;
+
+        const detailedItems = await Promise.all(
+          basketItems.map(
+            async (basketItem: {productid: number; quantity: number}) => {
+              const itemDetails = await useCartStore
+                .getState()
+                .getItemById(basketItem.productid, token);
+
+              if (itemDetails) {
+                return {
+                  ...itemDetails,
+                  quantity: basketItem.quantity,
+                };
+              }
+              return null;
+            },
+          ),
+        );
+
+        // Оставляем только успешные элементы
+        const filteredItems = detailedItems.filter(item => item !== null);
+        set({items: filteredItems as CartItemType[]});
       } else {
         console.error('Ошибка при обновлении количества товара в корзине');
       }
@@ -217,7 +254,7 @@ export const useCartStore = create<CartStore>(set => ({
 
   clearCart: async (token: string, userid: number) => {
     try {
-      const data = await makePostRequest(token, userid, []);
+      const data = await makePatchRequest(token, userid, []);
       if (data?.basket?.basketItems) {
         set({items: data.basket.basketItems});
       } else {
@@ -227,8 +264,6 @@ export const useCartStore = create<CartStore>(set => ({
       console.error(error);
     }
   },
-
-  setItems: items => set({items}),
 
   getItemById: async (id: number, token: string) => {
     try {
@@ -253,6 +288,19 @@ export const useCartStore = create<CartStore>(set => ({
     } catch (error: any) {
       console.error(error.response);
       console.error(`Ошибка при получении товара с id ${id}:`, error);
+    }
+  },
+
+  setBasket: basket => {
+    storage.set('basket', JSON.stringify(basket));
+    set({id: basket.id, itemsFromServer: basket.basketItems});
+  },
+
+  loadBasket: async () => {
+    const basketstring = storage.getString('basket');
+    if (basketstring) {
+      const basketobj = JSON.parse(basketstring);
+      set({id: basketobj.id, itemsFromServer: basketobj.basketItems});
     }
   },
 }));

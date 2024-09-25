@@ -10,6 +10,7 @@ import {useIsLoginStore} from 'shared/stores/isLoginStore';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Stacks} from 'navigation/navigationEnums';
 import {useUserStore} from 'entities/user';
+import {useCartStore} from 'shared/stores/CartStore';
 
 export const Register = () => {
   const {
@@ -30,6 +31,7 @@ export const Register = () => {
   } = useRegisterStore();
   const {setIsLoginPage} = useIsLoginStore();
   const {setUser, setToken} = useUserStore();
+  const {setBasket} = useCartStore();
 
   const navigation = useAppNavigation();
 
@@ -41,6 +43,7 @@ export const Register = () => {
       navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
       setToken(result.token);
+      setBasket(result.basket);
     }
   };
 

@@ -7,3 +7,13 @@ export type CartItemType = {
   image: ImageSourcePropType;
   quantity: number;
 };
+
+export type CartItemsFromServerType = {
+  id: number;
+  quantity: number;
+};
+
+export interface ICartFromServer {
+  id: number;
+  basketItems: CartItemsFromServerType[];
+}

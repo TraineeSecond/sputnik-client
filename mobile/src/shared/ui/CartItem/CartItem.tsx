@@ -30,20 +30,16 @@ export const CartItem: React.FC<CartItemProps> = ({
   onDecrement,
   onRemove,
 }) => {
-  console.log(image);
   return (
     <View style={styles.container}>
       {image ? (
         <Image style={styles.image} source={image} />
       ) : (
         <Image
-          width={85}
-          height={85}
           style={styles.image}
-          source={require('shared/images/mock/tshirt.png')}
+          source={require('shared/assets/images/mock/tshirt.png')}
         />
       )}
-      <Image style={styles.image} source={image} />
       <View style={styles.infoContainer}>
         <Text style={styles.productName} numberOfLines={1}>
           {title}

@@ -15,13 +15,14 @@ export const Cart = () => {
   const {
     getItems,
     items,
-    setItems,
+    setBasket,
     incrementItem,
     decrementItem,
     clearCart,
     removeItem,
     isLoading,
     setIsLoading,
+    id,
   } = useCartStore();
 
   const {token, user} = useUserStore();
@@ -30,8 +31,8 @@ export const Cart = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
-    //getItems(token, user.id);
+    console.log('id: ', id);
+    getItems(token, id);
 
     setIsLoading(false);
   }, []);
