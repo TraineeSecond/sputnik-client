@@ -12,8 +12,9 @@ import {ProductInfo} from 'features/ProductInfo';
 import {useProductStore} from 'entities/product';
 import {ShowError} from 'shared/ui';
 import {useTranslation} from 'react-i18next';
+import {Screens} from 'app/navigation/navigationEnums';
 
-type ProductRouteProp = RouteProp<RootStackParamsList, 'Product'>;
+type ProductRouteProp = RouteProp<RootStackParamsList, Screens.PRODUCT>;
 
 export const Product = () => {
   const route = useRoute<ProductRouteProp>();
