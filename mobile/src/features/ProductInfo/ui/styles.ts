@@ -7,6 +7,9 @@ export const ProductInfoStyles = StyleSheet.create({
     gap: 10,
   },
   imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    aspectRatio: 1,
     backgroundColor: Colors.Gray200,
   },
   productImage: {

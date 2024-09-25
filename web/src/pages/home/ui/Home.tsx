@@ -1,9 +1,12 @@
+import ProductList from 'entities/product/ui/ProductList/ProductList';
 import { MainLayout } from 'widgets';
 
 const Home = () => {
   return (
     <>
-      <MainLayout>Home</MainLayout>
+      <MainLayout>
+        <ProductList />
+      </MainLayout>
     </>
   );
 };

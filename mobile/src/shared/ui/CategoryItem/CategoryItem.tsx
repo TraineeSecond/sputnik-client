@@ -7,17 +7,17 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
-import {FilterItemStyles as styles} from './FilterItem.styles';
+import {CategoryItemStyles as styles} from './CategoryItem.styles';
 
-type FilterItemProps = {
+type CategoryItemProps = {
   id: string;
   title: string;
-  image: ImageSourcePropType;
+  image?: ImageSourcePropType;
   onPress: () => void;
 };
 
-export const FilterItem = memo(
-  ({id, title, image, onPress}: FilterItemProps) => {
+export const CategoryItem = memo(
+  ({id, title, image, onPress}: CategoryItemProps) => {
     return (
       <TouchableOpacity
         id={id}
@@ -25,7 +25,13 @@ export const FilterItem = memo(
         style={styles.container}
         activeOpacity={1}>
         <View style={styles.imageContainer}>
-          <Image source={image} style={styles.image} />
+          {image ? (
+            <Image source={image} style={styles.image} />
+          ) : (
+            <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+              {title}
+            </Text>
+          )}
         </View>
         <Text
           style={TextStyles.span1.changeColor(Colors.Black200)}

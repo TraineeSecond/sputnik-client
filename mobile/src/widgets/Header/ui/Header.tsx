@@ -6,7 +6,6 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {ArrowBack, CartIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {HeaderStyles as styles} from './Header.styles';
-import {navigationRef} from 'app/navigation/navigation';
 
 type HeaderProps = {
   navigation: NavigationProp<RootStackParamsList>;

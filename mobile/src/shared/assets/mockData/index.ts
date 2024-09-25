@@ -2,7 +2,7 @@ export const categories = [
   {
     id: '1',
     title: 'Электроника',
-    keyWord: 'electronics',
+    filterKey: 'electronics',
     image: require('../images/mock/electronics.png'),
   },
   {

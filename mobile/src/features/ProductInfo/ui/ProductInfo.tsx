@@ -7,6 +7,7 @@ import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {useTranslation} from 'react-i18next';
 import {useCartStore} from 'shared/stores/CartStore';
 import {useUserStore} from 'entities/user';
+import {CartItemType} from 'entities/CartItem';
 
 type ProductInfoProps = {
   product: Product;
@@ -24,92 +25,119 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     // добавление в избранное
   };
 
-  const tempItem = {
-    id: 2,
-    title: product.title,
-    price: product.price,
-    image: product.image,
-    quantity: 1,
-  };
+  const seller = `${product.user.name} ${product.user.surname}`;
+  const hasDiscount = product.new_price < product.price;
 
   const handleAddToCart = () => {
-    addItem(tempItem, token, user.id);
+    const cartItem = {
+      id: product.id,
+      title: product.name,
+      image: product.image,
+      price: product.new_price || product.price,
+      quantity: 1,
+    } as CartItemType;
+    addItem(cartItem, token, user.id);
+  };
+
+  const renderImage = () => {
+    if (product.image) {
+      return <Image source={product.image} style={styles.productImage} />;
+    }
+    return (
+      <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
+        {product.name}
+      </Text>
+    );
+  };
+
+  const renderFavoriteIcon = () => {
+    return isFavorite ? (
+      <HeartFilledIcon
+        fill={Colors.Red500}
+        width={IconStyles.large.width}
+        height={IconStyles.large.height}
+      />
+    ) : (
+      <HeartOutlineIcon
+        fill={Colors.Gray500}
+        width={IconStyles.large.width}
+        height={IconStyles.large.height}
+      />
+    );
+  };
+
+  const renderPrice = () => {
+    if (hasDiscount) {
+      return (
+        <View style={styles.priceContainer}>
+          <Text style={TextStyles.p1.changeColor(Colors.Red500)}>
+            {`${product.new_price} ₽`}
+          </Text>
+          <Text
+            style={[
+              TextStyles.span1.changeColor(Colors.Gray500),
+              styles.strikethroughPrice,
+            ]}>
+            {`${product.price} ₽`}
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+        {`${product.price} ₽`}
+      </Text>
+    );
+  };
+
+  //TODO: Отзывы если они будут добавлены
+  const renderScore = () => {
+    const score = 5;
+    const reviewsCount = 23;
+
+    return (
+      <View style={styles.score}>
+        <StarIcon
+          fill={IconStyles.small.changeColor(Colors.Yellow500).color}
+          width={IconStyles.small.width}
+          height={IconStyles.small.height}
+        />
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{score} </Text>
+        <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+          {`(${reviewsCount})`}
+        </Text>
+      </View>
+    );
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={product.image} style={styles.productImage} />
-      </View>
+      <View style={styles.imageContainer}>{renderImage()}</View>
       <View style={styles.main}>
         <View style={styles.header}>
           <View style={styles.topSection}>
             <View style={styles.brandReviews}>
-              {product.brand && (
-                <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                  {product.brand}
-                </Text>
-              )}
-              {product.totalScore && (
-                <View style={styles.score}>
-                  <StarIcon
-                    fill={IconStyles.small.changeColor(Colors.Yellow500).color}
-                    width={IconStyles.small.width}
-                    height={IconStyles.small.height}
-                  />
-                  <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-                    {product.totalScore}{' '}
-                  </Text>
-                  {product.reviewsCount && (
-                    <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                      {`(${product.reviewsCount})`}
-                    </Text>
-                  )}
-                </View>
-              )}
+              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+                {product.category}
+              </Text>
+              {renderScore()}
+              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+                {seller}
+              </Text>
             </View>
             <TouchableOpacity
               onPress={handleFavoritePress}
               style={styles.favoriteIcon}>
-              {isFavorite ? (
-                <HeartFilledIcon
-                  fill={Colors.Red500}
-                  width={IconStyles.large.width}
-                  height={IconStyles.large.height}
-                />
-              ) : (
-                <HeartOutlineIcon
-                  fill={Colors.Gray500}
-                  width={IconStyles.large.width}
-                  height={IconStyles.large.height}
-                />
-              )}
+              {renderFavoriteIcon()}
             </TouchableOpacity>
           </View>
           <View style={styles.bottomSection}>
             <Text
               style={TextStyles.p3.changeColor(Colors.Black100)}
               numberOfLines={1}>
-              {product.title}
+              {product.name}
             </Text>
-            {product.priceWithDiscount ? (
-              <View style={styles.priceContainer}>
-                <Text style={TextStyles.p1.changeColor(Colors.Red500)}>
-                  {`${product.priceWithDiscount} ₽`}
-                </Text>
-                <Text
-                  style={[
-                    TextStyles.span1.changeColor(Colors.Gray500),
-                    styles.strikethroughPrice,
-                  ]}>
-                  {`${product.price} ₽`}
-                </Text>
-              </View>
-            ) : (
-              <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-                {`${product.price} ₽`}
-              </Text>
-            )}
+            {renderPrice()}
           </View>
         </View>
         <View style={styles.description}>

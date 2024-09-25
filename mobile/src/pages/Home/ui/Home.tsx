@@ -1,35 +1,49 @@
-import React, {useCallback, useEffect} from 'react';
-import {ScrollView} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {RefreshControl, ScrollView, View} from 'react-native';
 import {Slider} from 'widgets';
-import {FilterItem, ProductItem, Promo} from 'shared/ui';
+import {CategoryItem, ProductItem, Promo, ShowError} from 'shared/ui';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
-import {
-  categories,
-  products,
-  promoPicture,
-  promoPictureSecond,
-} from 'shared/assets/mockData';
-import {useUserStore} from 'entities/user';
-import {Filter, Product} from 'entities';
+import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {HomePageStyles as styles} from './Home.styles';
 import {useTranslation} from 'react-i18next';
-import {useCartStore} from 'shared/stores/CartStore';
+import {useUserStore} from 'entities/user';
+import {useProductListStore} from 'entities/productList';
+import {Product} from 'entities/product';
+import {Category} from 'entities/category';
+import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
+import {Colors} from 'shared/libs/helpers';
 
 export const Home = () => {
-  const {loadUserData} = useUserStore();
-  const {loadBasket} = useCartStore();
-  const navigation = useAppNavigation();
   const {t} = useTranslation();
+  const navigation = useAppNavigation();
+  const {loadUserData} = useUserStore();
+  const {
+    productList,
+    categories,
+    fetchProducts,
+    fetchCategories,
+    setIsLoading,
+    isLoading,
+    error,
+  } = useProductListStore();
 
   useEffect(() => {
+    setIsLoading(true);
+    fetchProducts();
+    fetchCategories();
     loadUserData();
-    loadBasket();
+    setIsLoading(false);
   }, []);
 
-  const handleProductPress = (productId: string) => {
-    const product = products.find(p => p.id === productId); // временно не берем из стора а из мока
+  const onRefresh = useCallback(async () => {
+    setIsLoading(true);
+    await Promise.all([fetchProducts(), fetchCategories(), loadUserData()]);
+    setIsLoading(false);
+  }, [fetchProducts, fetchCategories, loadUserData, setIsLoading]);
 
+  const handleProductPress = (productId: number) => {
+    const product = productList.find(p => p.id === productId);
     if (product) {
       navigation.navigate(Screens.PRODUCT, {
         product,
@@ -41,99 +55,138 @@ export const Home = () => {
     //  navigation.navigate(страница акции)
   };
 
-  const handleFilterPress = useCallback(
-    (keyWord: string) => {
+  const handleCategoryPress = useCallback(
+    (title: string) => {
       navigation.navigate(Stacks.MAIN, {
         screen: Screens.CATALOG_TAB,
         params: {
           screen: Screens.CATALOG,
-          // filter: keyWord переход на каталог с включенным фильтром
+          // title: переход на каталог с включенным фильтром
         },
       });
     },
     [navigation],
   );
 
-  const renderFilterItem = useCallback(
-    ({item}: {item: Filter}) => {
-      const {id, title, image, keyWord} = item;
-      const handlePress = () => handleFilterPress(keyWord);
+  const renderCategoryItem = ({
+    item,
+    index,
+  }: {
+    item: Category;
+    index: number;
+  }) => {
+    const handlePress = () => handleCategoryPress(item);
+    return (
+      <CategoryItem
+        key={index}
+        id={index.toString()}
+        title={item}
+        onPress={handlePress}
+      />
+    );
+  };
 
-      return (
-        <FilterItem
-          key={id}
-          id={id}
-          title={title}
-          image={image}
-          onPress={handlePress}
-        />
-      );
-    },
-    [handleFilterPress],
+  const renderProductItem = ({item}: {item: Product}) => {
+    const {id, name, price, new_price, user} = item;
+    const handlePress = () => handleProductPress(id);
+
+    return (
+      <ProductItem
+        id={id.toString()}
+        key={id}
+        name={name}
+        price={price}
+        newPrice={new_price}
+        sellerName={user.name}
+        sellerSurname={user.surname}
+        onPress={handlePress}
+      />
+    );
+  };
+
+  const renderSkeletonCategory = (index: number) => (
+    <View key={index}>
+      <ContentLoader
+        key={index}
+        speed={2}
+        width={95}
+        height={108}
+        viewBox="0 0 95 95"
+        backgroundColor={Colors.Gray200}
+        foregroundColor={Colors.Gray400}>
+        <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
+      </ContentLoader>
+    </View>
   );
 
-  const renderProductItem = useCallback(
-    ({item}: {item: Product}) => {
-      const {
-        id,
-        title,
-        image,
-        price,
-        brand,
-        totalScore,
-        reviewsCount,
-        priceWithDiscount,
-      } = item;
-      const handlePress = () => handleProductPress(id);
-
-      return (
-        <ProductItem
-          id={id}
-          key={id}
-          title={title}
-          image={image}
-          price={price}
-          brand={brand}
-          totalScore={totalScore}
-          reviewsCount={reviewsCount}
-          priceWithDiscount={priceWithDiscount}
-          onPress={handlePress}
-        />
-      );
-    },
-    [handleProductPress],
+  const renderSkeletonProduct = (index: number) => (
+    <View key={index}>
+      <ContentLoader
+        speed={2}
+        width={210}
+        height={210}
+        viewBox="0 0 210 210"
+        backgroundColor={Colors.Gray200}
+        foregroundColor={Colors.Gray400}>
+        <Rect x="0" y="0" rx="10" ry="10" width="210" height="210" />
+      </ContentLoader>
+    </View>
   );
+
+  //TODO: получать подборки и их названия с бэка
+  const [firstHalf, secondHalf] = [
+    productList.slice(0, productList.length / 2),
+    productList.slice(productList.length / 2),
+  ];
 
   return (
-    <ScrollView style={styles.container}>
-      <Promo
-        image={promoPicture}
-        // onPress={handlePromoPress}
-        style={[styles.marginBottom, styles.promo]}
-      />
-      <Slider
-        title={t('Категории')}
-        data={categories as Filter[]} //временно
-        renderItem={renderFilterItem}
-        style={styles.marginBottom}
-      />
-      <Slider
-        title="Для вас" // получаем из запроса
-        data={products as Product[]} //временно
-        renderItem={renderProductItem}
-        style={styles.marginBottom}
-      />
-      <Slider
-        title="Подборка на лето" // получаем из запроса
-        data={products as Product[]} //временно
-        renderItem={renderProductItem}
-        style={styles.marginBottom}
-      />
-      <Promo
-        image={promoPictureSecond}
-        style={styles.promo}
-        // onPress={handlePromoPress}
-      />
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+      }>
+      {error ? (
+        <ShowError
+          textError={`${t('Ошибка')} ${t('Попробуйте перезагрузить страницу')}`}
+        />
+      ) : (
+        <>
+          <Promo
+            image={promoPicture}
+            // onPress={handlePromoPress}
+            style={[styles.marginBottom, styles.promo]}
+          />
+          <Slider
+            isLoading={isLoading || !productList.length}
+            title={t('Категории')}
+            data={categories}
+            renderItem={renderCategoryItem}
+            renderSkeleton={renderSkeletonCategory}
+            style={styles.marginBottom}
+          />
+          <Slider
+            isLoading={isLoading || !productList.length}
+            title="Для вас"
+            data={firstHalf}
+            renderItem={renderProductItem}
+            renderSkeleton={renderSkeletonProduct}
+            style={styles.marginBottom}
+          />
+          <Slider
+            isLoading={isLoading || !productList.length}
+            title="Подборка на лето"
+            data={secondHalf}
+            renderItem={renderProductItem}
+            renderSkeleton={renderSkeletonProduct}
+            style={styles.marginBottom}
+          />
+          <Promo
+            image={promoPictureSecond}
+            style={styles.promo}
+            // onPress={handlePromoPress}
+          />
+        </>
+      )}
     </ScrollView>
   );
 };
