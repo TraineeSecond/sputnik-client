@@ -14,14 +14,10 @@ const makePatchRequest = async (
   items: CartItemType[],
 ) => {
   try {
-    console.log(items);
     const formattedItems = items.map(item => ({
       quantity: item.quantity,
       productId: item.id,
     }));
-
-    console.log('idBasket', id);
-    console.log('formattedItems ', formattedItems);
 
     const {data} = await axios.patch(
       'https://domennameabcdef.ru/api/basket',
@@ -81,8 +77,6 @@ export const useCartStore = create<CartStore>(set => ({
           token: token,
         },
       });
-
-      console.log(data);
 
       if (data?.basket?.basketItems) {
         const basketItems = data.basket.basketItems;
@@ -152,12 +146,12 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  removeItem: async (id: number, token: string, userid: number) => {
+  removeItem: async (idItem: number, token: string, idCart: number) => {
     const newItems = useCartStore
       .getState()
-      .items.filter(item => item.id !== id);
+      .items.filter(item => item.id !== idItem);
     try {
-      const data = await makePatchRequest(token, userid, newItems);
+      const data = await makePatchRequest(token, idCart, newItems);
       if (data?.basket?.basketItems) {
         set({items: data.basket.basketItems});
       } else {
@@ -168,15 +162,14 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  incrementItem: async (id: number, token: string, userid: number) => {
+  incrementItem: async (idItem: number, token: string, idCart: number) => {
     const newItems = useCartStore
       .getState()
       .items.map(item =>
-        item.id === id ? {...item, quantity: item.quantity + 1} : item,
+        item.id === idItem ? {...item, quantity: item.quantity + 1} : item,
       );
     try {
-      const data = await makePatchRequest(token, userid, newItems);
-      console.log(data);
+      const data = await makePatchRequest(token, idCart, newItems);
       if (data?.basket?.basketItems) {
         const basketItems = data.basket.basketItems;
 
@@ -209,17 +202,16 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  decrementItem: async (id: number, token: string, userid: number) => {
+  decrementItem: async (idItem: number, token: string, idCart: number) => {
     const newItems = useCartStore
       .getState()
       .items.map(item =>
-        item.id === id && item.quantity > 1
+        item.id === idItem && item.quantity > 1
           ? {...item, quantity: item.quantity - 1}
           : item,
       );
     try {
-      const data = await makePatchRequest(token, userid, newItems);
-      console.log(data);
+      const data = await makePatchRequest(token, idCart, newItems);
       if (data?.basket?.basketItems) {
         const basketItems = data.basket.basketItems;
 
@@ -252,9 +244,9 @@ export const useCartStore = create<CartStore>(set => ({
     }
   },
 
-  clearCart: async (token: string, userid: number) => {
+  clearCart: async (token: string, id: number) => {
     try {
-      const data = await makePatchRequest(token, userid, []);
+      const data = await makePatchRequest(token, id, []);
       if (data?.basket?.basketItems) {
         set({items: data.basket.basketItems});
       } else {
@@ -276,8 +268,6 @@ export const useCartStore = create<CartStore>(set => ({
         },
       });
 
-      console.log(data);
-
       return {
         id: data.id,
         title: data.name,
@@ -293,14 +283,14 @@ export const useCartStore = create<CartStore>(set => ({
 
   setBasket: basket => {
     storage.set('basket', JSON.stringify(basket));
-    set({id: basket.id, itemsFromServer: basket.basketItems});
+    set({id: basket.id});
   },
 
   loadBasket: async () => {
     const basketstring = storage.getString('basket');
     if (basketstring) {
       const basketobj = JSON.parse(basketstring);
-      set({id: basketobj.id, itemsFromServer: basketobj.basketItems});
+      set({id: basketobj.id});
     }
   },
 }));

@@ -31,7 +31,6 @@ export const useUserStore = create<ProfileStore>(set => ({
   loadUserData: async () => {
     const token = storage.getString('token');
     const user = storage.getString('user');
-    console.log(user);
     if (token) {
       set({token});
     }

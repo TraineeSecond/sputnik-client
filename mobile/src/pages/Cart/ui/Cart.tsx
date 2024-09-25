@@ -15,7 +15,6 @@ export const Cart = () => {
   const {
     getItems,
     items,
-    setBasket,
     incrementItem,
     decrementItem,
     clearCart,
@@ -31,7 +30,6 @@ export const Cart = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log('id: ', id);
     getItems(token, id);
 
     setIsLoading(false);
@@ -43,7 +41,7 @@ export const Cart = () => {
       return;
     }
     Alert.alert('Заказ успешно оформлен');
-    //clearCart(token, user.id);
+    clearCart(token, user.id);
   };
 
   const renderItem = (item: CartItemType) => {
@@ -83,8 +81,6 @@ export const Cart = () => {
       <Rect x="372" y="43" rx="5" ry="5" width="30" height="30" />
     </ContentLoader>
   );
-
-  console.log(items.length);
 
   return (
     <View style={styles.container}>
