@@ -4,13 +4,16 @@ import {Colors} from 'shared/libs/helpers';
 export const ProductItemStyles = StyleSheet.create({
   container: {
     width: 210,
+    overflow: 'hidden',
     alignItems: 'flex-start',
     gap: 3,
   },
   imageContainer: {
     position: 'relative',
-    width: 210,
-    height: 210,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    aspectRatio: 1,
     backgroundColor: Colors.Gray200,
     borderRadius: 10,
   },
@@ -22,10 +25,6 @@ export const ProductItemStyles = StyleSheet.create({
     padding: 6,
     borderRadius: '100%',
     backgroundColor: Colors.Black100Opacity20,
-  },
-  image: {
-    width: 210,
-    height: 210,
   },
   header: {
     flexDirection: 'row',
