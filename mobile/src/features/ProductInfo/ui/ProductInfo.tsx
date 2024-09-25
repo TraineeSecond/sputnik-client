@@ -25,11 +25,11 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   };
 
   const tempItem = {
-    id: product.id,
+    id: 2,
     title: product.title,
     price: product.price,
     image: product.image,
-    quantity: 111,
+    quantity: 1,
   };
 
   const handleAddToCart = () => {

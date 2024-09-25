@@ -31,7 +31,7 @@ export const Cart = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    getItems(token, user.id);
+    //getItems(token, user.id);
 
     setIsLoading(false);
   }, []);
@@ -42,7 +42,7 @@ export const Cart = () => {
       return;
     }
     Alert.alert('Заказ успешно оформлен');
-    clearCart(token, user.id);
+    //clearCart(token, user.id);
   };
 
   const renderItem = (item: CartItemType) => {
@@ -53,7 +53,7 @@ export const Cart = () => {
     return (
       <CartItem
         key={item.id}
-        id={item.id.toString()}
+        id={item.id}
         title={item.title}
         image={item.image}
         price={item.price}

@@ -2,7 +2,6 @@ import {create} from 'zustand';
 import axios from 'axios';
 
 import {CartItemType} from 'entities/CartItem';
-import {CartItems} from 'shared/assets/mockData';
 
 const makePostRequest = async (
   token: string,
@@ -31,6 +30,7 @@ const makePostRequest = async (
         },
       },
     );
+
     console.log(data);
     return data;
   } catch (error) {
@@ -51,6 +51,7 @@ type CartStore = {
   incrementItem: (id: number, token: string, userid: number) => Promise<void>;
   decrementItem: (id: number, token: string, userid: number) => Promise<void>;
   clearCart: (token: string, userid: number) => Promise<void>;
+  getItemById: (id: number, token: string) => Promise<CartItemType | undefined>;
   setItems: (items: CartItemType[]) => void;
 };
 
@@ -85,8 +86,32 @@ export const useCartStore = create<CartStore>(set => ({
         },
       });
 
+      console.log(data);
+
       if (data?.basket?.basketItems) {
-        set({items: data.basket.basketItems});
+        const basketItems = data.basket.basketItems;
+
+        const detailedItems = await Promise.all(
+          basketItems.map(
+            async (basketItem: {productid: number; quantity: number}) => {
+              const itemDetails = await useCartStore
+                .getState()
+                .getItemById(basketItem.productid, token);
+
+              if (itemDetails) {
+                return {
+                  ...itemDetails,
+                  quantity: basketItem.quantity,
+                };
+              }
+              return null;
+            },
+          ),
+        );
+
+        // Оставляем только успешные элементы
+        const filteredItems = detailedItems.filter(item => item !== null);
+        set({items: filteredItems as CartItemType[]});
       } else {
         console.error('Ошибка при получении корзины');
       }
@@ -105,10 +130,31 @@ export const useCartStore = create<CartStore>(set => ({
       const data = await makePostRequest(token, userid, newItems);
 
       if (data?.basket?.basketItems) {
-        console.log(data.basket.basketItems);
-        set({items: data.basket.basketItems});
+        const basketItems = data.basket.basketItems;
+
+        const detailedItems = await Promise.all(
+          basketItems.map(
+            async (basketItem: {productid: number; quantity: number}) => {
+              const itemDetails = await useCartStore
+                .getState()
+                .getItemById(basketItem.productid, token);
+
+              if (itemDetails) {
+                return {
+                  ...itemDetails,
+                  quantity: basketItem.quantity,
+                };
+              }
+              return null;
+            },
+          ),
+        );
+
+        // Оставляем только успешные элементы
+        const filteredItems = detailedItems.filter(item => item !== null);
+        set({items: filteredItems as CartItemType[]});
       } else {
-        //console.error('Ошибка при добавлении товара в корзину');
+        console.error('Ошибка при добавлении товара в корзину');
       }
     } catch (error) {
       console.error(error);
@@ -183,4 +229,30 @@ export const useCartStore = create<CartStore>(set => ({
   },
 
   setItems: items => set({items}),
+
+  getItemById: async (id: number, token: string) => {
+    try {
+      const {data} = await axios.get(`https://domennameabcdef.ru/api/product`, {
+        params: {
+          id,
+        },
+        headers: {
+          token,
+        },
+      });
+
+      console.log(data);
+
+      return {
+        id: data.id,
+        title: data.name,
+        price: data.new_price || data.price,
+        image: data.image,
+        quantity: 10,
+      } as CartItemType;
+    } catch (error: any) {
+      console.error(error.response);
+      console.error(`Ошибка при получении товара с id ${id}:`, error);
+    }
+  },
 }));
