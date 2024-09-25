@@ -19,21 +19,31 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     // добавление в избранное
   };
 
+  const seller = `${product.user.name} ${product.user.surname}`;
+  const hasDiscount = product.new_price < product.price;
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={product.image} style={styles.productImage} />
+        {product.image ? (
+          <Image source={product.image} style={styles.productImage} />
+        ) : (
+          <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
+            {product.name}
+          </Text>
+        )}
       </View>
       <View style={styles.main}>
         <View style={styles.header}>
           <View style={styles.topSection}>
             <View style={styles.brandReviews}>
-              {product.brand && (
+              {product.category && (
                 <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                  {product.brand}
+                  {product.category}
                 </Text>
               )}
-              {product.totalScore && (
+              {/* TODO: отзывы */}
+              {true && (
                 <View style={styles.score}>
                   <StarIcon
                     fill={IconStyles.small.changeColor(Colors.Yellow500).color}
@@ -41,11 +51,11 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                     height={IconStyles.small.height}
                   />
                   <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-                    {product.totalScore}{' '}
+                    {5}{' '}
                   </Text>
-                  {product.reviewsCount && (
+                  {true && (
                     <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                      {`(${product.reviewsCount})`}
+                      {`(${23})`}
                     </Text>
                   )}
                 </View>
@@ -73,12 +83,12 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             <Text
               style={TextStyles.p3.changeColor(Colors.Black100)}
               numberOfLines={1}>
-              {product.title}
+              {product.name}
             </Text>
-            {product.priceWithDiscount ? (
+            {hasDiscount ? (
               <View style={styles.priceContainer}>
                 <Text style={TextStyles.p1.changeColor(Colors.Red500)}>
-                  {`${product.priceWithDiscount} ₽`}
+                  {`${product.new_price} ₽`}
                 </Text>
                 <Text
                   style={[

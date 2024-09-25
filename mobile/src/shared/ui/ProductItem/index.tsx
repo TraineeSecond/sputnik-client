@@ -18,6 +18,7 @@ type ProductItemProps = {
   newPrice: number;
   sellerName: string;
   sellerSurname: string;
+  style?: object;
   onPress: () => void;
 };
 
@@ -30,6 +31,7 @@ export const ProductItem = memo(
     newPrice,
     sellerName,
     sellerSurname,
+    style,
     onPress,
   }: ProductItemProps) => {
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
@@ -48,7 +50,7 @@ export const ProductItem = memo(
       <TouchableOpacity
         id={id}
         onPress={onPress}
-        style={styles.container}
+        style={[styles.container, style]}
         activeOpacity={1}>
         <View style={styles.imageContainer}>
           <TouchableOpacity
@@ -69,7 +71,7 @@ export const ProductItem = memo(
             )}
           </TouchableOpacity>
           {image ? (
-            <Image source={image} style={styles.image} />
+            <Image source={image} />
           ) : (
             <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
               {name}
@@ -99,11 +101,14 @@ export const ProductItem = memo(
             </View>
           )}
         </View>
+        {/* <View style={styles.nameContainer}> */}
         <Text
           style={TextStyles.p1.changeColor(Colors.Black200)}
           numberOfLines={1}>
           {name}
         </Text>
+        {/* </View> */}
+
         {hasDiscount ? (
           <View style={styles.priceContainer}>
             <Text style={TextStyles.p1.changeColor(Colors.Red500)}>

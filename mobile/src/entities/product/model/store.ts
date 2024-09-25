@@ -1,49 +1,37 @@
-// import {User} from 'entities/user';
-// import {storage} from 'shared/libs/storage';
-// import {create} from 'zustand';
+import {create} from 'zustand';
+import axios from 'axios';
+import {Product} from 'entities/product';
 
-// type ProfileStore = {
-//   user: User;
-//   token: string;
-//   setToken: (token: string) => void;
-//   setUser: (user: User) => void;
-//   loadUserData: () => Promise<void>;
-//   clearUserData: () => void;
-// };
+type ProductStore = {
+  currentProduct: Product | null;
+  isLoading: boolean;
+  error: string | null;
+  fetchProduct: (id: number) => Promise<void>;
+  setProduct: (product: Product) => void;
+};
 
-// export const useProductStore = create<ProfileStore>(set => ({
-//   user: {
-//     id: '',
-//     email: '',
-//     role: '',
-//     name: '',
-//     surname: '',
-//   },
-//   token: '',
-//   setToken: (token: string) => {
-//     set({token});
-//     storage.set('token', token);
-//   },
-//   setUser: (user: User) => {
-//     set({user});
-//     storage.set('user', JSON.stringify(user));
-//   },
-//   loadUserData: async () => {
-//     const token = storage.getString('token');
-//     const user = storage.getString('user');
-//     if (token) {
-//       set({token});
-//     }
-//     if (user) {
-//       set({user: JSON.parse(user)});
-//     }
-//   },
-//   clearUserData: () => {
-//     set({
-//       user: {id: '', email: '', role: '', name: '', surname: ''},
-//       token: '',
-//     });
-//     storage.delete('token');
-//     storage.delete('user');
-//   },
-// }));
+export const useProductStore = create<ProductStore>(set => ({
+  currentProduct: null,
+  isLoading: false,
+  error: null,
+
+  fetchProduct: async (id: number) => {
+    set({isLoading: true, error: null});
+    try {
+      const response = await axios.get<Product>(
+        `https://domennameabcdef.ru/api/product?id=${id}`,
+      );
+      set({currentProduct: response.data, isLoading: false});
+    } catch (error) {
+      set({
+        error:
+          'Ошибка при загрузке продукта. Попробуйте перезагрузить страницу',
+        isLoading: false,
+      });
+    }
+  },
+
+  setProduct: (currentProduct: Product) => {
+    set({currentProduct});
+  },
+}));
