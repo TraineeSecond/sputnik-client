@@ -1,11 +1,7 @@
 import {create} from 'zustand';
 import axios from 'axios';
 
-import {
-  CartItemsFromServerType,
-  CartItemType,
-  ICartFromServer,
-} from 'entities/CartItem';
+import {CartItemType, ICartFromServer} from 'entities/CartItem';
 import {storage} from 'shared/libs/storage';
 
 const makePatchRequest = async (
@@ -42,7 +38,6 @@ const makePatchRequest = async (
 
 type CartStore = {
   id: number;
-  itemsFromServer: CartItemsFromServerType[];
   items: CartItemType[];
   isLoading: boolean;
 
@@ -62,7 +57,6 @@ type CartStore = {
 export const useCartStore = create<CartStore>(set => ({
   id: 0,
   items: [],
-  itemsFromServer: [],
   isLoading: true,
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
