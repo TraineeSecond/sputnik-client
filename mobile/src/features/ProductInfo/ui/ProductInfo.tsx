@@ -22,61 +22,96 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const seller = `${product.user.name} ${product.user.surname}`;
   const hasDiscount = product.new_price < product.price;
 
+  const renderImage = () => {
+    if (product.image) {
+      return <Image source={product.image} style={styles.productImage} />;
+    }
+    return (
+      <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
+        {product.name}
+      </Text>
+    );
+  };
+
+  const renderFavoriteIcon = () => {
+    return isFavorite ? (
+      <HeartFilledIcon
+        fill={Colors.Red500}
+        width={IconStyles.large.width}
+        height={IconStyles.large.height}
+      />
+    ) : (
+      <HeartOutlineIcon
+        fill={Colors.Gray500}
+        width={IconStyles.large.width}
+        height={IconStyles.large.height}
+      />
+    );
+  };
+
+  const renderPrice = () => {
+    if (hasDiscount) {
+      return (
+        <View style={styles.priceContainer}>
+          <Text style={TextStyles.p1.changeColor(Colors.Red500)}>
+            {`${product.new_price} ₽`}
+          </Text>
+          <Text
+            style={[
+              TextStyles.span1.changeColor(Colors.Gray500),
+              styles.strikethroughPrice,
+            ]}>
+            {`${product.price} ₽`}
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+        {`${product.price} ₽`}
+      </Text>
+    );
+  };
+
+  //TODO: Отзывы если они будут добавлены
+  const renderScore = () => {
+    const score = 5;
+    const reviewsCount = 23;
+
+    return (
+      <View style={styles.score}>
+        <StarIcon
+          fill={IconStyles.small.changeColor(Colors.Yellow500).color}
+          width={IconStyles.small.width}
+          height={IconStyles.small.height}
+        />
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{score} </Text>
+        <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+          {`(${reviewsCount})`}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        {product.image ? (
-          <Image source={product.image} style={styles.productImage} />
-        ) : (
-          <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
-            {product.name}
-          </Text>
-        )}
-      </View>
+      <View style={styles.imageContainer}>{renderImage()}</View>
       <View style={styles.main}>
         <View style={styles.header}>
           <View style={styles.topSection}>
             <View style={styles.brandReviews}>
-              {product.category && (
-                <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                  {product.category}
-                </Text>
-              )}
-              {/* TODO: отзывы */}
-              {true && (
-                <View style={styles.score}>
-                  <StarIcon
-                    fill={IconStyles.small.changeColor(Colors.Yellow500).color}
-                    width={IconStyles.small.width}
-                    height={IconStyles.small.height}
-                  />
-                  <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-                    {5}{' '}
-                  </Text>
-                  {true && (
-                    <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                      {`(${23})`}
-                    </Text>
-                  )}
-                </View>
-              )}
+              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+                {product.category}
+              </Text>
+              {renderScore()}
+              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+                {seller}
+              </Text>
             </View>
             <TouchableOpacity
               onPress={handleFavoritePress}
               style={styles.favoriteIcon}>
-              {isFavorite ? (
-                <HeartFilledIcon
-                  fill={Colors.Red500}
-                  width={IconStyles.large.width}
-                  height={IconStyles.large.height}
-                />
-              ) : (
-                <HeartOutlineIcon
-                  fill={Colors.Gray500}
-                  width={IconStyles.large.width}
-                  height={IconStyles.large.height}
-                />
-              )}
+              {renderFavoriteIcon()}
             </TouchableOpacity>
           </View>
           <View style={styles.bottomSection}>
@@ -85,24 +120,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
               numberOfLines={1}>
               {product.name}
             </Text>
-            {hasDiscount ? (
-              <View style={styles.priceContainer}>
-                <Text style={TextStyles.p1.changeColor(Colors.Red500)}>
-                  {`${product.new_price} ₽`}
-                </Text>
-                <Text
-                  style={[
-                    TextStyles.span1.changeColor(Colors.Gray500),
-                    styles.strikethroughPrice,
-                  ]}>
-                  {`${product.price} ₽`}
-                </Text>
-              </View>
-            ) : (
-              <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-                {`${product.price} ₽`}
-              </Text>
-            )}
+            {renderPrice()}
           </View>
         </View>
         <View style={styles.description}>

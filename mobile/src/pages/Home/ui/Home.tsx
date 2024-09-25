@@ -68,41 +68,41 @@ export const Home = () => {
     [navigation],
   );
 
-  const renderCategoryItem = useCallback(
-    ({item, index}: {item: Category; index: number}) => {
-      const handlePress = () => handleCategoryPress(item);
-      return (
-        <CategoryItem
-          key={index}
-          id={`${index}`}
-          title={item}
-          onPress={handlePress}
-        />
-      );
-    },
-    [handleCategoryPress],
-  );
+  const renderCategoryItem = ({
+    item,
+    index,
+  }: {
+    item: Category;
+    index: number;
+  }) => {
+    const handlePress = () => handleCategoryPress(item);
+    return (
+      <CategoryItem
+        key={index}
+        id={index.toString()}
+        title={item}
+        onPress={handlePress}
+      />
+    );
+  };
 
-  const renderProductItem = useCallback(
-    ({item}: {item: Product}) => {
-      const {id, name, price, new_price, user} = item;
-      const handlePress = () => handleProductPress(id);
+  const renderProductItem = ({item}: {item: Product}) => {
+    const {id, name, price, new_price, user} = item;
+    const handlePress = () => handleProductPress(id);
 
-      return (
-        <ProductItem
-          id={`${id}`}
-          key={id}
-          name={name}
-          price={price}
-          newPrice={new_price}
-          sellerName={user.name}
-          sellerSurname={user.surname}
-          onPress={handlePress}
-        />
-      );
-    },
-    [handleProductPress],
-  );
+    return (
+      <ProductItem
+        id={id.toString()}
+        key={id}
+        name={name}
+        price={price}
+        newPrice={new_price}
+        sellerName={user.name}
+        sellerSurname={user.surname}
+        onPress={handlePress}
+      />
+    );
+  };
 
   const renderSkeletonCategory = (index: number) => (
     <View key={index}>

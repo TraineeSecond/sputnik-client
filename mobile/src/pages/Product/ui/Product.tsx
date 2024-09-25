@@ -5,7 +5,7 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {ProductPageStyles as styles} from './Product.styles';
 import {ProductInfo} from 'features/ProductInfo';
@@ -13,11 +13,10 @@ import {useProductStore} from 'entities/product';
 import {ShowError} from 'shared/ui';
 import {useTranslation} from 'react-i18next';
 
-type ProductProps = {
-  route: RouteProp<RootStackParamsList, 'Product'>;
-};
+type ProductRouteProp = RouteProp<RootStackParamsList, 'Product'>;
 
-export const Product = ({route}: ProductProps) => {
+export const Product = () => {
+  const route = useRoute<ProductRouteProp>();
   const {product: initialProduct} = route.params;
   const {t} = useTranslation();
   const {currentProduct, isLoading, error, fetchProduct, setProduct} =
