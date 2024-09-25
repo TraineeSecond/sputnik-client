@@ -21,7 +21,12 @@ const LoginForm = () => {
   const { login } = useAuthStore();
   const { t } = useTranslation();
 
-  const handleLogin = async ({ email, password }: LoginFormValues) => {
+  const emailRules = [{ required: true, message: t('Введите ваш email') }];
+  const passwordRules = [{ required: true, message: t('Введите ваш пароль') }];
+
+  const handleSubmit = async (values: unknown) => {
+    const { email, password } = values as LoginFormValues;
+
     try {
       await login(email, password);
     } catch (error) {
@@ -29,15 +34,8 @@ const LoginForm = () => {
     }
   };
 
-  const emailRules = [{ required: true, message: t('Введите ваш email') }];
-  const passwordRules = [{ required: true, message: t('Введите ваш пароль') }];
-
   return (
-    <StyledLoginForm
-      name='login'
-      layout='vertical'
-      onFinish={(values) => handleLogin(values as LoginFormValues)}
-    >
+    <StyledLoginForm name='login' layout='vertical' onFinish={handleSubmit}>
       <StyledTitle level={2}>{t('Вход')}</StyledTitle>
 
       <StyledFormItem name='email' rules={emailRules}>

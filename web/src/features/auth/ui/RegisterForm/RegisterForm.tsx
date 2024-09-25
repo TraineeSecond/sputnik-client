@@ -28,22 +28,6 @@ const RegisterForm = () => {
   const { register } = useAuthStore();
   const { t } = useTranslation();
 
-  const handleRegister = async (values: RegisterFormValues) => {
-    const { firstName, lastName, email, password, isSeller } = values;
-
-    try {
-      await register({
-        name: firstName,
-        surname: lastName,
-        email,
-        password,
-        role: isSeller ? 'seller' : 'buyer',
-      });
-    } catch (error) {
-      console.error('Ошибка при регистрации:', error);
-    }
-  };
-
   const firstNameRules: Rule[] = [
     { required: true, message: t('Введите ваше имя') },
   ];
@@ -75,13 +59,30 @@ const RegisterForm = () => {
     },
   ];
 
+  const handleSubmit = async (values: unknown) => {
+    const { firstName, lastName, email, password, isSeller } =
+      values as RegisterFormValues;
+
+    try {
+      await register({
+        name: firstName,
+        surname: lastName,
+        email,
+        password,
+        role: isSeller ? 'seller' : 'buyer',
+      });
+    } catch (error) {
+      console.error('Ошибка при регистрации:', error);
+    }
+  };
+
   return (
     <StyledForm
       form={form}
       name='register'
       layout='vertical'
       size='large'
-      onFinish={(values) => handleRegister(values as RegisterFormValues)}
+      onFinish={handleSubmit}
     >
       <StyledTitle level={2}>{t('Регистрация')}</StyledTitle>
 

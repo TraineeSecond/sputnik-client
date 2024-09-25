@@ -54,14 +54,17 @@ const ProductListingForm = () => {
   const categoryRules = [{ required: true, message: t('Выберите категорию') }];
   const priceRules = [{ required: true, message: t('Введите цену товара') }];
 
-  const handleSubmit = async (values: ProductListingFormValues) => {
+  const handleSubmit = async (values: unknown) => {
     if (!user?.id) return;
 
+    const { name, description, price, category } =
+      values as ProductListingFormValues;
+
     const product = {
-      name: values.name,
-      description: values.description,
-      price: values.price,
-      category: values.category,
+      name,
+      description,
+      price,
+      category,
       userId: user.id,
     };
 
@@ -89,7 +92,7 @@ const ProductListingForm = () => {
     <StyledForm
       form={form}
       layout='vertical'
-      onFinish={(values) => handleSubmit(values as ProductListingFormValues)}
+      onFinish={handleSubmit}
       size='large'
     >
       <StyledTitle level={2}>{t('Выставить товар')}</StyledTitle>
