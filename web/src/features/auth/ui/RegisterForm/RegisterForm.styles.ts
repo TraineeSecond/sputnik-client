@@ -1,7 +1,9 @@
-import { Button, Checkbox, Form, Input, Typography } from 'antd';
+import { Button, Checkbox, Form, FormProps, Input, Typography } from 'antd';
 import styled from 'styled-components';
 
-export const StyledForm = styled(Form)`
+import { RegisterFormValues } from './types';
+
+export const StyledForm = styled(Form)<FormProps<RegisterFormValues>>`
   width: 30rem;
   padding: 2rem;
   border-radius: 0.5rem;

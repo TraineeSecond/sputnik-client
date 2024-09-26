@@ -1,7 +1,9 @@
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, FormProps, Input, Typography } from 'antd';
 import styled from 'styled-components';
 
-export const StyledLoginForm = styled(Form)`
+import { LoginFormValues } from './types';
+
+export const StyledLoginForm = styled(Form)<FormProps<LoginFormValues>>`
   width: 30rem;
   padding: 2rem;
   border-radius: 0.5rem;

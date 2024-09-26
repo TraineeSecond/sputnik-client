@@ -20,18 +20,13 @@ import {
   StyledTitle,
 } from './ProductListingForm.styles';
 
+import { ProductListingFormValues } from './types';
+
 //TODO:Добавить возможность добавления изображения, оповещения
 
 const CURRENCY_SYMBOL = '₽';
 const MAX_DESCRIPTION_LENGTH = 500;
 const MIN_PRICE = 1;
-
-interface ProductListingFormValues {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-}
 
 const ProductListingForm = () => {
   const [form] = StyledForm.useForm();
@@ -54,11 +49,10 @@ const ProductListingForm = () => {
   const categoryRules = [{ required: true, message: t('Выберите категорию') }];
   const priceRules = [{ required: true, message: t('Введите цену товара') }];
 
-  const handleSubmit = async (values: unknown) => {
+  const handleSubmit = async (values: ProductListingFormValues) => {
     if (!user?.id) return;
 
-    const { name, description, price, category } =
-      values as ProductListingFormValues;
+    const { name, description, price, category } = values;
 
     const product = {
       name,

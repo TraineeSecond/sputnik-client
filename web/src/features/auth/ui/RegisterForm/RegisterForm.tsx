@@ -14,14 +14,7 @@ import {
   StyledTitle,
 } from './RegisterForm.styles';
 
-interface RegisterFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  isSeller: boolean;
-}
+import { RegisterFormValues } from './types';
 
 const RegisterForm = () => {
   const [form] = StyledForm.useForm();
@@ -59,9 +52,8 @@ const RegisterForm = () => {
     },
   ];
 
-  const handleSubmit = async (values: unknown) => {
-    const { firstName, lastName, email, password, isSeller } =
-      values as RegisterFormValues;
+  const handleSubmit = async (values: RegisterFormValues) => {
+    const { firstName, lastName, email, password, isSeller } = values;
 
     try {
       await register({

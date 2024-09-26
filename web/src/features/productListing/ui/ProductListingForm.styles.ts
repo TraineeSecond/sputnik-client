@@ -1,6 +1,7 @@
 import {
   Button,
   Form,
+  FormProps,
   Input,
   InputNumber,
   Select,
@@ -9,7 +10,9 @@ import {
 } from 'antd';
 import styled from 'styled-components';
 
-export const StyledForm = styled(Form)`
+import { ProductListingFormValues } from './types';
+
+export const StyledForm = styled(Form)<FormProps<ProductListingFormValues>>`
   max-width: 40rem;
   width: 100%;
 `;

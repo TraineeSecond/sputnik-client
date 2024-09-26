@@ -12,10 +12,7 @@ import {
   StyledTitle,
 } from './LoginForm.styles';
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { LoginFormValues } from './types';
 
 const LoginForm = () => {
   const { login } = useAuthStore();
@@ -24,8 +21,8 @@ const LoginForm = () => {
   const emailRules = [{ required: true, message: t('Введите ваш email') }];
   const passwordRules = [{ required: true, message: t('Введите ваш пароль') }];
 
-  const handleSubmit = async (values: unknown) => {
-    const { email, password } = values as LoginFormValues;
+  const handleSubmit = async (values: LoginFormValues) => {
+    const { email, password } = values;
 
     try {
       await login(email, password);
