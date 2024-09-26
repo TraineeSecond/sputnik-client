@@ -24,7 +24,6 @@ export const Cart = () => {
     removeItem,
     isLoading,
     setIsLoading,
-    id,
   } = useCartStore();
 
   const {token, user} = useUserStore();
@@ -38,7 +37,6 @@ export const Cart = () => {
   useEffect(() => {
     setIsLoading(true);
     getItems(token, user.id);
-
     setIsLoading(false);
   }, []);
 
