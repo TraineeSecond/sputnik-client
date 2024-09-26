@@ -7,7 +7,7 @@ import {Auth} from 'pages';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {ProfilePageStyles as styles} from './Profile.styles';
 import {
-  CardIcon,
+  FlagIcon,
   ForwardIcon,
   HistoryIcon,
   LogOutIcon,
@@ -26,10 +26,6 @@ export const Profile = () => {
   const {t} = useTranslation();
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
-
-  const handlePaymentMethods = () => {
-    navigation.navigate(Screens.PAYMENTSMETHODS);
-  };
 
   const handlePurchaseHistory = () => {
     navigation.navigate(Screens.ORDERS);
@@ -52,7 +48,7 @@ export const Profile = () => {
               TextStyles.h2.changeColor(Colors.Black200),
               styles.textCenter,
             ]}>
-            {t('profile')}
+            {t('Профиль')}
           </Text>
           <Image
             style={styles.image}
@@ -69,20 +65,14 @@ export const Profile = () => {
           <View style={styles.menuContainer}>
             <Menu onSelect={index => setSelectedIndex(index)}>
               <MenuItem
-                title={t('Методы оплаты')}
-                accessoryLeft={CardIcon}
-                accessoryRight={ForwardIcon}
-                onPress={handlePaymentMethods}
-              />
-              <MenuItem
                 title={t('История покупок')}
                 accessoryLeft={HistoryIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handlePurchaseHistory}
               />
               <MenuItem
-                title={t('Настройки')}
-                accessoryLeft={SettingsIcon}
+                title={t('Настройки языка')}
+                accessoryLeft={FlagIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleSettings}
               />

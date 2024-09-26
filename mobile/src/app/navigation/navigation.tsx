@@ -1,5 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useTranslation} from 'react-i18next';
+
 import {RootStackParamsList} from './navigationTypes.ts';
 import {Screens, Stacks} from './navigationEnums.ts';
 import {Cart, Auth, Product} from 'pages';
@@ -11,6 +13,7 @@ import {createNavigationContainerRef} from '@react-navigation/native';
 export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();
   const navigation = useAppNavigation();
+  const {t} = useTranslation();
 
   return (
     <RootStack.Navigator

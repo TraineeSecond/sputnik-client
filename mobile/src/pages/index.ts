@@ -5,6 +5,5 @@ export * from './Profile/ui/Profile';
 export * from './Cart/ui/Cart';
 export * from './Auth/ui/Auth';
 export * from './Settings/ui/Settings';
-export * from './Product/ui/Product';
 export * from './Orders/ui/Orders';
-export * from './PaymentMethods/ui/PaymentMethods';
+export * from './Product/ui/Product';

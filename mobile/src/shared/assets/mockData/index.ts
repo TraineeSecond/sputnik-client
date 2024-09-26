@@ -204,5 +204,58 @@ export const products = [
   },
 ];
 
+export const CartItems = [
+  {
+    id: '1',
+    title: 'Поло',
+    image: require('../images/mock/tshirt.png'),
+    price: 10000,
+    quantity: 2,
+  },
+  {
+    id: '2',
+    title: 'Бензопила',
+    image: require('../images/mock/tshirt.png'),
+    price: 25000,
+    quantity: 1,
+  },
+  {
+    id: '3',
+    title: 'iPhone 15 pro',
+    image: require('../images/mock/tshirt.png'),
+    price: 122000,
+    quantity: 1,
+  },
+  {
+    id: '4',
+    title: 'Без бренда и отзывов',
+    image: require('../images/mock/tshirt.png'),
+    price: 4999,
+    quantity: 3,
+  },
+  {
+    id: '5',
+    title: 'Длинное наименование товара',
+    image: require('../images/mock/tshirt.png'),
+    price: 500,
+    quantity: 1,
+  },
+  {
+    id: '6',
+    title: 'Очень длинное наименование товара',
+    image: require('../images/mock/tshirt.png'),
+    price: 99,
+    quantity: 1,
+  },
+  {
+    id: '7',
+    title:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod maiores architecto exercitationem quo consectetur. Tempore vitae excepturi cumque odit quae, id earum adipisci libero obcaecati magnam itaque voluptas unde accusamus?',
+    image: require('../images/mock/tshirt.png'),
+    price: 7900,
+    quantity: 1,
+  },
+];
+
 export const promoPicture = require('../images/mock/promo.png');
 export const promoPictureSecond = require('../images/mock/promo2.png');
