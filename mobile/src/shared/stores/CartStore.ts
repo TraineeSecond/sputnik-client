@@ -70,7 +70,6 @@ export const useCartStore = create<CartStore>(set => ({
 
   getItems: async (token: string, id: number) => {
     try {
-      console.log(token, id);
       const {data} = await axios.get('https://domennameabcdef.ru/api/basket', {
         params: {
           id,
