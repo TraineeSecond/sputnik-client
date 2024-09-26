@@ -42,6 +42,7 @@ type CartStore = {
   isLoading: boolean;
 
   setIsLoading(isLoading: boolean): void;
+  getItemQuantity: (id: number) => number;
 
   getItems: (token: string, id: number) => Promise<void>;
   addItem: (item: CartItemType, token: string, id: number) => Promise<void>;
@@ -61,8 +62,15 @@ export const useCartStore = create<CartStore>(set => ({
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
 
+  getItemQuantity: (id: number): number => {
+    const {items} = useCartStore.getState();
+    const item = items.find(item => item.id === id);
+    return item ? item.quantity : 0;
+  },
+
   getItems: async (token: string, id: number) => {
     try {
+      console.log(token, id);
       const {data} = await axios.get('https://domennameabcdef.ru/api/basket', {
         params: {
           id,

@@ -30,7 +30,7 @@ export const Cart = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getItems(token, id);
+    getItems(token, user.id);
 
     setIsLoading(false);
   }, []);
