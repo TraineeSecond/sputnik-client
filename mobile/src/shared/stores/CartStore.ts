@@ -157,85 +157,49 @@ export const useCartStore = create<CartStore>(set => ({
   },
 
   incrementItem: async (idItem: number, token: string, idCart: number) => {
-    const newItems = useCartStore
-      .getState()
-      .items.map(item =>
+    set(state => {
+      const updatedItems = state.items.map(item =>
         item.id === idItem ? {...item, quantity: item.quantity + 1} : item,
       );
-    try {
-      const data = await makePatchRequest(token, idCart, newItems);
-      if (data?.basket?.basketItems) {
-        const basketItems = data.basket.basketItems;
 
-        const detailedItems = await Promise.all(
-          basketItems.map(
-            async (basketItem: {productid: number; quantity: number}) => {
-              const itemDetails = await useCartStore
-                .getState()
-                .getItemById(basketItem.productid, token);
+      makePatchRequest(token, idCart, updatedItems)
+        .then(data => {
+          if (data?.basket?.basketItems) {
+            set({items: updatedItems});
+          } else {
+            console.error('Ошибка при обновлении количества товара в корзине');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
 
-              if (itemDetails) {
-                return {
-                  ...itemDetails,
-                  quantity: basketItem.quantity,
-                };
-              }
-              return null;
-            },
-          ),
-        );
-
-        // Оставляем только успешные элементы
-        const filteredItems = detailedItems.filter(item => item !== null);
-        set({items: filteredItems as CartItemType[]});
-      } else {
-        console.error('Ошибка при обновлении количества товара в корзине');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+      return {items: updatedItems};
+    });
   },
 
   decrementItem: async (idItem: number, token: string, idCart: number) => {
-    const newItems = useCartStore
-      .getState()
-      .items.map(item =>
+    set(state => {
+      const updatedItems = state.items.map(item =>
         item.id === idItem && item.quantity > 1
           ? {...item, quantity: item.quantity - 1}
           : item,
       );
-    try {
-      const data = await makePatchRequest(token, idCart, newItems);
-      if (data?.basket?.basketItems) {
-        const basketItems = data.basket.basketItems;
 
-        const detailedItems = await Promise.all(
-          basketItems.map(
-            async (basketItem: {productid: number; quantity: number}) => {
-              const itemDetails = await useCartStore
-                .getState()
-                .getItemById(basketItem.productid, token);
+      makePatchRequest(token, idCart, updatedItems)
+        .then(data => {
+          if (data?.basket?.basketItems) {
+            set({items: updatedItems});
+          } else {
+            console.error('Ошибка при обновлении количества товара в корзине');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
 
-              if (itemDetails) {
-                return {
-                  ...itemDetails,
-                  quantity: basketItem.quantity,
-                };
-              }
-              return null;
-            },
-          ),
-        );
-
-        // Оставляем только успешные элементы
-        const filteredItems = detailedItems.filter(item => item !== null);
-        set({items: filteredItems as CartItemType[]});
-      } else {
-        console.error('Ошибка при обновлении количества товара в корзине');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+      return {items: updatedItems};
+    });
   },
 
   clearCart: async (token: string, id: number) => {
