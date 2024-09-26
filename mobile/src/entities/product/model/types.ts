@@ -1,5 +1,6 @@
-import {User} from 'entities/user';
 import {ImageSourcePropType} from 'react-native';
+
+import {User} from 'entities/user';
 
 export type Product = {
   id: number;

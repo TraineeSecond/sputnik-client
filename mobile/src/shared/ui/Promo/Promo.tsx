@@ -1,11 +1,12 @@
 import React from 'react';
 import {
-  View,
   Image,
+  ImageSourcePropType,
   StyleSheet,
   TouchableOpacity,
-  ImageSourcePropType,
+  View,
 } from 'react-native';
+
 import {PromoStyles as styles} from './Promo.styles';
 
 type PromoProps = {

@@ -1,10 +1,12 @@
 import {NavigationProp} from '@react-navigation/native';
+import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
 import {ArrowBack, CartIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
+
 import {HeaderStyles as styles} from './Header.styles';
 
 type HeaderProps = {

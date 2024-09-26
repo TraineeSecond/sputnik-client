@@ -1,5 +1,5 @@
-import React from 'react';
 import {Icon} from '@ui-kitten/components';
+import React from 'react';
 
 export const CartIcon = (props: any) => (
   <Icon {...props} name="shopping-cart-outline" />

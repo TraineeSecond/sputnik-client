@@ -1,16 +1,18 @@
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React from 'react';
+import {useTranslation} from 'react-i18next';
+
+import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons';
+import {Colors} from 'shared/libs/helpers/colors';
+
 import {
   CatalogStackNavigator,
   HomeStackNavigator,
   MapStackNavigator,
   ProfileStackNavigator,
 } from '.';
-import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons';
 import {Screens} from '../navigationEnums';
 import {MainTabsStackParamsList} from '../navigationTypes';
-import {Colors} from 'shared/libs/helpers/colors';
-import {useTranslation} from 'react-i18next';
 
 export const MainTabsNavigator = () => {
   const {t} = useTranslation();

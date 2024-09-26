@@ -1,18 +1,20 @@
+import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
   View,
 } from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
-import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {ProductPageStyles as styles} from './Product.styles';
-import {ProductInfo} from 'features/ProductInfo';
-import {useProductStore} from 'entities/product';
-import {ShowError} from 'shared/ui';
-import {useTranslation} from 'react-i18next';
+
 import {Screens} from 'app/navigation/navigationEnums';
+import {RootStackParamsList} from 'app/navigation/navigationTypes';
+import {useProductStore} from 'entities/product';
+import {ProductInfo} from 'features/ProductInfo';
+import {ShowError} from 'shared/ui';
+
+import {ProductPageStyles as styles} from './Product.styles';
 
 type ProductRouteProp = RouteProp<RootStackParamsList, Screens.PRODUCT>;
 

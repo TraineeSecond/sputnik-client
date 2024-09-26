@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {ProductInfoStyles as styles} from './styles';
-import {Product} from 'entities/product';
-import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
-import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {useTranslation} from 'react-i18next';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+
+import {Product} from 'entities/product';
+import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
+
+import {ProductInfoStyles as styles} from './styles';
 
 type ProductInfoProps = {
   product: Product;

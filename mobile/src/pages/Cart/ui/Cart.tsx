@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {Text, View} from 'react-native';
+
 import {CartPageStyles as styles} from './Cart.styles';
 
 export const Cart = () => {

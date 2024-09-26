@@ -1,4 +1,5 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
+
 import {Product} from 'entities/product';
 
 export type ProductRouteParams = {product: Product};

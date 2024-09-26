@@ -1,8 +1,10 @@
-import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+
+import {Orders, PaymentMethods, Profile, Settings} from 'pages';
+
 import {Screens} from '../navigationEnums';
 import {ProfileStackParamsList} from '../navigationTypes';
-import {PaymentMethods, Orders, Settings, Profile} from 'pages';
 
 export const ProfileStackNavigator = () => {
   const ProfileStack = createNativeStackNavigator<ProfileStackParamsList>();
