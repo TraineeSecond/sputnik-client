@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import {CartItemType, ICartFromServer} from 'entities/CartItem';
 import {storage} from 'shared/libs/storage';
+import {Product} from 'entities/product';
 
 const makePatchRequest = async (
   token: string,
@@ -42,6 +43,7 @@ type CartStore = {
   isLoading: boolean;
 
   setIsLoading(isLoading: boolean): void;
+  getItemQuantity: (id: number) => number;
 
   getItems: (token: string, id: number) => Promise<void>;
   addItem: (item: CartItemType, token: string, id: number) => Promise<void>;
@@ -50,6 +52,7 @@ type CartStore = {
   decrementItem: (id: number, token: string, userid: number) => Promise<void>;
   clearCart: (token: string, userid: number) => Promise<void>;
   getItemById: (id: number, token: string) => Promise<CartItemType | undefined>;
+  getProductById: (id: number) => Promise<Product | undefined>;
   setBasket: (basket: ICartFromServer) => void;
   loadBasket: () => Promise<void>;
 };
@@ -60,6 +63,12 @@ export const useCartStore = create<CartStore>(set => ({
   isLoading: true,
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
+
+  getItemQuantity: (id: number): number => {
+    const {items} = useCartStore.getState();
+    const item = items.find(item => item.id === id);
+    return item ? item.quantity : 0;
+  },
 
   getItems: async (token: string, id: number) => {
     try {
@@ -231,8 +240,23 @@ export const useCartStore = create<CartStore>(set => ({
         title: data.name,
         price: data.new_price || data.price,
         image: data.image,
-        quantity: 10,
+        quantity: 1,
       } as CartItemType;
+    } catch (error: any) {
+      console.error(error.response);
+      console.error(`Ошибка при получении товара с id ${id}:`, error);
+    }
+  },
+
+  getProductById: async (id: number) => {
+    try {
+      const {data} = await axios.get(`https://domennameabcdef.ru/api/product`, {
+        params: {
+          id,
+        },
+      });
+
+      return data;
     } catch (error: any) {
       console.error(error.response);
       console.error(`Ошибка при получении товара с id ${id}:`, error);

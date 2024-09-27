@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {ProductInfoStyles as styles} from './styles';
 import {Product} from 'entities/product';
@@ -8,6 +8,8 @@ import {useTranslation} from 'react-i18next';
 import {useCartStore} from 'shared/stores/CartStore';
 import {useUserStore} from 'entities/user';
 import {CartItemType} from 'entities/CartItem';
+import {Screens} from 'app/navigation/navigationEnums';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 
 type ProductInfoProps = {
   product: Product;
@@ -16,8 +18,16 @@ type ProductInfoProps = {
 export const ProductInfo = ({product}: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
   const {t} = useTranslation();
+  const navigation = useAppNavigation();
 
-  const {addItem} = useCartStore();
+  const {
+    addItem,
+    items,
+    removeItem,
+    incrementItem,
+    decrementItem,
+    getItemQuantity,
+  } = useCartStore();
   const {token, user} = useUserStore();
 
   const handleFavoritePress = () => {
@@ -37,6 +47,28 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
       quantity: 1,
     } as CartItemType;
     addItem(cartItem, token, user.id);
+  };
+
+  const handleGoToCart = () => {
+    navigation.navigate(Screens.CART);
+  };
+
+  const quantity = useMemo(() => getItemQuantity(product.id), [items]);
+
+  const handleIncrementItem = () => {
+    incrementItem(product.id, token, user.id);
+  };
+
+  const handleDecrementItem = () => {
+    if (quantity === 1) {
+      removeItem(product.id, token, user.id);
+      return;
+    }
+    decrementItem(product.id, token, user.id);
+  };
+
+  const isCartItem = () => {
+    return items.some(item => item.id === product.id);
   };
 
   const renderImage = () => {
@@ -146,18 +178,40 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
           </Text>
         </View>
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            onPress={handleAddToCart}
-            style={styles.addToCartButton}>
-            <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-              {t('В корзину')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buyNowButton}>
-            <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-              {t('Купить сейчас')}
-            </Text>
-          </TouchableOpacity>
+          {isCartItem() ? (
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity
+                style={styles.inCartButton}
+                onPress={handleGoToCart}>
+                <Text style={styles.buttonText}>{t('В корзине')}</Text>
+              </TouchableOpacity>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={handleDecrementItem}>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    -
+                  </Text>
+                </TouchableOpacity>
+                <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                  {quantity}
+                </Text>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={handleIncrementItem}>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    +
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={handleAddToCart}
+              style={styles.addToCartButton}>
+              <Text style={styles.buttonText}>{t('В корзину')}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

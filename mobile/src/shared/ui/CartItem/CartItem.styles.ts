@@ -3,14 +3,19 @@ import {Colors} from '../../../shared/libs/helpers/colors';
 
 export const CartItemStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     padding: 16,
     backgroundColor: Colors.White100,
     borderRadius: 10,
     marginVertical: 8,
-    alignItems: 'center',
     borderBottomWidth: 2,
     borderBottomColor: Colors.Gray100,
+  },
+  itemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: Colors.Gray100,
   },
   image: {
     width: 85,
@@ -25,11 +30,13 @@ export const CartItemStyles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  productSize: {
-    marginBottom: 8,
-  },
   productPrice: {
     fontWeight: 'bold',
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
   },
   counterContainer: {
     flexDirection: 'row',
@@ -43,24 +50,12 @@ export const CartItemStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  counterText: {
-    fontSize: 18,
-    color: Colors.Black100,
-  },
   counterValue: {
     marginHorizontal: 8,
     fontSize: 16,
   },
   deleteButton: {
-    position: 'absolute',
-    top: 15,
-    right: 15,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
