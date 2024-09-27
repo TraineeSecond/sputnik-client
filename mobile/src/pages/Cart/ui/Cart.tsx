@@ -3,10 +3,12 @@ import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, ScrollView, Text, View} from 'react-native';
 
+import {Screens} from 'app/navigation/navigationEnums';
 import {CartItemType} from 'entities/CartItem';
 import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 import {CartItem} from 'shared/ui';
 
@@ -22,10 +24,12 @@ export const Cart = () => {
     removeItem,
     isLoading,
     setIsLoading,
-    id,
+    getProductById,
   } = useCartStore();
 
   const {token, user} = useUserStore();
+
+  const navigation = useAppNavigation();
 
   const {t} = useTranslation();
 
@@ -34,6 +38,15 @@ export const Cart = () => {
     getItems(token, user.id);
     setIsLoading(false);
   }, []);
+
+  const handleProductPress = async (productId: number) => {
+    const product = await getProductById(productId);
+    if (product) {
+      navigation.navigate(Screens.PRODUCT, {
+        product,
+      });
+    }
+  };
 
   const handleCheckout = () => {
     if (items.length === 0) {
@@ -60,6 +73,7 @@ export const Cart = () => {
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
         onRemove={handleRemove}
+        handleNavigate={handleProductPress}
       />
     );
   };

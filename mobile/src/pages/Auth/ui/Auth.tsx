@@ -5,5 +5,5 @@ import {useIsLoginStore} from 'shared/stores/isLoginStore';
 
 export const Auth = () => {
   const {isLoginPage} = useIsLoginStore();
-  return <>({isLoginPage ? <Login /> : <Register />})</>;
+  return isLoginPage ? <Login /> : <Register />;
 };

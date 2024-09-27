@@ -1,6 +1,6 @@
 import {Radio} from '@ui-kitten/components';
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
 import {Stacks} from 'navigation/navigationEnums';
@@ -57,7 +57,7 @@ export const Register = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
         Регистрация
       </Text>
@@ -110,6 +110,6 @@ export const Register = () => {
       <TouchableOpacity onPress={handleNavigate} style={styles.button2}>
         <Text style={TextStyles.button2}>войти</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };

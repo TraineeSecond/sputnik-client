@@ -49,7 +49,7 @@ export const useRegisterStore = create<RegisterStore>()(set => ({
   setEmail: (text: string) => set({email: text}),
   setPassword: (text: string) => set({password: text}),
   setConfirmPassword: (text: string) => set({confirmPassword: text}),
-  setChecked: (prev: boolean) => set({checked: !prev}),
+  setChecked: (checked: boolean) => set({checked}),
   setIsRegistered: (prev: boolean) => set({isRegistered: !prev}),
   clear: () =>
     set({email: '', password: '', checked: false, name: '', surname: ''}),
