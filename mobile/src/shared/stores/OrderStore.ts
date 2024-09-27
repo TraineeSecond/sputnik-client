@@ -1,25 +1,19 @@
 import {create} from 'zustand';
 import axios from 'axios';
 
-import {CartItemType, ICartFromServer} from 'entities/CartItem';
-import {storage} from 'shared/libs/storage';
+import {CartItemType} from 'entities/CartItem';
 import {Product} from 'entities/product';
+
 type OrderItem = {
   id: number;
+  orderid: number;
   productid: number;
   quantity: number;
-  product?: Product; // Связь с продуктом
-};
-
-type Order = {
-  id: number;
-  userid: number;
-  status: string;
-  orderitems: OrderItem[];
+  product: Product;
 };
 
 type OrderStore = {
-  orderItems: any[];
+  orderItems: OrderItem[];
   makeOrder: (
     items: CartItemType[],
     userid: number,
@@ -49,8 +43,6 @@ export const useOrderStore = create<OrderStore>(set => ({
           },
         },
       );
-      console.log(data);
-      console.log('123', data.orderitems);
       if (data?.orderitems) {
         set({
           orderItems: data.orderitems,
@@ -65,27 +57,29 @@ export const useOrderStore = create<OrderStore>(set => ({
       const {data} = await axios.get(
         `https://domennameabcdef.ru/api/orders/${userid}`,
         {
-          // params: {
-          //   userid,
-          // },
           headers: {
             token: token,
           },
         },
       );
-      // console.log(data);
-      console.log(data);
 
-      console.log('data[0].orderitems', data[0].orderitems[0].id);
+      const formatedItems = data.map((item: any) => {
+        if (!item.orderitems[0]) {
+          console.error('Нету данных о заказах');
+        }
+        const orderItems = item.orderitems.map((orderItem: OrderItem) => {
+          console.log(orderItem);
+          return orderItem;
+        });
 
-      // const formattedData = data.map(dataItem=> ())
+        return (item = orderItems);
+      });
 
-      // if (data?.orderitems) {
-      //   console.log(data.orderitems);
-      //   set({
-      //     orderItems: data.orderitems,
-      //   });
-      // }
+      console.log(formatedItems);
+
+      set({
+        orderItems: formatedItems,
+      });
     } catch (error: any) {
       console.error(error);
     }

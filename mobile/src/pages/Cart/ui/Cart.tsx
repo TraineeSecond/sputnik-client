@@ -36,8 +36,6 @@ export const Cart = () => {
 
   const {t} = useTranslation();
 
-  const {productList} = useProductListStore();
-
   useEffect(() => {
     setIsLoading(true);
     getItems(token, user.id);
