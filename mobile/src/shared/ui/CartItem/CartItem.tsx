@@ -9,6 +9,7 @@ import {
 import {CartItemStyles as styles} from './CartItem.styles';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {RemoveIcon} from 'shared/icons';
+import {Product} from 'entities/product';
 
 type CartItemProps = {
   id: number;

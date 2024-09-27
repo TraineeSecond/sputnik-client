@@ -24,6 +24,7 @@ export const Cart = () => {
     removeItem,
     isLoading,
     setIsLoading,
+    getProductById,
   } = useCartStore();
 
   const {token, user} = useUserStore();
@@ -40,8 +41,9 @@ export const Cart = () => {
     setIsLoading(false);
   }, []);
 
-  const handleProductPress = (productId: number) => {
-    const product = productList.find(p => p.id === productId);
+  const handleProductPress = async (productId: number) => {
+    // const product = productList.find(p => p.id === productId);
+    const product = await getProductById(productId);
     if (product) {
       navigation.navigate(Screens.PRODUCT, {
         product,
