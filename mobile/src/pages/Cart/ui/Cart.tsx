@@ -42,7 +42,6 @@ export const Cart = () => {
   }, []);
 
   const handleProductPress = async (productId: number) => {
-    // const product = productList.find(p => p.id === productId);
     const product = await getProductById(productId);
     if (product) {
       navigation.navigate(Screens.PRODUCT, {
