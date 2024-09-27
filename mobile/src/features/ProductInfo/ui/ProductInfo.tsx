@@ -49,10 +49,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     addItem(cartItem, token, user.id);
   };
 
-  const handleDeleteFromCart = () => {
-    // удаление из корзины
-  };
-
   const handleGoToCart = () => {
     navigation.navigate(Screens.CART);
   };
@@ -72,8 +68,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   };
 
   const isCartItem = () => {
-    console.log(items);
-    console.log(items.some(item => item.id === product.id));
     return items.some(item => item.id === product.id);
   };
 
@@ -185,7 +179,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
         </View>
         <View style={styles.buttonsContainer}>
           {isCartItem() ? (
-            <View style={styles.inCartButtonContainer}>
+            <View style={styles.buttonsContainer}>
               <TouchableOpacity
                 style={styles.inCartButton}
                 onPress={handleGoToCart}>
@@ -193,15 +187,21 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
               </TouchableOpacity>
               <View style={styles.quantityContainer}>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={styles.quantityButton}
                   onPress={handleDecrementItem}>
-                  <Text style={styles.buttonText}>-</Text>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    -
+                  </Text>
                 </TouchableOpacity>
-                <Text style={styles.quantityText}>{quantity}</Text>
+                <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                  {quantity}
+                </Text>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={styles.quantityButton}
                   onPress={handleIncrementItem}>
-                  <Text style={styles.buttonText}>+</Text>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    +
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

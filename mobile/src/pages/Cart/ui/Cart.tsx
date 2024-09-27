@@ -10,6 +10,9 @@ import {CartPageStyles as styles} from './Cart.styles';
 import {useUserStore} from 'entities/user';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {CartItemType} from 'entities/CartItem';
+import {useProductListStore} from 'entities/productList';
+import {Screens} from 'app/navigation/navigationEnums';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 
 export const Cart = () => {
   const {
@@ -21,18 +24,30 @@ export const Cart = () => {
     removeItem,
     isLoading,
     setIsLoading,
-    id,
   } = useCartStore();
 
   const {token, user} = useUserStore();
 
+  const navigation = useAppNavigation();
+
   const {t} = useTranslation();
+
+  const {productList} = useProductListStore();
 
   useEffect(() => {
     setIsLoading(true);
     getItems(token, user.id);
     setIsLoading(false);
   }, []);
+
+  const handleProductPress = (productId: number) => {
+    const product = productList.find(p => p.id === productId);
+    if (product) {
+      navigation.navigate(Screens.PRODUCT, {
+        product,
+      });
+    }
+  };
 
   const handleCheckout = () => {
     if (items.length === 0) {
@@ -59,6 +74,7 @@ export const Cart = () => {
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
         onRemove={handleRemove}
+        handleNavigate={handleProductPress}
       />
     );
   };
