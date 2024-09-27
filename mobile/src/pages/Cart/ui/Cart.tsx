@@ -13,6 +13,7 @@ import {CartItemType} from 'entities/CartItem';
 import {useProductListStore} from 'entities/productList';
 import {Screens} from 'app/navigation/navigationEnums';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {useOrderStore} from 'shared/stores/OrderStore';
 
 export const Cart = () => {
   const {
@@ -26,6 +27,8 @@ export const Cart = () => {
     setIsLoading,
     getProductById,
   } = useCartStore();
+
+  const {makeOrder} = useOrderStore();
 
   const {token, user} = useUserStore();
 
@@ -56,6 +59,7 @@ export const Cart = () => {
       return;
     }
     Alert.alert('Заказ успешно оформлен');
+    makeOrder(items, user.id, token);
     clearCart(token, user.id);
   };
 
