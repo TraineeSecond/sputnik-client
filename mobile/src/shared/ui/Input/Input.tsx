@@ -30,9 +30,9 @@ export const Input = ({
       placeholder={placeholder}
       keyboardType={isEmail ? 'email-address' : 'default'}
       autoCapitalize="none"
-      placeholderTextColor={Colors.Gray100}
+      placeholderTextColor={Colors.Black200}
       onChangeText={handleChangeText}
-      style={[styles.input, TextStyles.p1.changeColor(Colors.Gray200)]}
+      style={[styles.input, TextStyles.p1.changeColor(Colors.Black100)]}
     />
   );
 };

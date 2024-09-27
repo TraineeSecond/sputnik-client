@@ -13,7 +13,7 @@ type ProfileStore = {
 
 export const useUserStore = create<ProfileStore>(set => ({
   user: {
-    id: '',
+    id: 0,
     email: '',
     role: '',
     name: '',
@@ -40,7 +40,7 @@ export const useUserStore = create<ProfileStore>(set => ({
   },
   clearUserData: () => {
     set({
-      user: {id: '', email: '', role: '', name: '', surname: ''},
+      user: {id: 0, email: '', role: '', name: '', surname: ''},
       token: '',
     });
     storage.delete('token');

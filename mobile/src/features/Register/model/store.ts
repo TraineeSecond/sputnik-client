@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ICartFromServer} from 'entities/CartItem';
 import {User} from 'entities/user';
 import {create} from 'zustand';
 
@@ -6,6 +7,7 @@ type returnedRegisterData = {
   message: string;
   token: string;
   user: User;
+  basket: ICartFromServer;
 };
 
 type RegisterStore = {

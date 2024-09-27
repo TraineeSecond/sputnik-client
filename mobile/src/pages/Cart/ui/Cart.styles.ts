@@ -5,12 +5,18 @@ import {Colors} from 'shared/libs/helpers/colors';
 export const CartPageStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: Colors.White100,
   },
-  text: {
-    fontSize: 24,
-    color: 'gray',
+  centerText: {
+    textAlign: 'center',
+  },
+  button: {
+    position: 'absolute',
+    bottom: 20,
+    borderRadius: 10,
+    width: 327,
+    //backgroundColor: Colors.Green500,
+    borderColor: Colors.Green500,
+    alignSelf: 'center',
   },
 });

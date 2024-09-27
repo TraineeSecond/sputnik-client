@@ -1,18 +1,20 @@
 {
   "Ошибка": "Ошибка",
   "Попробуйте перезагрузить страницу": "Try to reload page",
+  "Настройки языка": "Language settings",
   "Купить сейчас": "Buy now",
   "В корзину": "Add to cart",
   "Посмотреть все": "See all",
   "Категории": "Categories",
-  "Настройки": "Settings",
   "Назад": "Back",
   "Выбор языка": "Language Selection",
   "Профиль": "Profile",
-  "Методы оплаты": "Payment Methods",
   "История покупок": "Purchase History",
   "Выйти из аккаунта": "Log Out",
   "Главная": "Home",
   "Каталог": "Catalog",
-  "Карта": "Map"
+  "Карта": "Map",
+  "Корзина": "Cart",
+  "Пустая корзина": "Your cart is empty, please add something",
+  "Оформить заказ": "Place an order"
 }
