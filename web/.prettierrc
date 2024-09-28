@@ -10,7 +10,9 @@
     "<THIRD_PARTY_MODULES>",
     "^antd/dist/reset.css$",
     "^.+\\.styles(\\.ts)?$",
-    "^.+\\.css$"
+    "^.+\\.css$",
+    "^[./](?!.*types$)",
+    ".*types$"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
