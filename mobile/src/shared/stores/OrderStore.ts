@@ -4,7 +4,7 @@ import axios from 'axios';
 import {CartItemType} from 'entities/CartItem';
 import {Product} from 'entities/product';
 
-type OrderItem = {
+export type OrderItem = {
   id: number;
   orderid: number;
   productid: number;
@@ -12,8 +12,16 @@ type OrderItem = {
   product: Product;
 };
 
-type OrderStore = {
+export type Order = {
+  id: number;
   orderItems: OrderItem[];
+};
+
+type OrderStore = {
+  isLoading: boolean;
+  orderItems: Order[];
+
+  setIsLoading: (isLoading: boolean) => void;
   makeOrder: (
     items: CartItemType[],
     userid: number,
@@ -23,12 +31,18 @@ type OrderStore = {
 };
 
 export const useOrderStore = create<OrderStore>(set => ({
-  id: 0,
+  isLoading: false,
   orderItems: [],
+
+  setIsLoading: (isLoading: boolean) => {
+    set({isLoading});
+  },
+
   makeOrder: async (items: CartItemType[], userid: number, token: string) => {
     try {
       const formattedItems = items.map(item => ({
         quantity: item.quantity,
+
         productid: item.id,
       }));
       const {data} = await axios.post(
@@ -54,6 +68,7 @@ export const useOrderStore = create<OrderStore>(set => ({
   },
   getOrders: async (userid: number, token: string) => {
     try {
+      set({isLoading: true});
       const {data} = await axios.get(
         `https://domennameabcdef.ru/api/orders/${userid}`,
         {
@@ -63,25 +78,43 @@ export const useOrderStore = create<OrderStore>(set => ({
         },
       );
 
-      const formatedItems = data.map((item: any) => {
-        if (!item.orderitems[0]) {
-          console.error('Нету данных о заказах');
-        }
-        const orderItems = item.orderitems.map((orderItem: OrderItem) => {
-          console.log(orderItem);
-          return orderItem;
-        });
-
-        return (item = orderItems);
+      const formattedOrders = data.map((order: any) => {
+        return {
+          id: order.id,
+          orderItems: order.orderitems.map((orderItem: any) => {
+            return {
+              id: orderItem.id,
+              orderid: orderItem.orderid,
+              productid: orderItem.productid,
+              quantity: orderItem.quantity,
+              product: {
+                id: orderItem.product.id,
+                category: orderItem.product.category,
+                description: orderItem.product.description,
+                name: orderItem.product.name,
+                price: orderItem.product.price,
+                new_price: orderItem.product.new_price,
+                user: {
+                  id: order.user.id,
+                  email: order.user.email,
+                  role: order.user.role,
+                  name: order.user.name,
+                  surname: order.user.surname,
+                },
+                image: '',
+              },
+            };
+          }),
+        };
       });
 
-      console.log(formatedItems);
-
       set({
-        orderItems: formatedItems,
+        orderItems: formattedOrders,
       });
     } catch (error: any) {
       console.error(error);
+    } finally {
+      set({isLoading: false});
     }
   },
 }));
