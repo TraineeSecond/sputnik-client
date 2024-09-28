@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {RefreshControl, ScrollView, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
-import {Category} from 'entities/category';
-import {Product} from 'entities/product';
+import {Category, Product} from 'entities';
 import {useProductListStore} from 'entities/productList';
 import {useUserStore} from 'entities/user';
+import {useSearchStore} from 'features/Search';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
@@ -20,27 +20,23 @@ export const Home = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
   const {loadUserData} = useUserStore();
-  const {
-    error,
-    isLoading,
-    categories,
-    productList,
-    setIsLoading,
-    fetchAllData,
-  } = useProductListStore();
+  const {categories, fetchCategories} = useSearchStore();
+  const {error, isLoading, allProductList, setIsLoading, fetchAllProducts} =
+    useProductListStore();
 
   useEffect(() => {
     setIsLoading(true);
-    fetchAllData();
     loadUserData();
+    fetchCategories();
+    fetchAllProducts();
     setIsLoading(false);
   }, []);
 
   const onRefresh = useCallback(async () => {
     setIsLoading(true);
-    await Promise.all([fetchAllData(), loadUserData()]);
+    await Promise.all([fetchAllProducts(), loadUserData()]);
     setIsLoading(false);
-  }, [fetchAllData, loadUserData, setIsLoading]);
+  }, [fetchAllProducts, loadUserData, setIsLoading]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -132,8 +128,8 @@ export const Home = () => {
 
   //TODO: получать подборки и их названия с бэка
   const [firstHalf, secondHalf] = [
-    productList.slice(0, productList.length / 2),
-    productList.slice(productList.length / 2),
+    allProductList.slice(0, allProductList.length / 2),
+    allProductList.slice(allProductList.length / 2),
   ];
 
   return (
@@ -154,7 +150,7 @@ export const Home = () => {
             style={[styles.marginBottom, styles.promo]}
           />
           <Slider
-            isLoading={isLoading || !productList.length}
+            isLoading={isLoading || !allProductList.length}
             title={t('Категории')}
             data={categories}
             renderItem={renderCategoryItem}
@@ -162,7 +158,7 @@ export const Home = () => {
             style={styles.marginBottom}
           />
           <Slider
-            isLoading={isLoading || !productList.length}
+            isLoading={isLoading || !allProductList.length}
             title="Для вас"
             data={firstHalf}
             renderItem={renderProductItem}
@@ -170,7 +166,7 @@ export const Home = () => {
             style={styles.marginBottom}
           />
           <Slider
-            isLoading={isLoading || !productList.length}
+            isLoading={isLoading || !allProductList.length}
             title="Подборка на лето"
             data={secondHalf}
             renderItem={renderProductItem}
