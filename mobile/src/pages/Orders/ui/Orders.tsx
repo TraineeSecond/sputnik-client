@@ -10,10 +10,13 @@ import {ProductItem} from 'shared/ui';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Screens} from 'app/navigation/navigationEnums';
 import {Colors, TextStyles} from 'shared/libs/helpers';
+import { useTranslation } from 'react-i18next';
 
 export const Orders = () => {
   const {getOrders, orderItems, isLoading} = useOrderStore();
   const {user, token} = useUserStore();
+
+  const {t} = useTranslation();
 
   const navigation = useAppNavigation();
 
@@ -68,7 +71,7 @@ export const Orders = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text
         style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}>
-        Ваша история покупок
+         {t('Ваша история покупок')}
       </Text>
       {isLoading
         ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))
