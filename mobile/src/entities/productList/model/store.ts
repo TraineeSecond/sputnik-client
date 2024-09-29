@@ -1,6 +1,6 @@
-import {create} from 'zustand';
 import axios from 'axios';
 import {Category, CategoryResponse, Product, ProductsResponse} from 'entities';
+import {create} from 'zustand';
 
 type ProductListStore = {
   productList: Product[];
@@ -10,6 +10,7 @@ type ProductListStore = {
   setIsLoading: (value: boolean) => void;
   fetchProducts: () => void;
   fetchCategories: () => void;
+  fetchAllData: () => void;
   clearStore: () => void;
 };
 
@@ -41,6 +42,18 @@ export const useProductListStore = create<ProductListStore>(set => ({
         'https://domennameabcdef.ru/api/categories',
       );
       set({categories: data});
+    } catch (error) {
+      set({error: true});
+    }
+  },
+
+  fetchAllData: async () => {
+    set({error: false});
+    try {
+      await Promise.all([
+        useProductListStore.getState().fetchProducts(),
+        useProductListStore.getState().fetchCategories(),
+      ]);
     } catch (error) {
       set({error: true});
     }

@@ -1,6 +1,6 @@
-import {create} from 'zustand';
 import axios from 'axios';
 import {Product} from 'entities/product';
+import {create} from 'zustand';
 
 type ProductStore = {
   currentProduct: Product | null;

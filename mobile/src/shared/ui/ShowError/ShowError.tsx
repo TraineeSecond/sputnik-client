@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {TextStyles, Colors} from 'shared/libs/helpers';
+import {Text, View} from 'react-native';
+
+import {Colors, TextStyles} from 'shared/libs/helpers';
+
 import {ShowErrorStyles as styles} from './ShowError.styles';
 
 type ShowErrorProps = {

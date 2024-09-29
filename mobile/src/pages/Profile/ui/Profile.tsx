@@ -1,22 +1,17 @@
-import React, {useState} from 'react';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {IndexPath, Menu, MenuItem} from '@ui-kitten/components';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Image, Text, View} from 'react-native';
 
-import {useTranslation} from 'react-i18next';
-import {Auth} from 'pages';
-import {Colors, TextStyles} from 'shared/libs/helpers';
-import {ProfilePageStyles as styles} from './Profile.styles';
-import {
-  FlagIcon,
-  ForwardIcon,
-  HistoryIcon,
-  LogOutIcon,
-  SettingsIcon,
-} from 'shared/icons';
-import {useUserStore} from 'entities/user';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {Screens} from 'app/navigation/navigationEnums';
+import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
+import {useUserStore} from 'entities/user';
+import {Auth} from 'pages';
+import {FlagIcon, ForwardIcon, HistoryIcon, LogOutIcon} from 'shared/icons';
+import {Colors, TextStyles} from 'shared/libs/helpers';
+
+import {ProfilePageStyles as styles} from './Profile.styles';
 
 export const Profile = () => {
   const {token, user, clearUserData} = useUserStore();

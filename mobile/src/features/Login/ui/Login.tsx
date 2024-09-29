@@ -1,13 +1,14 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import {Input} from 'shared/ui';
-import {TextStyles} from 'shared/libs/helpers';
-import {LoginStyles as styles} from './styles';
-import {useIsLoginStore} from 'shared/stores/isLoginStore';
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {useLoginStore} from '../model/store';
-import {Stacks} from 'navigation/navigationEnums';
 import {useUserStore} from 'entities/user';
+import {Stacks} from 'navigation/navigationEnums';
+import {TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {useIsLoginStore} from 'shared/stores/isLoginStore';
+import {Input} from 'shared/ui';
+
+import {useLoginStore} from '../model/store';
+import {LoginStyles as styles} from './styles';
 
 export const Login = () => {
   const {email, password, setEmail, setPassword, login, clear} =

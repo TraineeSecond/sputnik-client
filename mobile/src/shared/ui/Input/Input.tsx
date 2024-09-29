@@ -1,5 +1,6 @@
 import React from 'react';
 import {TextInput} from 'react-native';
+
 import {Colors, TextStyles} from '../../libs/helpers';
 import {InputStyles as styles} from './Input.styles';
 

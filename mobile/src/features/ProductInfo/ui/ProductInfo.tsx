@@ -1,15 +1,17 @@
 import React, {useMemo, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {ProductInfoStyles as styles} from './styles';
-import {Product} from 'entities/product';
-import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
-import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {useTranslation} from 'react-i18next';
-import {useCartStore} from 'shared/stores/CartStore';
-import {useUserStore} from 'entities/user';
-import {CartItemType} from 'entities/CartItem';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+
 import {Screens} from 'app/navigation/navigationEnums';
+import {CartItemType} from 'entities/CartItem';
+import {Product} from 'entities/product';
+import {useUserStore} from 'entities/user';
+import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {useCartStore} from 'shared/stores/CartStore';
+
+import {ProductInfoStyles as styles} from './styles';
 
 type ProductInfoProps = {
   product: Product;
