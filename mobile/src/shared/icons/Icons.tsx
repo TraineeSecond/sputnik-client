@@ -1,5 +1,6 @@
-import React from 'react';
 import {Icon} from '@ui-kitten/components';
+import React from 'react';
+
 import {Colors} from 'shared/libs/helpers';
 
 export const CartIcon = (props: any) => (

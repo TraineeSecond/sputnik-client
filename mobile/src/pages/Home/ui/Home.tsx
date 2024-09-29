@@ -1,54 +1,51 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, View} from 'react-native';
-import {Slider} from 'widgets';
-import {CategoryItem, ProductItem, Promo, ShowError} from 'shared/ui';
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {Screens, Stacks} from 'app/navigation/navigationEnums';
-import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
-import {HomePageStyles as styles} from './Home.styles';
 import {useTranslation} from 'react-i18next';
-import {useUserStore} from 'entities/user';
-import {useProductListStore} from 'entities/productList';
-import {Product} from 'entities/product';
+import {RefreshControl, ScrollView, View} from 'react-native';
+
+import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {Category} from 'entities/category';
+import {Product} from 'entities/product';
+import {useProductListStore} from 'entities/productList';
+import {useUserStore} from 'entities/user';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
+import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {CategoryItem, ProductItem, Promo, ShowError} from 'shared/ui';
+import {Slider} from 'widgets';
+
+import {HomePageStyles as styles} from './Home.styles';
 
 export const Home = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
   const {loadUserData} = useUserStore();
   const {
-    productList,
-    categories,
-    fetchProducts,
-    fetchCategories,
-    setIsLoading,
-    isLoading,
     error,
+    isLoading,
+    categories,
+    productList,
+    setIsLoading,
+    fetchAllData,
   } = useProductListStore();
 
   useEffect(() => {
     setIsLoading(true);
-    fetchProducts();
-    fetchCategories();
+    fetchAllData();
     loadUserData();
     setIsLoading(false);
   }, []);
 
   const onRefresh = useCallback(async () => {
     setIsLoading(true);
-    await Promise.all([fetchProducts(), fetchCategories(), loadUserData()]);
+    await Promise.all([fetchAllData(), loadUserData()]);
     setIsLoading(false);
-  }, [fetchProducts, fetchCategories, loadUserData, setIsLoading]);
+  }, [fetchAllData, loadUserData, setIsLoading]);
 
-  const handleProductPress = (productId: number) => {
-    const product = productList.find(p => p.id === productId);
-    if (product) {
-      navigation.navigate(Screens.PRODUCT, {
-        product,
-      });
-    }
+  const handleProductPress = (product: Product) => {
+    navigation.navigate(Screens.PRODUCT, {
+      product,
+    });
   };
 
   const handlePromoPress = (pageId: number) => {
@@ -88,7 +85,7 @@ export const Home = () => {
 
   const renderProductItem = ({item}: {item: Product}) => {
     const {id, name, price, new_price, user} = item;
-    const handlePress = () => handleProductPress(id);
+    const handlePress = () => handleProductPress(item);
 
     return (
       <ProductItem

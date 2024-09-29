@@ -1,12 +1,14 @@
 import React, {memo} from 'react';
 import {
-  View,
-  Text,
   Image,
-  TouchableOpacity,
   ImageSourcePropType,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+
 import {Colors, TextStyles} from 'shared/libs/helpers';
+
 import {CategoryItemStyles as styles} from './CategoryItem.styles';
 
 type CategoryItemProps = {

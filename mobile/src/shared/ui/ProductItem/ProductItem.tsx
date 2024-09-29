@@ -1,14 +1,16 @@
 import React, {memo, useState} from 'react';
 import {
-  Text,
-  View,
   Image,
-  TouchableOpacity,
   ImageSourcePropType,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
-import {ProductItemStyles as styles} from './ProductItem.styles';
+
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
+
+import {ProductItemStyles as styles} from './ProductItem.styles';
 
 type ProductItemProps = {
   id: string;

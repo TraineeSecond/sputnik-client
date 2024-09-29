@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+
 import {Colors} from 'shared/libs/helpers';
 
 export const InputStyles = StyleSheet.create({

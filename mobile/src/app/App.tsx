@@ -1,11 +1,13 @@
-import React from 'react';
 import * as eva from '@eva-design/eva';
 import {NavigationContainer} from '@react-navigation/native';
-import {navigationRef, RootNavigator} from './navigation/navigation';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import React from 'react';
 import {I18nextProvider} from 'react-i18next';
+
 import i18n from 'shared/libs/i18n';
+
+import {RootNavigator, navigationRef} from './navigation/navigation';
 
 export const App = () => {
   return (

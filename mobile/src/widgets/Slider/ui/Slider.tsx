@@ -1,15 +1,17 @@
 import React, {ReactElement} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
-  View,
+  ScrollView,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  ScrollView,
+  View,
 } from 'react-native';
-import {Colors, TextStyles} from 'shared/libs/helpers';
-import {SliderStyles as styles} from './Slider.styles';
+
 import {Category, Product} from 'entities';
-import {useTranslation} from 'react-i18next';
+import {Colors, TextStyles} from 'shared/libs/helpers';
+
+import {SliderStyles as styles} from './Slider.styles';
 
 type SliderProps = {
   title?: string;

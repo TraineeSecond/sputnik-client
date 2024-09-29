@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {Text, View} from 'react-native';
+
 import {MapPageStyles as styles} from './Map.styles';
 
 export const Map = () => {

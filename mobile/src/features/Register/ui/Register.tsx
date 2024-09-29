@@ -1,15 +1,17 @@
+import {Radio} from '@ui-kitten/components';
 import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {Radio} from '@ui-kitten/components';
-import {Input} from 'shared/ui';
-import {Colors, TextStyles} from 'shared/libs/helpers';
-import {RegisterStyles as styles} from './styles';
-import {useRegisterStore} from '../model/store';
-import {useIsLoginStore} from 'shared/stores/isLoginStore';
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {Stacks} from 'navigation/navigationEnums';
+
 import {useUserStore} from 'entities/user';
+import {Stacks} from 'navigation/navigationEnums';
+import {Colors, TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
+import {useIsLoginStore} from 'shared/stores/isLoginStore';
+import {Input} from 'shared/ui';
+
+import {useRegisterStore} from '../model/store';
+import {RegisterStyles as styles} from './styles';
 
 export const Register = () => {
   const {

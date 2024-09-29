@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
 import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {Text, TouchableOpacity, View} from 'react-native';
 
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {SettingsStyles as styles} from './Settings.styles';
+import {BackIcon} from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import i18n from 'shared/libs/i18n';
 import {storage} from 'shared/libs/storage';
-import {BackIcon} from 'shared/icons';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
+
+import {SettingsStyles as styles} from './Settings.styles';
 
 const data = ['Русский', 'English'];
 

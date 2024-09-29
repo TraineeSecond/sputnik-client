@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
-import {Alert, View, ScrollView, Text} from 'react-native';
 import {Button} from '@ui-kitten/components';
-import ContentLoader, {Rect} from 'react-content-loader/native';
+import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
+import {Alert, ScrollView, Text, View} from 'react-native';
 
+import {Screens} from 'app/navigation/navigationEnums';
+import {CartItemType} from 'entities/CartItem';
+import {useUserStore} from 'entities/user';
+import ContentLoader, {Rect} from 'react-content-loader/native';
+import {Colors, TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 import {CartItem} from 'shared/ui';
+
 import {CartPageStyles as styles} from './Cart.styles';
-import {useUserStore} from 'entities/user';
-import {Colors, TextStyles} from 'shared/libs/helpers';
-import {CartItemType} from 'entities/CartItem';
-import {useProductListStore} from 'entities/productList';
-import {Screens} from 'app/navigation/navigationEnums';
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
 
 export const Cart = () => {
   const {
@@ -32,8 +32,6 @@ export const Cart = () => {
   const navigation = useAppNavigation();
 
   const {t} = useTranslation();
-
-  const {productList} = useProductListStore();
 
   useEffect(() => {
     setIsLoading(true);
