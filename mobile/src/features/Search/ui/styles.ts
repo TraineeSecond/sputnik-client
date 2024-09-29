@@ -11,4 +11,10 @@ export const SearchStyles = StyleSheet.create({
     margin: '2%',
     marginBottom: 15,
   },
+  activeCategory: {
+    backgroundColor: Colors.Black100Opacity20,
+  },
+  inactiveCategory: {
+    opacity: 0.3,
+  },
 });

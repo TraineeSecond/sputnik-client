@@ -1,26 +1,14 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 
 import {useProductListStore} from 'entities/productList';
-import {Search, useSearchStore} from 'features/Search';
+import {Search} from 'features/Search';
 
 import {CatalogPageStyles as styles} from './Catalog.styles';
 
 export const Catalog = () => {
-  const {
-    isLoading,
-    categories,
-    foundProducts,
-    currentCategory,
-    setCategory,
-    setIsLoading,
-    setFoundProducts,
-  } = useSearchStore();
-  const {allProductList, fetchAllProducts} = useProductListStore();
-
-  useEffect(() => {
-    setFoundProducts(allProductList);
-  }, []);
+  const {allProductList, fetchAllProducts, setIsLoading, isLoading} =
+    useProductListStore();
 
   const onRefresh = useCallback(async () => {
     setIsLoading(true);
@@ -34,13 +22,7 @@ export const Catalog = () => {
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
       }>
-      <Search
-        catalogData={foundProducts}
-        isLoading={isLoading}
-        categories={categories}
-        currentCategory={currentCategory}
-        setCategory={setCategory}
-      />
+      <Search catalogData={allProductList} />
     </ScrollView>
   );
 };

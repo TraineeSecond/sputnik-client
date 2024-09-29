@@ -1,5 +1,10 @@
 import axios from 'axios';
-import {Category, CategoryResponse} from 'entities/index';
+import {
+  Category,
+  CategoryResponse,
+  ProductsResponse,
+  useProductListStore,
+} from 'entities/index';
 import {Product} from 'entities/product';
 import {create} from 'zustand';
 
@@ -30,17 +35,37 @@ export const useSearchStore = create<SearchStore>((set, get) => ({
 
   setFoundProducts: (foundProducts: Product[]) => set({foundProducts}),
 
-  setCategory: currentCategory => set({currentCategory}),
+  setCategory: (category: string) => {
+    set(state => {
+      const newCategory = state.currentCategory === category ? '' : category;
+
+      if (!newCategory) {
+        const {allProductList} = useProductListStore.getState();
+        return {currentCategory: '', foundProducts: allProductList};
+      }
+
+      set({currentCategory: newCategory});
+      get().fetchProducts();
+
+      return {currentCategory: newCategory};
+    });
+  },
 
   setSearchText: text => set({searchText: text}),
 
   fetchProducts: async () => {
     const {currentCategory, searchText} = get();
     try {
-      const response = await fetch(
-        `https://domennameabcdef.ru/api/products?categorie=${currentCategory}&name=${searchText}`,
+      const {data} = await axios.get<ProductsResponse>(
+        'https://domennameabcdef.ru/api/products',
+        {
+          params: {
+            categorie: currentCategory,
+            ...(searchText && {name: searchText}),
+          },
+        },
       );
-      const data = await response.json();
+      console.log(data);
       set({foundProducts: data});
     } catch (error) {
       console.error('Ошибка при получении продуктов:', error);

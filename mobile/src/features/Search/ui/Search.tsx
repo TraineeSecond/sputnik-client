@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
@@ -10,30 +10,37 @@ import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {CategoryItem, ProductItem} from 'shared/ui';
 import {Slider} from 'widgets';
 
+import {useSearchStore} from '..';
 import {SearchStyles as styles} from './styles';
 
 type SearchProps = {
   catalogData: Product[];
-  categories: Category[];
-  isLoading: boolean;
-  currentCategory: string;
-  setCategory: (category: string) => void;
 };
 
-export const Search = ({
-  isLoading,
-  categories,
-  catalogData,
-  currentCategory,
-  setCategory,
-}: SearchProps) => {
+export const Search = ({catalogData}: SearchProps) => {
   const navigation = useAppNavigation();
 
-  const handleCategoryPress = useCallback((title: string) => {
-    //подсветка включенной категории
-    //добавление включенной категориии в стор
-    //при повторном клике сброс
+  const {
+    isLoading,
+    categories,
+    foundProducts,
+    currentCategory,
+    setCategory,
+    setIsLoading,
+    setFoundProducts,
+    fetchProducts,
+  } = useSearchStore();
+
+  useEffect(() => {
+    setFoundProducts(catalogData);
   }, []);
+
+  const handleCategoryPress = useCallback(
+    (category: string) => {
+      setCategory(category);
+    },
+    [setCategory, fetchProducts],
+  );
 
   const renderCategoryItem = ({
     item,
@@ -42,13 +49,21 @@ export const Search = ({
     item: Category;
     index: number;
   }) => {
+    const isActive = currentCategory === item;
     const handlePress = () => handleCategoryPress(item);
+    const categoryStyle = currentCategory
+      ? isActive
+        ? styles.activeCategory
+        : styles.inactiveCategory
+      : null;
+
     return (
       <CategoryItem
         key={index}
         id={index.toString()}
         title={item}
         onPress={handlePress}
+        style={[categoryStyle]}
       />
     );
   };
@@ -93,6 +108,8 @@ export const Search = ({
     );
   };
 
+  // TODO: поменять на flatlist
+
   return (
     <>
       <Slider
@@ -102,7 +119,7 @@ export const Search = ({
         renderSkeleton={renderSkeletonCategory}
         style={styles.marginBottom}
       />
-      {catalogData.map(renderProductItem)}
+      {foundProducts.map(renderProductItem)}
     </>
   );
 };
