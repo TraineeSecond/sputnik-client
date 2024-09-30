@@ -9,6 +9,7 @@ import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import { useOrderStore } from 'shared/stores/OrderStore';
 import {useCartStore} from 'shared/stores/CartStore';
 import {CartItem} from 'shared/ui';
 
@@ -26,6 +27,8 @@ export const Cart = () => {
     setIsLoading,
     getProductById,
   } = useCartStore();
+
+  const {makeOrder} = useOrderStore();
 
   const {token, user} = useUserStore();
 
@@ -54,6 +57,7 @@ export const Cart = () => {
       return;
     }
     Alert.alert('Заказ успешно оформлен');
+    makeOrder(items, user.id, token);
     clearCart(token, user.id);
   };
 

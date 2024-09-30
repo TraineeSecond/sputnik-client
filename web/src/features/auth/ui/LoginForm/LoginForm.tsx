@@ -1,54 +1,58 @@
-import { message } from 'antd';
 import { useAuthStore } from 'features/auth/model/authStore';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import {
   StyledButton,
   StyledFormItem,
   StyledInput,
   StyledLoginForm,
+  StyledParagraph,
   StyledPasswordInput,
+  StyledTitle,
 } from './LoginForm.styles';
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { LoginFormValues } from './types';
 
 const LoginForm = () => {
   const { login } = useAuthStore();
+  const { t } = useTranslation();
 
-  const handleLogin = async ({ email, password }: LoginFormValues) => {
+  const emailRules = [{ required: true, message: t('Введите ваш email') }];
+  const passwordRules = [{ required: true, message: t('Введите ваш пароль') }];
+
+  const handleSubmit = async (values: LoginFormValues) => {
+    const { email, password } = values;
+
     try {
       await login(email, password);
     } catch (error) {
       console.error('Ошибка при входе:', error);
-      message.error(
-        'Не удалось войти. Пожалуйста, проверьте ваши учетные данные.',
-      );
     }
   };
 
-  const emailRules = [{ required: true, message: 'Введите ваш email!' }];
-  const passwordRules = [{ required: true, message: 'Введите ваш пароль!' }];
-
   return (
-    <StyledLoginForm
-      name='login'
-      onFinish={(values) => handleLogin(values as LoginFormValues)}
-    >
+    <StyledLoginForm name='login' layout='vertical' onFinish={handleSubmit}>
+      <StyledTitle level={2}>{t('Вход')}</StyledTitle>
+
       <StyledFormItem name='email' rules={emailRules}>
-        <StyledInput placeholder='Email' />
+        <StyledInput placeholder={t('Email')} />
       </StyledFormItem>
 
       <StyledFormItem name='password' rules={passwordRules}>
-        <StyledPasswordInput placeholder='Пароль' />
+        <StyledPasswordInput placeholder={t('Пароль')} />
       </StyledFormItem>
 
       <StyledFormItem>
         <StyledButton type='primary' htmlType='submit' block>
-          Войти
+          {t('Войти')}
         </StyledButton>
       </StyledFormItem>
+
+      <StyledParagraph>
+        {t('Нет аккаунта?')}{' '}
+        <Link to='/register'>{t('Зарегистрироваться')}</Link>
+      </StyledParagraph>
     </StyledLoginForm>
   );
 };
