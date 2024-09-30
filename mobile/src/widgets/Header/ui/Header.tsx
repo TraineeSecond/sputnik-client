@@ -41,83 +41,51 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
     setSearchText('');
   };
 
-  const renderContent = () => {
-    switch (routeName) {
-      case Screens.HOME:
-        return (
-          <View style={styles.homeContainer}>
-            <TouchableOpacity
-              onPress={handleNavigateToHome}
-              style={styles.logo}>
-              <Text style={TextStyles.p3.changeColor(Colors.Green500)}>
-                GOZON
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleNavigateToCart}>
-              <CartIcon
-                fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-                width={IconStyles.medium.width}
-                height={IconStyles.medium.height}
-              />
-            </TouchableOpacity>
-          </View>
-        );
+  return (
+    <View style={[styles.container]}>
+      {routeName === Screens.HOME && (
+        <TouchableOpacity onPress={handleNavigateToHome} style={styles.logo}>
+          <Text style={TextStyles.p3.changeColor(Colors.Green500)}>GOZON</Text>
+        </TouchableOpacity>
+      )}
 
-      case Screens.PRODUCT:
-        return (
-          <View style={styles.productContainer}>
-            <TouchableOpacity onPress={handleGoBack}>
-              <ArrowBack
-                fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-                width={IconStyles.medium.width}
-                height={IconStyles.medium.height}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleNavigateToCart}>
-              <CartIcon
-                fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-                width={IconStyles.medium.width}
-                height={IconStyles.medium.height}
-              />
-            </TouchableOpacity>
-          </View>
-        );
+      {routeName === Screens.PRODUCT && (
+        <TouchableOpacity onPress={handleGoBack}>
+          <ArrowBack
+            fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+      )}
 
-      case Screens.CATALOG:
-        return (
-          <View style={styles.searchContainer}>
-            <View style={styles.topControls}>
-              <Input
-                showClear={true}
-                value={searchText}
-                style={styles.input}
-                placeholder={t('Поиск...')}
-                setValue={setSearchText}
-                onClear={handleClearInput}
-                containerStyle={styles.inputContainer}
-              />
-              <TouchableOpacity onPress={handleSearch}>
-                <SearchIcon
-                  fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-                  width={IconStyles.medium.width}
-                  height={IconStyles.medium.height}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleNavigateToCart}>
-                <CartIcon
-                  fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-                  width={IconStyles.medium.width}
-                  height={IconStyles.medium.height}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
+      {routeName === Screens.CATALOG && (
+        <>
+          <Input
+            showClear={true}
+            value={searchText}
+            style={styles.input}
+            placeholder={t('Поиск...')}
+            setValue={setSearchText}
+            onClear={handleClearInput}
+          />
+          <TouchableOpacity onPress={handleSearch}>
+            <SearchIcon
+              fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+              width={IconStyles.medium.width}
+              height={IconStyles.medium.height}
+            />
+          </TouchableOpacity>
+        </>
+      )}
 
-      default:
-        return null;
-    }
-  };
-
-  return <View style={[styles.container]}>{renderContent()}</View>;
+      <TouchableOpacity onPress={handleNavigateToCart}>
+        <CartIcon
+          fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+          width={IconStyles.medium.width}
+          height={IconStyles.medium.height}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 };

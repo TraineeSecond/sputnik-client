@@ -18,5 +18,11 @@
   "Карта": "Map",
   "Корзина": "Cart",
   "Пустая корзина": "Your cart is empty, please add something",
-  "Оформить заказ": "Place an order"
+  "Оформить заказ": "Place an order",
+  "Успешная авторизация": "Successful authorization",
+  "Авторизация": "Authorization",
+  "Введите почту": "Email",
+  "Введите пароль": "Password",
+  "Войти": "Enter",
+  "Зарегистрироваться": "Register"
 }

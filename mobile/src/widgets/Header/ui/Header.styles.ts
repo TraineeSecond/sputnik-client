@@ -11,39 +11,10 @@ export const HeaderStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.White100,
-  },
-  homeContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-  },
-  productContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   logo: {
     height: 30,
-  },
-  searchContainer: {
-    flexDirection: 'column',
-    width: '100%',
-    height: '100%',
-  },
-  topControls: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    alignItems: 'center',
-  },
-  inputContainer: {
-    flex: 1,
   },
   input: {
     backgroundColor: Colors.Gray200,

@@ -63,6 +63,9 @@ export const Catalog = () => {
     );
   };
 
+  const renderFlatListItem = ({item}: {item: Product}) =>
+    renderProductItem(item);
+
   const showLoader = isLoading && !isRefresh && !error;
 
   return (
@@ -89,7 +92,7 @@ export const Catalog = () => {
         <FlatList
           numColumns={2}
           data={foundProducts}
-          renderItem={({item}) => renderProductItem(item)}
+          renderItem={renderFlatListItem}
           keyExtractor={item => item.id.toString()}
           contentContainerStyle={styles.scrollView}
           initialNumToRender={8}
