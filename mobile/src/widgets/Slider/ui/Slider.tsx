@@ -1,6 +1,7 @@
 import React, {ReactElement} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -35,6 +36,9 @@ export const Slider = ({
   const renderSliderItem = (item: any, index: number) => (
     <View key={`${title}-${index}`}>{renderItem({item, index})}</View>
   );
+  const keyExtractor = (item: any, index: number) => index.toString();
+
+  // TODO: Временно оставляю забагованный flatList в противном случае элементы не отображаются
 
   return (
     <View style={StyleSheet.compose(styles.container, style)}>
@@ -50,14 +54,44 @@ export const Slider = ({
           </TouchableOpacity>
         </View>
       )}
-      <ScrollView
+      {/* <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatList}>
         {isLoading
           ? [1, 2, 3, 4, 5].map((_, index) => renderSkeleton(index))
           : data.map(renderSliderItem)}
-      </ScrollView>
+      </ScrollView> */}
+      {isLoading ? (
+        <FlatList
+          horizontal
+          data={[1, 2, 3, 4, 5]}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({index}) => renderSkeleton(index)}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatList}
+        />
+      ) : (
+        <FlatList
+          horizontal
+          data={data}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          initialNumToRender={5}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatList}
+        />
+      )}
+
+      {/* <View style={styles.flatList}>
+        {isLoading
+          ? [1, 2, 3, 4, 5].map((_, index) => (
+              <View key={index}>{renderSkeleton(index)}</View>
+            ))
+          : data.map((item, index) => (
+              <View key={index}>{renderItem({item, index})}</View>
+            ))}
+      </View> */}
     </View>
   );
 };

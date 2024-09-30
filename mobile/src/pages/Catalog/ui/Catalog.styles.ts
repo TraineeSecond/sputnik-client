@@ -9,4 +9,9 @@ export const CatalogPageStyles = StyleSheet.create({
     flexWrap: 'wrap',
     backgroundColor: Colors.White100,
   },
+  productItem: {
+    width: '46%',
+    margin: '2%',
+    marginBottom: 15,
+  },
 });

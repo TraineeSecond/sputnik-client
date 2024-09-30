@@ -1,38 +1,59 @@
 import React from 'react';
-import {TextInput} from 'react-native';
+import {TextInput, TouchableOpacity, View} from 'react-native';
 
-import {Colors, TextStyles} from '../../libs/helpers';
+import {CloseIcon} from 'shared/icons';
+
+import {Colors, IconStyles, TextStyles} from '../../libs/helpers';
 import {InputStyles as styles} from './Input.styles';
 
 type InputType = {
   value: string;
+  style?: object;
+  isEmail?: boolean;
   placeholder: string;
   isPassword?: boolean;
-  isEmail?: boolean;
+  onClear?: () => void;
   setValue: (text: string) => void;
 };
 
 export const Input = ({
+  style,
   value,
+  onClear,
   setValue,
   placeholder,
-  isPassword = false,
   isEmail = false,
+  isPassword = false,
 }: InputType) => {
   const handleChangeText = (value: string) => {
     setValue(value);
   };
 
   return (
-    <TextInput
-      value={value}
-      secureTextEntry={isPassword}
-      placeholder={placeholder}
-      keyboardType={isEmail ? 'email-address' : 'default'}
-      autoCapitalize="none"
-      placeholderTextColor={Colors.Black200}
-      onChangeText={handleChangeText}
-      style={[styles.input, TextStyles.p1.changeColor(Colors.Black100)]}
-    />
+    <View style={styles.inputContainer}>
+      <TextInput
+        value={value}
+        secureTextEntry={isPassword}
+        placeholder={placeholder}
+        keyboardType={isEmail ? 'email-address' : 'default'}
+        autoCapitalize="none"
+        placeholderTextColor={Colors.Black200}
+        onChangeText={handleChangeText}
+        style={[
+          styles.input,
+          TextStyles.p1.changeColor(Colors.Black100),
+          style,
+        ]}
+      />
+      {value && (
+        <TouchableOpacity onPress={onClear} style={styles.clearButton}>
+          <CloseIcon
+            fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };

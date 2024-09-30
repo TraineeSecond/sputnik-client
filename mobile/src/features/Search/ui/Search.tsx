@@ -1,40 +1,30 @@
-import React, {useCallback, useEffect} from 'react';
-import {View} from 'react-native';
+import React, {useCallback} from 'react';
+import {Text, View} from 'react-native';
 
-import {Screens} from 'app/navigation/navigationEnums';
-import {Category, Product} from 'entities';
+import {Category} from 'entities';
 import ContentLoader from 'react-content-loader';
 import {Circle} from 'react-native-svg';
 import {Colors} from 'shared/libs/helpers';
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {CategoryItem, ProductItem} from 'shared/ui';
+import {CategoryItem} from 'shared/ui';
 import {Slider} from 'widgets';
 
-import {useSearchStore} from '..';
 import {SearchStyles as styles} from './styles';
 
 type SearchProps = {
-  catalogData: Product[];
+  isLoading: boolean;
+  categories: Category[];
+  currentCategory: string;
+  setCategory: (category: string) => void;
+  fetchProducts: () => Promise<void>;
 };
 
-export const Search = ({catalogData}: SearchProps) => {
-  const navigation = useAppNavigation();
-
-  const {
-    isLoading,
-    categories,
-    foundProducts,
-    currentCategory,
-    setCategory,
-    setIsLoading,
-    setFoundProducts,
-    fetchProducts,
-  } = useSearchStore();
-
-  useEffect(() => {
-    setFoundProducts(catalogData);
-  }, []);
-
+export const Search = ({
+  isLoading,
+  categories,
+  currentCategory,
+  setCategory,
+  fetchProducts,
+}: SearchProps) => {
   const handleCategoryPress = useCallback(
     (category: string) => {
       setCategory(category);
@@ -83,43 +73,13 @@ export const Search = ({catalogData}: SearchProps) => {
     </View>
   );
 
-  const handleProductPress = (product: Product) => {
-    navigation.navigate(Screens.PRODUCT, {
-      product,
-    });
-  };
-
-  const renderProductItem = (item: Product) => {
-    const {id, name, price, new_price, user} = item;
-    const handlePress = () => handleProductPress(item);
-
-    return (
-      <ProductItem
-        id={`${id}`}
-        key={id}
-        name={name}
-        price={price}
-        newPrice={new_price}
-        sellerName={user.name}
-        sellerSurname={user.surname}
-        onPress={handlePress}
-        style={styles.productItem}
-      />
-    );
-  };
-
-  // TODO: поменять на flatlist
-
   return (
-    <>
-      <Slider
-        isLoading={isLoading}
-        data={categories}
-        renderItem={renderCategoryItem}
-        renderSkeleton={renderSkeletonCategory}
-        style={styles.marginBottom}
-      />
-      {foundProducts.map(renderProductItem)}
-    </>
+    <Slider
+      isLoading={isLoading}
+      data={categories}
+      renderItem={renderCategoryItem}
+      renderSkeleton={renderSkeletonCategory}
+      style={styles.marginBottom}
+    />
   );
 };

@@ -4,8 +4,10 @@ import {Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {ArrowBack, CartIcon} from 'shared/icons';
+import {Search, useSearchCatalogStore} from 'features';
+import {ArrowBack, CartIcon, SearchIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
+import {Input} from 'shared/ui';
 
 import {HeaderStyles as styles} from './Header.styles';
 
@@ -15,6 +17,16 @@ type HeaderProps = {
 };
 
 export const Header = ({navigation, routeName}: HeaderProps) => {
+  const {
+    isLoading,
+    categories,
+    searchText,
+    currentCategory,
+    setCategory,
+    setSearchText,
+    fetchProducts,
+  } = useSearchCatalogStore();
+
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -27,28 +39,106 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
     navigation.navigate(Screens.CART);
   };
 
+  const handleSearch = () => {
+    fetchProducts();
+  };
+
+  const handleClearInput = () => {
+    setSearchText('');
+  };
+
+  const renderContent = () => {
+    switch (routeName) {
+      case Screens.HOME:
+        return (
+          <View style={styles.homeContainer}>
+            <TouchableOpacity
+              onPress={handleNavigateToHome}
+              style={styles.logo}>
+              <Text style={TextStyles.p3.changeColor(Colors.Green500)}>
+                GOZON
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleNavigateToCart}>
+              <CartIcon
+                fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+                width={IconStyles.medium.width}
+                height={IconStyles.medium.height}
+              />
+            </TouchableOpacity>
+          </View>
+        );
+
+      case Screens.PRODUCT:
+        return (
+          <>
+            <TouchableOpacity onPress={handleGoBack}>
+              <ArrowBack
+                fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+                width={IconStyles.medium.width}
+                height={IconStyles.medium.height}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleNavigateToCart}>
+              <CartIcon
+                fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+                width={IconStyles.medium.width}
+                height={IconStyles.medium.height}
+              />
+            </TouchableOpacity>
+          </>
+        );
+
+      case Screens.CATALOG:
+        return (
+          <View style={styles.searchContainer}>
+            <View style={styles.topControls}>
+              <Input
+                value={searchText}
+                onClear={handleClearInput}
+                setValue={setSearchText}
+                placeholder="Поиск..."
+                style={styles.input}
+              />
+              <TouchableOpacity onPress={handleSearch}>
+                <SearchIcon
+                  fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+                  width={IconStyles.medium.width}
+                  height={IconStyles.medium.height}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleNavigateToCart}>
+                <CartIcon
+                  fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+                  width={IconStyles.medium.width}
+                  height={IconStyles.medium.height}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.filters}>
+              <Search
+                isLoading={isLoading}
+                categories={categories}
+                currentCategory={currentCategory}
+                setCategory={setCategory}
+                fetchProducts={fetchProducts}
+              />
+            </View>
+          </View>
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      {routeName === Screens.PRODUCT ? (
-        <TouchableOpacity onPress={handleGoBack}>
-          <ArrowBack
-            fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-            width={IconStyles.medium.width}
-            height={IconStyles.medium.height}
-          />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={handleNavigateToHome}>
-          <Text style={TextStyles.p3.changeColor(Colors.Green500)}>GOZON</Text>
-        </TouchableOpacity>
-      )}
-      <TouchableOpacity onPress={handleNavigateToCart}>
-        <CartIcon
-          fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-          width={IconStyles.medium.width}
-          height={IconStyles.medium.height}
-        />
-      </TouchableOpacity>
+    <View
+      style={[
+        styles.container,
+        routeName === Screens.CATALOG ? styles.catalogPage : null,
+      ]}>
+      {renderContent()}
     </View>
   );
 };

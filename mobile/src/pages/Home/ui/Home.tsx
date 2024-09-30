@@ -4,9 +4,8 @@ import {RefreshControl, ScrollView, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {Category, Product} from 'entities';
-import {useProductListStore} from 'entities/productList';
 import {useUserStore} from 'entities/user';
-import {useSearchStore} from 'features/Search';
+import {useSearchCatalogStore} from 'features/Search';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
@@ -20,9 +19,16 @@ export const Home = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
   const {loadUserData} = useUserStore();
-  const {categories, fetchCategories} = useSearchStore();
-  const {error, isLoading, allProductList, setIsLoading, fetchAllProducts} =
-    useProductListStore();
+
+  const {
+    error,
+    isLoading,
+    categories,
+    allProductList,
+    setIsLoading,
+    fetchCategories,
+    fetchAllProducts,
+  } = useSearchCatalogStore();
 
   useEffect(() => {
     setIsLoading(true);
@@ -127,10 +133,6 @@ export const Home = () => {
   );
 
   //TODO: получать подборки и их названия с бэка
-  const [firstHalf, secondHalf] = [
-    allProductList.slice(0, allProductList.length / 2),
-    allProductList.slice(allProductList.length / 2),
-  ];
 
   return (
     <ScrollView
@@ -160,7 +162,7 @@ export const Home = () => {
           <Slider
             isLoading={isLoading || !allProductList.length}
             title="Для вас"
-            data={firstHalf}
+            data={allProductList}
             renderItem={renderProductItem}
             renderSkeleton={renderSkeletonProduct}
             style={styles.marginBottom}
@@ -168,7 +170,7 @@ export const Home = () => {
           <Slider
             isLoading={isLoading || !allProductList.length}
             title="Подборка на лето"
-            data={secondHalf}
+            data={allProductList}
             renderItem={renderProductItem}
             renderSkeleton={renderSkeletonProduct}
             style={styles.marginBottom}

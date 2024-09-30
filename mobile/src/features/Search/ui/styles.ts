@@ -4,15 +4,12 @@ import {Colors} from 'shared/libs/helpers/colors';
 
 export const SearchStyles = StyleSheet.create({
   marginBottom: {
-    marginBottom: 25,
+    paddingBottom: 10,
+    marginBottom: 5,
   },
-  productItem: {
-    width: '46%',
-    margin: '2%',
-    marginBottom: 15,
-  },
+
   activeCategory: {
-    backgroundColor: Colors.Black100Opacity20,
+    backgroundColor: Colors.Green100Opacity30,
   },
   inactiveCategory: {
     opacity: 0.3,

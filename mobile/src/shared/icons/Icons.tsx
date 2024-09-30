@@ -32,9 +32,14 @@ export const SettingsIcon = (props: any) => (
 export const HeartOutlineIcon = (props: any) => (
   <Icon {...props} name="heart-outline" />
 );
+export const SearchIcon = (props: any) => (
+  <Icon {...props} name="search-outline" />
+);
+export const CloseIcon = (props: any) => (
+  <Icon {...props} name="close-outline" />
+);
 export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
 export const ArrowBack = (props: any) => <Icon {...props} name="arrow-back" />;
-
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;
 export const StarIcon = (props: any) => <Icon {...props} name="star" />;
 export const RemoveIcon = (props: any) => <Icon {...props} name="trash-2" />;
