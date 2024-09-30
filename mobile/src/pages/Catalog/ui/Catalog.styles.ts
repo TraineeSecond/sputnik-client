@@ -6,12 +6,13 @@ export const CatalogPageStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.White100,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollView: {
     paddingVertical: 10,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    backgroundColor: Colors.White100,
+    // flexDirection: 'row',
+    // flexWrap: 'wrap',
   },
   productItem: {
     width: '46%',
@@ -27,6 +28,7 @@ export const CatalogPageStyles = StyleSheet.create({
     elevation: 4,
   },
   skeleton: {
+    marginTop: 80,
     flex: 1,
     height: 80,
     width: 80,

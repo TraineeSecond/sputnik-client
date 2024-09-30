@@ -90,30 +90,24 @@ export const Catalog = () => {
           fetchProducts={fetchProducts}
         />
       </View>
-      <ScrollView
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={isRefresh} onRefresh={onRefresh} />
-        }>
-        {isLoading && !isRefresh ? (
-          <View style={styles.skeleton}>
-            <ActivityIndicator size="large" color={Colors.Gray500} />
-          </View>
-        ) : (
-          foundProducts.map(renderProductItem)
-        )}
-      </ScrollView>
 
-      {/* <FlatList
-        data={foundProducts}
-        renderItem={({item}) => renderProductItem(item)}
-        keyExtractor={item => item.id.toString()}
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-        }
-        ListEmptyComponent={<Text>Загрузка...</Text>}
-      /> */}
+      {isLoading && !isRefresh ? (
+        <View style={styles.skeleton}>
+          <ActivityIndicator size="large" color={Colors.Gray500} />
+        </View>
+      ) : (
+        <FlatList
+          numColumns={2}
+          data={foundProducts}
+          renderItem={({item}) => renderProductItem(item)}
+          keyExtractor={item => item.id.toString()}
+          contentContainerStyle={styles.scrollView}
+          initialNumToRender={8}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+          }
+        />
+      )}
     </View>
   );
 };
