@@ -59,12 +59,24 @@ export const Catalog = () => {
   // TODO: поменять на flatlist
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-      }>
-      {isLoading ? <Text>123</Text> : allProductList.map(renderProductItem)}
-    </ScrollView>
+    <View style={styles.container}>
+      <View style={styles.filters}>
+        <Search
+          isLoading={isLoading}
+          categories={categories}
+          currentCategory={currentCategory}
+          setCategory={setCategory}
+          fetchProducts={fetchProducts}
+        />
+      </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        // refreshControl={
+        //   <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        // }
+      >
+        {isLoading ? <Text>123</Text> : allProductList.map(renderProductItem)}
+      </ScrollView>
+    </View>
   );
 };

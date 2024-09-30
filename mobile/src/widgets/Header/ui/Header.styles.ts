@@ -19,11 +19,15 @@ export const HeaderStyles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
   },
+  productContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
   logo: {
     height: 30,
-  },
-  catalogPage: {
-    height: 180,
   },
   searchContainer: {
     flexDirection: 'column',
@@ -34,7 +38,8 @@ export const HeaderStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 20,
-    padding: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     alignItems: 'center',
   },
   input: {
@@ -44,9 +49,5 @@ export const HeaderStyles = StyleSheet.create({
     paddingHorizontal: 10,
     height: 30,
     fontSize: 14,
-  },
-  filters: {
-    height: 300,
-    width: 500,
   },
 });

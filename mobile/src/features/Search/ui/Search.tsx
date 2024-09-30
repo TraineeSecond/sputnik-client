@@ -53,7 +53,7 @@ export const Search = ({
         id={index.toString()}
         title={item}
         onPress={handlePress}
-        style={[categoryStyle]}
+        style={[styles.default, categoryStyle]}
       />
     );
   };

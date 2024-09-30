@@ -14,4 +14,9 @@ export const SearchStyles = StyleSheet.create({
   inactiveCategory: {
     opacity: 0.3,
   },
+  default: {
+    height: 40,
+    width: 85,
+    borderRadius: 10,
+  },
 });

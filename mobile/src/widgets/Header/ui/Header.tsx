@@ -71,7 +71,7 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
 
       case Screens.PRODUCT:
         return (
-          <>
+          <View style={styles.productContainer}>
             <TouchableOpacity onPress={handleGoBack}>
               <ArrowBack
                 fill={IconStyles.medium.changeColor(Colors.Gray500).color}
@@ -86,7 +86,7 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
                 height={IconStyles.medium.height}
               />
             </TouchableOpacity>
-          </>
+          </View>
         );
 
       case Screens.CATALOG:
@@ -115,15 +115,6 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.filters}>
-              <Search
-                isLoading={isLoading}
-                categories={categories}
-                currentCategory={currentCategory}
-                setCategory={setCategory}
-                fetchProducts={fetchProducts}
-              />
-            </View>
           </View>
         );
 
@@ -136,7 +127,7 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
     <View
       style={[
         styles.container,
-        routeName === Screens.CATALOG ? styles.catalogPage : null,
+        // routeName === Screens.CATALOG ? styles.catalogPage : null,
       ]}>
       {renderContent()}
     </View>
