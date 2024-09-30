@@ -32,13 +32,7 @@ export const Slider = ({
   renderSkeleton,
 }: SliderProps) => {
   const {t} = useTranslation();
-  console.log(isLoading);
-  // const renderSliderItem = ({item, index}) => (
-  //   <View key={`${title}-${index}`}>{renderItem({item, index})}</View>
-  // );
   const keyExtractor = (item: any, index: number) => index.toString();
-
-  // TODO: Временно оставляю забагованный flatList в противном случае элементы не отображаются
 
   return (
     <View style={StyleSheet.compose(styles.container, style)}>
@@ -65,40 +59,6 @@ export const Slider = ({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatList}
       />
-
-      {/* <ScrollView
-        key={title}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatList}>
-        {data.map((item, index) => (
-          <View key={index}>{renderItem({item, index})}</View>
-        ))}
-      </ScrollView> */}
-
-      {/* <ScrollView
-        key={title}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatList}>
-        {isLoading
-          ? [1, 2, 3, 4, 5].map((_, index) => (
-              <View key={index}>{renderSkeleton(index)}</View>
-            ))
-          : data.map((item, index) => (
-              <View key={index}>{renderItem({item, index})}</View>
-            ))}
-      </ScrollView> */}
-
-      {/* <View style={styles.flatList}>
-        {isLoading
-          ? [1, 2, 3, 4, 5].map((_, index) => (
-              <View key={index}>{renderSkeleton(index)}</View>
-            ))
-          : data.map((item, index) => (
-              <View key={index}>{renderItem({item, index})}</View>
-            ))}
-      </View> */}
     </View>
   );
 };

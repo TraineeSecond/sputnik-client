@@ -1,5 +1,6 @@
 import {NavigationProp} from '@react-navigation/native';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
@@ -17,6 +18,7 @@ type HeaderProps = {
 };
 
 export const Header = ({navigation, routeName}: HeaderProps) => {
+  const {t} = useTranslation();
   const {searchText, setSearchText, fetchProducts} = useSearchCatalogStore();
 
   const handleGoBack = () => {
@@ -89,7 +91,7 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
                 showClear={true}
                 value={searchText}
                 style={styles.input}
-                placeholder="Поиск..."
+                placeholder={t('Поиск...')}
                 setValue={setSearchText}
                 onClear={handleClearInput}
                 containerStyle={styles.inputContainer}
@@ -117,13 +119,5 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
     }
   };
 
-  return (
-    <View
-      style={[
-        styles.container,
-        // routeName === Screens.CATALOG ? styles.catalogPage : null,
-      ]}>
-      {renderContent()}
-    </View>
-  );
+  return <View style={[styles.container]}>{renderContent()}</View>;
 };

@@ -1,9 +1,7 @@
 import React, {useCallback} from 'react';
-import {View} from 'react-native';
 
 import {Category} from 'entities';
-import ContentLoader from 'react-content-loader';
-import {Circle} from 'react-native-svg';
+import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors} from 'shared/libs/helpers';
 import {CategoryItem} from 'shared/ui';
 import {Slider} from 'widgets';
@@ -59,17 +57,16 @@ export const Search = ({
   };
 
   const renderSkeletonCategory = (index: number) => (
-    <View style={styles.skeleton}></View>
-    // <ContentLoader
-    //   key={index}
-    //   speed={2}
-    //   width={95}
-    //   height={108}
-    //   viewBox="0 0 95 95"
-    //   backgroundColor={Colors.Gray200}
-    //   foregroundColor={Colors.Gray400}>
-    //   <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
-    // </ContentLoader>
+    <ContentLoader
+      key={index}
+      speed={2}
+      width={85}
+      height={40}
+      viewBox="0 0 85 40"
+      backgroundColor={Colors.Gray200}
+      foregroundColor={Colors.Gray400}>
+      <Rect x="0" y="0" rx="10" ry="10" width="85" height="40" />
+    </ContentLoader>
   );
 
   return (

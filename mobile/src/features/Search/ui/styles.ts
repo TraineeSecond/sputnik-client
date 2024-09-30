@@ -19,8 +19,10 @@ export const SearchStyles = StyleSheet.create({
     borderRadius: 10,
   },
   skeleton: {
-    height: 80,
-    width: 80,
-    backgroundColor: Colors.Gray500,
+    height: 40,
+    width: 85,
+    borderRadius: 10,
+    backgroundColor: Colors.Gray200,
+    marginBottom: 10,
   },
 });
