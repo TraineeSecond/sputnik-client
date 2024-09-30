@@ -21,6 +21,7 @@ import {CatalogPageStyles as styles} from './Catalog.styles';
 
 export const Catalog = () => {
   const navigation = useAppNavigation();
+  const [isRefresh, setIsRefresh] = useState(false);
   const {
     isLoading,
     categories,
@@ -28,15 +29,16 @@ export const Catalog = () => {
     category,
     setCategory,
     fetchProducts,
+    fetchStartData,
   } = useSearchCatalogStore();
 
   // TODO: Исправить баг flatList
 
-  // const onRefresh = useCallback(async () => {
-  //   setIsLoading(true);
-  //   await Promise.all([fetchAllProducts()]);
-  //   setIsLoading(false);
-  // }, [fetchAllProducts, setIsLoading]);
+  const onRefresh = useCallback(async () => {
+    setIsRefresh(true);
+    await Promise.all([fetchStartData()]);
+    setIsRefresh(false);
+  }, [fetchStartData]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -81,7 +83,7 @@ export const Catalog = () => {
     <View style={styles.container}>
       <View style={styles.filters}>
         <Search
-          isLoading={true}
+          isLoading={isLoading} // установил тут
           categories={categories}
           category={category}
           setCategory={setCategory}
@@ -90,11 +92,10 @@ export const Catalog = () => {
       </View>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-        // refreshControl={
-        //   <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-        // }
-      >
-        {isLoading ? (
+        refreshControl={
+          <RefreshControl refreshing={isRefresh} onRefresh={onRefresh} />
+        }>
+        {isLoading && !isRefresh ? (
           <View style={styles.skeleton}>
             <ActivityIndicator size="large" color={Colors.Gray500} />
           </View>
@@ -111,9 +112,7 @@ export const Catalog = () => {
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
         }
-        ListEmptyComponent={
-           <Text>Загрузка...</Text> 
-        }
+        ListEmptyComponent={<Text>Загрузка...</Text>}
       /> */}
     </View>
   );

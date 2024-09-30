@@ -32,13 +32,11 @@ export const Slider = ({
   renderSkeleton,
 }: SliderProps) => {
   const {t} = useTranslation();
-
+  console.log(isLoading);
   // const renderSliderItem = ({item, index}) => (
   //   <View key={`${title}-${index}`}>{renderItem({item, index})}</View>
   // );
   const keyExtractor = (item: any, index: number) => index.toString();
-
-  console.log(isLoading === true ? title : null);
 
   // TODO: Временно оставляю забагованный flatList в противном случае элементы не отображаются
 
@@ -56,6 +54,18 @@ export const Slider = ({
           </TouchableOpacity>
         </View>
       )}
+      <FlatList
+        horizontal
+        data={isLoading ? [1, 2, 3, 4, 5] : data}
+        keyExtractor={keyExtractor}
+        renderItem={({item, index}) =>
+          isLoading ? renderSkeleton(index) : renderItem({item, index})
+        }
+        initialNumToRender={5}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatList}
+      />
+
       {/* <ScrollView
         key={title}
         horizontal
@@ -79,16 +89,6 @@ export const Slider = ({
               <View key={index}>{renderItem({item, index})}</View>
             ))}
       </ScrollView> */}
-
-      <FlatList
-        horizontal
-        data={data}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        initialNumToRender={5}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatList}
-      />
 
       {/* <View style={styles.flatList}>
         {isLoading
