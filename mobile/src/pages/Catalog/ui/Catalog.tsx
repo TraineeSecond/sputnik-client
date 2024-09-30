@@ -1,9 +1,19 @@
-import React, {useCallback} from 'react';
-import {RefreshControl, ScrollView, Text, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
 import {Search, useSearchCatalogStore} from 'features/Search';
+import ContentLoader from 'react-content-loader';
+import {Rect} from 'react-native-svg';
+import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {ProductItem} from 'shared/ui';
 
@@ -11,25 +21,22 @@ import {CatalogPageStyles as styles} from './Catalog.styles';
 
 export const Catalog = () => {
   const navigation = useAppNavigation();
-
   const {
     isLoading,
     categories,
     foundProducts,
-    allProductList,
-    currentCategory,
+    category,
     setCategory,
-    setIsLoading,
     fetchProducts,
-    setFoundProducts,
-    fetchAllProducts,
   } = useSearchCatalogStore();
 
-  const onRefresh = useCallback(async () => {
-    setIsLoading(true);
-    await Promise.all([fetchAllProducts()]);
-    setIsLoading(false);
-  }, [fetchAllProducts, setIsLoading]);
+  // TODO: Исправить баг flatList
+
+  // const onRefresh = useCallback(async () => {
+  //   setIsLoading(true);
+  //   await Promise.all([fetchAllProducts()]);
+  //   setIsLoading(false);
+  // }, [fetchAllProducts, setIsLoading]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -56,15 +63,27 @@ export const Catalog = () => {
     );
   };
 
-  // TODO: поменять на flatlist
+  // const renderSkeletonProduct = (index: number) => (
+  //   <ContentLoader
+  //     speed={2}
+  //     width={210}
+  //     height={210}
+  //     viewBox="0 0 210 210"
+  //     backgroundColor={Colors.Gray200}
+  //     foregroundColor={Colors.Gray400}>
+  //     <Rect x="0" y="0" rx="10" ry="10" width="210" height="210" />
+  //   </ContentLoader>
+  // );
+
+  // TODO: Исправить баг flatList
 
   return (
     <View style={styles.container}>
       <View style={styles.filters}>
         <Search
-          isLoading={isLoading}
+          isLoading={true}
           categories={categories}
-          currentCategory={currentCategory}
+          category={category}
           setCategory={setCategory}
           fetchProducts={fetchProducts}
         />
@@ -75,8 +94,27 @@ export const Catalog = () => {
         //   <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
         // }
       >
-        {isLoading ? <Text>123</Text> : allProductList.map(renderProductItem)}
+        {isLoading ? (
+          <View style={styles.skeleton}>
+            <ActivityIndicator size="large" color={Colors.Gray500} />
+          </View>
+        ) : (
+          foundProducts.map(renderProductItem)
+        )}
       </ScrollView>
+
+      {/* <FlatList
+        data={foundProducts}
+        renderItem={({item}) => renderProductItem(item)}
+        keyExtractor={item => item.id.toString()}
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        }
+        ListEmptyComponent={
+           <Text>Загрузка...</Text> 
+        }
+      /> */}
     </View>
   );
 };

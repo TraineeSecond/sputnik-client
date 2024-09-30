@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {Search, useSearchCatalogStore} from 'features';
+import {useSearchCatalogStore} from 'features';
 import {ArrowBack, CartIcon, SearchIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {Input} from 'shared/ui';
@@ -17,15 +17,7 @@ type HeaderProps = {
 };
 
 export const Header = ({navigation, routeName}: HeaderProps) => {
-  const {
-    isLoading,
-    categories,
-    searchText,
-    currentCategory,
-    setCategory,
-    setSearchText,
-    fetchProducts,
-  } = useSearchCatalogStore();
+  const {searchText, setSearchText, fetchProducts} = useSearchCatalogStore();
 
   const handleGoBack = () => {
     navigation.goBack();

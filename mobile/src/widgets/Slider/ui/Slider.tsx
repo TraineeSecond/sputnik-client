@@ -33,10 +33,12 @@ export const Slider = ({
 }: SliderProps) => {
   const {t} = useTranslation();
 
-  const renderSliderItem = (item: any, index: number) => (
-    <View key={`${title}-${index}`}>{renderItem({item, index})}</View>
-  );
+  // const renderSliderItem = ({item, index}) => (
+  //   <View key={`${title}-${index}`}>{renderItem({item, index})}</View>
+  // );
   const keyExtractor = (item: any, index: number) => index.toString();
+
+  console.log(isLoading === true ? title : null);
 
   // TODO: Временно оставляю забагованный flatList в противном случае элементы не отображаются
 
@@ -55,33 +57,38 @@ export const Slider = ({
         </View>
       )}
       {/* <ScrollView
+        key={title}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatList}>
+        {data.map((item, index) => (
+          <View key={index}>{renderItem({item, index})}</View>
+        ))}
+      </ScrollView> */}
+
+      {/* <ScrollView
+        key={title}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatList}>
         {isLoading
-          ? [1, 2, 3, 4, 5].map((_, index) => renderSkeleton(index))
-          : data.map(renderSliderItem)}
+          ? [1, 2, 3, 4, 5].map((_, index) => (
+              <View key={index}>{renderSkeleton(index)}</View>
+            ))
+          : data.map((item, index) => (
+              <View key={index}>{renderItem({item, index})}</View>
+            ))}
       </ScrollView> */}
-      {isLoading ? (
-        <FlatList
-          horizontal
-          data={[1, 2, 3, 4, 5]}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={({index}) => renderSkeleton(index)}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.flatList}
-        />
-      ) : (
-        <FlatList
-          horizontal
-          data={data}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          initialNumToRender={5}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.flatList}
-        />
-      )}
+
+      <FlatList
+        horizontal
+        data={data}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        initialNumToRender={5}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatList}
+      />
 
       {/* <View style={styles.flatList}>
         {isLoading

@@ -16,6 +16,6 @@ export const SliderStyles = StyleSheet.create({
     gap: 10,
     paddingHorizontal: 10,
     overflow: 'scroll',
-    // Временно пока что баг
+    // баг c flatlist
   },
 });

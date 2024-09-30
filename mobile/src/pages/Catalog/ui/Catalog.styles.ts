@@ -26,4 +26,10 @@ export const CatalogPageStyles = StyleSheet.create({
     borderColor: Colors.Gray100,
     elevation: 4,
   },
+  skeleton: {
+    flex: 1,
+    height: 80,
+    width: 80,
+    // backgroundColor: Colors.Gray500,
+  },
 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ICartFromServer} from 'entities/CartItem';
+import {ICartFromServer} from 'entities/cartItem';
 import {User} from 'entities/user';
 import {create} from 'zustand';
 

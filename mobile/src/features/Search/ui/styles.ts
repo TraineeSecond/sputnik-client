@@ -7,7 +7,6 @@ export const SearchStyles = StyleSheet.create({
     paddingBottom: 10,
     marginBottom: 5,
   },
-
   activeCategory: {
     backgroundColor: Colors.Green100Opacity30,
   },
@@ -18,5 +17,10 @@ export const SearchStyles = StyleSheet.create({
     height: 40,
     width: 85,
     borderRadius: 10,
+  },
+  skeleton: {
+    height: 80,
+    width: 80,
+    backgroundColor: Colors.Gray500,
   },
 });

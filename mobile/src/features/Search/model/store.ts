@@ -10,7 +10,7 @@ import {create} from 'zustand';
 // CategoryResponse;
 
 type SearchStore = {
-  currentCategory: string;
+  category: string;
   searchText: string;
   foundProducts: Product[];
   categories: Category[];
@@ -23,11 +23,11 @@ type SearchStore = {
   setFoundProducts: (products: Product[]) => void;
   fetchProducts: () => Promise<void>;
   fetchCategories: () => Promise<void>;
-  fetchAllProducts: () => Promise<void>;
+  fetchStartData: () => Promise<void>;
 };
 
 export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
-  currentCategory: '',
+  category: '',
   searchText: '',
   foundProducts: [],
   isLoading: false,
@@ -41,36 +41,38 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
 
   setCategory: (category: string) => {
     set(state => {
-      const newCategory = state.currentCategory === category ? '' : category;
-
+      const newCategory = state.category === category ? '' : category;
       if (!newCategory) {
-        return {currentCategory: '', foundProducts: get().allProductList};
+        return {
+          category: '',
+          foundProducts: state.allProductList,
+        };
       }
-
-      set({currentCategory: newCategory});
-
-      return {currentCategory: newCategory};
+      return {category: newCategory};
     });
   },
 
   setSearchText: text => set({searchText: text}),
 
   fetchProducts: async () => {
-    const {currentCategory, searchText} = get();
+    const {category, searchText} = get();
+    set({isLoading: true});
     try {
       const {data} = await axios.get(
         'https://domennameabcdef.ru/api/products',
         {
           params: {
-            categorie: currentCategory,
+            category: category,
+            ...(category && {name: category}),
             ...(searchText && {name: searchText}),
           },
         },
       );
-      console.log(data);
       set({foundProducts: data});
     } catch (error) {
-      console.error('Ошибка при получении продуктов:', error);
+      set({error: true});
+    } finally {
+      set({isLoading: false});
     }
   },
 
@@ -86,14 +88,17 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
     }
   },
 
-  fetchAllProducts: async () => {
-    set({error: false});
+  fetchStartData: async () => {
+    set({error: false, isLoading: true});
     try {
       const res = await axios.get('https://domennameabcdef.ru/api/products');
       const {data} = res;
-      set({allProductList: data});
+      get().fetchCategories();
+      set({allProductList: data, foundProducts: data});
     } catch (error) {
       set({error: true});
+    } finally {
+      set({isLoading: false});
     }
   },
 }));

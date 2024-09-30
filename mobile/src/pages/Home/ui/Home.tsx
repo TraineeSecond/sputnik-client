@@ -20,29 +20,17 @@ export const Home = () => {
   const navigation = useAppNavigation();
   const {loadUserData} = useUserStore();
 
-  const {
-    error,
-    isLoading,
-    categories,
-    allProductList,
-    setIsLoading,
-    fetchCategories,
-    fetchAllProducts,
-  } = useSearchCatalogStore();
+  const {error, isLoading, categories, allProductList, fetchStartData} =
+    useSearchCatalogStore();
 
   useEffect(() => {
-    setIsLoading(true);
     loadUserData();
-    fetchCategories();
-    fetchAllProducts();
-    setIsLoading(false);
+    fetchStartData();
   }, []);
 
   const onRefresh = useCallback(async () => {
-    setIsLoading(true);
-    await Promise.all([fetchAllProducts(), loadUserData()]);
-    setIsLoading(false);
-  }, [fetchAllProducts, loadUserData, setIsLoading]);
+    await Promise.all([fetchStartData(), loadUserData()]);
+  }, [fetchStartData, loadUserData]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -104,32 +92,28 @@ export const Home = () => {
   };
 
   const renderSkeletonCategory = (index: number) => (
-    <View key={index}>
-      <ContentLoader
-        key={index}
-        speed={2}
-        width={95}
-        height={108}
-        viewBox="0 0 95 95"
-        backgroundColor={Colors.Gray200}
-        foregroundColor={Colors.Gray400}>
-        <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
-      </ContentLoader>
-    </View>
+    <ContentLoader
+      key={index}
+      speed={2}
+      width={95}
+      height={108}
+      viewBox="0 0 95 95"
+      backgroundColor={Colors.Gray200}
+      foregroundColor={Colors.Gray400}>
+      <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
+    </ContentLoader>
   );
 
   const renderSkeletonProduct = (index: number) => (
-    <View key={index}>
-      <ContentLoader
-        speed={2}
-        width={210}
-        height={210}
-        viewBox="0 0 210 210"
-        backgroundColor={Colors.Gray200}
-        foregroundColor={Colors.Gray400}>
-        <Rect x="0" y="0" rx="10" ry="10" width="210" height="210" />
-      </ContentLoader>
-    </View>
+    <ContentLoader
+      speed={2}
+      width={210}
+      height={210}
+      viewBox="0 0 210 210"
+      backgroundColor={Colors.Gray200}
+      foregroundColor={Colors.Gray400}>
+      <Rect x="0" y="0" rx="10" ry="10" width="210" height="210" />
+    </ContentLoader>
   );
 
   //TODO: получать подборки и их названия с бэка

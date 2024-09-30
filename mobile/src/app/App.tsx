@@ -5,6 +5,7 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import React from 'react';
 import {I18nextProvider} from 'react-i18next';
 
+import 'react-native-svg';
 import i18n from 'shared/libs/i18n';
 
 import {RootNavigator, navigationRef} from './navigation/navigation';

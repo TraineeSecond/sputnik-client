@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 
 import {Category} from 'entities';
 import ContentLoader from 'react-content-loader';
@@ -13,7 +13,7 @@ import {SearchStyles as styles} from './styles';
 type SearchProps = {
   isLoading: boolean;
   categories: Category[];
-  currentCategory: string;
+  category: string;
   setCategory: (category: string) => void;
   fetchProducts: () => Promise<void>;
 };
@@ -21,7 +21,7 @@ type SearchProps = {
 export const Search = ({
   isLoading,
   categories,
-  currentCategory,
+  category,
   setCategory,
   fetchProducts,
 }: SearchProps) => {
@@ -39,9 +39,9 @@ export const Search = ({
     item: Category;
     index: number;
   }) => {
-    const isActive = currentCategory === item;
+    const isActive = category === item;
     const handlePress = () => handleCategoryPress(item);
-    const categoryStyle = currentCategory
+    const categoryStyle = category
       ? isActive
         ? styles.activeCategory
         : styles.inactiveCategory
@@ -59,23 +59,22 @@ export const Search = ({
   };
 
   const renderSkeletonCategory = (index: number) => (
-    <View key={index}>
-      <ContentLoader
-        key={index}
-        speed={2}
-        width={95}
-        height={108}
-        viewBox="0 0 95 95"
-        backgroundColor={Colors.Gray200}
-        foregroundColor={Colors.Gray400}>
-        <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
-      </ContentLoader>
-    </View>
+    // <View style={styles.skeleton}></View>
+    <ContentLoader
+      key={index}
+      speed={2}
+      width={95}
+      height={108}
+      viewBox="0 0 95 95"
+      backgroundColor={Colors.Gray200}
+      foregroundColor={Colors.Gray400}>
+      <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
+    </ContentLoader>
   );
 
   return (
     <Slider
-      isLoading={isLoading}
+      isLoading={true}
       data={categories}
       renderItem={renderCategoryItem}
       renderSkeleton={renderSkeletonCategory}
