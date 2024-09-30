@@ -11,7 +11,9 @@ type InputType = {
   style?: object;
   isEmail?: boolean;
   placeholder: string;
+  showClear?: boolean;
   isPassword?: boolean;
+  containerStyle?: object;
   onClear?: () => void;
   setValue: (text: string) => void;
 };
@@ -22,7 +24,9 @@ export const Input = ({
   onClear,
   setValue,
   placeholder,
+  containerStyle,
   isEmail = false,
+  showClear = false,
   isPassword = false,
 }: InputType) => {
   const handleChangeText = (value: string) => {
@@ -30,7 +34,7 @@ export const Input = ({
   };
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, containerStyle]}>
       <TextInput
         value={value}
         secureTextEntry={isPassword}
@@ -45,7 +49,7 @@ export const Input = ({
           style,
         ]}
       />
-      {value && (
+      {value && showClear && (
         <TouchableOpacity onPress={onClear} style={styles.clearButton}>
           <CloseIcon
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}

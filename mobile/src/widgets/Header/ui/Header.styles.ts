@@ -42,6 +42,9 @@ export const HeaderStyles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
   },
+  inputContainer: {
+    flex: 1,
+  },
   input: {
     backgroundColor: Colors.Gray200,
     color: Colors.Black200,

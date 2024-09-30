@@ -86,11 +86,13 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
           <View style={styles.searchContainer}>
             <View style={styles.topControls}>
               <Input
+                showClear={true}
                 value={searchText}
-                onClear={handleClearInput}
-                setValue={setSearchText}
-                placeholder="Поиск..."
                 style={styles.input}
+                placeholder="Поиск..."
+                setValue={setSearchText}
+                onClear={handleClearInput}
+                containerStyle={styles.inputContainer}
               />
               <TouchableOpacity onPress={handleSearch}>
                 <SearchIcon
