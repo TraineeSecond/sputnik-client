@@ -1,19 +1,28 @@
 import React, {useCallback, useState} from 'react';
-import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
-import {Search, useSearchCatalogStore} from 'features/Search';
+import {SearchCatalog, useSearchCatalogStore} from 'features/Search';
 import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {ProductItem} from 'shared/ui';
+import {ProductItem, ShowError} from 'shared/ui';
 
 import {CatalogPageStyles as styles} from './Catalog.styles';
 
 export const Catalog = () => {
+  const {t} = useTranslation();
   const navigation = useAppNavigation();
   const [isRefresh, setIsRefresh] = useState(false);
   const {
+    error,
     category,
     isLoading,
     categories,
@@ -54,12 +63,12 @@ export const Catalog = () => {
     );
   };
 
-  const showLoader = isLoading && !isRefresh;
+  const showLoader = isLoading && !isRefresh && !error;
 
   return (
     <View style={styles.container}>
       <View style={styles.filters}>
-        <Search
+        <SearchCatalog
           isLoading={isLoading}
           categories={categories}
           category={category}
@@ -67,6 +76,11 @@ export const Catalog = () => {
           fetchProducts={fetchProducts}
         />
       </View>
+      {error && (
+        <ShowError
+          textError={`${t('Ошибка')} ${t('Попробуйте перезагрузить страницу')}`}
+        />
+      )}
       {showLoader ? (
         <View style={styles.skeleton}>
           <ActivityIndicator size="large" color={Colors.Gray500} />

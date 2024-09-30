@@ -1,2 +1,2 @@
-export * from './ui/Search';
+export * from './ui/SearchCatalog';
 export * from './model/store';

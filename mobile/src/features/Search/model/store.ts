@@ -1,13 +1,10 @@
 import axios from 'axios';
-import {Category} from 'entities/index';
-import {Product} from 'entities/product';
+import {Category, Product} from 'entities';
 import {create} from 'zustand';
 
-// ProductsResponse;
+type ProductsResponse = Product[];
 
-// CategoryResponse;
-
-// CategoryResponse;
+type CategoryResponse = Category[];
 
 type SearchStore = {
   category: string;
@@ -58,7 +55,7 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
     const {category, searchText} = get();
     set({isLoading: true});
     try {
-      const {data} = await axios.get(
+      const {data} = await axios.get<ProductsResponse>(
         'https://domennameabcdef.ru/api/products',
         {
           params: {
@@ -79,7 +76,7 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
   fetchCategories: async () => {
     set({error: false});
     try {
-      const {data} = await axios.get(
+      const {data} = await axios.get<CategoryResponse>(
         'https://domennameabcdef.ru/api/categories',
       );
       set({categories: data});
@@ -91,7 +88,9 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
   fetchStartData: async () => {
     set({error: false, isLoading: true});
     try {
-      const res = await axios.get('https://domennameabcdef.ru/api/products');
+      const res = await axios.get<ProductsResponse>(
+        'https://domennameabcdef.ru/api/products',
+      );
       const {data} = res;
       get().fetchCategories();
       set({allProductList: data, foundProducts: data});

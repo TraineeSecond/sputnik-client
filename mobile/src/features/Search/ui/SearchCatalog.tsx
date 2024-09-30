@@ -16,7 +16,7 @@ type SearchProps = {
   fetchProducts: () => Promise<void>;
 };
 
-export const Search = ({
+export const SearchCatalog = ({
   isLoading,
   categories,
   category,
