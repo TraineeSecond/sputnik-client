@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {CartItemType} from 'entities/CartItem';
+import {CartItemType} from 'entities/cartItem';
 import {Product} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';

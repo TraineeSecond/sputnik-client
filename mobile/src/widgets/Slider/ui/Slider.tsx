@@ -1,6 +1,7 @@
 import React, {ReactElement} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -31,10 +32,7 @@ export const Slider = ({
   renderSkeleton,
 }: SliderProps) => {
   const {t} = useTranslation();
-
-  const renderSliderItem = (item: any, index: number) => (
-    <View key={`${title}-${index}`}>{renderItem({item, index})}</View>
-  );
+  const keyExtractor = (item: any, index: number) => index.toString();
 
   return (
     <View style={StyleSheet.compose(styles.container, style)}>
@@ -50,14 +48,17 @@ export const Slider = ({
           </TouchableOpacity>
         </View>
       )}
-      <ScrollView
+      <FlatList
         horizontal
+        data={isLoading ? [1, 2, 3, 4, 5] : data}
+        keyExtractor={keyExtractor}
+        renderItem={({item, index}) =>
+          isLoading ? renderSkeleton(index) : renderItem({item, index})
+        }
+        initialNumToRender={5}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatList}>
-        {isLoading
-          ? [1, 2, 3, 4, 5].map((_, index) => renderSkeleton(index))
-          : data.map(renderSliderItem)}
-      </ScrollView>
+        contentContainerStyle={styles.flatList}
+      />
     </View>
   );
 };

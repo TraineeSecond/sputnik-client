@@ -4,13 +4,24 @@ import {Colors} from 'shared/libs/helpers';
 
 export const HeaderStyles = StyleSheet.create({
   container: {
-    height: 60,
     flexDirection: 'row',
+    height: 60,
+    gap: 30,
+    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 15,
     backgroundColor: Colors.White100,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.Gray100,
+    paddingHorizontal: 10,
+  },
+  logo: {
+    height: 30,
+  },
+  input: {
+    backgroundColor: Colors.Gray200,
+    color: Colors.Black200,
+    padding: 0,
+    paddingHorizontal: 10,
+    height: 30,
+    fontSize: 14,
   },
 });

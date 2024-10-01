@@ -1,4 +1,4 @@
-import {Radio} from '@ui-kitten/components';
+import {CheckBox, Radio} from '@ui-kitten/components';
 import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
@@ -57,59 +57,51 @@ export const Register = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
-        Регистрация
-      </Text>
-      <Input value={name} setValue={setName} placeholder="Введите имя" />
-
-      <Input
-        value={surname}
-        setValue={setSurname}
-        placeholder="Введите фамилию"
-      />
-
-      <Input
-        value={email}
-        setValue={setEmail}
-        isEmail={true}
-        placeholder="Введите почту"
-      />
-
-      <Input
-        value={password}
-        setValue={setPassword}
-        isPassword={true}
-        placeholder="Введите пароль"
-      />
-
-      <Input
-        value={confirmPassword}
-        setValue={setConfirmPassword}
-        isPassword={true}
-        placeholder="Подтвердите пароль"
-      />
-
-      <View style={styles.containerseller}>
-        <View>
-          <Text style={TextStyles.p3.changeColor(Colors.Black200)}>
-            Зарегестрироваться как
-          </Text>
-          <Text style={TextStyles.p3.changeColor(Colors.Black200)}>
-            продавец?
-          </Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text style={[TextStyles.h1]}>Регистрация</Text>
+        <View style={styles.form}>
+          <Input value={name} setValue={setName} placeholder="Введите имя" />
+          <Input
+            value={surname}
+            setValue={setSurname}
+            placeholder="Введите фамилию"
+          />
+          <Input
+            value={email}
+            setValue={setEmail}
+            isEmail={true}
+            placeholder="Введите почту"
+          />
+          <Input
+            value={password}
+            setValue={setPassword}
+            isPassword={true}
+            placeholder="Введите пароль"
+          />
+          <Input
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+            isPassword={true}
+            placeholder="Подтвердите пароль"
+          />
         </View>
 
-        <Radio checked={checked} onChange={handleRadioChange} />
-      </View>
-
-      <TouchableOpacity onPress={handleRegister} style={styles.button1}>
-        <Text style={TextStyles.button1}>ЗАРЕГЕСТРИРОВАТЬСЯ</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={handleNavigate} style={styles.button2}>
-        <Text style={TextStyles.button2}>войти</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <View style={styles.controls}>
+          <View style={styles.seller}>
+            <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+              {`Зарегистрироваться\nкак продавец?`}
+            </Text>
+            <CheckBox checked={checked} onChange={handleRadioChange} />
+          </View>
+          <TouchableOpacity onPress={handleRegister} style={styles.button}>
+            <Text style={TextStyles.button1}>Зарегистрироваться</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigate}>
+            <Text style={TextStyles.button2}>Войти</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 };

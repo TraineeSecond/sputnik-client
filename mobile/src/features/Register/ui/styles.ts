@@ -5,42 +5,44 @@ import {Colors} from 'shared/libs/helpers/colors';
 export const RegisterStyles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     backgroundColor: Colors.White100,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-
-  input: {
-    backgroundColor: Colors.Gray300,
-    borderRadius: 12,
-    paddingVertical: 13,
-    paddingHorizontal: 16,
+  scrollView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 110,
     width: 275,
-    height: 48,
-    marginBottom: 20,
+  },
+  form: {
+    justifyContent: 'flex-start',
+    gap: 10,
   },
 
-  containerseller: {
+  seller: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderColor: Colors.Black200,
-    borderWidth: 1,
-    marginVertical: 10,
   },
 
-  button1: {
+  controls: {
+    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: Colors.Purple100,
-    width: 327,
-    paddingVertical: 11,
-    borderRadius: 12,
-    marginTop: 22,
+    gap: 35,
+    paddingBottom: 30,
+    width: '100%',
   },
 
-  button2: {
-    marginTop: 34,
+  button: {
+    backgroundColor: Colors.Green500,
+    width: '100%',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 10,
   },
+
+  button2: {},
 });

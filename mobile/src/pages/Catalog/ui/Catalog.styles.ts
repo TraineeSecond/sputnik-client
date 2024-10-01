@@ -5,23 +5,33 @@ import {Colors} from 'shared/libs/helpers/colors';
 export const CatalogPageStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.White100,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.White100,
-    padding: 20,
   },
-  text: {
-    fontSize: 24,
-    color: 'gray',
-  },
-  flatList: {
-    padding: 10,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  scrollView: {
+    paddingVertical: 10,
+    // flexDirection: 'row',
+    // flexWrap: 'wrap',
   },
   productItem: {
     width: '46%',
     margin: '2%',
     marginBottom: 15,
+  },
+  filters: {
+    justifyContent: 'center',
+    height: 80,
+    backgroundColor: Colors.White100,
+    borderBottomWidth: 2,
+    borderColor: Colors.Gray100,
+    elevation: 4,
+  },
+  skeleton: {
+    marginTop: 80,
+    flex: 1,
+    height: 80,
+    width: 80,
+    // backgroundColor: Colors.Gray500,
   },
 });

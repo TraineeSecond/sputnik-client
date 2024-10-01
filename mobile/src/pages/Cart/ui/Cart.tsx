@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {Alert, ScrollView, Text, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {CartItemType} from 'entities/CartItem';
+import {CartItemType} from 'entities/cartItem';
 import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
@@ -17,13 +17,13 @@ import {CartPageStyles as styles} from './Cart.styles';
 
 export const Cart = () => {
   const {
-    getItems,
     items,
+    isLoading,
+    getItems,
     incrementItem,
     decrementItem,
     clearCart,
     removeItem,
-    isLoading,
     setIsLoading,
     getProductById,
   } = useCartStore();
