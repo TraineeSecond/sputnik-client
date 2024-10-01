@@ -1,4 +1,4 @@
-import ProductList from 'entities/product/ui/ProductList/ProductList';
+import { ProductList } from 'entities';
 import { MainLayout } from 'widgets';
 
 const Home = () => {

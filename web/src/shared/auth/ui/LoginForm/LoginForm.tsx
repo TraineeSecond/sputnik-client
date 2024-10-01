@@ -1,6 +1,6 @@
-import { useAuthStore } from 'features/auth/model/authStore';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useAuthStore } from 'shared/auth/model/authStore';
 
 import {
   StyledButton,

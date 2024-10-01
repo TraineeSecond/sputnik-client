@@ -1,4 +1,11 @@
-import { User, UserRole } from 'entities/user/model/types';
+export type UserRole = 'buyer' | 'seller';
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+}
 
 export interface JwtPayload extends User {
   iat: number;

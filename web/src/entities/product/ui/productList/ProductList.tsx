@@ -1,21 +1,25 @@
 import { useEffect } from 'react';
 
-import { Product } from 'entities';
+import { ProductCard } from 'entities';
 import { useProductStore } from 'entities/product/model/productStore';
 
-import styles from './ProductList.styles';
+import { StyledList, StyledListItem } from './ProductList.styles';
 
 const ProductList = () => {
   const { products, loadProducts } = useProductStore();
+
   useEffect(() => {
-    loadProducts();
-  }, []);
+    void loadProducts();
+  }, [loadProducts]);
+
   return (
-    <styles.list>
+    <StyledList>
       {products.map((product) => (
-        <Product key={product.id} {...product} />
+        <StyledListItem key={product.id}>
+          <ProductCard {...product} />
+        </StyledListItem>
       ))}
-    </styles.list>
+    </StyledList>
   );
 };
 
