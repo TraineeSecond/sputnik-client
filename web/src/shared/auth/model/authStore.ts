@@ -1,7 +1,8 @@
-import { AuthResponse, AuthState, JwtPayload } from 'features/auth/model/types';
 import { jwtDecode } from 'jwt-decode';
 import api from 'shared/api/api';
 import { create } from 'zustand';
+
+import { AuthResponse, AuthState, JwtPayload } from 'shared/auth/model/types';
 
 const decodeAndValidateToken = (token: string): JwtPayload | null => {
   try {

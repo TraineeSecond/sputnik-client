@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-import { useAuthStore } from 'features/auth/model/authStore';
 import { useProductListingStore } from 'features/productListing/model/productListingStore';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { formatPrice, parsePrice } from 'shared';
+import { useAuthStore } from 'shared/auth/model/authStore';
 
 import {
   StyledButton,

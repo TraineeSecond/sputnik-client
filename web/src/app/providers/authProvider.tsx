@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useAuthStore } from 'features/auth/model/authStore';
+import { useAuthStore } from 'shared/auth/model/authStore';
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { loadUserFromToken, isLoading } = useAuthStore();

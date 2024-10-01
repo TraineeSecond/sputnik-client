@@ -1,4 +1,4 @@
-import { RegisterForm } from 'features';
+import { RegisterForm } from 'shared';
 import { AuthLayout } from 'widgets';
 
 const Register = () => {

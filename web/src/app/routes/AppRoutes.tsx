@@ -7,6 +7,7 @@ import {
   Home,
   Login,
   NotFound,
+  ProductPage,
   Profile,
   Register,
 } from 'pages';
@@ -26,6 +27,7 @@ const AppRoutes = () => {
         {/* Общие маршруты для всех авторизованных пользователей */}
         <Route path='/' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/product/:id' element={<ProductPage />} />
         <Route path='*' element={<NotFound />} />
 
         {/* Маршруты для покупателей */}
