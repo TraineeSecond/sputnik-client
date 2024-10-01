@@ -1,11 +1,7 @@
-import {NavigationProp} from '@react-navigation/native';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import {Screens, Stacks} from 'app/navigation/navigationEnums';
-import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {useSearchCatalogStore} from 'features';
 import {ArrowBack, CartIcon, SearchIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {Input} from 'shared/ui';
@@ -13,44 +9,35 @@ import {Input} from 'shared/ui';
 import {HeaderStyles as styles} from './Header.styles';
 
 type HeaderProps = {
-  navigation: NavigationProp<RootStackParamsList>;
-  routeName: string;
+  showTitle?: boolean;
+  showBackButton?: boolean;
+  showCartButton?: boolean;
+  showSearchInput?: boolean;
+  searchText?: string;
+  setSearchText?: (text: string) => void;
+  onBackPress?: () => void;
+  onCartPress?: () => void;
+  onSearch?: () => void;
+  onClearSearch?: () => void;
 };
 
-export const Header = ({navigation, routeName}: HeaderProps) => {
+export const Header = ({
+  showTitle,
+  showBackButton = false,
+  showCartButton = false,
+  showSearchInput = false,
+  searchText = '',
+  setSearchText,
+  onBackPress,
+  onCartPress,
+  onSearch,
+  onClearSearch,
+}: HeaderProps) => {
   const {t} = useTranslation();
-  const {searchText, setSearchText, fetchProducts} = useSearchCatalogStore();
-
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
-  const handleNavigateToHome = () => {
-    navigation.navigate(Stacks.HOME_TAB);
-  };
-
-  const handleNavigateToCart = () => {
-    navigation.navigate(Screens.CART);
-  };
-
-  const handleSearch = () => {
-    fetchProducts();
-  };
-
-  const handleClearInput = () => {
-    setSearchText('');
-  };
-
   return (
-    <View style={[styles.container]}>
-      {routeName === Screens.HOME && (
-        <TouchableOpacity onPress={handleNavigateToHome} style={styles.logo}>
-          <Text style={TextStyles.p3.changeColor(Colors.Green500)}>GOZON</Text>
-        </TouchableOpacity>
-      )}
-
-      {routeName === Screens.PRODUCT && (
-        <TouchableOpacity onPress={handleGoBack}>
+    <View style={styles.container}>
+      {showBackButton && (
+        <TouchableOpacity onPress={onBackPress}>
           <ArrowBack
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
             width={IconStyles.medium.width}
@@ -59,7 +46,11 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
         </TouchableOpacity>
       )}
 
-      {routeName === Screens.CATALOG && (
+      {showTitle && (
+        <Text style={TextStyles.p3.changeColor(Colors.Green500)}>GOZON</Text>
+      )}
+
+      {showSearchInput && setSearchText && (
         <>
           <Input
             showClear={true}
@@ -67,9 +58,9 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
             style={styles.input}
             placeholder={t('Поиск...')}
             setValue={setSearchText}
-            onClear={handleClearInput}
+            onClear={onClearSearch}
           />
-          <TouchableOpacity onPress={handleSearch}>
+          <TouchableOpacity onPress={onSearch}>
             <SearchIcon
               fill={IconStyles.medium.changeColor(Colors.Gray500).color}
               width={IconStyles.medium.width}
@@ -79,13 +70,15 @@ export const Header = ({navigation, routeName}: HeaderProps) => {
         </>
       )}
 
-      <TouchableOpacity onPress={handleNavigateToCart}>
-        <CartIcon
-          fill={IconStyles.medium.changeColor(Colors.Gray500).color}
-          width={IconStyles.medium.width}
-          height={IconStyles.medium.height}
-        />
-      </TouchableOpacity>
+      {showCartButton && (
+        <TouchableOpacity onPress={onCartPress}>
+          <CartIcon
+            fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
