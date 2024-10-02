@@ -84,7 +84,7 @@ export const Home = () => {
   };
 
   const renderProductItem = ({item}: {item: Product}) => {
-    const {id, name, price, new_price, user} = item;
+    const {id, name, price, new_price, user, rating, reviewerscount} = item;
     const handlePress = () => handleProductPress(item);
 
     return (
@@ -96,6 +96,8 @@ export const Home = () => {
         newPrice={new_price}
         sellerName={user.name}
         sellerSurname={user.surname}
+        rating={rating}
+        reviewerscount={reviewerscount}
         onPress={handlePress}
       />
     );

@@ -18,17 +18,24 @@ export const useProductStore = create<ProductStore>(set => ({
   fetchProduct: async (id: number) => {
     set({isLoading: true, error: false});
     try {
-      const response = await axios.get<Product>(
+      const productResponse = await axios.get<Product>(
         `https://domennameabcdef.ru/api/product?id=${id}`,
       );
-      set({currentProduct: response.data, isLoading: false});
-    } catch (error) {
+
       set({
-        error: false,
+        currentProduct: {
+          ...productResponse.data,
+        },
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Error fetching product or reviews:", error);
+      set({
+        error: true,
         isLoading: false,
       });
     }
-  },
+},
 
   setProduct: (currentProduct: Product) => {
     set({currentProduct});

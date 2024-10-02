@@ -115,4 +115,20 @@ export const ProductInfoStyles = StyleSheet.create({
     color: '#fff',
     paddingHorizontal: 10,
   },
+  // reviewContainer: {
+  //   flexDirection: 'row', 
+  //   alignItems: 'center',
+  //   gap: 5, 
+  //   marginVertical: 10, 
+  // },
+  reviewContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  starsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
+  },
 });

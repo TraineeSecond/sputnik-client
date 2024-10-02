@@ -60,6 +60,8 @@ export const Orders = () => {
           newPrice={product.new_price}
           sellerName={product.user.name}
           sellerSurname={product.user.surname}
+          rating={product.rating}
+          reviewerscount={product.reviewerscount}
           onPress={() => handleProductPress(product)}
           style={styles.productItem}
         />

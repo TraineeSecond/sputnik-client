@@ -94,6 +94,8 @@ export const useOrderStore = create<OrderStore>(set => ({
                 name: orderItem.product.name,
                 price: orderItem.product.price,
                 new_price: orderItem.product.new_price,
+                rating: orderItem.product.rating,
+                reviewerscount: orderItem.product.reviewerscount,
                 user: {
                   id: order.user.id,
                   email: order.user.email,

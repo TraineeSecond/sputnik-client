@@ -20,6 +20,8 @@ type ProductItemProps = {
   newPrice: number;
   sellerName: string;
   sellerSurname: string;
+  rating: number;
+  reviewerscount: number;
   style?: object;
   onPress: () => void;
 };
@@ -33,6 +35,8 @@ export const ProductItem = memo(
     newPrice,
     sellerName,
     sellerSurname,
+    rating,
+    reviewerscount,
     style,
     onPress,
   }: ProductItemProps) => {
@@ -106,10 +110,10 @@ export const ProductItem = memo(
             height={IconStyles.small.height}
           />
           <Text style={TextStyles.span1.changeColor(Colors.Black200)}>
-            {score}{' '}
+            {rating}{' '}
           </Text>
           <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
-            {`(${reviewsCount})`}
+            {`(${reviewerscount})`}
           </Text>
         </View>
       );
@@ -129,14 +133,18 @@ export const ProductItem = memo(
           {renderImageOrName()}
         </View>
         <View style={styles.header}>
-          <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+          <Text 
+            numberOfLines={1}
+            ellipsizeMode="tail" 
+            style={[TextStyles.span1.changeColor(Colors.Gray500),styles.name]}>
             {seller}
           </Text>
           {renderReviews()}
         </View>
         <Text
           style={TextStyles.p1.changeColor(Colors.Black200)}
-          numberOfLines={1}>
+          numberOfLines={1}
+          ellipsizeMode="tail">
           {name}
         </Text>
         {renderPrice()}

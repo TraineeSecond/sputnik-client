@@ -11,14 +11,16 @@ import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 
-import {ProductInfoStyles as styles} from './styles';
+import {ProductInfoStyles as styles} from './ProductInfo.styles';
 
 type ProductInfoProps = {
   product: Product;
+  fromOrders?: boolean;
 };
 
-export const ProductInfo = ({product}: ProductInfoProps) => {
+export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
+  const [rating, setRating] = useState(0);
   const {t} = useTranslation();
   const navigation = useAppNavigation();
 
@@ -126,8 +128,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   //TODO: Отзывы если они будут добавлены
   const renderScore = () => {
-    const score = 5;
-    const reviewsCount = 23;
 
     return (
       <View style={styles.score}>
@@ -136,10 +136,68 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
           width={IconStyles.small.width}
           height={IconStyles.small.height}
         />
-        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{score} </Text>
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{product.rating} </Text>
         <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-          {`(${reviewsCount})`}
+          {`(${product.reviewerscount})`}
         </Text>
+      </View>
+    );
+  };
+
+  // const renderReviewMake = () => {
+  //   return (
+  //     <View style={styles.reviewContainer}>
+  //       {[1, 2, 3, 4, 5].map((star) => (
+  //         <TouchableOpacity key={star} onPress={() => setRating(star)}>
+  //           <StarIcon
+  //             fill={star <= rating ? Colors.Yellow500 : Colors.Gray500}
+  //             width={IconStyles.small.width}
+  //             height={IconStyles.small.height}
+  //           />
+  //         </TouchableOpacity>
+  //       ))}
+  //       <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+  //         Оценка: {rating}
+  //       </Text>
+  //     </View>
+  //   );
+  // };
+
+  const renderReviewMake = () => {
+    const [userRating, setUserRating] = useState(0); // Храним текущую оценку пользователя
+  
+    // Функция для изменения оценки
+    const handleStarPress = (rating: number) => {
+      setUserRating(rating);
+    };
+  
+    // Рендер звезд в зависимости от текущего рейтинга
+    const renderStars = () => {
+      const stars = [];
+      for (let i = 1; i <= 5; i++) {
+        stars.push(
+          <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
+            <StarIcon
+              fill={
+                i <= userRating
+                  ? Colors.Yellow500 // Подсвечиваем звезды до текущего рейтинга
+                  : Colors.Gray500 // Остальные остаются серыми
+              }
+              width={IconStyles.medium.width}
+              height={IconStyles.medium.height}
+            />
+          </TouchableOpacity>
+        );
+      }
+      return stars;
+    };
+  
+    return (
+      <View style={styles.reviewContainer}>
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+          {t('Оцените товар')}:
+        </Text>
+        <View style={styles.starsContainer}>{renderStars()}</View>
       </View>
     );
   };
@@ -179,6 +237,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             {product.description}
           </Text>
         </View>
+        <View>
+          {fromOrders && renderReviewMake()}
+        </View>
         <View style={styles.buttonsContainer}>
           {isCartItem() ? (
             <View style={styles.buttonsContainer}>
@@ -206,6 +267,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                   </Text>
                 </TouchableOpacity>
               </View>
+              
             </View>
           ) : (
             <TouchableOpacity
