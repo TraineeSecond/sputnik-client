@@ -1,6 +1,6 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {CartItemType} from 'entities/CartItem';
@@ -12,17 +12,20 @@ import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 
 import {ProductInfoStyles as styles} from './ProductInfo.styles';
+import { useOrderStore } from 'shared/stores/OrderStore';
+import { useReviewStore } from 'shared/stores/ReviewStore';
 
 type ProductInfoProps = {
   product: Product;
-  fromOrders?: boolean;
 };
 
-export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
+export const ProductInfo = ({product}: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
-  const [rating, setRating] = useState(0);
   const {t} = useTranslation();
   const navigation = useAppNavigation();
+
+  const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
+  const {userRating, setUserRating, makeReview} = useReviewStore();
 
   const {
     addItem,
@@ -33,6 +36,14 @@ export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
     getItemQuantity,
   } = useCartStore();
   const {token, user} = useUserStore();
+
+  useEffect(() => {
+    const orderItemExists = orders.some(order =>
+      order.orderItems.some(orderItem => orderItem.product.id === product.id)
+    );
+    
+    setIsOrderItem(orderItemExists);  
+  }, [orders, product.id, setIsOrderItem]);
 
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);
@@ -163,8 +174,12 @@ export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
   //   );
   // };
 
+  const handleReviewMake = () => {
+    makeReview(user.id, product.id, userRating);
+    Alert.alert("Спасибо за отзыв!");
+  }
+
   const renderReviewMake = () => {
-    const [userRating, setUserRating] = useState(0); // Храним текущую оценку пользователя
   
     // Функция для изменения оценки
     const handleStarPress = (rating: number) => {
@@ -180,8 +195,8 @@ export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
             <StarIcon
               fill={
                 i <= userRating
-                  ? Colors.Yellow500 // Подсвечиваем звезды до текущего рейтинга
-                  : Colors.Gray500 // Остальные остаются серыми
+                  ? Colors.Yellow500 
+                  : Colors.Gray500 
               }
               width={IconStyles.medium.width}
               height={IconStyles.medium.height}
@@ -198,6 +213,11 @@ export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
           {t('Оцените товар')}:
         </Text>
         <View style={styles.starsContainer}>{renderStars()}</View>
+        <View>
+          <TouchableOpacity onPress={handleReviewMake}>
+            <Text>Отправить</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -238,7 +258,7 @@ export const ProductInfo = ({product, fromOrders=true}: ProductInfoProps) => {
           </Text>
         </View>
         <View>
-          {fromOrders && renderReviewMake()}
+          {isOrderItem && renderReviewMake()}
         </View>
         <View style={styles.buttonsContainer}>
           {isCartItem() ? (

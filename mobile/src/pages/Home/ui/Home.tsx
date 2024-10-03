@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {RefreshControl, ScrollView, View} from 'react-native';
 
@@ -15,11 +15,15 @@ import {CategoryItem, ProductItem, Promo, ShowError} from 'shared/ui';
 import {Slider} from 'widgets';
 
 import {HomePageStyles as styles} from './Home.styles';
+import { useOrderStore } from 'shared/stores/OrderStore';
 
 export const Home = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
-  const {loadUserData} = useUserStore();
+  const {loadUserData, user, token} = useUserStore();
+
+  const {getOrders} = useOrderStore();
+
   const {
     error,
     isLoading,
@@ -36,11 +40,17 @@ export const Home = () => {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+    getOrders(user.id, token);
+    setIsLoading(false);
+  }, [user.id, token]);
+
   const onRefresh = useCallback(async () => {
     setIsLoading(true);
-    await Promise.all([fetchAllData(), loadUserData()]);
+    await Promise.all([fetchAllData(), loadUserData(), getOrders(user.id, token)]);
     setIsLoading(false);
-  }, [fetchAllData, loadUserData, setIsLoading]);
+  }, [fetchAllData, loadUserData, getOrders, setIsLoading]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {

@@ -13,16 +13,17 @@ import {Colors, TextStyles} from 'shared/libs/helpers';
 import { useTranslation } from 'react-i18next';
 
 export const Orders = () => {
-  const {getOrders, orderItems, isLoading} = useOrderStore();
+  const {getOrders, orders, isLoading} = useOrderStore();
   const {user, token} = useUserStore();
 
   const {t} = useTranslation();
 
   const navigation = useAppNavigation();
 
-  useEffect(() => {
-    getOrders(user.id, token);
-  }, []);
+  // useEffect(() => {
+  //   getOrders(user.id, token);
+  // }, []);
+
 
   const handleProductPress = (product: Product) => {
     if (product) {
@@ -77,7 +78,7 @@ export const Orders = () => {
       </Text>
       {isLoading
         ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))
-        : orderItems.map(renderProductItem)}
+        : orders.map(renderProductItem)}
     </ScrollView>
   );
 };
