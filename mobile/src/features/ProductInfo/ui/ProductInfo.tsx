@@ -25,7 +25,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const navigation = useAppNavigation();
 
   const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
-  const {userRating, setUserRating, makeReview} = useReviewStore();
+  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview} = useReviewStore();
 
   const {
     addItem,
@@ -41,8 +41,11 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     const orderItemExists = orders.some(order =>
       order.orderItems.some(orderItem => orderItem.product.id === product.id)
     );
-    
-    setIsOrderItem(orderItemExists);  
+
+    const reviews = getReview(product.id);
+
+
+    setIsOrderItem(orderItemExists);
   }, [orders, product.id, setIsOrderItem]);
 
   const handleFavoritePress = () => {
@@ -155,68 +158,61 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     );
   };
 
-  // const renderReviewMake = () => {
-  //   return (
-  //     <View style={styles.reviewContainer}>
-  //       {[1, 2, 3, 4, 5].map((star) => (
-  //         <TouchableOpacity key={star} onPress={() => setRating(star)}>
-  //           <StarIcon
-  //             fill={star <= rating ? Colors.Yellow500 : Colors.Gray500}
-  //             width={IconStyles.small.width}
-  //             height={IconStyles.small.height}
-  //           />
-  //         </TouchableOpacity>
-  //       ))}
-  //       <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-  //         Оценка: {rating}
-  //       </Text>
-  //     </View>
-  //   );
-  // };
-
   const handleReviewMake = () => {
     makeReview(user.id, product.id, userRating);
-    Alert.alert("Спасибо за отзыв!");
-  }
+    Alert.alert('Спасибо за отзыв!');
+  };
+
+  const handleReviewChange = () => {
+    putReview(user.id, product.id, userRating);
+    Alert.alert('Спасибо за отзыв!');
+  };
+
+
+  const handleStarPress = (rating: number) => {
+    setUserRating(rating);
+  };
+
+  // Рендер звезд в зависимости от текущего рейтинга
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
+          <StarIcon
+            fill={
+              i <= userRating
+                ? Colors.Yellow500
+                : Colors.Gray500
+            }
+            width={50}
+            height={50}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return stars;
+  };
 
   const renderReviewMake = () => {
-  
-    // Функция для изменения оценки
-    const handleStarPress = (rating: number) => {
-      setUserRating(rating);
-    };
-  
-    // Рендер звезд в зависимости от текущего рейтинга
-    const renderStars = () => {
-      const stars = [];
-      for (let i = 1; i <= 5; i++) {
-        stars.push(
-          <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
-            <StarIcon
-              fill={
-                i <= userRating
-                  ? Colors.Yellow500 
-                  : Colors.Gray500 
-              }
-              width={IconStyles.medium.width}
-              height={IconStyles.medium.height}
-            />
-          </TouchableOpacity>
-        );
-      }
-      return stars;
-    };
-  
     return (
       <View style={styles.reviewContainer}>
         <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-          {t('Оцените товар')}:
+          {hasReview ? t('Изменить оценку') : t('Оцените товар')}
         </Text>
         <View style={styles.starsContainer}>{renderStars()}</View>
         <View>
-          <TouchableOpacity onPress={handleReviewMake}>
-            <Text>Отправить</Text>
-          </TouchableOpacity>
+          {
+            hasReview ? (
+              <TouchableOpacity onPress={handleReviewChange}>
+                <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={handleReviewMake}>
+                <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
+              </TouchableOpacity>
+            )
+          }
         </View>
       </View>
     );
@@ -287,7 +283,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              
+
             </View>
           ) : (
             <TouchableOpacity

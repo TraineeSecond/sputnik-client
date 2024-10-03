@@ -123,5 +123,5 @@ export const useOrderStore = create<OrderStore>(set => ({
       });
     } catch (error: any) {
       console.error('error in order get',error);
-  }}
+  }},
 }));

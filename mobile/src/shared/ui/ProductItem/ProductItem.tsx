@@ -99,9 +99,6 @@ export const ProductItem = memo(
 
     //TODO: Отзывы
     const renderReviews = () => {
-      const score = 5;
-      const reviewsCount = 23;
-
       return (
         <View style={styles.reviews}>
           <StarIcon

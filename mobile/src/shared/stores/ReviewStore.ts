@@ -3,6 +3,9 @@ import axios from 'axios';
 
 type ReviewStore = {
   userRating: number;
+  hasReview: boolean;
+
+  setHasReview(value: boolean): void;
 
   setUserRating: (userRating : number) => void;
 
@@ -13,6 +16,11 @@ type ReviewStore = {
 
 export const useReviewStore = create<ReviewStore>(set => ({
   userRating: 0,
+  hasReview: false,
+
+  setHasReview: (value: boolean) => {
+    set({hasReview: value});
+  },
 
   setUserRating: (userRating: number) => {
     set({userRating});
@@ -24,7 +32,7 @@ export const useReviewStore = create<ReviewStore>(set => ({
         userid,
         productid,
         rating,
-      })
+      });
       return data;
     } catch (error: any) {
       console.error(error.response);
@@ -37,7 +45,7 @@ export const useReviewStore = create<ReviewStore>(set => ({
         userid,
         productid,
         rating,
-      })
+      });
       return data;
     } catch (error) {
       console.error(error);
@@ -46,10 +54,10 @@ export const useReviewStore = create<ReviewStore>(set => ({
 
   getReview: async (productid: number) => {
     try {
-      const {data} = await axios.get(`https://domennameabcdef.ru/api/reviews/${productid}`)
+      const {data} = await axios.get(`https://domennameabcdef.ru/api/reviews/${productid}`);
       return data;
     } catch (error) {
       console.error(error);
     }
-  }
+  },
 }));
