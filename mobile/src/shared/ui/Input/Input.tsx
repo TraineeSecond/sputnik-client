@@ -41,7 +41,7 @@ export const Input = ({
         placeholder={placeholder}
         keyboardType={isEmail ? 'email-address' : 'default'}
         autoCapitalize="none"
-        placeholderTextColor={Colors.Black200}
+        placeholderTextColor={Colors.Gray500}
         onChangeText={handleChangeText}
         style={[
           styles.input,

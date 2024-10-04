@@ -21,9 +21,14 @@
   "Оформить заказ": "Place an order",
   "Успешная авторизация": "Successful authorization",
   "Авторизация": "Authorization",
+  "Введите имя": "Name",
+  "Введите фамилию": "Surname",
   "Введите почту": "Email",
   "Введите пароль": "Password",
+  "Подтвердите пароль": "Confirm password",
   "Войти": "Enter",
   "Зарегистрироваться": "Register",
-  "Ваша история покупок": "Your purchase history"
+  "Ваша история покупок": "Your purchase history",
+  "Пользователь зарегистрирован": "User registered",
+  "Зарегистрироваться\nкак продавец": "Register as a seller"
 }

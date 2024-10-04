@@ -105,7 +105,7 @@ export const MainTabsNavigator = () => {
       <MainTabsStack.Screen
         name={Screens.PROFILE_TAB}
         component={ProfileStackNavigator}
-        options={{title: t('Профиль')}}
+        options={{title: t('Профиль'), headerShown: false}}
       />
     </MainTabsStack.Navigator>
   );
