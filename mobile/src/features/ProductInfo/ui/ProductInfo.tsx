@@ -14,7 +14,6 @@ import {useCartStore} from 'shared/stores/CartStore';
 import {ProductInfoStyles as styles} from './ProductInfo.styles';
 import { useOrderStore } from 'shared/stores/OrderStore';
 import { useReviewStore } from 'shared/stores/ReviewStore';
-import { useSearchCatalogStore } from 'features/Search';
 
 type ProductInfoProps = {
   product: Product;
@@ -38,18 +37,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   } = useCartStore();
   const {token, user} = useUserStore();
 
-  const {fetchStartData} = useSearchCatalogStore();
 
-  const getData = () => {
+  useEffect(() => {
     const orderItemExists = orders.some(order =>
       order.orderItems.some(orderItem => orderItem.product.id === product.id)
     );
     setIsOrderItem(orderItemExists);
     getReview(product.id, user.id);
-  } 
-
-  useEffect(() => {
-    getData();
   }, [orders, product.id]);
 
   const handleFavoritePress = () => {
@@ -180,8 +174,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
+      const handleOnPress = () => handleStarPress(i)
       stars.push(
-        <TouchableOpacity key={i} onPress={() => handleStarPress(i)}>
+        <TouchableOpacity key={i} onPress={handleOnPress}>
           <StarIcon
             fill={
               i <= userRating
