@@ -1,9 +1,19 @@
 import {create} from 'zustand';
 import axios from 'axios';
+import { User } from 'entities/user';
+
+type Review = {
+  id: number;
+  rating: number;
+  userid: number;
+  productid: number;
+  user: User;
+}
 
 type ReviewStore = {
   userRating: number;
   hasReview: boolean;
+  Reviews: Review[];
 
   setHasReview(value: boolean): void;
 
@@ -11,12 +21,13 @@ type ReviewStore = {
 
   makeReview: (userid: number, productid: number, rating: number) => Promise<void>;
   putReview: (userid: number, productid: number, rating: number) => Promise<void>;
-  getReview: (productid: number) => Promise<void>;
+  getReview: (productid: number, userid: number) => Promise<void>;
 };
 
 export const useReviewStore = create<ReviewStore>(set => ({
   userRating: 0,
   hasReview: false,
+  Reviews: [],
 
   setHasReview: (value: boolean) => {
     set({hasReview: value});
@@ -52,10 +63,13 @@ export const useReviewStore = create<ReviewStore>(set => ({
     }
   },
 
-  getReview: async (productid: number) => {
+  getReview: async (productid: number, userid: number) => {
     try {
       const {data} = await axios.get(`https://domennameabcdef.ru/api/reviews/${productid}`);
-      return data;
+      const review = data.find((review: Review) => review.userid === userid)
+      set({hasReview: review ? true : false});
+      set({userRating: review ? review.rating : 0});
+      set({Reviews: data});
     } catch (error) {
       console.error(error);
     }

@@ -25,7 +25,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const navigation = useAppNavigation();
 
   const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
-  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview} = useReviewStore();
+  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview, Reviews} = useReviewStore();
 
   const {
     addItem,
@@ -37,16 +37,17 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   } = useCartStore();
   const {token, user} = useUserStore();
 
-  useEffect(() => {
+  const getData = () => {
     const orderItemExists = orders.some(order =>
       order.orderItems.some(orderItem => orderItem.product.id === product.id)
     );
-
-    const reviews = getReview(product.id);
-
-
     setIsOrderItem(orderItemExists);
-  }, [orders, product.id, setIsOrderItem]);
+    getReview(product.id, user.id);
+  } 
+
+  useEffect(() => {
+    getData();
+  }, [orders, product.id]);
 
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);
@@ -173,7 +174,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     setUserRating(rating);
   };
 
-  // Рендер звезд в зависимости от текущего рейтинга
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {

@@ -76,7 +76,6 @@ export const useOrderStore = create<OrderStore>(set => ({
   },
   getOrders: async (userid: number, token: string) => {
     try {
-      console.log(userid, token);
       const {data} = await axios.get(
         `https://domennameabcdef.ru/api/orders/${userid}`,
         {

@@ -1,6 +1,6 @@
 import {useUserStore} from 'entities/user';
-import React, {useEffect} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import {RefreshControl, ScrollView, Text, View} from 'react-native';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {Order, useOrderStore} from 'shared/stores/OrderStore';
@@ -24,6 +24,9 @@ export const Orders = () => {
   //   getOrders(user.id, token);
   // }, []);
 
+  const onRefresh = useCallback(async () => {
+    await getOrders(user.id, token);
+  }, [getOrders]);
 
   const handleProductPress = (product: Product) => {
     if (product) {
@@ -71,7 +74,11 @@ export const Orders = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView 
+      contentContainerStyle={styles.container} 
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+      }>
       <Text
         style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}>
          {t('Ваша история покупок')}
