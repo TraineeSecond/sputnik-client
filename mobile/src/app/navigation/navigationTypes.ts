@@ -33,6 +33,7 @@ export type MapStackParamsList = {
 
 export type ProfileStackParamsList = {
   Profile: undefined;
+  NewProduct: undefined;
   Settings: undefined;
   Orders: undefined;
   PaymentMethods: undefined;

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {User} from 'entities/user';
 import {create} from 'zustand';
 
 type CreateProductResponse = {
@@ -20,15 +19,32 @@ type ListingProduct = {
   userId: number;
 };
 
-type AddProductStore = {
+type ProductListingStore = {
   loading: boolean;
   error: string | null;
+  currentProduct: ListingProduct;
+  setCurrentProductField: (
+    field: keyof ListingProduct,
+    value: string | number,
+  ) => void;
   addProduct: (product: ListingProduct) => Promise<void>;
 };
 
-export const useAddProductStore = create<AddProductStore>(set => ({
+export const useProductListingStore = create<ProductListingStore>(set => ({
   loading: false,
   error: null,
+  currentProduct: {
+    name: '',
+    description: '',
+    price: 0,
+    category: '',
+    userId: 1,
+  },
+
+  setCurrentProductField: (field, value) =>
+    set(state => ({
+      currentProduct: {...state.currentProduct, [field]: value},
+    })),
 
   addProduct: async (product: ListingProduct) => {
     set({loading: true, error: null});

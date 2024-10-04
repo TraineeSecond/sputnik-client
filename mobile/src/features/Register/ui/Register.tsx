@@ -76,7 +76,7 @@ export const Register = () => {
           <Input
             value={email}
             setValue={setEmail}
-            isEmail={true}
+            keyboardType="email-address"
             placeholder={t('Введите почту')}
           />
           <Input

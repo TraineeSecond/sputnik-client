@@ -30,5 +30,11 @@
   "Зарегистрироваться": "Register",
   "Ваша история покупок": "Your purchase history",
   "Пользователь зарегистрирован": "User registered",
-  "Зарегистрироваться\nкак продавец": "Register as a seller"
+  "Зарегистрироваться\nкак продавец": "Register as a seller",
+  "Продавец": "Seller",
+  "Название продукта": "Product name",
+  "Описание продукта": "Description",
+  "Цена": "Price",
+  "Категория": "Category",
+  "Добавить продукт": "Add product"
 }
