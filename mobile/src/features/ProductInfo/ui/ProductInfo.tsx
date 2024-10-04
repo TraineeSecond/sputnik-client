@@ -25,7 +25,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const navigation = useAppNavigation();
 
   const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
-  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview, Reviews} = useReviewStore();
+  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview, reviews} = useReviewStore();
 
   const {
     addItem,
@@ -200,17 +200,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
         </Text>
         <View style={styles.starsContainer}>{renderStars()}</View>
         <View>
-          {
-            hasReview ? (
-              <TouchableOpacity onPress={handleReviewChange}>
-                <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={handleReviewMake}>
-                <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
-              </TouchableOpacity>
-            )
-          }
+          <TouchableOpacity onPress={hasReview ? handleReviewChange : handleReviewMake}>
+            <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

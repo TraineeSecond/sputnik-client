@@ -13,7 +13,7 @@ type Review = {
 type ReviewStore = {
   userRating: number;
   hasReview: boolean;
-  Reviews: Review[];
+  reviews: Review[];
 
   setHasReview(value: boolean): void;
 
@@ -27,7 +27,7 @@ type ReviewStore = {
 export const useReviewStore = create<ReviewStore>(set => ({
   userRating: 0,
   hasReview: false,
-  Reviews: [],
+  reviews: [],
 
   setHasReview: (value: boolean) => {
     set({hasReview: value});
@@ -69,7 +69,7 @@ export const useReviewStore = create<ReviewStore>(set => ({
       const review = data.find((review: Review) => review.userid === userid)
       set({hasReview: review ? true : false});
       set({userRating: review ? review.rating : 0});
-      set({Reviews: data});
+      set({reviews: data});
     } catch (error) {
       console.error(error);
     }
