@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {CartItemType} from 'entities/CartItem';
+import {CartItemType} from 'entities/cartItem';
 import {Product} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
@@ -14,6 +14,7 @@ import {useCartStore} from 'shared/stores/CartStore';
 import {ProductInfoStyles as styles} from './ProductInfo.styles';
 import { useOrderStore } from 'shared/stores/OrderStore';
 import { useReviewStore } from 'shared/stores/ReviewStore';
+import { useSearchCatalogStore } from 'features/Search';
 
 type ProductInfoProps = {
   product: Product;
@@ -36,6 +37,8 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     getItemQuantity,
   } = useCartStore();
   const {token, user} = useUserStore();
+
+  const {fetchStartData} = useSearchCatalogStore();
 
   const getData = () => {
     const orderItemExists = orders.some(order =>
@@ -161,12 +164,12 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const handleReviewMake = () => {
     makeReview(user.id, product.id, userRating);
-    Alert.alert('Спасибо за отзыв!');
+    Alert.alert(t('Спасибо за отзыв!'));
   };
 
   const handleReviewChange = () => {
     putReview(user.id, product.id, userRating);
-    Alert.alert('Спасибо за отзыв!');
+    Alert.alert(t('Спасибо за отзыв!'));
   };
 
 

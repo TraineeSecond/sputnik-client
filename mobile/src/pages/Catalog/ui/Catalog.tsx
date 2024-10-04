@@ -1,17 +1,42 @@
-import React from 'react';
-import {ScrollView} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
-import {useProductListStore} from 'entities/productList';
+import {SearchCatalog, useSearchCatalogStore} from 'features/Search';
+import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import {ProductItem} from 'shared/ui';
+import {ProductItem, ShowError} from 'shared/ui';
 
 import {CatalogPageStyles as styles} from './Catalog.styles';
 
 export const Catalog = () => {
-  const {productList} = useProductListStore();
+  const {t} = useTranslation();
   const navigation = useAppNavigation();
+  const [isRefresh, setIsRefresh] = useState(false);
+  const {
+    error,
+    category,
+    isLoading,
+    categories,
+    foundProducts,
+    setCategory,
+    fetchProducts,
+    fetchStartData,
+  } = useSearchCatalogStore();
+
+  const onRefresh = useCallback(async () => {
+    setIsRefresh(true);
+    await Promise.all([fetchStartData()]);
+    setIsRefresh(false);
+  }, [fetchStartData]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -31,18 +56,51 @@ export const Catalog = () => {
         price={price}
         newPrice={new_price}
         sellerName={user.name}
+        style={styles.productItem}
         sellerSurname={user.surname}
         onPress={handlePress}
-        style={styles.productItem}
       />
     );
   };
 
-  //Flatlist пока выдает ошибку
+  const renderFlatListItem = ({item}: {item: Product}) =>
+    renderProductItem(item);
+
+  const showLoader = isLoading && !isRefresh && !error;
 
   return (
-    <ScrollView contentContainerStyle={styles.flatList}>
-      {productList.map(renderProductItem)}
-    </ScrollView>
+    <View style={styles.container}>
+      <View style={styles.filters}>
+        <SearchCatalog
+          isLoading={isLoading}
+          categories={categories}
+          category={category}
+          setCategory={setCategory}
+          fetchProducts={fetchProducts}
+        />
+      </View>
+      {error && (
+        <ShowError
+          textError={`${t('Ошибка')} ${t('Попробуйте перезагрузить страницу')}`}
+        />
+      )}
+      {showLoader ? (
+        <View style={styles.skeleton}>
+          <ActivityIndicator size="large" color={Colors.Gray500} />
+        </View>
+      ) : (
+        <FlatList
+          numColumns={2}
+          data={foundProducts}
+          renderItem={renderFlatListItem}
+          keyExtractor={item => item.id.toString()}
+          contentContainerStyle={styles.scrollView}
+          initialNumToRender={8}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+          }
+        />
+      )}
+    </View>
   );
 };

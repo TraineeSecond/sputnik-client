@@ -1,5 +1,5 @@
-import { useAuthStore } from 'features/auth/model/authStore';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthStore } from 'shared/auth/model/authStore';
 
 const PublicRoute = () => {
   const { user } = useAuthStore();

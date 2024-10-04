@@ -1,2 +1,4 @@
 export { default as api } from './api/api';
-export * from './utils/formatUtils/formatUtils';
+export { default as LoginForm } from './auth/ui/LoginForm/LoginForm';
+export { default as RegisterForm } from './auth/ui/RegisterForm/RegisterForm';
+export * from './utils/priceUtils/priceUtils';

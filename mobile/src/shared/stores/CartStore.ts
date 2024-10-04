@@ -1,9 +1,8 @@
-import {create} from 'zustand';
 import axios from 'axios';
-
-import {CartItemType, ICartFromServer} from 'entities/CartItem';
-import {storage} from 'shared/libs/storage';
+import {CartItemType, ICartFromServer} from 'entities/cartItem';
 import {Product} from 'entities/product';
+import {storage} from 'shared/libs/storage';
+import {create} from 'zustand';
 
 const makePatchRequest = async (
   token: string,

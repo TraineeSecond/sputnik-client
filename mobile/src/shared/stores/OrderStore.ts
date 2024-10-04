@@ -121,6 +121,6 @@ export const useOrderStore = create<OrderStore>(set => ({
         orders: formattedOrders,
       });
     } catch (error: any) {
-      console.error('error in order get',error);
+      
   }},
 }));

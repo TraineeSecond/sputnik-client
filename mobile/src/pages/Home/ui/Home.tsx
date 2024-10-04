@@ -3,10 +3,9 @@ import {useTranslation} from 'react-i18next';
 import {RefreshControl, ScrollView, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
-import {Category} from 'entities/category';
-import {Product} from 'entities/product';
-import {useProductListStore} from 'entities/productList';
+import {Category, Product} from 'entities';
 import {useUserStore} from 'entities/user';
+import {useSearchCatalogStore} from 'features/Search';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
@@ -20,37 +19,26 @@ import { useOrderStore } from 'shared/stores/OrderStore';
 export const Home = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
+
   const {loadUserData, user, token} = useUserStore();
 
   const {getOrders} = useOrderStore();
 
-  const {
-    error,
-    isLoading,
-    categories,
-    productList,
-    setIsLoading,
-    fetchAllData,
-  } = useProductListStore();
+  const {error, isLoading, categories, allProductList, fetchStartData} =
+    useSearchCatalogStore();
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchAllData();
     loadUserData();
-    setIsLoading(false);
+    fetchStartData();
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
     getOrders(user.id, token);
-    setIsLoading(false);
   }, [user.id, token]);
 
   const onRefresh = useCallback(async () => {
-    setIsLoading(true);
-    await Promise.all([fetchAllData(), loadUserData(), getOrders(user.id, token)]);
-    setIsLoading(false);
-  }, [fetchAllData, loadUserData, getOrders, setIsLoading]);
+    await Promise.all([fetchStartData(), loadUserData(), getOrders(user.id, token)]);
+  }, [fetchStartData, loadUserData, getOrders]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -114,39 +102,31 @@ export const Home = () => {
   };
 
   const renderSkeletonCategory = (index: number) => (
-    <View key={index}>
-      <ContentLoader
-        key={index}
-        speed={2}
-        width={95}
-        height={108}
-        viewBox="0 0 95 95"
-        backgroundColor={Colors.Gray200}
-        foregroundColor={Colors.Gray400}>
-        <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
-      </ContentLoader>
-    </View>
+    <ContentLoader
+      key={index}
+      speed={2}
+      width={95}
+      height={108}
+      viewBox="0 0 95 95"
+      backgroundColor={Colors.Gray200}
+      foregroundColor={Colors.Gray400}>
+      <Circle x="0" y="0" cx="42.5" cy="42" r="42.5" />
+    </ContentLoader>
   );
 
   const renderSkeletonProduct = (index: number) => (
-    <View key={index}>
-      <ContentLoader
-        speed={2}
-        width={210}
-        height={210}
-        viewBox="0 0 210 210"
-        backgroundColor={Colors.Gray200}
-        foregroundColor={Colors.Gray400}>
-        <Rect x="0" y="0" rx="10" ry="10" width="210" height="210" />
-      </ContentLoader>
-    </View>
+    <ContentLoader
+      speed={2}
+      width={210}
+      height={210}
+      viewBox="0 0 210 210"
+      backgroundColor={Colors.Gray200}
+      foregroundColor={Colors.Gray400}>
+      <Rect x="0" y="0" rx="10" ry="10" width="210" height="210" />
+    </ContentLoader>
   );
 
   //TODO: получать подборки и их названия с бэка
-  const [firstHalf, secondHalf] = [
-    productList.slice(0, productList.length / 2),
-    productList.slice(productList.length / 2),
-  ];
 
   return (
     <ScrollView
@@ -166,7 +146,7 @@ export const Home = () => {
             style={[styles.marginBottom, styles.promo]}
           />
           <Slider
-            isLoading={isLoading || !productList.length}
+            isLoading={isLoading || !allProductList.length}
             title={t('Категории')}
             data={categories}
             renderItem={renderCategoryItem}
@@ -174,17 +154,17 @@ export const Home = () => {
             style={styles.marginBottom}
           />
           <Slider
-            isLoading={isLoading || !productList.length}
+            isLoading={isLoading || !allProductList.length}
             title="Для вас"
-            data={firstHalf}
+            data={allProductList}
             renderItem={renderProductItem}
             renderSkeleton={renderSkeletonProduct}
             style={styles.marginBottom}
           />
           <Slider
-            isLoading={isLoading || !productList.length}
+            isLoading={isLoading || !allProductList.length}
             title="Подборка на лето"
-            data={secondHalf}
+            data={allProductList}
             renderItem={renderProductItem}
             renderSkeleton={renderSkeletonProduct}
             style={styles.marginBottom}

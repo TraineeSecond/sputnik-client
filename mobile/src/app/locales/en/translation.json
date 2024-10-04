@@ -1,5 +1,6 @@
 {
-  "Ошибка": "Ошибка",
+  "Поиск...": "Search...",
+  "Ошибка": "Error",
   "Попробуйте перезагрузить страницу": "Try to reload page",
   "Настройки языка": "Language settings",
   "Купить сейчас": "Buy now",
@@ -18,8 +19,15 @@
   "Корзина": "Cart",
   "Пустая корзина": "Your cart is empty, please add something",
   "Оформить заказ": "Place an order",
+  "Успешная авторизация": "Successful authorization",
+  "Авторизация": "Authorization",
+  "Введите почту": "Email",
+  "Введите пароль": "Password",
+  "Войти": "Enter",
+  "Зарегистрироваться": "Register",
   "Ваша история покупок": "Your purchase history",
   "Оцените товар": "Rate this product",
   "Отправить": "Send",
-  "Изменить оценку": "Change rating"
+  "Изменить оценку": "Change rating",
+  "Спасибо за отзыв!" : "Thank you for your review!"
 }

@@ -15,18 +15,19 @@ type CategoryItemProps = {
   id: string;
   title: string;
   image?: ImageSourcePropType;
+  style?: object;
   onPress: () => void;
 };
 
 export const CategoryItem = memo(
-  ({id, title, image, onPress}: CategoryItemProps) => {
+  ({id, title, image, style, onPress}: CategoryItemProps) => {
     return (
       <TouchableOpacity
         id={id}
         onPress={onPress}
         style={styles.container}
         activeOpacity={1}>
-        <View style={styles.imageContainer}>
+        <View style={[styles.imageContainer, style]}>
           {image ? (
             <Image source={image} style={styles.image} />
           ) : (

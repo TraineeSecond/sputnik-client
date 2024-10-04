@@ -14,13 +14,26 @@ export const RootNavigator = () => {
   const RootStack = createNativeStackNavigator<RootStackParamsList>();
   const navigation = useAppNavigation();
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
-    <RootStack.Navigator
-      screenOptions={({route}) => ({
-        header: () => <Header navigation={navigation} routeName={route.name} />,
-      })}>
-      <RootStack.Screen name={Stacks.MAIN} component={MainTabsNavigator} />
-      <RootStack.Screen name={Screens.PRODUCT} component={Product} />
+    <RootStack.Navigator>
+      <RootStack.Screen
+        name={Stacks.MAIN}
+        component={MainTabsNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={Screens.PRODUCT}
+        component={Product}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
       <RootStack.Screen name={Screens.CART} component={Cart} />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>

@@ -1,4 +1,5 @@
-import {Text, TouchableOpacity, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
 import {Stacks} from 'navigation/navigationEnums';
@@ -11,6 +12,7 @@ import {useLoginStore} from '../model/store';
 import {LoginStyles as styles} from './styles';
 
 export const Login = () => {
+  const {t} = useTranslation();
   const {email, password, setEmail, setPassword, login, clear} =
     useLoginStore();
 
@@ -22,7 +24,7 @@ export const Login = () => {
 
   const handleLogin = async () => {
     const result = await login(email, password);
-    if (result.message === 'Успешная авторизация') {
+    if (result.message === t('Успешная авторизация')) {
       setIsLoginPage(true);
       clear();
       navigation.navigate(Stacks.HOME_TAB);
@@ -37,25 +39,35 @@ export const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[TextStyles.h1, {marginBottom: 41, marginTop: 60}]}>
-        Авторизация
-      </Text>
-      <Input value={email} setValue={setEmail} placeholder="Введите почту" />
-
-      <Input
-        value={password}
-        setValue={setPassword}
-        isPassword={true}
-        placeholder="Введите пароль"
+      <Text style={[TextStyles.h1]}>{t('Авторизация')}</Text>
+      <Image
+        style={styles.image}
+        source={require('shared/assets/images/tempimage.png')}
       />
+      <View style={styles.form}>
+        <Input
+          value={email}
+          setValue={setEmail}
+          placeholder={t('Введите почту')}
+          style={styles.input}
+        />
+        <Input
+          value={password}
+          setValue={setPassword}
+          isPassword={true}
+          placeholder={t('Введите пароль')}
+          style={styles.input}
+        />
 
-      <TouchableOpacity onPress={handleLogin} style={styles.button1}>
-        <Text style={TextStyles.button1}>Войти</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={handleNavigate} style={styles.button2}>
-        <Text style={TextStyles.button2}>Зарегистрироваться</Text>
-      </TouchableOpacity>
+        <View style={styles.controls}>
+          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+            <Text style={TextStyles.button1}>{t('Войти')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigate}>
+            <Text style={TextStyles.button2}>{t('Зарегистрироваться')}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };

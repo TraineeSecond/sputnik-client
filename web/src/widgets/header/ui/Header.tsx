@@ -5,9 +5,11 @@ import {
   ShoppingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { useAuthStore } from 'features/auth/model/authStore';
+import { Badge } from 'antd';
+import { useCartStore } from 'features/cart/model/cartStore';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from 'shared/auth/model/authStore';
 import { changeLanguage } from 'shared/utils/i18nUtils/changeLanguage';
 
 import {
@@ -23,6 +25,8 @@ const Header = () => {
   const { user } = useAuthStore();
 
   const userRole = user?.role;
+  const { getQuantity } = useCartStore();
+  const cartQuantity = getQuantity();
 
   const goToHome = () => {
     navigate('/');
@@ -68,12 +72,14 @@ const Header = () => {
       />
 
       {userRole === 'buyer' && (
-        <StyledButton
-          size='large'
-          icon={<ShoppingOutlined />}
-          aria-label={t('Корзина')}
-          onClick={goToCart}
-        />
+        <Badge count={cartQuantity > 0 ? cartQuantity : 0}>
+          <StyledButton
+            size='large'
+            icon={<ShoppingOutlined />}
+            aria-label={t('Корзина')}
+            onClick={goToCart}
+          />
+        </Badge>
       )}
 
       {userRole === 'seller' && (
