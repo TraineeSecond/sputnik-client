@@ -32,7 +32,7 @@ export const Register = () => {
     clear,
   } = useRegisterStore();
   const {setIsLoginPage} = useIsLoginStore();
-  const {setUser, setToken} = useUserStore();
+  const {setUser, setToken, user} = useUserStore();
   const {setBasket} = useCartStore();
   const {t} = useTranslation();
 
@@ -46,7 +46,7 @@ export const Register = () => {
       navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
       setToken(result.token);
-      setBasket(result.basket);
+      if (user.role === 'buyer') setBasket(result.basket);
     }
   };
 
