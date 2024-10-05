@@ -32,15 +32,14 @@ const Header = () => {
   const userRole = user?.role;
   const { getQuantity } = useCartStore();
   const cartQuantity = getQuantity();
-  const [sortTerm, setSortTerm] = useState("")
   const { toggleShowFilterPopUp } = useFiltersStore()
-
+  const [sortTerm, setSortTerm] = useState("")
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSortTerm(e.target.value);
   };
 
-  const handleSearchEnter = () => {
-    setSortName(sortTerm)
+  const handleSearchEnter = (value: string) => {
+    setSortName(value)
   }
 
   const goToHome = () => {

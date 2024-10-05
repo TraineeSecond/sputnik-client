@@ -17,6 +17,6 @@ border-radius: 10px;
 width: 300px;
 `;
 
-export const StyledSelect = styled(Select)``
+export const StyledSelect = styled(Select<string>)``
 
 export const StyledOption = styled(Option)``

@@ -8,8 +8,8 @@ const FilterForm = () => {
     const { showFilterPopUp, toggleShowFilterPopUp } = useFiltersStore()
     if (!showFilterPopUp) return null
 
-    const handleCategoryChange = (value: unknown) => {
-        setSortCategory(value as string);
+    const handleCategoryChange = (value: string) => {
+        setSortCategory(value);
         toggleShowFilterPopUp();
     };
 
