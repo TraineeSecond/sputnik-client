@@ -1,14 +1,41 @@
 import { api } from 'shared';
 import { create } from 'zustand';
 
-import { Product, ProductState, ProductsResponse } from './types';
+import { FiltersResponse, Product, ProductState, ProductsResponse } from './types';
 
-export const useProductStore = create<ProductState>((set) => ({
+export const useProductStore = create<ProductState>((set, get) => ({
+  sortName: "",
+  sortCategory: "",
   products: [],
   product: null,
+  categories: [],
+  loadCategories: async (): Promise<void> => {
+    const res = await api.get<FiltersResponse>("categories");
+    const { data } = res;
+    set({ categories: data })
+  },
+  setSortCategory: async (category) => {
+    set({ sortCategory: category })
+    set({ products: [] })
+    get().loadProducts()
+  },
+  setSortName: async (name: string): Promise<void> => {
+    set({ sortName: name })
+    set({ products: [] })
+    get().loadProducts()
+  },
   loadProducts: async (): Promise<void> => {
     try {
-      const res = await api.get<ProductsResponse>('products');
+      let url = 'products';
+      const { sortName, sortCategory } = get();
+      if (sortName.length > 0 && sortCategory.length > 0) {
+        url += `?name=${sortName}&category=${sortCategory}`;
+      } else if (sortName.length > 0) {
+        url += `?name=${sortName}`;
+      } else if (sortCategory.length > 0) {
+        url += `?category=${sortCategory}`;
+      }
+      const res = await api.get<ProductsResponse>(url);
       const { data } = res;
       set({ products: data });
     } catch (error) {
