@@ -11,4 +11,6 @@ export type Product = {
   new_price: number;
   user: User;
   image?: ImageSourcePropType;
+  rating: number;
+  reviewerscount: number;
 };

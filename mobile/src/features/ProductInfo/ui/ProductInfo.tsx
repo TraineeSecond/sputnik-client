@@ -1,6 +1,6 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {CartItemType} from 'entities/cartItem';
@@ -11,7 +11,9 @@ import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 
-import {ProductInfoStyles as styles} from './styles';
+import {ProductInfoStyles as styles} from './ProductInfo.styles';
+import { useOrderStore } from 'shared/stores/OrderStore';
+import { useReviewStore } from 'shared/stores/ReviewStore';
 
 type ProductInfoProps = {
   product: Product;
@@ -22,6 +24,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
 
+  const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
+  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview, reviews} = useReviewStore();
+
   const {
     addItem,
     items,
@@ -31,6 +36,15 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     getItemQuantity,
   } = useCartStore();
   const {token, user} = useUserStore();
+
+
+  useEffect(() => {
+    const orderItemExists = orders.some(order =>
+      order.orderItems.some(orderItem => orderItem.product.id === product.id)
+    );
+    setIsOrderItem(orderItemExists);
+    getReview(product.id, user.id);
+  }, [orders, product.id]);
 
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);
@@ -126,8 +140,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   //TODO: Отзывы если они будут добавлены
   const renderScore = () => {
-    const score = 5;
-    const reviewsCount = 23;
 
     return (
       <View style={styles.score}>
@@ -136,10 +148,62 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
           width={IconStyles.small.width}
           height={IconStyles.small.height}
         />
-        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{score} </Text>
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{product.rating} </Text>
         <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-          {`(${reviewsCount})`}
+          {`(${product.reviewerscount})`}
         </Text>
+      </View>
+    );
+  };
+
+  const handleReviewMake = () => {
+    makeReview(user.id, product.id, userRating);
+    Alert.alert(t('Спасибо за отзыв!'));
+  };
+
+  const handleReviewChange = () => {
+    putReview(user.id, product.id, userRating);
+    Alert.alert(t('Спасибо за отзыв!'));
+  };
+
+
+  const handleStarPress = (rating: number) => {
+    setUserRating(rating);
+  };
+
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const handleOnPress = () => handleStarPress(i)
+      stars.push(
+        <TouchableOpacity key={i} onPress={handleOnPress}>
+          <StarIcon
+            fill={
+              i <= userRating
+                ? Colors.Yellow500
+                : Colors.Gray500
+            }
+            width={50}
+            height={50}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return stars;
+  };
+
+  const renderReviewMake = () => {
+    return (
+      <View style={styles.reviewContainer}>
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+          {hasReview ? t('Изменить оценку') : t('Оцените товар')}
+        </Text>
+        <View style={styles.starsContainer}>{renderStars()}</View>
+        <View>
+          <TouchableOpacity onPress={hasReview ? handleReviewChange : handleReviewMake}>
+            <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -179,6 +243,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             {product.description}
           </Text>
         </View>
+        <View>
+          {isOrderItem && renderReviewMake()}
+        </View>
         <View style={styles.buttonsContainer}>
           {isCartItem() ? (
             <View style={styles.buttonsContainer}>
@@ -206,6 +273,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                   </Text>
                 </TouchableOpacity>
               </View>
+
             </View>
           ) : (
             <TouchableOpacity

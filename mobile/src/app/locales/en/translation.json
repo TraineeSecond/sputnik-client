@@ -25,5 +25,9 @@
   "Введите пароль": "Password",
   "Войти": "Enter",
   "Зарегистрироваться": "Register",
-  "Ваша история покупок": "Your purchase history"
+  "Ваша история покупок": "Your purchase history",
+  "Оцените товар": "Rate this product",
+  "Отправить": "Send",
+  "Изменить оценку": "Change rating",
+  "Спасибо за отзыв!" : "Thank you for your review!"
 }

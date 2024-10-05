@@ -19,7 +19,6 @@ export const ProductInfoStyles = StyleSheet.create({
     resizeMode: 'contain',
   },
   main: {
-    // borderWidth: 1,
     paddingHorizontal: 20,
     paddingVertical: 10,
     gap: 10,
@@ -114,5 +113,21 @@ export const ProductInfoStyles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     paddingHorizontal: 10,
+  },
+  // reviewContainer: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   gap: 5,
+  //   marginVertical: 10,
+  // },
+  reviewContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginVertical: 15,
+  },
+  starsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
   },
 });

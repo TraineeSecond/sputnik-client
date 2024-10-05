@@ -1,6 +1,6 @@
 import {useUserStore} from 'entities/user';
-import React, {useEffect} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import {RefreshControl, ScrollView, Text, View} from 'react-native';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
 import {Order, useOrderStore} from 'shared/stores/OrderStore';
@@ -13,16 +13,20 @@ import {Colors, TextStyles} from 'shared/libs/helpers';
 import { useTranslation } from 'react-i18next';
 
 export const Orders = () => {
-  const {getOrders, orderItems, isLoading} = useOrderStore();
+  const {getOrders, orders, isLoading} = useOrderStore();
   const {user, token} = useUserStore();
 
   const {t} = useTranslation();
 
   const navigation = useAppNavigation();
 
-  useEffect(() => {
-    getOrders(user.id, token);
-  }, []);
+  // useEffect(() => {
+  //   getOrders(user.id, token);
+  // }, []);
+
+  const onRefresh = useCallback(async () => {
+    await getOrders(user.id, token);
+  }, [getOrders]);
 
   const handleProductPress = (product: Product) => {
     if (product) {
@@ -60,6 +64,8 @@ export const Orders = () => {
           newPrice={product.new_price}
           sellerName={product.user.name}
           sellerSurname={product.user.surname}
+          rating={product.rating}
+          reviewerscount={product.reviewerscount}
           onPress={() => handleProductPress(product)}
           style={styles.productItem}
         />
@@ -68,14 +74,18 @@ export const Orders = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView 
+      contentContainerStyle={styles.container} 
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+      }>
       <Text
         style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}>
          {t('Ваша история покупок')}
       </Text>
       {isLoading
         ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))
-        : orderItems.map(renderProductItem)}
+        : orders.map(renderProductItem)}
     </ScrollView>
   );
 };

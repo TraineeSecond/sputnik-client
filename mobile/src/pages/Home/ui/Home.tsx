@@ -14,11 +14,15 @@ import {CategoryItem, ProductItem, Promo, ShowError} from 'shared/ui';
 import {Slider} from 'widgets';
 
 import {HomePageStyles as styles} from './Home.styles';
+import { useOrderStore } from 'shared/stores/OrderStore';
 
 export const Home = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
-  const {loadUserData} = useUserStore();
+
+  const {loadUserData, user, token} = useUserStore();
+
+  const {getOrders} = useOrderStore();
 
   const {error, isLoading, categories, allProductList, fetchStartData} =
     useSearchCatalogStore();
@@ -28,9 +32,13 @@ export const Home = () => {
     fetchStartData();
   }, []);
 
+  useEffect(() => {
+    getOrders(user.id, token);
+  }, [user.id, token]);
+
   const onRefresh = useCallback(async () => {
-    await Promise.all([fetchStartData(), loadUserData()]);
-  }, [fetchStartData, loadUserData]);
+    await Promise.all([fetchStartData(), loadUserData(), getOrders(user.id, token)]);
+  }, [fetchStartData, loadUserData, getOrders]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
@@ -74,7 +82,7 @@ export const Home = () => {
   };
 
   const renderProductItem = ({item}: {item: Product}) => {
-    const {id, name, price, new_price, user} = item;
+    const {id, name, price, new_price, user, rating, reviewerscount} = item;
     const handlePress = () => handleProductPress(item);
 
     return (
@@ -86,6 +94,8 @@ export const Home = () => {
         newPrice={new_price}
         sellerName={user.name}
         sellerSurname={user.surname}
+        rating={rating}
+        reviewerscount={reviewerscount}
         onPress={handlePress}
       />
     );

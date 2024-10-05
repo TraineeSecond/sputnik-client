@@ -31,6 +31,10 @@ export const ProductItemStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    justifyContent: 'space-between',
+  },
+  name: {
+    width: '60%',
   },
   reviews: {
     flexDirection: 'row',
