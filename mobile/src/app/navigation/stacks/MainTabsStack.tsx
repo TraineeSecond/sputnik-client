@@ -88,19 +88,7 @@ export const MainTabsNavigator = () => {
       <MainTabsStack.Screen
         name={Screens.MAP_TAB}
         component={MapStackNavigator}
-        options={{
-          title: t('Карта'),
-          header: () => (
-            <Header
-              showSearchInput
-              searchText={searchText}
-              onSearch={handleSearch}
-              setSearchText={setSearchText}
-              onClearSearch={handleClearInput}
-              onCartPress={handleNavigateToCart}
-            />
-          ),
-        }}
+        options={{title: t('Карта')}}
       />
       <MainTabsStack.Screen
         name={Screens.PROFILE_TAB}
