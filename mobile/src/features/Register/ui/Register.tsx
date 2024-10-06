@@ -1,5 +1,6 @@
 import {CheckBox, Radio} from '@ui-kitten/components';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
@@ -31,20 +32,21 @@ export const Register = () => {
     clear,
   } = useRegisterStore();
   const {setIsLoginPage} = useIsLoginStore();
-  const {setUser, setToken} = useUserStore();
+  const {setUser, setToken, user} = useUserStore();
   const {setBasket} = useCartStore();
+  const {t} = useTranslation();
 
   const navigation = useAppNavigation();
 
   const handleRegister = async () => {
     const result = await register(email, password, checked, name, surname);
-    if (result.message === 'Пользователь зарегистрирован') {
+    if (result.message === t('Пользователь зарегистрирован')) {
       setIsLoginPage(true);
       clear();
       navigation.navigate(Stacks.HOME_TAB);
       setUser(result.user);
       setToken(result.token);
-      setBasket(result.basket);
+      if (user.role === 'buyer') setBasket(result.basket);
     }
   };
 
@@ -61,29 +63,33 @@ export const Register = () => {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={[TextStyles.h1]}>Регистрация</Text>
         <View style={styles.form}>
-          <Input value={name} setValue={setName} placeholder="Введите имя" />
+          <Input
+            value={name}
+            setValue={setName}
+            placeholder={t('Введите имя')}
+          />
           <Input
             value={surname}
             setValue={setSurname}
-            placeholder="Введите фамилию"
+            placeholder={t('Введите фамилию')}
           />
           <Input
             value={email}
             setValue={setEmail}
-            isEmail={true}
-            placeholder="Введите почту"
+            keyboardType="email-address"
+            placeholder={t('Введите почту')}
           />
           <Input
             value={password}
             setValue={setPassword}
             isPassword={true}
-            placeholder="Введите пароль"
+            placeholder={t('Введите пароль')}
           />
           <Input
             value={confirmPassword}
             setValue={setConfirmPassword}
             isPassword={true}
-            placeholder="Подтвердите пароль"
+            placeholder={t('Подтвердите пароль')}
           />
         </View>
 
@@ -95,10 +101,10 @@ export const Register = () => {
             <CheckBox checked={checked} onChange={handleRadioChange} />
           </View>
           <TouchableOpacity onPress={handleRegister} style={styles.button}>
-            <Text style={TextStyles.button1}>Зарегистрироваться</Text>
+            <Text style={TextStyles.button1}>{t('Зарегистрироваться')}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleNavigate}>
-            <Text style={TextStyles.button2}>Войти</Text>
+            <Text style={TextStyles.button2}>{t('Войти')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

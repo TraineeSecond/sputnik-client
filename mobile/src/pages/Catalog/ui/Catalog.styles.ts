@@ -11,8 +11,6 @@ export const CatalogPageStyles = StyleSheet.create({
   },
   scrollView: {
     paddingVertical: 10,
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
   },
   productItem: {
     width: '46%',
@@ -21,7 +19,7 @@ export const CatalogPageStyles = StyleSheet.create({
   },
   filters: {
     justifyContent: 'center',
-    height: 80,
+    height: 60,
     backgroundColor: Colors.White100,
     borderBottomWidth: 2,
     borderColor: Colors.Gray100,
@@ -32,6 +30,5 @@ export const CatalogPageStyles = StyleSheet.create({
     flex: 1,
     height: 80,
     width: 80,
-    // backgroundColor: Colors.Gray500,
   },
 });

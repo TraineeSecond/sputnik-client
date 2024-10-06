@@ -50,6 +50,7 @@ export const SearchCatalog = ({
         key={index}
         id={index.toString()}
         title={item}
+        showTitle={false}
         onPress={handlePress}
         style={[styles.default, categoryStyle]}
       />

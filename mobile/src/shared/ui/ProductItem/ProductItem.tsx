@@ -20,6 +20,7 @@ type ProductItemProps = {
   newPrice: number;
   sellerName: string;
   sellerSurname: string;
+  hideButton?: boolean;
   rating: number;
   reviewerscount: number;
   style?: object;
@@ -33,6 +34,7 @@ export const ProductItem = memo(
     image,
     price,
     newPrice,
+    hideButton = false,
     sellerName,
     sellerSurname,
     rating,
@@ -122,18 +124,20 @@ export const ProductItem = memo(
         style={[styles.container, style]}
         activeOpacity={0.8}>
         <View style={styles.imageContainer}>
-          <TouchableOpacity
-            onPress={handleFavoritePress}
-            style={styles.favoriteIcon}>
-            {renderFavoriteIcon()}
-          </TouchableOpacity>
+          {!hideButton && (
+            <TouchableOpacity
+              onPress={handleFavoritePress}
+              style={styles.favoriteIcon}>
+              {renderFavoriteIcon()}
+            </TouchableOpacity>
+          )}
           {renderImageOrName()}
         </View>
         <View style={styles.header}>
-          <Text 
+          <Text
             numberOfLines={1}
-            ellipsizeMode="tail" 
-            style={[TextStyles.span1.changeColor(Colors.Gray500),styles.name]}>
+            ellipsizeMode="tail"
+            style={[TextStyles.span1.changeColor(Colors.Gray500), styles.name]}>
             {seller}
           </Text>
           {renderReviews()}

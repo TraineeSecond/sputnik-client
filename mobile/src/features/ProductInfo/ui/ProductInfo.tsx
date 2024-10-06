@@ -10,10 +10,10 @@ import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
+import {useOrderStore} from 'shared/stores/OrderStore';
+import {useReviewStore} from 'shared/stores/ReviewStore';
 
 import {ProductInfoStyles as styles} from './ProductInfo.styles';
-import { useOrderStore } from 'shared/stores/OrderStore';
-import { useReviewStore } from 'shared/stores/ReviewStore';
 
 type ProductInfoProps = {
   product: Product;
@@ -25,7 +25,16 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const navigation = useAppNavigation();
 
   const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
-  const {userRating, setUserRating, makeReview, setHasReview, hasReview, putReview, getReview, reviews} = useReviewStore();
+  const {
+    userRating,
+    setUserRating,
+    makeReview,
+    setHasReview,
+    hasReview,
+    putReview,
+    getReview,
+    reviews,
+  } = useReviewStore();
 
   const {
     addItem,
@@ -37,10 +46,11 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   } = useCartStore();
   const {token, user} = useUserStore();
 
+  const hideButton = user.role === 'seller';
 
   useEffect(() => {
     const orderItemExists = orders.some(order =>
-      order.orderItems.some(orderItem => orderItem.product.id === product.id)
+      order.orderItems.some(orderItem => orderItem.product.id === product.id),
     );
     setIsOrderItem(orderItemExists);
     getReview(product.id, user.id);
@@ -140,7 +150,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   //TODO: Отзывы если они будут добавлены
   const renderScore = () => {
-
     return (
       <View style={styles.score}>
         <StarIcon
@@ -148,7 +157,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
           width={IconStyles.small.width}
           height={IconStyles.small.height}
         />
-        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{product.rating} </Text>
+        <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+          {product.rating}{' '}
+        </Text>
         <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
           {`(${product.reviewerscount})`}
         </Text>
@@ -166,7 +177,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     Alert.alert(t('Спасибо за отзыв!'));
   };
 
-
   const handleStarPress = (rating: number) => {
     setUserRating(rating);
   };
@@ -174,19 +184,15 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      const handleOnPress = () => handleStarPress(i)
+      const handleOnPress = () => handleStarPress(i);
       stars.push(
         <TouchableOpacity key={i} onPress={handleOnPress}>
           <StarIcon
-            fill={
-              i <= userRating
-                ? Colors.Yellow500
-                : Colors.Gray500
-            }
+            fill={i <= userRating ? Colors.Yellow500 : Colors.Gray500}
             width={50}
             height={50}
           />
-        </TouchableOpacity>
+        </TouchableOpacity>,
       );
     }
     return stars;
@@ -200,8 +206,11 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
         </Text>
         <View style={styles.starsContainer}>{renderStars()}</View>
         <View>
-          <TouchableOpacity onPress={hasReview ? handleReviewChange : handleReviewMake}>
-            <Text style={TextStyles.p1.changeColor(Colors.Black200)}>{t('Отправить')}</Text>
+          <TouchableOpacity
+            onPress={hasReview ? handleReviewChange : handleReviewMake}>
+            <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
+              {t('Отправить')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -223,11 +232,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                 {seller}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={handleFavoritePress}
-              style={styles.favoriteIcon}>
-              {renderFavoriteIcon()}
-            </TouchableOpacity>
+            {!hideButton && (
+              <TouchableOpacity
+                onPress={handleFavoritePress}
+                style={styles.favoriteIcon}>
+                {renderFavoriteIcon()}
+              </TouchableOpacity>
+            )}
           </View>
           <View style={styles.bottomSection}>
             <Text
@@ -243,46 +254,52 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             {product.description}
           </Text>
         </View>
-        <View>
-          {isOrderItem && renderReviewMake()}
-        </View>
-        <View style={styles.buttonsContainer}>
-          {isCartItem() ? (
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity
-                style={styles.inCartButton}
-                onPress={handleGoToCart}>
-                <Text style={styles.buttonText}>{t('В корзине')}</Text>
-              </TouchableOpacity>
-              <View style={styles.quantityContainer}>
+        <View>{isOrderItem && renderReviewMake()}</View>
+        {!hideButton && (
+          <View style={styles.buttonsContainer}>
+            {isCartItem() ? (
+              <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                  style={styles.quantityButton}
-                  onPress={handleDecrementItem}>
-                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                    -
-                  </Text>
+                  style={styles.inCartButton}
+                  onPress={handleGoToCart}>
+                  <Text style={styles.buttonText}>{t('В корзине')}</Text>
                 </TouchableOpacity>
-                <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                  {quantity}
-                </Text>
-                <TouchableOpacity
-                  style={styles.quantityButton}
-                  onPress={handleIncrementItem}>
-                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                    +
-                  </Text>
-                </TouchableOpacity>
+                <View style={styles.quantityContainer}>
+                  <TouchableOpacity
+                    style={styles.inCartButton}
+                    onPress={handleGoToCart}>
+                    <Text style={styles.buttonText}>{t('В корзине')}</Text>
+                  </TouchableOpacity>
+                  <View style={styles.quantityContainer}>
+                    <TouchableOpacity
+                      style={styles.quantityButton}
+                      onPress={handleDecrementItem}>
+                      <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                        -
+                      </Text>
+                    </TouchableOpacity>
+                    <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                      {quantity}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.quantityButton}
+                      onPress={handleIncrementItem}>
+                      <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                        +
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
-
-            </View>
-          ) : (
-            <TouchableOpacity
-              onPress={handleAddToCart}
-              style={styles.addToCartButton}>
-              <Text style={styles.buttonText}>{t('В корзину')}</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+            ) : (
+              <TouchableOpacity
+                onPress={handleAddToCart}
+                style={styles.addToCartButton}>
+                <Text style={styles.buttonText}>{t('В корзину')}</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );

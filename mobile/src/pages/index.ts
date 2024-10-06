@@ -7,3 +7,4 @@ export * from './Auth/ui/Auth';
 export * from './Settings/ui/Settings';
 export * from './Orders/ui/Orders';
 export * from './Product/ui/Product';
+export * from './NewProduct/ui/NewProduct';
