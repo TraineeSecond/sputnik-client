@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {CartItemType, ICartFromServer} from 'entities/cartItem';
 import {Product} from 'entities/product';
+import {Point} from 'features/MapInfo/model/store';
 import {storage} from 'shared/libs/storage';
 import {create} from 'zustand';
 
@@ -41,6 +42,10 @@ type CartStore = {
   items: CartItemType[];
   isLoading: boolean;
 
+  selectedPoint: Point | null;
+  setSelectedPoint: (point: Point) => void;
+  clearSelectedPoint: () => void;
+
   setIsLoading(isLoading: boolean): void;
   getItemQuantity: (id: number) => number;
 
@@ -60,6 +65,11 @@ export const useCartStore = create<CartStore>(set => ({
   id: 0,
   items: [],
   isLoading: true,
+
+  selectedPoint: null,
+
+  setSelectedPoint: (point: Point) => set({selectedPoint: point}),
+  clearSelectedPoint: () => set({selectedPoint: null}),
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
 

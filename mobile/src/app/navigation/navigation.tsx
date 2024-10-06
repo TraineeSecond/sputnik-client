@@ -1,6 +1,7 @@
 import {createNavigationContainerRef} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {Auth, Cart, Product} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
@@ -18,6 +19,8 @@ export const RootNavigator = () => {
     navigation.goBack();
   };
 
+  const {t} = useTranslation();
+
   return (
     <RootStack.Navigator>
       <RootStack.Screen
@@ -34,7 +37,11 @@ export const RootNavigator = () => {
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}
       />
-      <RootStack.Screen name={Screens.CART} component={Cart} />
+      <RootStack.Screen
+        name={Screens.CART}
+        component={Cart}
+        options={{title: t('Корзина')}}
+      />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>
   );

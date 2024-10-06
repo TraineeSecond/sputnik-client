@@ -9,14 +9,17 @@ export const CartPageStyles = StyleSheet.create({
   },
   centerText: {
     textAlign: 'center',
+    marginBottom: 10,
   },
   button: {
     position: 'absolute',
     bottom: 20,
     borderRadius: 10,
     width: 327,
-    //backgroundColor: Colors.Green500,
     borderColor: Colors.Green500,
     alignSelf: 'center',
+  },
+  topContainer: {
+    paddingVertical: 10,
   },
 });

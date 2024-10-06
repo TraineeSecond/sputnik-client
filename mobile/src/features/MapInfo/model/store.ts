@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {create} from 'zustand';
 
-type Point = {
+export type Point = {
   id: number;
   name: string;
   rating: number;

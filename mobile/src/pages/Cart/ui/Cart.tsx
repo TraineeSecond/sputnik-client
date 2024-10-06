@@ -1,16 +1,18 @@
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Button} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, ScrollView, Text, View} from 'react-native';
+import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
+import {MapStackParamsList} from 'app/navigation/navigationTypes';
 import {CartItemType} from 'entities/cartItem';
 import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
-import { useOrderStore } from 'shared/stores/OrderStore';
 import {useCartStore} from 'shared/stores/CartStore';
+import {useOrderStore} from 'shared/stores/OrderStore';
 import {CartItem} from 'shared/ui';
 
 import {CartPageStyles as styles} from './Cart.styles';
@@ -26,6 +28,7 @@ export const Cart = () => {
     removeItem,
     setIsLoading,
     getProductById,
+    selectedPoint,
   } = useCartStore();
 
   const {makeOrder} = useOrderStore();
@@ -33,6 +36,7 @@ export const Cart = () => {
   const {token, user} = useUserStore();
 
   const navigation = useAppNavigation();
+  const navigateMap = useNavigation<NavigationProp<MapStackParamsList>>();
 
   const {t} = useTranslation();
 
@@ -56,7 +60,16 @@ export const Cart = () => {
       Alert.alert('Корзина пуста');
       return;
     }
-    Alert.alert('Заказ успешно оформлен');
+
+    if (!selectedPoint) {
+      Alert.alert('Необходимо выбрать точку доставки');
+      return;
+    }
+
+    Alert.alert(
+      `${t('Заказ успешно оформлен')}`,
+      `${t('Заказ будет доставлен по адресу')} \n${selectedPoint.address}`,
+    );
     makeOrder(items, user.id, token);
     clearCart(token, user.id);
   };
@@ -100,6 +113,10 @@ export const Cart = () => {
     </ContentLoader>
   );
 
+  const handleNavToMap = () => {
+    navigateMap.navigate(Screens.MAP);
+  };
+
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -109,6 +126,20 @@ export const Cart = () => {
       ) : items.length > 0 ? (
         <>
           <ScrollView contentContainerStyle={{paddingBottom: 60}}>
+            {!selectedPoint && (
+              <View style={styles.topContainer}>
+                <Text
+                  style={[
+                    TextStyles.p1.changeColor(Colors.Red500),
+                    styles.centerText,
+                  ]}>
+                  {t('Пожалуйста, выберите точку доставки')}
+                </Text>
+                <Button status="info" onPress={handleNavToMap}>
+                  <Text>{t('Перейти на карту')}</Text>
+                </Button>
+              </View>
+            )}
             {items.map(item => renderItem(item))}
           </ScrollView>
 
