@@ -36,5 +36,9 @@
   "Описание продукта": "Description",
   "Цена": "Price",
   "Категория": "Category",
-  "Добавить продукт": "Add product"
+  "Добавить продукт": "Add product",
+  "Удалить": "Delete",
+  "Добавить изображение": "Add picture",
+  "Продукт успешно добавлен": "Product listing successful",
+  "Заполните все поля": "Fill all inputs"
 }

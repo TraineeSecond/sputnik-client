@@ -15,6 +15,8 @@ type InputType = {
   value: string;
   style?: object;
   placeholder: string;
+  numberOfLines?: number;
+  multiline?: boolean;
   showClear?: boolean;
   isPassword?: boolean;
   containerStyle?: object;
@@ -29,7 +31,9 @@ export const Input = ({
   onClear,
   setValue,
   placeholder,
+  numberOfLines,
   containerStyle,
+  multiline = false,
   keyboardType = 'default',
   showClear = false,
   isPassword = false,
@@ -43,6 +47,8 @@ export const Input = ({
       <TextInput
         value={value}
         secureTextEntry={isPassword}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
         placeholder={placeholder}
         keyboardType={keyboardType}
         autoCapitalize="none"

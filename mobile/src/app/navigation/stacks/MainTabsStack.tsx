@@ -2,6 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 
+import {useUserStore} from 'entities/user';
 import {useSearchCatalogStore} from 'features/index';
 import {CatalogIcon, HomeIcon, MapIcon, ProfileIcon} from 'shared/icons';
 import {Colors} from 'shared/libs/helpers/colors';
@@ -23,6 +24,7 @@ export const MainTabsNavigator = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
   const {searchText, setSearchText, fetchProducts} = useSearchCatalogStore();
+  const {user} = useUserStore();
 
   const handleNavigateToCart = () => {
     navigation.navigate(Screens.CART);
@@ -35,6 +37,8 @@ export const MainTabsNavigator = () => {
   const handleClearInput = () => {
     setSearchText('');
   };
+
+  const showCart = user.role !== 'seller';
 
   return (
     <MainTabsStack.Navigator
@@ -61,7 +65,7 @@ export const MainTabsNavigator = () => {
           header: () => (
             <Header
               showTitle
-              showCartButton
+              showCartButton={showCart}
               onCartPress={handleNavigateToCart}
             />
           ),
@@ -75,7 +79,7 @@ export const MainTabsNavigator = () => {
           header: () => (
             <Header
               showSearchInput
-              showCartButton
+              showCartButton={showCart}
               searchText={searchText}
               onSearch={handleSearch}
               setSearchText={setSearchText}

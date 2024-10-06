@@ -32,6 +32,8 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   } = useCartStore();
   const {token, user} = useUserStore();
 
+  const hideButton = user.role === 'seller';
+
   const handleFavoritePress = () => {
     setIsFavorite(!isFavorite);
     // добавление в избранное
@@ -159,11 +161,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                 {seller}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={handleFavoritePress}
-              style={styles.favoriteIcon}>
-              {renderFavoriteIcon()}
-            </TouchableOpacity>
+            {!hideButton && (
+              <TouchableOpacity
+                onPress={handleFavoritePress}
+                style={styles.favoriteIcon}>
+                {renderFavoriteIcon()}
+              </TouchableOpacity>
+            )}
           </View>
           <View style={styles.bottomSection}>
             <Text
@@ -179,42 +183,44 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             {product.description}
           </Text>
         </View>
-        <View style={styles.buttonsContainer}>
-          {isCartItem() ? (
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity
-                style={styles.inCartButton}
-                onPress={handleGoToCart}>
-                <Text style={styles.buttonText}>{t('В корзине')}</Text>
-              </TouchableOpacity>
-              <View style={styles.quantityContainer}>
+        {!hideButton && (
+          <View style={styles.buttonsContainer}>
+            {isCartItem() ? (
+              <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                  style={styles.quantityButton}
-                  onPress={handleDecrementItem}>
-                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                    -
-                  </Text>
+                  style={styles.inCartButton}
+                  onPress={handleGoToCart}>
+                  <Text style={styles.buttonText}>{t('В корзине')}</Text>
                 </TouchableOpacity>
-                <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                  {quantity}
-                </Text>
-                <TouchableOpacity
-                  style={styles.quantityButton}
-                  onPress={handleIncrementItem}>
+                <View style={styles.quantityContainer}>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={handleDecrementItem}>
+                    <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                      -
+                    </Text>
+                  </TouchableOpacity>
                   <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                    +
+                    {quantity}
                   </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={handleIncrementItem}>
+                    <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                      +
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          ) : (
-            <TouchableOpacity
-              onPress={handleAddToCart}
-              style={styles.addToCartButton}>
-              <Text style={styles.buttonText}>{t('В корзину')}</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+            ) : (
+              <TouchableOpacity
+                onPress={handleAddToCart}
+                style={styles.addToCartButton}>
+                <Text style={styles.buttonText}>{t('В корзину')}</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );

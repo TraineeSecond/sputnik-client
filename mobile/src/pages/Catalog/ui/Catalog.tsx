@@ -10,6 +10,7 @@ import {
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
+import {useUserStore} from 'entities/user';
 import {SearchCatalog, useSearchCatalogStore} from 'features/Search';
 import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
@@ -31,6 +32,9 @@ export const Catalog = () => {
     fetchProducts,
     fetchStartData,
   } = useSearchCatalogStore();
+  const {user} = useUserStore();
+
+  const hideButton = user.role === 'seller';
 
   const onRefresh = useCallback(async () => {
     setIsRefresh(true);
@@ -59,6 +63,7 @@ export const Catalog = () => {
         style={styles.productItem}
         sellerSurname={user.surname}
         onPress={handlePress}
+        hideButton={hideButton}
       />
     );
   };

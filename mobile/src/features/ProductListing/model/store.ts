@@ -1,20 +1,11 @@
 import axios from 'axios';
+import {Product} from 'entities/product';
 import {create} from 'zustand';
 
-type CreateProductResponse = {
-  id: number;
-  description: string;
-  category: string;
-  price: number;
-  new_price: number;
-  name: string;
-  userId: number;
-};
-
-type ListingProduct = {
+export type ListingProduct = {
   name: string;
   description: string;
-  price: number;
+  price: string;
   category: string;
   userId: number;
 };
@@ -27,6 +18,7 @@ type ProductListingStore = {
     field: keyof ListingProduct,
     value: string | number,
   ) => void;
+  clearProduct: () => void;
   addProduct: (product: ListingProduct) => Promise<void>;
 };
 
@@ -36,7 +28,7 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
   currentProduct: {
     name: '',
     description: '',
-    price: 0,
+    price: '',
     category: '',
     userId: 1,
   },
@@ -48,15 +40,27 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
 
   addProduct: async (product: ListingProduct) => {
     set({loading: true, error: null});
+
     try {
-      await axios.post<CreateProductResponse>(
+      await axios.post<Product>(
         'https://domennameabcdef.ru/api/product',
         product,
       );
       set({loading: false});
     } catch (error) {
       console.error(error);
-      set({error: 'Ошибка при добавлении продукта', loading: false});
+      set({error: 'Ошибка', loading: false});
     }
   },
+
+  clearProduct: () =>
+    set({
+      currentProduct: {
+        name: '',
+        description: '',
+        price: '',
+        category: '',
+        userId: 1,
+      },
+    }),
 }));
