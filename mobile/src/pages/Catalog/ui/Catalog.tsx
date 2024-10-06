@@ -49,7 +49,7 @@ export const Catalog = () => {
   };
 
   const renderProductItem = (item: Product) => {
-    const {id, name, price, new_price, user} = item;
+    const {id, name, price, new_price, user, rating, reviewerscount} = item;
     const handlePress = () => handleProductPress(item);
 
     return (
@@ -64,6 +64,8 @@ export const Catalog = () => {
         sellerSurname={user.surname}
         onPress={handlePress}
         hideButton={hideButton}
+        rating={rating}
+        reviewerscount={reviewerscount}
       />
     );
   };

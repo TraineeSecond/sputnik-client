@@ -21,6 +21,8 @@ type ProductItemProps = {
   sellerName: string;
   sellerSurname: string;
   hideButton?: boolean;
+  rating: number;
+  reviewerscount: number;
   style?: object;
   onPress: () => void;
 };
@@ -35,6 +37,8 @@ export const ProductItem = memo(
     hideButton = false,
     sellerName,
     sellerSurname,
+    rating,
+    reviewerscount,
     style,
     onPress,
   }: ProductItemProps) => {
@@ -97,9 +101,6 @@ export const ProductItem = memo(
 
     //TODO: Отзывы
     const renderReviews = () => {
-      const score = 5;
-      const reviewsCount = 23;
-
       return (
         <View style={styles.reviews}>
           <StarIcon
@@ -108,10 +109,10 @@ export const ProductItem = memo(
             height={IconStyles.small.height}
           />
           <Text style={TextStyles.span1.changeColor(Colors.Black200)}>
-            {score}{' '}
+            {rating}{' '}
           </Text>
           <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
-            {`(${reviewsCount})`}
+            {`(${reviewerscount})`}
           </Text>
         </View>
       );
@@ -133,14 +134,18 @@ export const ProductItem = memo(
           {renderImageOrName()}
         </View>
         <View style={styles.header}>
-          <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={[TextStyles.span1.changeColor(Colors.Gray500), styles.name]}>
             {seller}
           </Text>
           {renderReviews()}
         </View>
         <Text
           style={TextStyles.p1.changeColor(Colors.Black200)}
-          numberOfLines={1}>
+          numberOfLines={1}
+          ellipsizeMode="tail">
           {name}
         </Text>
         {renderPrice()}

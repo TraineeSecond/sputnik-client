@@ -1,8 +1,16 @@
 import { User } from 'shared/auth/model/types';
 
+export type FiltersResponse = string[];
+
 export interface ProductState {
   products: Product[];
   product: Product | null;
+  sortName: string;
+  sortCategory: string;
+  categories: string[];
+  loadCategories: () => Promise<void>
+  setSortName: (name: string) => Promise<void>
+  setSortCategory: (category: string) => Promise<void>
   loadProductById: (productId: number) => Promise<void>;
   loadProducts: () => Promise<void>;
 }

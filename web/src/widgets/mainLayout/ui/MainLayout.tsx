@@ -9,11 +9,16 @@ import {
   StyledLayoutContent,
   StyledLayoutHeader,
 } from './MainLayout.styles';
+import { useProductStore } from 'entities/product/model/productStore';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { token, user } = useAuthStore();
   const { getCart } = useCartStore();
+  const { loadCategories } = useProductStore()
 
+  useEffect(() => {
+    loadCategories()
+  }, [])
   useEffect(() => {
     if (user?.role === 'buyer' && token && user?.id) {
       void getCart(token, user.id);

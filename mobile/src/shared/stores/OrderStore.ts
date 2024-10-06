@@ -19,9 +19,12 @@ export type Order = {
 
 type OrderStore = {
   isLoading: boolean;
-  orderItems: Order[];
+  isOrderItem: boolean;
+  orders: Order[];
+
 
   setIsLoading: (isLoading: boolean) => void;
+  setIsOrderItem: (isOrredItem: boolean) => void;
   makeOrder: (
     items: CartItemType[],
     userid: number,
@@ -32,10 +35,15 @@ type OrderStore = {
 
 export const useOrderStore = create<OrderStore>(set => ({
   isLoading: false,
-  orderItems: [],
+  isOrderItem: false,
+  orders: [],
 
   setIsLoading: (isLoading: boolean) => {
     set({isLoading});
+  },
+
+  setIsOrderItem: (isOrderItem: boolean)=> {
+    set({isOrderItem});
   },
 
   makeOrder: async (items: CartItemType[], userid: number, token: string) => {
@@ -59,7 +67,7 @@ export const useOrderStore = create<OrderStore>(set => ({
       );
       if (data?.orderitems) {
         set({
-          orderItems: data.orderitems,
+          orders: data.orderitems,
         });
       }
     } catch (error: any) {
@@ -68,7 +76,6 @@ export const useOrderStore = create<OrderStore>(set => ({
   },
   getOrders: async (userid: number, token: string) => {
     try {
-      set({isLoading: true});
       const {data} = await axios.get(
         `https://domennameabcdef.ru/api/orders/${userid}`,
         {
@@ -94,6 +101,8 @@ export const useOrderStore = create<OrderStore>(set => ({
                 name: orderItem.product.name,
                 price: orderItem.product.price,
                 new_price: orderItem.product.new_price,
+                rating: orderItem.product.rating,
+                reviewerscount: orderItem.product.reviewerscount,
                 user: {
                   id: order.user.id,
                   email: order.user.email,
@@ -109,12 +118,9 @@ export const useOrderStore = create<OrderStore>(set => ({
       });
 
       set({
-        orderItems: formattedOrders,
+        orders: formattedOrders,
       });
     } catch (error: any) {
-      console.error(error);
-    } finally {
-      set({isLoading: false});
-    }
-  },
+      
+  }},
 }));
