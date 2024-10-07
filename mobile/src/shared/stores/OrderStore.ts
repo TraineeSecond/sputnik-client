@@ -1,6 +1,8 @@
-import axios from 'axios';
-import {CartItemType, Product} from 'entities';
 import {create} from 'zustand';
+import axios from 'axios';
+
+import {CartItemType} from 'entities/CartItem';
+import {Product} from 'entities/product';
 
 export type OrderItem = {
   id: number;
@@ -16,10 +18,13 @@ export type Order = {
 };
 
 type OrderStore = {
-  orders: Order[];
   isLoading: boolean;
+  isOrderItem: boolean;
+  orders: Order[];
+
+
   setIsLoading: (isLoading: boolean) => void;
-  isProductOrdered: (productId: number) => boolean;
+  setIsOrderItem: (isOrredItem: boolean) => void;
   makeOrder: (
     items: CartItemType[],
     userid: number,
@@ -28,25 +33,24 @@ type OrderStore = {
   getOrders: (userid: number, token: string) => Promise<void>;
 };
 
-export const useOrderStore = create<OrderStore>((set, get) => ({
+export const useOrderStore = create<OrderStore>(set => ({
   isLoading: false,
+  isOrderItem: false,
   orders: [],
 
   setIsLoading: (isLoading: boolean) => {
     set({isLoading});
   },
 
-  isProductOrdered: (productId: number) => {
-    const orders = get().orders;
-    return orders.some(order =>
-      order.orderItems.some(orderItem => orderItem.product.id === productId),
-    );
+  setIsOrderItem: (isOrderItem: boolean)=> {
+    set({isOrderItem});
   },
 
   makeOrder: async (items: CartItemType[], userid: number, token: string) => {
     try {
       const formattedItems = items.map(item => ({
         quantity: item.quantity,
+
         productid: item.id,
       }));
       const {data} = await axios.post(
@@ -70,7 +74,6 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       console.error(error.response);
     }
   },
-
   getOrders: async (userid: number, token: string) => {
     try {
       const {data} = await axios.get(
@@ -117,6 +120,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       set({
         orders: formattedOrders,
       });
-    } catch (error: any) {}
-  },
+    } catch (error: any) {
+      
+  }},
 }));
