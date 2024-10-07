@@ -35,7 +35,7 @@ export const Header = ({
 }: HeaderProps) => {
   const {t} = useTranslation();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, !showCartButton && styles.border]}>
       {showBackButton && (
         <TouchableOpacity onPress={onBackPress}>
           <ArrowBack

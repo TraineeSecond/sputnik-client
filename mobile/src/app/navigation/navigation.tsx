@@ -34,7 +34,13 @@ export const RootNavigator = () => {
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}
       />
-      <RootStack.Screen name={Screens.CART} component={Cart} />
+      <RootStack.Screen
+        name={Screens.CART}
+        component={Cart}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>
   );
