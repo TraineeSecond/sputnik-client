@@ -37,8 +37,8 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   } = useReviewStore();
 
   const {
-    addItem,
     items,
+    addItem,
     removeItem,
     incrementItem,
     decrementItem,
@@ -99,7 +99,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const renderImage = () => {
     if (product.image) {
-      return <Image source={product.image} style={styles.productImage} />;
+      <Image source={product.image} style={styles.productImage} />;
     }
     return (
       <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
@@ -224,11 +224,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
         <View style={styles.header}>
           <View style={styles.topSection}>
             <View style={styles.brandReviews}>
-              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+              <Text
+                style={TextStyles.p2.changeColor(Colors.Gray500)}
+                ellipsizeMode="tail">
                 {product.category}
               </Text>
               {renderScore()}
-              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+              <Text style={TextStyles.p2.changeColor(Colors.Gray500)}>
                 {seller}
               </Text>
             </View>
@@ -260,42 +262,37 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             {isCartItem() ? (
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                  style={styles.inCartButton}
+                  style={styles.button}
                   onPress={handleGoToCart}>
-                  <Text style={styles.buttonText}>{t('В корзине')}</Text>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    {t('В корзине')}
+                  </Text>
                 </TouchableOpacity>
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity
-                    style={styles.inCartButton}
-                    onPress={handleGoToCart}>
-                    <Text style={styles.buttonText}>{t('В корзине')}</Text>
-                  </TouchableOpacity>
-                  <View style={styles.quantityContainer}>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={handleDecrementItem}>
-                      <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                        -
-                      </Text>
-                    </TouchableOpacity>
+                    style={styles.quantityButton}
+                    onPress={handleDecrementItem}>
                     <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                      {quantity}
+                      -
                     </Text>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={handleIncrementItem}>
-                      <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                        +
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  </TouchableOpacity>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    {quantity}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={handleIncrementItem}>
+                    <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                      +
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             ) : (
-              <TouchableOpacity
-                onPress={handleAddToCart}
-                style={styles.addToCartButton}>
-                <Text style={styles.buttonText}>{t('В корзину')}</Text>
+              <TouchableOpacity onPress={handleAddToCart} style={styles.button}>
+                <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                  {t('В корзину')}
+                </Text>
               </TouchableOpacity>
             )}
           </View>
