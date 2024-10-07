@@ -24,15 +24,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
 
-  const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
+  const {orders, isProductOrdered} = useOrderStore();
   const {
-    reviews,
     hasReview,
     userRating,
     getReview,
     putReview,
     makeReview,
-    setHasReview,
     setUserRating,
   } = useReviewStore();
 
@@ -49,10 +47,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const hideButton = user.role === 'seller';
 
   useEffect(() => {
-    const orderItemExists = orders.some(order =>
-      order.orderItems.some(orderItem => orderItem.product.id === product.id),
-    );
-    setIsOrderItem(orderItemExists);
     getReview(product.id, user.id);
   }, [orders, product.id]);
 
@@ -63,6 +57,8 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const seller = `${product.user.name} ${product.user.surname}`;
   const hasDiscount = product.new_price < product.price;
+  const isOrderItem = isProductOrdered(product.id);
+  const quantity = getItemQuantity(product.id);
 
   const handleAddToCart = () => {
     const cartItem = {
@@ -79,8 +75,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     navigation.navigate(Screens.CART);
   };
 
-  const quantity = useMemo(() => getItemQuantity(product.id), [items]);
-
   const handleIncrementItem = () => {
     incrementItem(product.id, token, user.id);
   };
@@ -88,9 +82,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const handleDecrementItem = () => {
     if (quantity === 1) {
       removeItem(product.id, token, user.id);
-      return;
+    } else {
+      decrementItem(product.id, token, user.id);
     }
-    decrementItem(product.id, token, user.id);
   };
 
   const isCartItem = () => {
