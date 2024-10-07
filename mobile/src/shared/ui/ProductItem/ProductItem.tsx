@@ -1,12 +1,7 @@
 import React, {memo, useState} from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
+import {ImageOwn} from 'entities/product';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 
@@ -15,7 +10,7 @@ import {ProductItemStyles as styles} from './ProductItem.styles';
 type ProductItemProps = {
   id: string;
   name: string;
-  image?: ImageSourcePropType;
+  images: ImageOwn[];
   price: number;
   newPrice: number;
   sellerName: string;
@@ -31,15 +26,15 @@ export const ProductItem = memo(
   ({
     id,
     name,
-    image,
+    style,
     price,
+    images,
+    rating,
     newPrice,
     hideButton = false,
     sellerName,
     sellerSurname,
-    rating,
     reviewerscount,
-    style,
     onPress,
   }: ProductItemProps) => {
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
@@ -69,7 +64,15 @@ export const ProductItem = memo(
     };
 
     const renderImageOrName = () => {
-      if (image) return <Image source={image} />;
+      if (!!images.length && images[0].image) {
+        return (
+          <Image
+            source={{uri: images[0].image as string}}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        );
+      }
       return (
         <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>{name}</Text>
       );

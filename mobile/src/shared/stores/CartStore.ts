@@ -236,7 +236,7 @@ export const useCartStore = create<CartStore>(set => ({
         id: data.id,
         title: data.name,
         price: data.new_price || data.price,
-        image: data.image,
+        images: data.images,
         quantity: 1,
       } as CartItemType;
     } catch (error: any) {

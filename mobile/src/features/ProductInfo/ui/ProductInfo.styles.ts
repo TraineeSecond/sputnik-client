@@ -12,7 +12,6 @@ export const ProductInfoStyles = StyleSheet.create({
     alignItems: 'center',
     aspectRatio: 1,
     backgroundColor: Colors.Gray200,
-    padding: 20,
   },
   productImage: {
     width: 'auto',

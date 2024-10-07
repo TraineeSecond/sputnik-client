@@ -1,10 +1,10 @@
-import {ImageSourcePropType} from 'react-native';
+import {ImageOwn} from 'entities/product';
 
 export type CartItemType = {
   id: number;
   title: string;
   price: number;
-  image: ImageSourcePropType;
+  images: ImageOwn[];
   quantity: number;
 };
 
