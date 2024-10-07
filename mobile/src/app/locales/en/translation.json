@@ -54,5 +54,9 @@
   "Рейтинг": "Raiting",
   "Адрес": "Address",
   "Заказ успешно оформлен": "The order has been successfully placed",
-  "Заказ будет доставлен по адресу": "The order will be delivered to the address"
+  "Заказ будет доставлен по адресу": "The order will be delivered to the address",
+  "Закрыть": "Close",
+  "Отправить отзыв": "Send review",
+  "Оцените пункт выдачи": "Rate the pick-up point",
+  "Отзывы пунктов выдачи заказов": "Reviews of pick-up points"
 }

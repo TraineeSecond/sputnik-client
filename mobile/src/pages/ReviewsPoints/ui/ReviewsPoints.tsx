@@ -1,5 +1,6 @@
 import {Button} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Modal, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
@@ -12,6 +13,8 @@ import {useReviewsPointsStore} from '../model/store';
 import {ReviewsPointsStyles as styles} from './ReviewsPoints.styles';
 
 export const ReviewsPoints = () => {
+  const {t} = useTranslation();
+
   const {points, makeReview, fetchPoints} = useMapStore();
   const {selectedPoint, setSelectedPoint, clearSelectedPoint} = useCartStore();
   const {user} = useUserStore();
@@ -64,7 +67,7 @@ export const ReviewsPoints = () => {
   return (
     <View style={styles.container}>
       <Text style={[TextStyles.h3.changeColor(Colors.Black100), styles.title]}>
-        Отзывы пунктов выдачи заказов
+        {t('Отзывы пунктов выдачи заказов')}
       </Text>
       <View>
         {points.map(point => {
@@ -82,7 +85,7 @@ export const ReviewsPoints = () => {
                 {point.name}
               </Text>
               <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-                Рейтинг: {point.rating.toFixed(2)} ({point.reviewCount} отзывов)
+                {t('Рейтинг')}: {point.rating.toFixed(2)} ({point.reviewCount})
               </Text>
             </TouchableOpacity>
           );
@@ -101,7 +104,7 @@ export const ReviewsPoints = () => {
                   TextStyles.p3.changeColor(Colors.Black100),
                   styles.title,
                 ]}>
-                Оцените пункт выдачи
+                {t('Оцените пункт выдачи')}
               </Text>
               <View style={styles.starsContainer}>{renderStars()}</View>
               <Button
@@ -109,14 +112,14 @@ export const ReviewsPoints = () => {
                 style={styles.submitButton}
                 onPress={handleSubmitReview}>
                 <Text style={TextStyles.p3.changeColor(Colors.White100)}>
-                  Отправить отзыв
+                  {t('Отправить отзыв')}
                 </Text>
               </Button>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={handleCloseModal}>
                 <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
-                  Закрыть
+                  {t('Закрыть')}
                 </Text>
               </TouchableOpacity>
             </View>
