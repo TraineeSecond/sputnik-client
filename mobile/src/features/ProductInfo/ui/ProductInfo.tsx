@@ -26,14 +26,14 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
   const {
+    reviews,
+    hasReview,
     userRating,
-    setUserRating,
+    getReview,
+    putReview,
     makeReview,
     setHasReview,
-    hasReview,
-    putReview,
-    getReview,
-    reviews,
+    setUserRating,
   } = useReviewStore();
 
   const {
