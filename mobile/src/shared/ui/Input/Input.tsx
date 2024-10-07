@@ -1,19 +1,26 @@
 import React from 'react';
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardTypeOptions,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import {CloseIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 
-import {Colors, IconStyles, TextStyles} from '../../libs/helpers';
 import {InputStyles as styles} from './Input.styles';
 
 type InputType = {
   value: string;
   style?: object;
-  isEmail?: boolean;
   placeholder: string;
+  numberOfLines?: number;
+  multiline?: boolean;
   showClear?: boolean;
   isPassword?: boolean;
   containerStyle?: object;
+  keyboardType?: KeyboardTypeOptions;
   onClear?: () => void;
   setValue: (text: string) => void;
 };
@@ -24,8 +31,10 @@ export const Input = ({
   onClear,
   setValue,
   placeholder,
+  numberOfLines,
   containerStyle,
-  isEmail = false,
+  multiline = false,
+  keyboardType = 'default',
   showClear = false,
   isPassword = false,
 }: InputType) => {
@@ -38,10 +47,12 @@ export const Input = ({
       <TextInput
         value={value}
         secureTextEntry={isPassword}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
         placeholder={placeholder}
-        keyboardType={isEmail ? 'email-address' : 'default'}
+        keyboardType={keyboardType}
         autoCapitalize="none"
-        placeholderTextColor={Colors.Black200}
+        placeholderTextColor={Colors.Gray500}
         onChangeText={handleChangeText}
         style={[
           styles.input,

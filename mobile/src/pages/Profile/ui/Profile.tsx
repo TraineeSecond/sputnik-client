@@ -1,17 +1,23 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {IndexPath, Menu, MenuItem} from '@ui-kitten/components';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Image, Text, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {useUserStore} from 'entities/user';
-import {Auth} from 'pages';
-import {FlagIcon, ForwardIcon, HistoryIcon, LogOutIcon} from 'shared/icons';
+import {Auth} from 'pages/index';
+import {
+  FlagIcon,
+  ForwardIcon,
+  HistoryIcon,
+  LogOutIcon,
+  ProductIcon,
+} from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 
-import {ProfilePageStyles as styles} from './Profile.styles';
+import {ProfileStyles as styles} from './Profile.styles';
 
 export const Profile = () => {
   const {token, user, clearUserData} = useUserStore();
@@ -22,6 +28,10 @@ export const Profile = () => {
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
 
+  const handleLogout = () => {
+    clearUserData();
+  };
+
   const handlePurchaseHistory = () => {
     navigation.navigate(Screens.ORDERS);
   };
@@ -30,9 +40,29 @@ export const Profile = () => {
     navigation.navigate(Screens.SETTINGS);
   };
 
-  const handleLogout = () => {
-    clearUserData();
+  const handleAddProduct = () => {
+    navigation.navigate(Screens.NEWPRODUCT);
   };
+
+  const renderSellerInterface = () => (
+    <MenuItem
+      title={t('Добавить продукт')}
+      accessoryLeft={ProductIcon}
+      accessoryRight={ForwardIcon}
+      onPress={handleAddProduct}
+    />
+  );
+
+  const renderBuyerInterface = () => (
+    <MenuItem
+      title={t('История покупок')}
+      accessoryLeft={HistoryIcon}
+      accessoryRight={ForwardIcon}
+      onPress={handlePurchaseHistory}
+    />
+  );
+
+  const isSeller = user.role === 'seller';
 
   return (
     <>
@@ -59,12 +89,7 @@ export const Profile = () => {
 
           <View style={styles.menuContainer}>
             <Menu onSelect={index => setSelectedIndex(index)}>
-              <MenuItem
-                title={t('История покупок')}
-                accessoryLeft={HistoryIcon}
-                accessoryRight={ForwardIcon}
-                onPress={handlePurchaseHistory}
-              />
+              {isSeller ? renderSellerInterface() : renderBuyerInterface()}
               <MenuItem
                 title={t('Настройки языка')}
                 accessoryLeft={FlagIcon}

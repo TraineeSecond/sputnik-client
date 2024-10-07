@@ -2,9 +2,10 @@ import {StyleSheet} from 'react-native';
 
 import {Colors} from 'shared/libs/helpers/colors';
 
-export const ProfilePageStyles = StyleSheet.create({
+export const ProfileStyles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 60,
     backgroundColor: Colors.White100,
   },
   textCenter: {

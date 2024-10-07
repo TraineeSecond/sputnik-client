@@ -27,6 +27,8 @@ export const Home = () => {
   const {error, isLoading, categories, allProductList, fetchStartData} =
     useSearchCatalogStore();
 
+  const hideButton = user.role === 'seller';
+
   useEffect(() => {
     loadUserData();
     fetchStartData();
@@ -98,6 +100,7 @@ export const Home = () => {
         newPrice={new_price}
         sellerName={user.name}
         sellerSurname={user.surname}
+        hideButton={hideButton}
         rating={rating}
         reviewerscount={reviewerscount}
         onPress={handlePress}

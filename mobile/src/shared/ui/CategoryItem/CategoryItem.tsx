@@ -13,14 +13,15 @@ import {CategoryItemStyles as styles} from './CategoryItem.styles';
 
 type CategoryItemProps = {
   id: string;
-  title: string;
+  title?: string;
+  showTitle?: boolean;
   image?: ImageSourcePropType;
   style?: object;
   onPress: () => void;
 };
 
 export const CategoryItem = memo(
-  ({id, title, image, style, onPress}: CategoryItemProps) => {
+  ({id, title, image, style, showTitle = true, onPress}: CategoryItemProps) => {
     return (
       <TouchableOpacity
         id={id}
@@ -36,11 +37,13 @@ export const CategoryItem = memo(
             </Text>
           )}
         </View>
-        <Text
-          style={TextStyles.span1.changeColor(Colors.Black200)}
-          numberOfLines={1}>
-          {title}
-        </Text>
+        {showTitle && (
+          <Text
+            style={TextStyles.span1.changeColor(Colors.Black200)}
+            numberOfLines={1}>
+            {title}
+          </Text>
+        )}
       </TouchableOpacity>
     );
   },
