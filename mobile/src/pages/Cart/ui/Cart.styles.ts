@@ -11,11 +11,12 @@ export const CartPageStyles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    margin: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 15,
-    backgroundColor: Colors.Green500,
+    position: 'absolute',
+    bottom: 20,
     borderRadius: 10,
+    width: 327,
+    //backgroundColor: Colors.Green500,
+    borderColor: Colors.Green500,
+    alignSelf: 'center',
   },
 });

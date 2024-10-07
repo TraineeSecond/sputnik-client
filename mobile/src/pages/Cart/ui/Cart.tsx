@@ -1,7 +1,7 @@
 import {Button} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, ScrollView, Text, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {CartItemType} from 'entities/cartItem';
@@ -9,8 +9,8 @@ import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import { useOrderStore } from 'shared/stores/OrderStore';
 import {useCartStore} from 'shared/stores/CartStore';
-import {useOrderStore} from 'shared/stores/OrderStore';
 import {CartItem} from 'shared/ui';
 
 import {CartPageStyles as styles} from './Cart.styles';
@@ -108,12 +108,16 @@ export const Cart = () => {
         </ScrollView>
       ) : items.length > 0 ? (
         <>
-          <ScrollView>{items.map(item => renderItem(item))}</ScrollView>
-          <TouchableOpacity onPress={handleCheckout} style={styles.button}>
-            <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-              {t('Оформить заказ')}
-            </Text>
-          </TouchableOpacity>
+          <ScrollView contentContainerStyle={{paddingBottom: 60}}>
+            {items.map(item => renderItem(item))}
+          </ScrollView>
+
+          <Button
+            style={styles.button}
+            status="success"
+            onPress={handleCheckout}>
+            {t('Оформить заказ')}
+          </Button>
         </>
       ) : (
         <Text
