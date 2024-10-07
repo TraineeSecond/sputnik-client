@@ -28,13 +28,14 @@ export const ProductItemStyles = StyleSheet.create({
     backgroundColor: Colors.Black100Opacity20,
   },
   header: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     justifyContent: 'space-between',
   },
   name: {
-    width: '60%',
+    flex: 1,
   },
   reviews: {
     flexDirection: 'row',
