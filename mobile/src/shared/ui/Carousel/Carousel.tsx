@@ -1,8 +1,7 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image, ScrollView, View} from 'react-native';
 
 import {ImageOwn} from 'entities/product';
-import SwiperFlatList from 'react-native-swiper-flatlist';
 
 import {CarouselStyles as styles} from './Carousel.styles';
 
@@ -12,21 +11,20 @@ type CarouselProps = {
 
 export const Carousel = ({images}: CarouselProps) => {
   return (
-    <SwiperFlatList
-      autoplay
-      autoplayDelay={2}
-      autoplayLoop
-      showPagination
-      data={images}
-      renderItem={({item}) => (
-        <View style={[styles.child, {backgroundColor: item}]}>
+    <ScrollView
+      horizontal
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      style={styles.container}>
+      {images.map((item, index) => (
+        <View key={index} style={styles.imageContainer}>
           <Image
             source={{uri: item.image as string}}
             style={styles.image}
             resizeMode="cover"
           />
         </View>
-      )}
-    />
+      ))}
+    </ScrollView>
   );
 };
