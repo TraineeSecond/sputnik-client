@@ -20,4 +20,5 @@ export enum Screens {
   PAYMENTSMETHODS = 'PaymentMethods',
   PRODUCT = 'Product',
   NEWPRODUCT = 'NewProduct',
+  REVIEWSPOINTS = 'ReviewsPoints',
 }
