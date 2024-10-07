@@ -12,6 +12,7 @@ export const ProductInfoStyles = StyleSheet.create({
     alignItems: 'center',
     aspectRatio: 1,
     backgroundColor: Colors.Gray200,
+    padding: 20,
   },
   productImage: {
     width: 'auto',
@@ -25,15 +26,18 @@ export const ProductInfoStyles = StyleSheet.create({
   },
   header: {
     flexDirection: 'column',
+    gap: 5,
   },
   topSection: {
     position: 'relative',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: -10,
   },
   brandReviews: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 10,
   },
   score: {
@@ -44,8 +48,6 @@ export const ProductInfoStyles = StyleSheet.create({
     flex: 1,
   },
   favoriteIcon: {
-    position: 'absolute',
-    right: 0,
     zIndex: 10,
     padding: 6,
     borderRadius: '100%',
@@ -72,15 +74,7 @@ export const ProductInfoStyles = StyleSheet.create({
     gap: 15,
     justifyContent: 'space-between',
   },
-  addToCartButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
-    backgroundColor: Colors.Green500,
-    borderRadius: 10,
-  },
-  inCartButton: {
+  button: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -91,35 +85,15 @@ export const ProductInfoStyles = StyleSheet.create({
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    gap: 10,
+    justifyContent: 'space-between',
     backgroundColor: Colors.Green300,
     paddingHorizontal: 20,
     borderRadius: 10,
   },
   quantityButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 5,
+    padding: 15,
   },
-  quantityButtonText: {
-    color: Colors.Green500,
-    fontSize: 18,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  quantityText: {
-    fontSize: 16,
-    color: '#fff',
-    paddingHorizontal: 10,
-  },
-  // reviewContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   gap: 5,
-  //   marginVertical: 10,
-  // },
   reviewContainer: {
     flexDirection: 'column',
     alignItems: 'center',
