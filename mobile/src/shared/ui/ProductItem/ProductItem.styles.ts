@@ -17,11 +17,6 @@ export const ProductItemStyles = StyleSheet.create({
     aspectRatio: 1,
     backgroundColor: Colors.Gray200,
     borderRadius: 10,
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
   },
   favoriteIcon: {
     position: 'absolute',

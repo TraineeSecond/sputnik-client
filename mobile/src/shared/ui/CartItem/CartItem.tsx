@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 
-import {ImageOwn} from 'entities/product';
 import {RemoveIcon} from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 
@@ -47,11 +46,7 @@ export const CartItem = memo(
           onPress={handleGoToProduct}
           style={styles.itemContent}>
           {image ? (
-            <Image
-              source={{uri: image as string}}
-              style={styles.image}
-              resizeMode="cover"
-            />
+            <Image style={styles.image} source={image} />
           ) : (
             <Image
               style={styles.image}

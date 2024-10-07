@@ -92,12 +92,8 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
         'https://domennameabcdef.ru/api/products',
       );
       const {data} = res;
-
       get().fetchCategories();
-      set({
-        allProductList: data,
-        foundProducts: data,
-      });
+      set({allProductList: data, foundProducts: data});
     } catch (error) {
       set({error: true});
     } finally {

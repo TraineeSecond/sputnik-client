@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {CartItemType, Product} from 'entities';
+import {CartItemType} from 'entities/cartItem';
+import {Product} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
@@ -11,7 +12,6 @@ import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 import {useOrderStore} from 'shared/stores/OrderStore';
 import {useReviewStore} from 'shared/stores/ReviewStore';
-import {Carousel} from 'shared/ui';
 
 import {ProductInfoStyles as styles} from './ProductInfo.styles';
 
@@ -64,7 +64,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     const cartItem = {
       id: product.id,
       title: product.name,
-      images: product.images,
+      image: product.image,
       price: product.new_price || product.price,
       quantity: 1,
     } as CartItemType;
@@ -92,16 +92,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   };
 
   const renderImage = () => {
+    if (product.image) {
+      <Image source={product.image} style={styles.productImage} />;
+    }
     return (
-      <View style={styles.imageContainer}>
-        {!!product.images.length ? (
-          <Carousel images={product.images} />
-        ) : (
-          <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
-            {product.name}
-          </Text>
-        )}
-      </View>
+      <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
+        {product.name}
+      </Text>
     );
   };
 

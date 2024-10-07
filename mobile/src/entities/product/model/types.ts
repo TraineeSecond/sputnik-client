@@ -2,11 +2,6 @@ import {ImageSourcePropType} from 'react-native';
 
 import {User} from 'entities/user';
 
-export type ImageOwn = {
-  id: number;
-  image: ImageSourcePropType;
-};
-
 export type Product = {
   id: number;
   category: string;
@@ -15,7 +10,7 @@ export type Product = {
   price: number;
   new_price: number;
   user: User;
-  images: ImageOwn[];
+  image?: ImageSourcePropType;
   rating: number;
   reviewerscount: number;
 };
