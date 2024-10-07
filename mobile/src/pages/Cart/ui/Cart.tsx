@@ -29,6 +29,8 @@ export const Cart = () => {
     setIsLoading,
     getProductById,
     selectedPoint,
+    fetchSelectedPoint,
+    clearSelectedPoint,
   } = useCartStore();
 
   const {makeOrder} = useOrderStore();
@@ -43,6 +45,7 @@ export const Cart = () => {
   useEffect(() => {
     setIsLoading(true);
     getItems(token, user.id);
+    fetchSelectedPoint();
     setIsLoading(false);
   }, []);
 
@@ -72,6 +75,7 @@ export const Cart = () => {
     );
     makeOrder(items, user.id, token);
     clearCart(token, user.id);
+    clearSelectedPoint();
   };
 
   const renderItem = (item: CartItemType) => {
@@ -126,20 +130,26 @@ export const Cart = () => {
       ) : items.length > 0 ? (
         <>
           <ScrollView contentContainerStyle={{paddingBottom: 60}}>
-            {!selectedPoint && (
-              <View style={styles.topContainer}>
-                <Text
-                  style={[
-                    TextStyles.p1.changeColor(Colors.Red500),
-                    styles.centerText,
-                  ]}>
-                  {t('Пожалуйста, выберите точку доставки')}
-                </Text>
+            <View style={styles.topContainer}>
+              <Text
+                style={[
+                  selectedPoint
+                    ? TextStyles.p1.changeColor(Colors.Black200)
+                    : TextStyles.p1.changeColor(Colors.Red500),
+                  styles.centerText,
+                ]}>
+                {selectedPoint
+                  ? `${t('Заказ будет доставлен по адресу')} \n ${
+                      selectedPoint.address
+                    }`
+                  : t('Пожалуйста, выберите точку доставки')}
+              </Text>
+              {!selectedPoint && (
                 <Button status="info" onPress={handleNavToMap}>
                   <Text>{t('Перейти на карту')}</Text>
                 </Button>
-              </View>
-            )}
+              )}
+            </View>
             {items.map(item => renderItem(item))}
           </ScrollView>
 

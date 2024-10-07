@@ -10,11 +10,11 @@ import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {useOrderStore} from 'shared/stores/OrderStore';
 import {CategoryItem, ProductItem, Promo, ShowError} from 'shared/ui';
 import {Slider} from 'widgets';
 
 import {HomePageStyles as styles} from './Home.styles';
-import { useOrderStore } from 'shared/stores/OrderStore';
 
 export const Home = () => {
   const {t} = useTranslation();
@@ -37,7 +37,11 @@ export const Home = () => {
   }, [user.id, token]);
 
   const onRefresh = useCallback(async () => {
-    await Promise.all([fetchStartData(), loadUserData(), getOrders(user.id, token)]);
+    await Promise.all([
+      fetchStartData(),
+      loadUserData(),
+      getOrders(user.id, token),
+    ]);
   }, [fetchStartData, loadUserData, getOrders]);
 
   const handleProductPress = (product: Product) => {
