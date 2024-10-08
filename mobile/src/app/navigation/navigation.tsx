@@ -40,7 +40,9 @@ export const RootNavigator = () => {
       <RootStack.Screen
         name={Screens.CART}
         component={Cart}
-        options={{title: t('Корзина')}}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
       />
       <RootStack.Screen name={Screens.AUTH} component={Auth} />
     </RootStack.Navigator>

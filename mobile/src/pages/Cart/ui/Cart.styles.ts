@@ -12,12 +12,12 @@ export const CartPageStyles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    position: 'absolute',
-    bottom: 20,
+    margin: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 15,
+    backgroundColor: Colors.Green500,
     borderRadius: 10,
-    width: 327,
-    borderColor: Colors.Green500,
-    alignSelf: 'center',
   },
   topContainer: {
     paddingVertical: 10,

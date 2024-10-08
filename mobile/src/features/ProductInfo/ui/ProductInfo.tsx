@@ -1,10 +1,9 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {CartItemType} from 'entities/cartItem';
-import {Product} from 'entities/product';
+import {CartItemType, Product} from 'entities';
 import {useUserStore} from 'entities/user';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
@@ -12,6 +11,7 @@ import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
 import {useOrderStore} from 'shared/stores/OrderStore';
 import {useReviewStore} from 'shared/stores/ReviewStore';
+import {Carousel} from 'shared/ui';
 
 import {ProductInfoStyles as styles} from './ProductInfo.styles';
 
@@ -24,19 +24,19 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
 
-  const {orders, isOrderItem, setIsOrderItem} = useOrderStore();
+  const {orders, isProductOrdered} = useOrderStore();
   const {
-    userRating,
-    setUserRating,
-    makeReview,
     hasReview,
-    putReview,
+    userRating,
     getReview,
+    putReview,
+    makeReview,
+    setUserRating,
   } = useReviewStore();
 
   const {
-    addItem,
     items,
+    addItem,
     removeItem,
     incrementItem,
     decrementItem,
@@ -47,15 +47,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const hideButton = user.role === 'seller';
 
   useEffect(() => {
-    const orderItemExists = orders.some(order =>
-      order.orderItems.some(orderItem => orderItem.product.id === product.id),
-    );
-    setIsOrderItem(orderItemExists);
     getReview(product.id, user.id);
-
-    return () => {
-      setIsOrderItem(false);
-    };
   }, [orders, product.id]);
 
   const handleFavoritePress = () => {
@@ -65,12 +57,14 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const seller = `${product.user.name} ${product.user.surname}`;
   const hasDiscount = product.new_price < product.price;
+  const isOrderItem = isProductOrdered(product.id);
+  const quantity = getItemQuantity(product.id);
 
   const handleAddToCart = () => {
     const cartItem = {
       id: product.id,
       title: product.name,
-      image: product.image,
+      images: product.images,
       price: product.new_price || product.price,
       quantity: 1,
     } as CartItemType;
@@ -81,8 +75,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     navigation.navigate(Screens.CART);
   };
 
-  const quantity = useMemo(() => getItemQuantity(product.id), [items]);
-
   const handleIncrementItem = () => {
     incrementItem(product.id, token, user.id);
   };
@@ -90,9 +82,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const handleDecrementItem = () => {
     if (quantity === 1) {
       removeItem(product.id, token, user.id);
-      return;
+    } else {
+      decrementItem(product.id, token, user.id);
     }
-    decrementItem(product.id, token, user.id);
   };
 
   const isCartItem = () => {
@@ -100,13 +92,16 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   };
 
   const renderImage = () => {
-    if (product.image) {
-      return <Image source={product.image} style={styles.productImage} />;
-    }
     return (
-      <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
-        {product.name}
-      </Text>
+      <View style={styles.imageContainer}>
+        {!!product.images.length ? (
+          <Carousel images={product.images} />
+        ) : (
+          <Text style={TextStyles.p3.changeColor(Colors.Gray500)}>
+            {product.name}
+          </Text>
+        )}
+      </View>
     );
   };
 
@@ -226,11 +221,13 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
         <View style={styles.header}>
           <View style={styles.topSection}>
             <View style={styles.brandReviews}>
-              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+              <Text
+                style={TextStyles.p2.changeColor(Colors.Gray500)}
+                ellipsizeMode="tail">
                 {product.category}
               </Text>
               {renderScore()}
-              <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+              <Text style={TextStyles.p2.changeColor(Colors.Gray500)}>
                 {seller}
               </Text>
             </View>
@@ -262,42 +259,37 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             {isCartItem() ? (
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                  style={styles.inCartButton}
+                  style={styles.button}
                   onPress={handleGoToCart}>
-                  <Text style={styles.buttonText}>{t('В корзине')}</Text>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    {t('В корзине')}
+                  </Text>
                 </TouchableOpacity>
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity
-                    style={styles.inCartButton}
-                    onPress={handleGoToCart}>
-                    <Text style={styles.buttonText}>{t('В корзине')}</Text>
-                  </TouchableOpacity>
-                  <View style={styles.quantityContainer}>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={handleDecrementItem}>
-                      <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                        -
-                      </Text>
-                    </TouchableOpacity>
+                    style={styles.quantityButton}
+                    onPress={handleDecrementItem}>
                     <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                      {quantity}
+                      -
                     </Text>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={handleIncrementItem}>
-                      <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-                        +
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  </TouchableOpacity>
+                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                    {quantity}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={handleIncrementItem}>
+                    <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                      +
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             ) : (
-              <TouchableOpacity
-                onPress={handleAddToCart}
-                style={styles.addToCartButton}>
-                <Text style={styles.buttonText}>{t('В корзину')}</Text>
+              <TouchableOpacity onPress={handleAddToCart} style={styles.button}>
+                <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                  {t('В корзину')}
+                </Text>
               </TouchableOpacity>
             )}
           </View>

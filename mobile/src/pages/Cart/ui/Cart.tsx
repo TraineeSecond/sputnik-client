@@ -88,7 +88,7 @@ export const Cart = () => {
         key={item.id}
         id={item.id}
         title={item.title}
-        image={item.image}
+        image={item.images?.[0].image}
         price={item.price}
         quantity={item.quantity}
         onIncrement={handleIncrement}

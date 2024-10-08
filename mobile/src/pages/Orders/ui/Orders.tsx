@@ -58,6 +58,7 @@ export const Orders = () => {
           id={id.toString()}
           price={product.price}
           name={product.name}
+          images={product.images}
           newPrice={product.new_price}
           sellerName={product.user.name}
           sellerSurname={product.user.surname}
