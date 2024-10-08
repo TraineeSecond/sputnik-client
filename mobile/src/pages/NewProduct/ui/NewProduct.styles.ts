@@ -54,4 +54,8 @@ export const NewProductStyles = StyleSheet.create({
     backgroundColor: Colors.Gray200,
     borderRadius: 10,
   },
+  imagePreview: {
+    width: '100%',
+    height: '100%',
+  },
 });
