@@ -1,8 +1,6 @@
-import {create} from 'zustand';
 import axios from 'axios';
-
-import {CartItemType} from 'entities/CartItem';
-import {Product} from 'entities/product';
+import {CartItemType, Product} from 'entities';
+import {create} from 'zustand';
 
 export type OrderItem = {
   id: number;
@@ -18,13 +16,10 @@ export type Order = {
 };
 
 type OrderStore = {
-  isLoading: boolean;
-  isOrderItem: boolean;
   orders: Order[];
-
-
+  isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
-  setIsOrderItem: (isOrredItem: boolean) => void;
+  isProductOrdered: (productId: number) => boolean;
   makeOrder: (
     items: CartItemType[],
     userid: number,
@@ -33,24 +28,25 @@ type OrderStore = {
   getOrders: (userid: number, token: string) => Promise<void>;
 };
 
-export const useOrderStore = create<OrderStore>(set => ({
+export const useOrderStore = create<OrderStore>((set, get) => ({
   isLoading: false,
-  isOrderItem: false,
   orders: [],
 
   setIsLoading: (isLoading: boolean) => {
     set({isLoading});
   },
 
-  setIsOrderItem: (isOrderItem: boolean)=> {
-    set({isOrderItem});
+  isProductOrdered: (productId: number) => {
+    const orders = get().orders;
+    return orders.some(order =>
+      order.orderItems.some(orderItem => orderItem.product.id === productId),
+    );
   },
 
   makeOrder: async (items: CartItemType[], userid: number, token: string) => {
     try {
       const formattedItems = items.map(item => ({
         quantity: item.quantity,
-
         productid: item.id,
       }));
       const {data} = await axios.post(
@@ -66,6 +62,7 @@ export const useOrderStore = create<OrderStore>(set => ({
         },
       );
       if (data?.orderitems) {
+        console.log('data orderstore:', data);
         set({
           orders: data.orderitems,
         });
@@ -74,6 +71,7 @@ export const useOrderStore = create<OrderStore>(set => ({
       console.error(error.response);
     }
   },
+
   getOrders: async (userid: number, token: string) => {
     try {
       const {data} = await axios.get(
@@ -86,9 +84,11 @@ export const useOrderStore = create<OrderStore>(set => ({
       );
 
       const formattedOrders = data.map((order: any) => {
+        console.log(order);
         return {
           id: order.id,
           orderItems: order.orderitems.map((orderItem: any) => {
+            console.log(orderItem);
             return {
               id: orderItem.id,
               orderid: orderItem.orderid,
@@ -101,6 +101,7 @@ export const useOrderStore = create<OrderStore>(set => ({
                 name: orderItem.product.name,
                 price: orderItem.product.price,
                 new_price: orderItem.product.new_price,
+                images: orderItem.product.images,
                 rating: orderItem.product.rating,
                 reviewerscount: orderItem.product.reviewerscount,
                 user: {
@@ -120,7 +121,6 @@ export const useOrderStore = create<OrderStore>(set => ({
       set({
         orders: formattedOrders,
       });
-    } catch (error: any) {
-      
-  }},
+    } catch (error: any) {}
+  },
 }));

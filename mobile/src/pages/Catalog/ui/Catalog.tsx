@@ -1,12 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
@@ -49,7 +43,8 @@ export const Catalog = () => {
   };
 
   const renderProductItem = (item: Product) => {
-    const {id, name, price, new_price, user, rating, reviewerscount} = item;
+    const {id, name, price, new_price, user, rating, reviewerscount, images} =
+      item;
     const handlePress = () => handleProductPress(item);
 
     return (
@@ -58,14 +53,15 @@ export const Catalog = () => {
         key={id}
         name={name}
         price={price}
+        rating={rating}
+        images={images}
         newPrice={new_price}
         sellerName={user.name}
+        hideButton={hideButton}
         style={styles.productItem}
         sellerSurname={user.surname}
-        onPress={handlePress}
-        hideButton={hideButton}
-        rating={rating}
         reviewerscount={reviewerscount}
+        onPress={handlePress}
       />
     );
   };
