@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-
+import { useProductStore } from 'entities/product/model/productStore';
 import { useProductListingStore } from 'features/productListing/model/productListingStore';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -32,13 +31,9 @@ const ProductListingForm = () => {
   const [form] = StyledForm.useForm();
   const { t } = useTranslation();
   const { user } = useAuthStore();
-  const { categories, fetchCategories, createProduct } =
-    useProductListingStore();
+  const { createProduct } = useProductListingStore();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    void fetchCategories();
-  }, [fetchCategories]);
+  const { categories } = useProductStore();
 
   const isCategoryListEmpty = categories.length === 0;
 

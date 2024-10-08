@@ -2,10 +2,13 @@ import { api } from 'shared';
 import { create } from 'zustand';
 
 import { CartItemType, CartResponse } from 'entities/cart/model/types';
+import { Product } from 'entities/product/model/types';
 
 type CartStore = {
   items: CartItemType[];
+  cartDetails: { [key: number]: Product };
   getCart: (token: string, userId: number) => Promise<void>;
+  loadCartDetails: () => Promise<void>;
   incrementCartItem: (
     token: string,
     userId: number,
@@ -16,6 +19,12 @@ type CartStore = {
     userId: number,
     productid: number,
   ) => Promise<void>;
+  removeCartItem: (
+    token: string,
+    userId: number,
+    productid: number,
+  ) => Promise<void>;
+  getTotalPrice: () => number;
   getCartItemQuantity: (productid: number) => number;
   getQuantity: () => number;
   loading: boolean;
@@ -24,6 +33,7 @@ type CartStore = {
 
 export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
+  cartDetails: {},
   loading: false,
   error: null,
 
@@ -45,68 +55,64 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  incrementCartItem: async (
-    token: string,
-    userId: number,
-    productid: number,
-  ) => {
-    set({ loading: true, error: null });
-    const { items } = get();
-    const updatedItems = [...items];
+  loadCartDetails: async () => {
+    const { items, cartDetails } = get();
 
-    const existingItem = updatedItems.find(
-      (item) => item.productid === productid,
-    );
+    const existingProductIds = new Set(Object.keys(cartDetails).map(Number));
+    const productIdsToFetch = items
+      .map((item) => item.productid)
+      .filter((id) => !existingProductIds.has(id));
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      updatedItems.push({ productid, quantity: 1 });
+    if (productIdsToFetch.length === 0) {
+      return;
     }
 
     try {
-      const response = await api.patch<CartResponse>(
-        '/basket',
-        {
-          id: userId,
-          items: updatedItems.map((item) => ({
-            productId: item.productid,
-            quantity: item.quantity,
-          })),
-        },
-        { headers: { token } },
+      const productPromises = productIdsToFetch.map((id) =>
+        api.get<Product>(`/product`, { params: { id } }),
       );
-      const cartItems = response.data?.basket?.basketItems || [];
-      set({ items: cartItems, loading: false });
+
+      const productResponses = await Promise.all(productPromises);
+      const newProductDetails = productResponses.reduce(
+        (acc, response) => {
+          const product = response.data;
+          acc[product.id] = product;
+          return acc;
+        },
+        {} as { [key: number]: Product },
+      );
+
+      set((state) => ({
+        cartDetails: {
+          ...state.cartDetails,
+          ...newProductDetails,
+        },
+      }));
     } catch (error) {
-      console.error(error);
-      set({ error: 'Ошибка при увеличении товара в корзине', loading: false });
+      console.error('Ошибка загрузки деталей товаров', error);
     }
   },
 
-  decrementCartItem: async (
-    token: string,
-    userId: number,
-    productid: number,
-  ) => {
-    set({ loading: true, error: null });
+  incrementCartItem: async (token, userId, productid) => {
     const { items } = get();
-    let updatedItems = [...items];
 
-    const existingItem = updatedItems.find(
-      (item) => item.productid === productid,
-    );
+    const existingItem = items.find((item) => item.productid === productid);
+    let updatedItems;
 
-    if (existingItem && existingItem.quantity > 1) {
-      existingItem.quantity -= 1;
-    } else {
-      updatedItems = updatedItems.filter(
-        (item) => item.productid !== productid,
+    if (existingItem) {
+      updatedItems = items.map((item) =>
+        item.productid === productid
+          ? { ...item, quantity: item.quantity + 1 }
+          : item,
       );
+    } else {
+      updatedItems = [...items, { productid, quantity: 1 }];
     }
 
+    set({ items: updatedItems });
+
     try {
-      const response = await api.patch<CartResponse>(
+      await api.patch<CartResponse>(
         '/basket',
         {
           id: userId,
@@ -117,11 +123,70 @@ export const useCartStore = create<CartStore>((set, get) => ({
         },
         { headers: { token } },
       );
-      const cartItems = response.data?.basket?.basketItems || [];
-      set({ items: cartItems, loading: false });
     } catch (error) {
       console.error(error);
-      set({ error: 'Ошибка при уменьшении товара в корзине', loading: false });
+      set({ error: 'Ошибка при увеличении товара в корзине' });
+    }
+  },
+
+  decrementCartItem: async (token, userId, productid) => {
+    const { items } = get();
+
+    const existingItem = items.find((item) => item.productid === productid);
+    if (!existingItem) return;
+
+    let updatedItems;
+    if (existingItem.quantity > 1) {
+      updatedItems = items.map((item) =>
+        item.productid === productid
+          ? { ...item, quantity: item.quantity - 1 }
+          : item,
+      );
+    } else {
+      updatedItems = items.filter((item) => item.productid !== productid);
+    }
+
+    set({ items: updatedItems });
+
+    try {
+      await api.patch<CartResponse>(
+        '/basket',
+        {
+          id: userId,
+          items: updatedItems.map((item) => ({
+            productId: item.productid,
+            quantity: item.quantity,
+          })),
+        },
+        { headers: { token } },
+      );
+    } catch (error) {
+      console.error(error);
+      set({ error: 'Ошибка при уменьшении товара в корзине' });
+    }
+  },
+
+  removeCartItem: async (token, userId, productid) => {
+    const { items } = get();
+
+    const updatedItems = items.filter((item) => item.productid !== productid);
+    set({ items: updatedItems });
+
+    try {
+      await api.patch<CartResponse>(
+        '/basket',
+        {
+          id: userId,
+          items: updatedItems.map((item) => ({
+            productId: item.productid,
+            quantity: item.quantity,
+          })),
+        },
+        { headers: { token } },
+      );
+    } catch (error) {
+      console.error(error);
+      set({ error: 'Ошибка при удалении товара из корзины' });
     }
   },
 
@@ -133,5 +198,20 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
   getQuantity: () => {
     return get().items.reduce((total, item) => total + item.quantity, 0);
+  },
+
+  getTotalPrice: () => {
+    const { items, cartDetails } = get();
+    return items.reduce((total, item) => {
+      const product = cartDetails[item.productid];
+      if (!product) {
+        return total;
+      }
+      const actualPrice =
+        product.new_price && product.new_price < product.price
+          ? product.new_price
+          : product.price;
+      return total + item.quantity * actualPrice;
+    }, 0);
   },
 }));

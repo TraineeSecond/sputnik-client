@@ -1,3 +1,4 @@
+import { Rate } from 'antd';
 import styled from 'styled-components';
 
 export const StyledCard = styled.div`
@@ -82,3 +83,5 @@ export const StyledImageLink = styled.a`
     text-decoration: none;
   }
 `;
+
+export const StyledRate = styled(Rate)``;

@@ -8,11 +8,19 @@ export interface ProductState {
   sortName: string;
   sortCategory: string;
   categories: string[];
-  loadCategories: () => Promise<void>
-  setSortName: (name: string) => Promise<void>
-  setSortCategory: (category: string) => Promise<void>
+  loadCategories: () => Promise<void>;
+  setSortName: (name: string) => Promise<void>;
+  setSortCategory: (category: string) => Promise<void>;
   loadProductById: (productId: number) => Promise<void>;
   loadProducts: () => Promise<void>;
+  loadingProduct: boolean;
+  error: string | null;
+}
+
+export interface ProductImage {
+  id: number;
+  image: string;
+  productid: number;
 }
 
 export interface Product {
@@ -24,6 +32,9 @@ export interface Product {
   name: string;
   userid: number;
   user: User;
+  images: ProductImage[];
+  rating: number;
+  reviewerscount: number;
 }
 
 export type ProductsResponse = Product[];
