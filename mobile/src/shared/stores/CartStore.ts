@@ -1,6 +1,5 @@
 import axios from 'axios';
-import {CartItemType, ICartFromServer} from 'entities/cartItem';
-import {Product} from 'entities/product';
+import {CartItemType, ICartFromServer, Product} from 'entities';
 import {storage} from 'shared/libs/storage';
 import {create} from 'zustand';
 
@@ -118,14 +117,12 @@ export const useCartStore = create<CartStore>(set => ({
 
       if (data?.basket?.basketItems) {
         const basketItems = data.basket.basketItems;
-
         const detailedItems = await Promise.all(
           basketItems.map(
             async (basketItem: {productid: number; quantity: number}) => {
               const itemDetails = await useCartStore
                 .getState()
                 .getItemById(basketItem.productid, token);
-
               if (itemDetails) {
                 return {
                   ...itemDetails,
@@ -152,10 +149,11 @@ export const useCartStore = create<CartStore>(set => ({
     const newItems = useCartStore
       .getState()
       .items.filter(item => item.id !== idItem);
+
     try {
       const data = await makePatchRequest(token, idCart, newItems);
       if (data?.basket?.basketItems) {
-        set({items: data.basket.basketItems});
+        set({items: newItems});
       } else {
         console.error('Ошибка при удалении из корзины');
       }
@@ -238,7 +236,7 @@ export const useCartStore = create<CartStore>(set => ({
         id: data.id,
         title: data.name,
         price: data.new_price || data.price,
-        image: data.image,
+        images: data.images,
         quantity: 1,
       } as CartItemType;
     } catch (error: any) {

@@ -17,6 +17,11 @@ export const ProductItemStyles = StyleSheet.create({
     aspectRatio: 1,
     backgroundColor: Colors.Gray200,
     borderRadius: 10,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
   favoriteIcon: {
     position: 'absolute',
@@ -28,13 +33,14 @@ export const ProductItemStyles = StyleSheet.create({
     backgroundColor: Colors.Black100Opacity20,
   },
   header: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     justifyContent: 'space-between',
   },
   name: {
-    width: '60%',
+    flex: 1,
   },
   reviews: {
     flexDirection: 'row',

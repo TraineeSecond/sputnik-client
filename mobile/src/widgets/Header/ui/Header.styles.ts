@@ -24,4 +24,8 @@ export const HeaderStyles = StyleSheet.create({
     height: 30,
     fontSize: 14,
   },
+  border: {
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.Gray200,
+  },
 });
