@@ -15,11 +15,18 @@ import {ReviewsPointsStyles as styles} from './ReviewsPoints.styles';
 export const ReviewsPoints = () => {
   const {t} = useTranslation();
 
-  const {points, makeReview, fetchPoints} = useMapStore();
+  const {points, makeReview, updateReview, fetchPoints} = useMapStore();
   const {selectedPoint, setSelectedPoint, clearSelectedPoint} = useCartStore();
   const {user} = useUserStore();
-  const {userRating, isModalVisible, setUserRating, setIsModalVisible} =
-    useReviewsPointsStore();
+  const {
+    userRating,
+    isModalVisible,
+    setUserRating,
+    setIsModalVisible,
+    getUserRating,
+    hasReview,
+    setHasReview,
+  } = useReviewsPointsStore();
 
   useEffect(() => {
     fetchPoints();
@@ -27,6 +34,7 @@ export const ReviewsPoints = () => {
 
   const handleOpenModal = (point: Point) => {
     setSelectedPoint(point);
+    getUserRating(point.id, user.id);
     setIsModalVisible(true);
   };
 
@@ -34,6 +42,7 @@ export const ReviewsPoints = () => {
     clearSelectedPoint();
     setIsModalVisible(false);
     setUserRating(0);
+    setHasReview(false);
   };
 
   const handleStarPress = (rating: number) => {
@@ -42,7 +51,11 @@ export const ReviewsPoints = () => {
 
   const handleSubmitReview = async () => {
     if (selectedPoint) {
-      await makeReview(user.id, selectedPoint.id, userRating);
+      if (hasReview) {
+        await updateReview(user.id, selectedPoint.id, userRating);
+      } else {
+        await makeReview(user.id, selectedPoint.id, userRating);
+      }
       handleCloseModal();
     }
   };
