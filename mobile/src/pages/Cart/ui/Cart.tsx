@@ -1,9 +1,11 @@
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Button} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
+import {MapStackParamsList} from 'app/navigation/navigationTypes';
 import {CartItemType} from 'entities/cartItem';
 import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
@@ -26,6 +28,9 @@ export const Cart = () => {
     removeItem,
     setIsLoading,
     getProductById,
+    selectedPoint,
+    fetchSelectedPoint,
+    clearSelectedPoint,
   } = useCartStore();
 
   const {makeOrder} = useOrderStore();
@@ -33,12 +38,14 @@ export const Cart = () => {
   const {token, user} = useUserStore();
 
   const navigation = useAppNavigation();
+  const navigateMap = useNavigation<NavigationProp<MapStackParamsList>>();
 
   const {t} = useTranslation();
 
   useEffect(() => {
     setIsLoading(true);
     getItems(token, user.id);
+    fetchSelectedPoint();
     setIsLoading(false);
   }, []);
 
@@ -56,9 +63,20 @@ export const Cart = () => {
       Alert.alert('Корзина пуста');
       return;
     }
-    Alert.alert('Заказ успешно оформлен');
+
+    if (!selectedPoint) {
+      Alert.alert('Необходимо выбрать точку доставки');
+      return;
+    }
+
+    Alert.alert(
+      `${t('Заказ успешно оформлен')}`,
+      `${t('Заказ будет доставлен по адресу')} \n${selectedPoint.address}`,
+    );
+    console.log('cart.tsx items:', items);
     makeOrder(items, user.id, token);
     clearCart(token, user.id);
+    clearSelectedPoint();
   };
 
   const renderItem = (item: CartItemType) => {
@@ -100,6 +118,10 @@ export const Cart = () => {
     </ContentLoader>
   );
 
+  const handleNavToMap = () => {
+    navigateMap.navigate(Screens.MAP);
+  };
+
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -108,12 +130,36 @@ export const Cart = () => {
         </ScrollView>
       ) : items.length > 0 ? (
         <>
-          <ScrollView>{items.map(item => renderItem(item))}</ScrollView>
-          <TouchableOpacity onPress={handleCheckout} style={styles.button}>
-            <Text style={TextStyles.p1.changeColor(Colors.White100)}>
-              {t('Оформить заказ')}
-            </Text>
-          </TouchableOpacity>
+          <ScrollView contentContainerStyle={{paddingBottom: 60}}>
+            <View style={styles.topContainer}>
+              <Text
+                style={[
+                  selectedPoint
+                    ? TextStyles.p1.changeColor(Colors.Black200)
+                    : TextStyles.p1.changeColor(Colors.Red500),
+                  styles.centerText,
+                ]}>
+                {selectedPoint
+                  ? `${t('Заказ будет доставлен по адресу')} \n ${
+                      selectedPoint.address
+                    }`
+                  : t('Пожалуйста, выберите точку доставки')}
+              </Text>
+              {!selectedPoint && (
+                <Button status="info" onPress={handleNavToMap}>
+                  <Text>{t('Перейти на карту')}</Text>
+                </Button>
+              )}
+            </View>
+            {items.map(item => renderItem(item))}
+          </ScrollView>
+
+          <Button
+            style={styles.button}
+            status="success"
+            onPress={handleCheckout}>
+            {t('Оформить заказ')}
+          </Button>
         </>
       ) : (
         <Text

@@ -41,6 +41,9 @@ export const CloseIcon = (props: any) => (
 export const ProductIcon = (props: any) => (
   <Icon {...props} name="gift-outline" />
 );
+export const ReviewIcon = (props: any) => (
+  <Icon {...props} name="award-outline" />
+);
 export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
 export const ArrowBack = (props: any) => <Icon {...props} name="arrow-back" />;
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;

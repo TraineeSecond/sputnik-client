@@ -1,16 +1,17 @@
-import {useUserStore} from 'entities/user';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
+import {useTranslation} from 'react-i18next';
 import {RefreshControl, ScrollView, Text, View} from 'react-native';
-import ContentLoader, {Rect} from 'react-content-loader/native';
 
-import {Order, useOrderStore} from 'shared/stores/OrderStore';
-import {OrdersPageStyles as styles} from './Orders.style';
-import {Product} from 'entities/product';
-import {ProductItem} from 'shared/ui';
-import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Screens} from 'app/navigation/navigationEnums';
+import {Product} from 'entities/product';
+import {useUserStore} from 'entities/user';
+import ContentLoader, {Rect} from 'react-content-loader/native';
 import {Colors, TextStyles} from 'shared/libs/helpers';
-import { useTranslation } from 'react-i18next';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
+import {Order, useOrderStore} from 'shared/stores/OrderStore';
+import {ProductItem} from 'shared/ui';
+
+import {OrdersPageStyles as styles} from './Orders.style';
 
 export const Orders = () => {
   const {getOrders, orders, isLoading} = useOrderStore();
@@ -19,10 +20,6 @@ export const Orders = () => {
   const {t} = useTranslation();
 
   const navigation = useAppNavigation();
-
-  // useEffect(() => {
-  //   getOrders(user.id, token);
-  // }, []);
 
   const onRefresh = useCallback(async () => {
     await getOrders(user.id, token);
@@ -61,6 +58,7 @@ export const Orders = () => {
           id={id.toString()}
           price={product.price}
           name={product.name}
+          images={product.images}
           newPrice={product.new_price}
           sellerName={product.user.name}
           sellerSurname={product.user.surname}
@@ -74,14 +72,14 @@ export const Orders = () => {
   };
 
   return (
-    <ScrollView 
-      contentContainerStyle={styles.container} 
+    <ScrollView
+      contentContainerStyle={styles.container}
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
       }>
       <Text
         style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}>
-         {t('Ваша история покупок')}
+        {t('Ваша история покупок')}
       </Text>
       {isLoading
         ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))

@@ -9,6 +9,7 @@ export const CartPageStyles = StyleSheet.create({
   },
   centerText: {
     textAlign: 'center',
+    marginBottom: 10,
   },
   button: {
     margin: 15,
@@ -17,5 +18,8 @@ export const CartPageStyles = StyleSheet.create({
     paddingVertical: 15,
     backgroundColor: Colors.Green500,
     borderRadius: 10,
+  },
+  topContainer: {
+    paddingVertical: 10,
   },
 });

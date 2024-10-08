@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {CartItemType, ICartFromServer, Product} from 'entities';
+import {Point} from 'features/MapInfo/model/store';
 import {storage} from 'shared/libs/storage';
 import {create} from 'zustand';
 
@@ -40,6 +41,11 @@ type CartStore = {
   items: CartItemType[];
   isLoading: boolean;
 
+  selectedPoint: Point | null;
+  setSelectedPoint: (point: Point) => void;
+  fetchSelectedPoint: () => void;
+  clearSelectedPoint: () => void;
+
   setIsLoading(isLoading: boolean): void;
   getItemQuantity: (id: number) => number;
 
@@ -59,6 +65,27 @@ export const useCartStore = create<CartStore>(set => ({
   id: 0,
   items: [],
   isLoading: true,
+
+  selectedPoint: null,
+
+  setSelectedPoint: (point: Point) => {
+    set({selectedPoint: point});
+    storage.set('point', JSON.stringify(point));
+  },
+
+  fetchSelectedPoint: () => {
+    const pointString = storage.getString('point');
+    if (pointString) {
+      const pointObj = JSON.parse(pointString);
+
+      set({selectedPoint: pointObj});
+    }
+  },
+
+  clearSelectedPoint: () => {
+    set({selectedPoint: null});
+    storage.set('point', JSON.stringify(null));
+  },
 
   setIsLoading: (isLoading: boolean) => set({isLoading}),
 
@@ -266,10 +293,10 @@ export const useCartStore = create<CartStore>(set => ({
   },
 
   loadBasket: async () => {
-    const basketstring = storage.getString('basket');
-    if (basketstring) {
-      const basketobj = JSON.parse(basketstring);
-      set({id: basketobj.id});
+    const basketString = storage.getString('basket');
+    if (basketString) {
+      const basketObj = JSON.parse(basketString);
+      set({id: basketObj.id});
     }
   },
 }));

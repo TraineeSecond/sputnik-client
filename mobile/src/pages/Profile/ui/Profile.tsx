@@ -14,6 +14,7 @@ import {
   HistoryIcon,
   LogOutIcon,
   ProductIcon,
+  ReviewIcon,
 } from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 
@@ -36,6 +37,10 @@ export const Profile = () => {
     navigation.navigate(Screens.ORDERS);
   };
 
+  const handleReviewsPoints = () => {
+    navigation.navigate(Screens.REVIEWSPOINTS);
+  };
+
   const handleSettings = () => {
     navigation.navigate(Screens.SETTINGS);
   };
@@ -54,12 +59,20 @@ export const Profile = () => {
   );
 
   const renderBuyerInterface = () => (
-    <MenuItem
-      title={t('История покупок')}
-      accessoryLeft={HistoryIcon}
-      accessoryRight={ForwardIcon}
-      onPress={handlePurchaseHistory}
-    />
+    <>
+      <MenuItem
+        title={t('История покупок')}
+        accessoryLeft={HistoryIcon}
+        accessoryRight={ForwardIcon}
+        onPress={handlePurchaseHistory}
+      />
+      <MenuItem
+        title={t('Отзывы пунктов выдачи заказов')}
+        accessoryLeft={ReviewIcon}
+        accessoryRight={ForwardIcon}
+        onPress={handleReviewsPoints}
+      />
+    </>
   );
 
   const isSeller = user.role === 'seller';

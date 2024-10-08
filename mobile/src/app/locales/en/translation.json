@@ -44,5 +44,19 @@
   "Оцените товар": "Rate this product",
   "Отправить": "Send",
   "Изменить оценку": "Change rating",
-  "Спасибо за отзыв!": "Thank you for your review!"
+  "Спасибо за отзыв!": "Thank you for your review!",
+  "Выбранный пвз находится по адресу": "The selected order pick-up point is located at",
+  "Пожалуйста, выберите точку доставки": "Please select a delivery point",
+  "Перейти на карту": "Go to map",
+  "Отмена": "Cancel",
+  "Выбрать": "Select",
+  "Пункт": "Point",
+  "Рейтинг": "Raiting",
+  "Адрес": "Address",
+  "Заказ успешно оформлен": "The order has been successfully placed",
+  "Заказ будет доставлен по адресу": "The order will be delivered to the address",
+  "Закрыть": "Close",
+  "Отправить отзыв": "Send review",
+  "Оцените пункт выдачи": "Rate the pick-up point",
+  "Отзывы пунктов выдачи заказов": "Reviews of pick-up points"
 }

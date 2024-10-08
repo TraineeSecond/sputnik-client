@@ -96,11 +96,8 @@ export const MainTabsNavigator = () => {
           title: t('Карта'),
           header: () => (
             <Header
-              showSearchInput
-              searchText={searchText}
-              onSearch={handleSearch}
-              setSearchText={setSearchText}
-              onClearSearch={handleClearInput}
+              showTitle
+              showCartButton
               onCartPress={handleNavigateToCart}
             />
           ),
