@@ -31,10 +31,10 @@ export interface Product {
   new_price: number;
   name: string;
   userid: number;
-  user: User;
-  images: ProductImage[];
   rating: number;
   reviewerscount: number;
+  user: User;
+  images: ProductImage[];
 }
 
 export type ProductsResponse = Product[];

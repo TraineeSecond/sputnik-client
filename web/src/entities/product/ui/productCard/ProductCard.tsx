@@ -67,7 +67,7 @@ const ProductCard = ({
 
   return (
     <StyledCard>
-      <StyledImageLink href={link} target='_blank' rel='noopener noreferrer'>
+      <StyledImageLink href={link}>
         <StyledImageContainer>
           <StyledImage
             src={imageUrl}
@@ -80,9 +80,7 @@ const ProductCard = ({
         <StyledPriceSection>
           <PriceRender price={price} new_price={new_price} />
         </StyledPriceSection>
-        <StyledTitleLink href={link} target='_blank' rel='noopener noreferrer'>
-          {name}
-        </StyledTitleLink>
+        <StyledTitleLink href={link}>{name}</StyledTitleLink>
       </StyledRow>
     </StyledCard>
   );

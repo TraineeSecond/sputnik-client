@@ -65,5 +65,9 @@
   "Загрузка данных о товаре...": "Loading product data...",
   "Ваша Корзина": "Your Cart",
   "Ваша корзина пуста": "Your cart is empty",
-  "Перейти к оплате": "Proceed to checkout"
+  "Перейти к оплате": "Proceed to checkout",
+  "Фильтры": "Filters",
+  "Категория": "Category",
+  "Выберите категорию товара": "Select a product category",
+  "без фильтров": "no filters"
 }

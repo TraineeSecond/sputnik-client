@@ -1,12 +1,16 @@
 import { api } from 'shared';
 import { create } from 'zustand';
 
-import { CartItemType, CartResponse } from 'entities/cart/model/types';
+import {
+  CartDetails,
+  CartItemType,
+  CartResponse,
+} from 'entities/cart/model/types';
 import { Product } from 'entities/product/model/types';
 
 type CartStore = {
   items: CartItemType[];
-  cartDetails: { [key: number]: Product };
+  cartDetails: CartDetails;
   getCart: (token: string, userId: number) => Promise<void>;
   loadCartDetails: () => Promise<void>;
   incrementCartItem: (
@@ -58,28 +62,24 @@ export const useCartStore = create<CartStore>((set, get) => ({
   loadCartDetails: async () => {
     const { items, cartDetails } = get();
 
-    const existingProductIds = new Set(Object.keys(cartDetails).map(Number));
-    const productIdsToFetch = items
-      .map((item) => item.productid)
-      .filter((id) => !existingProductIds.has(id));
-
-    if (productIdsToFetch.length === 0) {
+    const itemsToFetch = items.filter((item) => !cartDetails[item.productid]);
+    if (itemsToFetch.length === 0) {
       return;
     }
 
     try {
-      const productPromises = productIdsToFetch.map((id) =>
-        api.get<Product>(`/product`, { params: { id } }),
+      const productPromises = itemsToFetch.map((item) =>
+        api.get<Product>(`/product`, { params: { id: item.productid } }),
       );
 
       const productResponses = await Promise.all(productPromises);
-      const newProductDetails = productResponses.reduce(
+      const newProductDetails = productResponses.reduce<CartDetails>(
         (acc, response) => {
           const product = response.data;
           acc[product.id] = product;
           return acc;
         },
-        {} as { [key: number]: Product },
+        {},
       );
 
       set((state) => ({

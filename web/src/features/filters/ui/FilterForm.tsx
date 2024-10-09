@@ -1,5 +1,6 @@
 import { useProductStore } from 'entities/product/model/productStore';
 import { useFiltersStore } from 'features/filters/model/filtersStore';
+import { useTranslation } from 'react-i18next';
 
 import {
   StyledForm,
@@ -11,7 +12,7 @@ import {
 const FilterForm = () => {
   const { setSortCategory, categories } = useProductStore();
   const { showFilterPopUp, toggleShowFilterPopUp } = useFiltersStore();
-
+  const { t } = useTranslation();
   const handleCategoryChange = (value: string) => {
     void setSortCategory(value);
     toggleShowFilterPopUp();
@@ -19,21 +20,21 @@ const FilterForm = () => {
 
   return (
     <StyledModal
-      title='Фильтры'
+      title={t('Фильтры')}
       open={showFilterPopUp}
       onCancel={toggleShowFilterPopUp}
       footer={null}
     >
       <StyledForm layout='vertical'>
-        <StyledForm.Item label='Категория' name='category'>
+        <StyledForm.Item label={t('Категория')} name='category'>
           <StyledSelect
-            placeholder='выберите категорию товара'
+            placeholder={t('Выберите категорию товара')}
             onChange={handleCategoryChange}
           >
-            <StyledOption value={''}>без фильтров</StyledOption>
+            <StyledOption value={''}>{t('без фильтров')}</StyledOption>
             {categories.map((category) => (
               <StyledOption key={category} value={category}>
-                {category}
+                {t(category)}
               </StyledOption>
             ))}
           </StyledSelect>

@@ -29,11 +29,9 @@ const CartView = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const hasNewItems = items.some((item) => !cartDetails[item.productid]);
-    if (hasNewItems) {
-      void loadCartDetails();
-    }
-  }, [items, cartDetails, loadCartDetails]);
+    if (items.length === 0) return;
+    void loadCartDetails();
+  }, [items, loadCartDetails]);
 
   const handleIncrement = useCallback(
     (productid: number) => {
@@ -80,7 +78,7 @@ const CartView = () => {
           <CartItem
             id={product.id}
             name={product.name}
-            image={product.images[0]?.image || ''}
+            image={product.images[0]?.image}
             price={product.price}
             newPrice={product.new_price}
             quantity={item.quantity}
