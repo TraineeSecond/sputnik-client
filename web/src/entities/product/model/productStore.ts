@@ -1,28 +1,33 @@
 import { api } from 'shared';
 import { create } from 'zustand';
 
-import { FiltersResponse, Product, ProductState, ProductsResponse } from './types';
+import {
+  FiltersResponse,
+  Product,
+  ProductState,
+  ProductsResponse,
+} from './types';
 
 export const useProductStore = create<ProductState>((set, get) => ({
-  sortName: "",
-  sortCategory: "",
+  sortName: '',
+  sortCategory: '',
   products: [],
   product: null,
   categories: [],
   loadCategories: async (): Promise<void> => {
-    const res = await api.get<FiltersResponse>("categories");
+    const res = await api.get<FiltersResponse>('categories');
     const { data } = res;
-    set({ categories: data })
+    set({ categories: data });
   },
   setSortCategory: async (category) => {
-    set({ sortCategory: category })
-    set({ products: [] })
-    get().loadProducts()
+    set({ sortCategory: category });
+    set({ products: [] });
+    await get().loadProducts();
   },
   setSortName: async (name: string): Promise<void> => {
-    set({ sortName: name })
-    set({ products: [] })
-    get().loadProducts()
+    set({ sortName: name });
+    set({ products: [] });
+    await get().loadProducts();
   },
   loadProducts: async (): Promise<void> => {
     try {

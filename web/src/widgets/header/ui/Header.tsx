@@ -1,7 +1,9 @@
+import { useState } from 'react';
+
 import {
+  FilterOutlined,
   GlobalOutlined,
   HomeOutlined,
-  FilterOutlined,
   PlusOutlined,
   ShoppingOutlined,
   UserOutlined,
@@ -11,7 +13,6 @@ import { useProductStore } from 'entities/product/model/productStore';
 import { useCartStore } from 'features/cart/model/cartStore';
 import { useFiltersStore } from 'features/filters/model/filtersStore';
 import FilterForm from 'features/filters/ui/FilterForm';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from 'shared/auth/model/authStore';
@@ -28,19 +29,19 @@ const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { setSortName } = useProductStore()
+  const { setSortName } = useProductStore();
   const userRole = user?.role;
   const { getQuantity } = useCartStore();
   const cartQuantity = getQuantity();
-  const { toggleShowFilterPopUp } = useFiltersStore()
-  const [sortTerm, setSortTerm] = useState("")
+  const { toggleShowFilterPopUp } = useFiltersStore();
+  const [sortTerm, setSortTerm] = useState('');
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSortTerm(e.target.value);
   };
 
-  const handleSearchEnter = (value: string) => {
-    setSortName(value)
-  }
+  const handleSearchEnter = async (value: string) => {
+    await setSortName(value);
+  };
 
   const goToHome = () => {
     navigate('/');
@@ -68,8 +69,15 @@ const Header = () => {
           onClick={goToHome}
         />
 
-        <StyledSearchInput >
-          <StyledSearch size='large' enterButton placeholder={t('Поиск...')} onChange={handleSearchChange} onSearch={handleSearchEnter} value={sortTerm} />
+        <StyledSearchInput>
+          <StyledSearch
+            size='large'
+            enterButton
+            placeholder={t('Поиск...')}
+            onChange={handleSearchChange}
+            onSearch={handleSearchEnter}
+            value={sortTerm}
+          />
         </StyledSearchInput>
 
         <StyledButton

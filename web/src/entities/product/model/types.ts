@@ -8,9 +8,9 @@ export interface ProductState {
   sortName: string;
   sortCategory: string;
   categories: string[];
-  loadCategories: () => Promise<void>
-  setSortName: (name: string) => Promise<void>
-  setSortCategory: (category: string) => Promise<void>
+  loadCategories: () => Promise<void>;
+  setSortName: (name: string) => Promise<void>;
+  setSortCategory: (category: string) => Promise<void>;
   loadProductById: (productId: number) => Promise<void>;
   loadProducts: () => Promise<void>;
 }

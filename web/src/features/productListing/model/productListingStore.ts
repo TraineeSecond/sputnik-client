@@ -1,10 +1,11 @@
+import api from 'shared/api/api';
+import { create } from 'zustand';
+
 import {
   CreateProductResponse,
   ListingProduct,
   ProductListingState,
 } from './types';
-import api from 'shared/api/api';
-import { create } from 'zustand';
 
 export const useProductListingStore = create<ProductListingState>((set) => ({
   categories: [],
