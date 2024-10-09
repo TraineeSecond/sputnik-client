@@ -32,6 +32,7 @@ type CartStore = {
   getCartItemQuantity: (productid: number) => number;
   getQuantity: () => number;
   loading: boolean;
+  loadingDetails: boolean;
   error: string | null;
 };
 
@@ -39,6 +40,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
   cartDetails: {},
   loading: false,
+  loadingDetails: false,
   error: null,
 
   getCart: async (token: string, userId: number) => {
@@ -60,10 +62,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
   },
 
   loadCartDetails: async () => {
+    set({ loadingDetails: true });
     const { items, cartDetails } = get();
 
     const itemsToFetch = items.filter((item) => !cartDetails[item.productid]);
     if (itemsToFetch.length === 0) {
+      set({ loadingDetails: false });
       return;
     }
 
@@ -87,9 +91,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
           ...state.cartDetails,
           ...newProductDetails,
         },
+        loadingDetails: false,
       }));
     } catch (error) {
       console.error('Ошибка загрузки деталей товаров', error);
+      set({ loadingDetails: false });
     }
   },
 

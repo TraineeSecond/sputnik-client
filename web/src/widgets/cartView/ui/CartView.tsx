@@ -24,6 +24,7 @@ const CartView = () => {
     loadCartDetails,
     getTotalPrice,
     loading,
+    loadingDetails,
   } = useCartStore();
   const { token, user } = useAuthStore();
   const { t } = useTranslation();
@@ -60,7 +61,7 @@ const CartView = () => {
     [removeCartItem, token, user],
   );
 
-  if (loading && items.length === 0) {
+  if ((loading && items.length === 0) || loadingDetails) {
     return;
   }
 
