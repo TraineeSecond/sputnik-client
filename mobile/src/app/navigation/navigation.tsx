@@ -1,7 +1,6 @@
 import {createNavigationContainerRef} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
 
 import {Auth, Cart, Product} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
@@ -18,8 +17,6 @@ export const RootNavigator = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-
-  const {t} = useTranslation();
 
   return (
     <RootStack.Navigator>
