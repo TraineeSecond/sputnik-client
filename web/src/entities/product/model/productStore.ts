@@ -1,29 +1,44 @@
 import { api } from 'shared';
 import { create } from 'zustand';
 
-import { FiltersResponse, Product, ProductState, ProductsResponse } from './types';
+import {
+  FiltersResponse,
+  Product,
+  ProductState,
+  ProductsResponse,
+} from './types';
 
 export const useProductStore = create<ProductState>((set, get) => ({
-  sortName: "",
-  sortCategory: "",
+  sortName: '',
+  sortCategory: '',
   products: [],
   product: null,
   categories: [],
+  loadingProduct: false,
+  error: null,
+
   loadCategories: async (): Promise<void> => {
-    const res = await api.get<FiltersResponse>("categories");
-    const { data } = res;
-    set({ categories: data })
+    try {
+      const { data } = await api.get<FiltersResponse>('categories');
+      set({ categories: data });
+    } catch (error) {
+      console.error(error);
+      set({ error: 'Ошибка при загрузке категорий' });
+    }
   },
+
   setSortCategory: async (category) => {
-    set({ sortCategory: category })
-    set({ products: [] })
-    get().loadProducts()
+    set({ sortCategory: category });
+    set({ products: [] });
+    await get().loadProducts();
   },
+
   setSortName: async (name: string): Promise<void> => {
-    set({ sortName: name })
-    set({ products: [] })
-    get().loadProducts()
+    set({ sortName: name });
+    set({ products: [] });
+    await get().loadProducts();
   },
+
   loadProducts: async (): Promise<void> => {
     try {
       let url = 'products';
@@ -40,21 +55,21 @@ export const useProductStore = create<ProductState>((set, get) => ({
       set({ products: data });
     } catch (error) {
       console.error(error);
-      //TODO: заменить alert на кастомный popup
-      alert('во время загрузки продуктов произошла ошибка');
+      set({ error: 'Ошибка при загрузке продуктов' }); // Добавлено состояние ошибки
     }
   },
 
   loadProductById: async (productId: number): Promise<void> => {
     try {
-      const res = await api.get<Product>(`/product`, {
+      set({ loadingProduct: true, error: null });
+      const res = await api.get<Product>('/product', {
         params: { id: productId },
       });
       const { data } = res;
-      set({ product: data });
+      set({ product: data, loadingProduct: false });
     } catch (error) {
       console.error(error);
-      alert('Во время загрузки продукта произошла ошибка');
+      set({ error: 'Ошибка при загрузке продукта', loadingProduct: false });
     }
   },
 }));

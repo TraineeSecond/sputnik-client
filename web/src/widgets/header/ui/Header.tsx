@@ -1,46 +1,49 @@
+import { useState } from 'react';
+
 import {
+  FilterOutlined,
   GlobalOutlined,
   HomeOutlined,
-  FilterOutlined,
   PlusOutlined,
   ShoppingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Badge } from 'antd';
 import { useProductStore } from 'entities/product/model/productStore';
+import { FilterForm } from 'features';
 import { useCartStore } from 'features/cart/model/cartStore';
 import { useFiltersStore } from 'features/filters/model/filtersStore';
-import FilterForm from 'features/filters/ui/FilterForm';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from 'shared/auth/model/authStore';
 import { changeLanguage } from 'shared/utils/i18nUtils/changeLanguage';
 
 import {
+  StyledBadge,
   StyledButton,
   StyledContainer,
   StyledSearch,
   StyledSearchInput,
-} from 'widgets/header/ui/Header.styles';
+} from './Header.styles';
 
 const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { setSortName } = useProductStore()
-  const userRole = user?.role;
+  const { setSortName } = useProductStore();
   const { getQuantity } = useCartStore();
+  const { toggleShowFilterPopUp } = useFiltersStore();
+  const [sortTerm, setSortTerm] = useState('');
+
+  const userRole = user?.role;
   const cartQuantity = getQuantity();
-  const { toggleShowFilterPopUp } = useFiltersStore()
-  const [sortTerm, setSortTerm] = useState("")
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSortTerm(e.target.value);
   };
 
   const handleSearchEnter = (value: string) => {
-    setSortName(value)
-  }
+    void setSortName(value);
+  };
 
   const goToHome = () => {
     navigate('/');
@@ -68,8 +71,15 @@ const Header = () => {
           onClick={goToHome}
         />
 
-        <StyledSearchInput >
-          <StyledSearch size='large' enterButton placeholder={t('Поиск...')} onChange={handleSearchChange} onSearch={handleSearchEnter} value={sortTerm} />
+        <StyledSearchInput>
+          <StyledSearch
+            size='large'
+            enterButton
+            placeholder={t('Поиск...')}
+            onChange={handleSearchChange}
+            onSearch={handleSearchEnter}
+            value={sortTerm}
+          />
         </StyledSearchInput>
 
         <StyledButton
@@ -94,14 +104,14 @@ const Header = () => {
         />
 
         {userRole === 'buyer' && (
-          <Badge count={cartQuantity > 0 ? cartQuantity : 0}>
+          <StyledBadge count={cartQuantity}>
             <StyledButton
               size='large'
               icon={<ShoppingOutlined />}
               aria-label={t('Корзина')}
               onClick={goToCart}
             />
-          </Badge>
+          </StyledBadge>
         )}
 
         {userRole === 'seller' && (
