@@ -73,7 +73,6 @@ export const Cart = () => {
       `${t('Заказ успешно оформлен')}`,
       `${t('Заказ будет доставлен по адресу')} \n${selectedPoint.address}`,
     );
-    console.log('cart.tsx items:', items);
     makeOrder(items, user.id, token);
     clearCart(token, user.id);
     clearSelectedPoint();
