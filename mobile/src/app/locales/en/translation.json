@@ -66,5 +66,8 @@
   "Ошибка при редактировании сообщения": "Error editing message",
   "Ошибка при обновлении чатов": "Error updating chats",
   "Ошибка при добавлении чата": "Error adding chat",
-  "Ошибка при удалении чата": "Error deleting chat"
+  "Ошибка при удалении чата": "Error deleting chat",
+  "Удалить чат?": "Delete chat?",
+  "Это действие невозможно отменить": "This action cannot be undone.",
+  "Введите сообщение": "Type message"
 }

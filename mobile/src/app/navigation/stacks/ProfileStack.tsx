@@ -2,7 +2,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
 import {
-  ChatList,
+  ChatsList,
+  Messenger,
   NewProduct,
   Orders,
   Profile,
@@ -67,7 +68,14 @@ export const ProfileStackNavigator = () => {
       />
       <ProfileStack.Screen
         name={Screens.CHATLIST}
-        component={ChatList}
+        component={ChatsList}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
+      <ProfileStack.Screen
+        name={Screens.MESSENGER}
+        component={Messenger}
         options={{
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}

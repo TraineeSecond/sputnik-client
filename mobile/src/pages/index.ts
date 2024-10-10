@@ -9,4 +9,5 @@ export * from './Orders/ui/Orders';
 export * from './Product/ui/Product';
 export * from './NewProduct/ui/NewProduct';
 export * from './ReviewsPoints/ui/ReviewsPoints';
-export * from './ChatList/ui/ChatList';
+export * from './ChatsList/ui/ChatsList';
+export * from './Messenger/ui/Messenger';

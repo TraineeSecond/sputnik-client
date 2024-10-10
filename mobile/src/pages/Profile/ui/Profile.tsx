@@ -13,6 +13,7 @@ import {
   ForwardIcon,
   HistoryIcon,
   LogOutIcon,
+  MessageIcon,
   ProductIcon,
   ReviewIcon,
 } from 'shared/icons';
@@ -109,7 +110,7 @@ export const Profile = () => {
               {isSeller ? renderSellerInterface() : renderBuyerInterface()}
               <MenuItem
                 title={t('Сообщения')}
-                accessoryLeft={FlagIcon}
+                accessoryLeft={MessageIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleChat}
               />

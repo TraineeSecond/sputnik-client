@@ -4,12 +4,15 @@ import {Product} from 'entities/product';
 
 export type ProductRouteParams = {product: Product};
 
+export type MessengerRouteParams = {chatId: number};
+
 export type RootStackParamsList = {
   Main: NavigatorScreenParams<MainTabsStackParamsList>;
   Cart: undefined;
   Auth: undefined;
   HomeTab: undefined;
   Product: ProductRouteParams;
+  Messenger: MessengerRouteParams;
 };
 
 export type MainTabsStackParamsList = {
@@ -39,4 +42,5 @@ export type ProfileStackParamsList = {
   PaymentMethods: undefined;
   ReviewsPoints: undefined;
   ChatList: undefined;
+  Messenger: MessengerRouteParams;
 };

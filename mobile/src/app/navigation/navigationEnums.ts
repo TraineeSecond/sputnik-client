@@ -22,4 +22,5 @@ export enum Screens {
   NEWPRODUCT = 'NewProduct',
   REVIEWSPOINTS = 'ReviewsPoints',
   CHATLIST = 'ChatList',
+  MESSENGER = 'Messenger',
 }

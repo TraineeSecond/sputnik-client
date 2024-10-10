@@ -1,9 +1,8 @@
 import {createNavigationContainerRef} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
 
-import {Auth, Cart, Product} from 'pages';
+import {Auth, Cart, Messenger, Product} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
 import {Header} from 'widgets';
 
@@ -18,7 +17,6 @@ export const RootNavigator = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const {t} = useTranslation();
 
   return (
     <RootStack.Navigator>
@@ -32,6 +30,13 @@ export const RootNavigator = () => {
       <RootStack.Screen
         name={Screens.PRODUCT}
         component={Product}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
+      <RootStack.Screen
+        name={Screens.MESSENGER}
+        component={Messenger}
         options={{
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}
