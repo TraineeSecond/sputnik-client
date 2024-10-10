@@ -1,3 +1,4 @@
+import { Carousel, Rate } from 'antd';
 import styled from 'styled-components';
 
 export const StyledProductView = styled.section`
@@ -21,6 +22,16 @@ export const StyledProductInfo = styled.div`
 export const StyledProductImage = styled.img`
   height: 350px;
   border-radius: 0.5rem;
+`;
+
+export const StyledCarousel = styled(Carousel)`
+  width: 100%;
+  .slick-slide img {
+    max-width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
 `;
 
 export const StyledProductDetails = styled.div`
@@ -65,4 +76,10 @@ export const StyledWrapper = styled.div`
   width: 20rem;
   flex-direction: column;
   gap: 0.5rem;
+`;
+
+export const StyledRate = styled(Rate)`
+  font-size: 1.25rem;
+  color: #fadb14;
+  margin-bottom: 1rem;
 `;

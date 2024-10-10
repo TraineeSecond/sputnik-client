@@ -62,7 +62,6 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         },
       );
       if (data?.orderitems) {
-        console.log('data orderstore:', data);
         set({
           orders: data.orderitems,
         });
@@ -84,11 +83,9 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
       );
 
       const formattedOrders = data.map((order: any) => {
-        console.log(order);
         return {
           id: order.id,
           orderItems: order.orderitems.map((orderItem: any) => {
-            console.log(orderItem);
             return {
               id: orderItem.id,
               orderid: orderItem.orderid,
