@@ -1,5 +1,3 @@
-import {useTranslation} from 'react-i18next';
-
 import axios from 'axios';
 import {Chat} from 'entities';
 import {create} from 'zustand';
@@ -12,8 +10,6 @@ type ChatListStore = {
   deleteChat: (chatId: number) => void;
   loadChats: (userId: number) => Promise<void>;
 };
-
-const {t} = useTranslation();
 
 // TODO: Поменять на нормальные запросы
 

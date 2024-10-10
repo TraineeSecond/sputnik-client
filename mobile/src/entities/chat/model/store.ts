@@ -1,5 +1,3 @@
-import {useTranslation} from 'react-i18next';
-
 import axios from 'axios';
 import {create} from 'zustand';
 
@@ -16,8 +14,6 @@ type ChatStore = {
   editMessage: (messageId: number, newContent: string) => Promise<void>;
   setCurrentMessage: (message: string) => void;
 };
-
-const {t} = useTranslation();
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
