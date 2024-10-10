@@ -29,6 +29,15 @@ export const ProfileStackNavigator = () => {
     });
   };
 
+  const handleGoChatList = () => {
+    navigation.navigate(Stacks.MAIN, {
+      screen: Screens.PROFILE_TAB,
+      params: {
+        screen: Screens.CHATLIST,
+      },
+    });
+  };
+
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
@@ -77,7 +86,9 @@ export const ProfileStackNavigator = () => {
         name={Screens.MESSENGER}
         component={Messenger}
         options={{
-          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+          header: () => (
+            <Header showBackButton onBackPress={handleGoChatList} />
+          ),
         }}
       />
     </ProfileStack.Navigator>
