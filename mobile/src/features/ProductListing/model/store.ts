@@ -8,6 +8,7 @@ export type ListingProduct = {
   price: string;
   category: string;
   userId: number;
+  image?: string;
 };
 
 type ProductListingStore = {
@@ -30,6 +31,7 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
     description: '',
     price: '',
     category: '',
+    image: '',
     userId: 1,
   },
 
@@ -61,6 +63,7 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
         price: '',
         category: '',
         userId: 1,
+        image: '',
       },
     }),
 }));
