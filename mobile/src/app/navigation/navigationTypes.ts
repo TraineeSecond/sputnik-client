@@ -38,5 +38,4 @@ export type ProfileStackParamsList = {
   Orders: undefined;
   PaymentMethods: undefined;
   ReviewsPoints: undefined;
-  ChatList: undefined;
 };
