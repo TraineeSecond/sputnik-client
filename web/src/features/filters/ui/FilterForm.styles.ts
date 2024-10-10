@@ -18,9 +18,6 @@ export const StyledFormContainer = styled.div`
 `;
 export const StyledSelect = styled(Select<string>)``;
 
-export const StyledSelect = styled(Select<string>)``;
-
-export const StyledOption = styled(Option)``;
 export const StyledOption = styled(Option)``;
 
 export const StyledModal = styled(Modal)``;
