@@ -18,7 +18,6 @@ export const RootNavigator = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-
   const {t} = useTranslation();
 
   return (

@@ -49,6 +49,10 @@ export const Profile = () => {
     navigation.navigate(Screens.NEWPRODUCT);
   };
 
+  const handleChat = () => {
+    navigation.navigate(Screens.CHATLIST);
+  };
+
   const renderSellerInterface = () => (
     <MenuItem
       title={t('Добавить продукт')}
@@ -103,6 +107,12 @@ export const Profile = () => {
           <View style={styles.menuContainer}>
             <Menu onSelect={index => setSelectedIndex(index)}>
               {isSeller ? renderSellerInterface() : renderBuyerInterface()}
+              <MenuItem
+                title={t('Сообщения')}
+                accessoryLeft={FlagIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handleChat}
+              />
               <MenuItem
                 title={t('Настройки языка')}
                 accessoryLeft={FlagIcon}
