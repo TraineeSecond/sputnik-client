@@ -44,6 +44,18 @@ export const ProductIcon = (props: any) => (
 export const ReviewIcon = (props: any) => (
   <Icon {...props} name="award-outline" />
 );
+export const MessageIcon = (props: any) => (
+  <Icon {...props} name="message-square-outline" />
+);
+export const TrashIcon = (props: any) => (
+  <Icon {...props} name="trash-2-outline" />
+);
+export const AddImgIcon = (props: any) => (
+  <Icon {...props} name="file-add-outline" />
+);
+export const SendIcon = (props: any) => (
+  <Icon {...props} name="arrow-upward-outline" />
+);
 export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
 export const ArrowBack = (props: any) => <Icon {...props} name="arrow-back" />;
 export const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;

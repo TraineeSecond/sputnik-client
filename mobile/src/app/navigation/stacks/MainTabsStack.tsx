@@ -1,4 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 
@@ -56,6 +57,13 @@ export const MainTabsNavigator = () => {
         },
         tabBarActiveTintColor: Colors.Green400,
         tabBarInactiveTintColor: Colors.Gray500,
+        tabBarStyle: (route => {
+          const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+          if (routeName === Screens.MESSENGER) {
+            return {display: 'none'};
+          }
+          return;
+        })(route),
       })}>
       <MainTabsStack.Screen
         name={Screens.HOME_TAB}
