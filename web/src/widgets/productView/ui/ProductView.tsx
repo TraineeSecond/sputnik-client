@@ -1,7 +1,9 @@
 import { AddToCartButton } from 'features';
+import { useTranslation } from 'react-i18next';
 import { calculateDiscount, formatPriceRub } from 'shared';
 
 import {
+  StyledCarousel,
   StyledDiscount,
   StyledH1,
   StyledNewPrice,
@@ -13,6 +15,7 @@ import {
   StyledProductImage,
   StyledProductInfo,
   StyledProductView,
+  StyledRate,
   StyledWrapper,
 } from './ProductView.styles';
 
@@ -36,6 +39,7 @@ const ProductView = ({
   isBuyer,
 }: ProductViewProps) => {
   const discount = calculateDiscount(product.price, product.new_price);
+  const { t } = useTranslation();
 
   const renderOldPriceAndDiscount = () => {
     if (product.price !== product.new_price) {
@@ -63,19 +67,33 @@ const ProductView = ({
     return null;
   };
 
+  const renderProductImages = () => {
+    if (product.images.length === 0) {
+      return (
+        <StyledProductImage
+          src={`https://via.placeholder.com/200x300?text=${product?.name}`}
+          alt={product?.name}
+        />
+      );
+    }
+
+    return product.images.map((image) => (
+      <StyledProductImage key={image.id} src={image.image} alt={product.name} />
+    ));
+  };
+
   return (
     <StyledProductView>
       <StyledProductContainer>
         <StyledProductInfo>
           <StyledH1>{product?.name}</StyledH1>
           <StyledP>{product?.category}</StyledP>
+          <StyledRate disabled value={product.rating} />
+          <StyledP>{`${t('Количество отзывов:')} ${product.reviewerscount}`}</StyledP>
           <StyledP>{product?.description}</StyledP>
         </StyledProductInfo>
         <StyledWrapper>
-          <StyledProductImage
-            src={`https://via.placeholder.com/200x300?text=${product?.name}`}
-            alt={product?.name}
-          />
+          <StyledCarousel>{renderProductImages()}</StyledCarousel>
           <StyledProductDetails>
             <StyledPriceSection>
               <StyledNewPrice>

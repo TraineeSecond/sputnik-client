@@ -13,6 +13,14 @@ export interface ProductState {
   setSortCategory: (category: string) => Promise<void>;
   loadProductById: (productId: number) => Promise<void>;
   loadProducts: () => Promise<void>;
+  loadingProduct: boolean;
+  error: string | null;
+}
+
+export interface ProductImage {
+  id: number;
+  image: string;
+  productid: number;
 }
 
 export interface Product {
@@ -23,7 +31,10 @@ export interface Product {
   new_price: number;
   name: string;
   userid: number;
+  rating: number;
+  reviewerscount: number;
   user: User;
+  images: ProductImage[];
 }
 
 export type ProductsResponse = Product[];

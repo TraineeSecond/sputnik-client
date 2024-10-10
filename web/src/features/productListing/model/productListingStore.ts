@@ -8,21 +8,8 @@ import {
 } from './types';
 
 export const useProductListingStore = create<ProductListingState>((set) => ({
-  categories: [],
   loading: false,
   error: null,
-
-  fetchCategories: async () => {
-    set({ loading: true, error: null });
-
-    try {
-      const response = await api.get<string[]>('/categories');
-      set({ categories: response.data, loading: false });
-    } catch (error) {
-      console.error(error);
-      set({ error: 'Ошибка при получении категорий', loading: false });
-    }
-  },
 
   createProduct: async (product: ListingProduct) => {
     set({ loading: true, error: null });

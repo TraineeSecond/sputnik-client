@@ -1,5 +1,4 @@
-import { Form } from 'antd';
-import { Select } from 'antd';
+import { Form, Modal, Select } from 'antd';
 import styled from 'styled-components';
 
 const { Option } = Select;
@@ -17,7 +16,11 @@ export const StyledFormContainer = styled.div`
   border-radius: 10px;
   width: 300px;
 `;
+export const StyledSelect = styled(Select<string>)``;
 
 export const StyledSelect = styled(Select<string>)``;
 
 export const StyledOption = styled(Option)``;
+export const StyledOption = styled(Option)``;
+
+export const StyledModal = styled(Modal)``;
