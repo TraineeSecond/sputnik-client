@@ -21,5 +21,4 @@ export enum Screens {
   PRODUCT = 'Product',
   NEWPRODUCT = 'NewProduct',
   REVIEWSPOINTS = 'ReviewsPoints',
-  CHATLIST = 'ChatList',
 }
