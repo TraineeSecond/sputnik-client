@@ -48,10 +48,6 @@ export const ChatsList = () => {
     setRefreshing(false);
   };
 
-  const getItem = (data: Chat[], index: number) => data[index];
-
-  const getItemCount = (data: Chat[]) => data.length;
-
   const renderChatItem = ({item}: {item: Chat}) => {
     const handleDelete = () => handleDeleteChat(item.id);
     const handlePress = () => handleChatPress(item.id);
@@ -77,8 +73,8 @@ export const ChatsList = () => {
         initialNumToRender={20}
         renderItem={renderChatItem}
         keyExtractor={item => item.id.toString()}
-        getItemCount={getItemCount}
-        getItem={getItem}
+        getItemCount={data => data.length}
+        getItem={(data, index) => data[index]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

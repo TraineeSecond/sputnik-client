@@ -1,12 +1,10 @@
 import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 
-import {IMessage} from 'entities/chat';
-
 import {MessageStyles as styles} from './Message.styles';
 
 type MessageProps = {
-  message: IMessage;
+  message: string;
   isCurrentUser: boolean;
 };
 
@@ -29,7 +27,7 @@ export const Message = memo(({message, isCurrentUser}: MessageProps) => {
             styles.messageText,
             isCurrentUser ? styles.messageTextRight : styles.messageTextLeft,
           ]}>
-          {message.message}
+          {message}
         </Text>
       </View>
     </View>

@@ -37,13 +37,9 @@ export const Chat = () => {
 
   //-------------------------------------------------------
 
-  const getItemCount = () => messages.length;
-
-  const getItem = (data: IMessage[], index: number) => data[index];
-
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === currentUser.id;
-    return <Message message={item} isCurrentUser={isCurrentUser} />;
+    return <Message message={item.message} isCurrentUser={isCurrentUser} />;
   };
 
   return (
@@ -54,8 +50,8 @@ export const Chat = () => {
           initialNumToRender={20}
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
-          getItemCount={getItemCount}
-          getItem={getItem}
+          getItemCount={data => data.length}
+          getItem={(data, index) => data[index]}
           contentContainerStyle={styles.contentContainer}
         />
         <ChatTextarea
