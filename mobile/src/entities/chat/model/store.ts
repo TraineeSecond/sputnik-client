@@ -66,13 +66,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
     socket.emit('sendMessage', {chatId, message, authorId});
 
-    // Слушаем событие нового сообщения от сервера
-    socket.on('newMessage', (newMessage: IMessage) => {
-      set(state => ({
-        messages: [...state.messages, newMessage],
-        currentMessage: '',
-      }));
-    });
+    set({currentMessage: ''});
   },
 
   deleteMessage: async (messageId: number) => {

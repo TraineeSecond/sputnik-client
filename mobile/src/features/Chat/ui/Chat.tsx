@@ -48,11 +48,7 @@ export const Chat = () => {
       socket.emit('leaveChat', chatId);
       socket.off('newMessage');
     };
-  }, [chatId]);
-
-  const chat = chats.find(chat => chat.id === chatId)!;
-
-  const currentUser = users[0];
+  }, [chatId, messages]);
 
   const handleSendMessage = () => {
     sendMessage(chatId, user.id);
