@@ -58,9 +58,6 @@ export const ChatsList = () => {
   const renderChatItem = ({item}: {item: Chat}) => {
     const handleDelete = () => handleDeleteChat(item.id);
     const handlePress = () => handleChatPress(item.id);
-    console.log(item);
-    console.log('Продукт:', item.product);
-    console.log('картинка:', item.product.images);
     const seller = `${item.product.user.name} ${item.product.user.surname}`;
 
     return (
@@ -68,7 +65,7 @@ export const ChatsList = () => {
         key={item.id.toString()}
         onDelete={handleDelete}
         onPress={handlePress}
-        productImage={item?.product?.images[0]?.image}
+        productImage={item.product.images}
         productName={item.product.name}
         productPrice={item.product.price}
         seller={seller}
