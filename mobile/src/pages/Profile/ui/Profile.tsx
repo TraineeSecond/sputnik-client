@@ -13,6 +13,7 @@ import {
   ForwardIcon,
   HistoryIcon,
   LogOutIcon,
+  MessageIcon,
   ProductIcon,
   ReviewIcon,
 } from 'shared/icons';
@@ -47,6 +48,10 @@ export const Profile = () => {
 
   const handleAddProduct = () => {
     navigation.navigate(Screens.NEWPRODUCT);
+  };
+
+  const handleChat = () => {
+    navigation.navigate(Screens.CHATLIST);
   };
 
   const renderSellerInterface = () => (
@@ -103,6 +108,12 @@ export const Profile = () => {
           <View style={styles.menuContainer}>
             <Menu onSelect={index => setSelectedIndex(index)}>
               {isSeller ? renderSellerInterface() : renderBuyerInterface()}
+              <MenuItem
+                title={t('Сообщения')}
+                accessoryLeft={MessageIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handleChat}
+              />
               <MenuItem
                 title={t('Настройки языка')}
                 accessoryLeft={FlagIcon}
