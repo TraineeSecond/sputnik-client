@@ -24,6 +24,7 @@ export const useChatListStore = create<ChatListStore>(set => ({
       const response = await axios.get<Chat[]>(
         `https://domennameabcdef.ru/api/${userId}/chats`,
       );
+      console.log(response.data);
       set({chatList: response.data, isLoading: false});
     } catch (error) {
       set({error: true, isLoading: false});
