@@ -7,10 +7,8 @@ export interface ListingProduct {
 }
 
 export interface ProductListingState {
-  categories: string[];
   loading: boolean;
   error: string | null;
-  fetchCategories: () => Promise<void>;
   createProduct: (product: ListingProduct) => Promise<void>;
 }
 

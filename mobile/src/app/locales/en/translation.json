@@ -59,5 +59,15 @@
   "Отправить отзыв": "Send review",
   "Оцените пункт выдачи": "Rate the pick-up point",
   "Отзывы пунктов выдачи заказов": "Reviews of pick-up points",
-  "Перейти в чат": "Go to chat"
+  "Сообщения": "Messages",
+  "Ошибка при загрузке сообщений": "Error loading messages",
+  "Ошибка при отправке сообщения": "Error sending message",
+  "Ошибка при удалении сообщения": "Error deleting message",
+  "Ошибка при редактировании сообщения": "Error editing message",
+  "Ошибка при обновлении чатов": "Error updating chats",
+  "Ошибка при добавлении чата": "Error adding chat",
+  "Ошибка при удалении чата": "Error deleting chat",
+  "Удалить чат?": "Delete chat?",
+  "Это действие невозможно отменить": "This action cannot be undone.",
+  "Введите сообщение": "Type message"
 }
