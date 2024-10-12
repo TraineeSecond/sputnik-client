@@ -9,6 +9,7 @@ import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/index';
 import {
+  CubeIcon,
   FlagIcon,
   ForwardIcon,
   HistoryIcon,
@@ -50,17 +51,29 @@ export const Profile = () => {
     navigation.navigate(Screens.NEWPRODUCT);
   };
 
+  const handleSellerProducts = () => {
+    navigation.navigate(Screens.SELLERPRODUCTS);
+  };
+
   const handleChat = () => {
     navigation.navigate(Screens.CHATLIST);
   };
 
   const renderSellerInterface = () => (
-    <MenuItem
-      title={t('Добавить продукт')}
-      accessoryLeft={ProductIcon}
-      accessoryRight={ForwardIcon}
-      onPress={handleAddProduct}
-    />
+    <>
+      <MenuItem
+        title={t('Добавить продукт')}
+        accessoryLeft={CubeIcon}
+        accessoryRight={ForwardIcon}
+        onPress={handleAddProduct}
+      />
+      <MenuItem
+        title={t('Мои продукты')}
+        accessoryLeft={HistoryIcon}
+        accessoryRight={ForwardIcon}
+        onPress={handlePurchaseHistory}
+      />
+    </>
   );
 
   const renderBuyerInterface = () => (

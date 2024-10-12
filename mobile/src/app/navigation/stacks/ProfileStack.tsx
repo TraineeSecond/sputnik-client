@@ -8,6 +8,7 @@ import {
   Orders,
   Profile,
   ReviewsPoints,
+  SellerProducts,
   Settings,
 } from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
@@ -78,6 +79,13 @@ export const ProfileStackNavigator = () => {
       <ProfileStack.Screen
         name={Screens.CHATLIST}
         component={ChatsList}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
+      <ProfileStack.Screen
+        name={Screens.SELLERPRODUCTS}
+        component={SellerProducts}
         options={{
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}

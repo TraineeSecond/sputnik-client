@@ -42,5 +42,6 @@ export type ProfileStackParamsList = {
   PaymentMethods: undefined;
   ReviewsPoints: undefined;
   ChatList: undefined;
+  SellerProducts: undefined;
   Messenger: MessengerRouteParams;
 };
