@@ -11,11 +11,13 @@ type ChatStore = {
   setMessages: (messages: IMessage[]) => void;
   currentMessage: string;
   isLoading: boolean;
+  updatingMessageId: number | null;
   error: boolean;
+  setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
   sendMessage: (chatId: number, authorId: number) => void;
-  deleteMessage: (messageId: number) => Promise<void>;
-  editMessage: (messageId: number, newContent: string) => Promise<void>;
+  deleteMessage: (chatId: number, messageId: number) => void;
+  editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
 };
 
@@ -24,6 +26,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   currentMessage: '',
   isLoading: false,
   error: false,
+
+  updatingMessageId: null,
+
+  setUpdatingMessageId: updatingMessageId => set({updatingMessageId}),
 
   setMessages: (messages: IMessage[]) => set({messages}),
 
@@ -43,62 +49,18 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  // sendMessage: async (chatId: number) => {
-  //   set({isLoading: true, error: false});
-  //   try {
-  //     const response = await axios.post<IMessage>(
-  //       `https://domennameabcdef.ru/api/chats/${chatId}/messages`,
-  //       {message: get().currentMessage},
-  //     );
-  //     set(state => ({
-  //       messages: [...state.messages, response.data],
-  //       currentMessage: '',
-  //       isLoading: false,
-  //     }));
-  //   } catch (error) {
-  //     set({error: true, isLoading: false});
-  //   }
-  // },
-
   sendMessage: (chatId: number, authorId: number) => {
     const message = get().currentMessage;
     if (!message) return;
 
     socket.emit('sendMessage', {chatId, message, authorId});
-
-    set({currentMessage: ''});
   },
 
-  deleteMessage: async (messageId: number) => {
-    set({isLoading: true, error: false});
-    try {
-      await axios.delete(
-        `https://domennameabcdef.ru/api/messages/${messageId}`,
-      );
-      set(state => ({
-        messages: state.messages.filter(msg => msg.id !== messageId),
-        isLoading: false,
-      }));
-    } catch (error) {
-      set({error: true, isLoading: false});
-    }
+  deleteMessage: (chatId: number, messageId: number) => {
+    socket.emit('deleteMessage', {chatId, messageId});
   },
 
-  editMessage: async (messageId: number, newContent: string) => {
-    set({isLoading: true, error: false});
-    try {
-      const response = await axios.put<IMessage>(
-        `https://domennameabcdef.ru/api/messages/${messageId}`,
-        {message: newContent},
-      );
-      set(state => ({
-        messages: state.messages.map(msg =>
-          msg.id === messageId ? response.data : msg,
-        ),
-        isLoading: false,
-      }));
-    } catch (error) {
-      set({error: true, isLoading: false});
-    }
+  editMessage: (chatId: number, messageId: number, message: string) => {
+    socket.emit('updateMessage', {chatId, messageId, message});
   },
 }));

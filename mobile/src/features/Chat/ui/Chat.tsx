@@ -1,6 +1,6 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import {Alert, KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
@@ -25,7 +25,11 @@ export const Chat = () => {
     setCurrentMessage,
     loadMessages,
     sendMessage,
+    editMessage,
     setMessages,
+    deleteMessage,
+    updatingMessageId,
+    setUpdatingMessageId,
   } = useChatStore();
 
   const {user} = useUserStore();
@@ -35,32 +39,82 @@ export const Chat = () => {
   }, []);
 
   useEffect(() => {
-    // Присоединение к чату
     socket.emit('joinChat', chatId);
 
-    // Обработчик новых сообщений
     socket.on('newMessage', newMessage => {
       setMessages([...messages, newMessage]);
     });
 
-    // Очистка при размонтировании
+    socket.on('updatedMessage', messageData => {
+      setMessages(
+        messages.map(msg => (msg.id === messageData.id ? messageData : msg)),
+      );
+    });
+
+    socket.on('deletedMessage', ({messageId}) => {
+      setMessages(messages.filter(msg => msg.id !== messageId));
+    });
+
     return () => {
       socket.emit('leaveChat', chatId);
       socket.off('newMessage');
+      socket.off('updatedMessage');
+      socket.off('deletedMessage');
     };
   }, [chatId, messages]);
 
-  const handleSendMessage = () => {
-    sendMessage(chatId, user.id);
+  const handleSendOrUpdate = () => {
+    if (updatingMessageId) {
+      editMessage(chatId, updatingMessageId, currentMessage);
+      setUpdatingMessageId(null);
+    } else {
+      sendMessage(chatId, user.id);
+    }
+    setCurrentMessage('');
+  };
+
+  const handleDeleteMessage = (messageId: number) => {
+    deleteMessage(chatId, messageId);
   };
 
   const handleAttachFile = () => {};
 
   //-------------------------------------------------------
 
+  const longPress = (messageId: number) => {
+    const handleDelete = () => handleDeleteMessage(messageId);
+    const handleUpdate = () => {
+      const messageToEdit = messages.find(msg => msg.id === messageId);
+      if (messageToEdit) {
+        setCurrentMessage(messageToEdit.message);
+        setUpdatingMessageId(messageToEdit.id);
+      }
+    };
+    Alert.alert('Выберите действие', 'Что вы хотите сделать?', [
+      {
+        text: 'Изменить',
+        onPress: handleUpdate,
+      },
+      {
+        text: 'Удалить',
+        onPress: handleDelete,
+      },
+      {
+        text: 'Отмена',
+      },
+    ]);
+  };
+
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === user.id;
-    return <Message message={item.message} isCurrentUser={isCurrentUser} />;
+    const handleLongPress = () => longPress(item.id);
+    return (
+      <Message
+        message={item.message}
+        isCurrentUser={isCurrentUser}
+        onLongPress={handleLongPress}
+      />
+    );
   };
 
   return (
@@ -78,7 +132,7 @@ export const Chat = () => {
         <ChatTextarea
           message={currentMessage}
           setMessage={setCurrentMessage}
-          onSendMessage={handleSendMessage}
+          onSendMessage={handleSendOrUpdate}
           onAttachFile={handleAttachFile}
         />
       </KeyboardAvoidingView>
