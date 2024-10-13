@@ -1,4 +1,9 @@
+import { useEffect } from 'react';
+
+import { useProductStore } from 'entities/product/model/productStore';
 import { AddToCartButton } from 'features';
+import { useChangeImageFormStore } from 'features/changeImagesForm/model/changeImageForm';
+import ChangeImagesForm from 'features/changeImagesForm/ui/ChangeImagesForm';
 import { useTranslation } from 'react-i18next';
 import { calculateDiscount, formatPriceRub } from 'shared';
 
@@ -16,8 +21,12 @@ import {
   StyledProductInfo,
   StyledProductView,
   StyledRate,
+  StyledSpin,
   StyledWrapper,
 } from './ProductView.styles';
+import { StyledButton } from 'features/productListing/ui/ProductListingForm.styles';
+
+import { useProductViewStore } from '../model/ProductViewStore';
 
 import { Product } from 'entities/product/model/types';
 
@@ -28,6 +37,7 @@ type ProductViewProps = {
   onDecrement: () => void;
   loading: boolean;
   isBuyer: boolean;
+  userId: number | undefined;
 };
 
 const ProductView = ({
@@ -37,9 +47,19 @@ const ProductView = ({
   onDecrement,
   loading,
   isBuyer,
+  userId,
 }: ProductViewProps) => {
+  const { currentImage, setCurrentImage } = useProductViewStore();
   const discount = calculateDiscount(product.price, product.new_price);
+  const { toggleShowChangeImageFormPopUp } = useChangeImageFormStore();
+  const { deleteProductImage, loadProductById, changeImagesProcess } =
+    useProductStore();
+
   const { t } = useTranslation();
+
+  useEffect(() => {
+    setCurrentImage(product.images[0] || null);
+  }, [product.images, setCurrentImage]);
 
   const renderOldPriceAndDiscount = () => {
     if (product.price !== product.new_price) {
@@ -67,6 +87,37 @@ const ProductView = ({
     return null;
   };
 
+  const handleDeleteImageButton = async () => {
+    if (currentImage) {
+      await deleteProductImage(currentImage);
+      await loadProductById(product.id);
+    }
+  };
+
+  const renderImageChangeButtons = () => {
+    if (!isBuyer && product.userid === userId) {
+      if (changeImagesProcess) {
+        return <StyledSpin />;
+      }
+      return (
+        <>
+          <StyledButton onClick={toggleShowChangeImageFormPopUp}>
+            {t(`загрузить новое изображение`)}
+          </StyledButton>
+          {product.images.length !== 0 && (
+            <StyledButton onClick={handleDeleteImageButton}>
+              {t(`удалить это изображение`)}
+            </StyledButton>
+          )}
+        </>
+      );
+    }
+  };
+
+  const handleCarouselChange = (current: number) => {
+    setCurrentImage(product.images[current]);
+  };
+
   const renderProductImages = () => {
     if (product.images.length === 0) {
       return (
@@ -83,29 +134,35 @@ const ProductView = ({
   };
 
   return (
-    <StyledProductView>
-      <StyledProductContainer>
-        <StyledProductInfo>
-          <StyledH1>{product?.name}</StyledH1>
-          <StyledP>{product?.category}</StyledP>
-          <StyledRate disabled value={product.rating} />
-          <StyledP>{`${t('Количество отзывов:')} ${product.reviewerscount}`}</StyledP>
-          <StyledP>{product?.description}</StyledP>
-        </StyledProductInfo>
-        <StyledWrapper>
-          <StyledCarousel>{renderProductImages()}</StyledCarousel>
-          <StyledProductDetails>
-            <StyledPriceSection>
-              <StyledNewPrice>
-                {formatPriceRub(product.new_price)}
-              </StyledNewPrice>
-              {renderOldPriceAndDiscount()}
-            </StyledPriceSection>
-          </StyledProductDetails>
-          {renderAddToCartButton()}
-        </StyledWrapper>
-      </StyledProductContainer>
-    </StyledProductView>
+    <>
+      <StyledProductView>
+        <StyledProductContainer>
+          <StyledProductInfo>
+            <StyledH1>{product?.name}</StyledH1>
+            <StyledP>{product?.category}</StyledP>
+            <StyledRate disabled value={product.rating} />
+            <StyledP>{`${t('Количество отзывов:')} ${product.reviewerscount}`}</StyledP>
+            <StyledP>{product?.description}</StyledP>
+          </StyledProductInfo>
+          <StyledWrapper>
+            <StyledCarousel afterChange={handleCarouselChange}>
+              {renderProductImages()}
+            </StyledCarousel>
+            <StyledProductDetails>
+              <StyledPriceSection>
+                <StyledNewPrice>
+                  {formatPriceRub(product.new_price)}
+                </StyledNewPrice>
+                {renderOldPriceAndDiscount()}
+              </StyledPriceSection>
+            </StyledProductDetails>
+            {renderAddToCartButton()}
+            {renderImageChangeButtons()}
+          </StyledWrapper>
+        </StyledProductContainer>
+      </StyledProductView>
+      <ChangeImagesForm id={product.id} />
+    </>
   );
 };
 

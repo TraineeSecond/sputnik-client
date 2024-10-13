@@ -1,11 +1,15 @@
 import { Button, Descriptions, Typography } from 'antd';
 import styled from 'styled-components';
 
+const { Title } = Typography;
+
 export const StyledProfileSection = styled.section`
   width: 100%;
 `;
 
-export const StyledTitle = styled(Typography.Title)``;
+export const StyledTitle = styled(Title)`
+  font-size: 1.5rem !important;
+`;
 
 export const StyledDescriptions = styled(Descriptions)`
   margin-bottom: 2rem;

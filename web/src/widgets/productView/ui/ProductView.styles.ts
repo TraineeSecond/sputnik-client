@@ -1,4 +1,4 @@
-import { Carousel, Rate } from 'antd';
+import { Button, Carousel, Rate, Spin } from 'antd';
 import styled from 'styled-components';
 
 export const StyledProductView = styled.section`
@@ -83,3 +83,7 @@ export const StyledRate = styled(Rate)`
   color: #fadb14;
   margin-bottom: 1rem;
 `;
+
+export const StyledButtom = styled(Button)``;
+
+export const StyledSpin = styled(Spin)``;

@@ -1,9 +1,11 @@
+import { RcFile } from 'antd/es/upload';
 import { api } from 'shared';
 import { create } from 'zustand';
 
 import {
   FiltersResponse,
   Product,
+  ProductImage,
   ProductState,
   ProductsResponse,
 } from './types';
@@ -16,6 +18,8 @@ export const useProductStore = create<ProductState>((set, get) => ({
   categories: [],
   loadingProduct: false,
   error: null,
+  sellerId: null,
+  changeImagesProcess: false,
 
   loadCategories: async (): Promise<void> => {
     try {
@@ -25,6 +29,12 @@ export const useProductStore = create<ProductState>((set, get) => ({
       console.error(error);
       set({ error: 'Ошибка при загрузке категорий' });
     }
+  },
+
+  setSellerId: async (id: number | null) => {
+    set({ sellerId: id });
+    set({ products: [] });
+    await get().loadProducts();
   },
 
   setSortCategory: async (category) => {
@@ -41,16 +51,14 @@ export const useProductStore = create<ProductState>((set, get) => ({
 
   loadProducts: async (): Promise<void> => {
     try {
-      let url = 'products';
-      const { sortName, sortCategory } = get();
-      if (sortName.length > 0 && sortCategory.length > 0) {
-        url += `?name=${sortName}&category=${sortCategory}`;
-      } else if (sortName.length > 0) {
-        url += `?name=${sortName}`;
-      } else if (sortCategory.length > 0) {
-        url += `?category=${sortCategory}`;
-      }
-      const res = await api.get<ProductsResponse>(url);
+      const { sortName, sortCategory, sellerId } = get();
+      const res = await api.get<ProductsResponse>('products', {
+        params: {
+          name: sortName,
+          category: sortCategory,
+          userid: sellerId,
+        },
+      });
       const { data } = res;
       set({ products: data });
     } catch (error) {
@@ -71,5 +79,36 @@ export const useProductStore = create<ProductState>((set, get) => ({
       console.error(error);
       set({ error: 'Ошибка при загрузке продукта', loadingProduct: false });
     }
+  },
+
+  addImageToProduct: async (productId: number, image: RcFile) => {
+    set({ changeImagesProcess: true });
+    const formData = new FormData();
+    formData.append('image', image);
+    try {
+      await api.post<Omit<ProductImage, 'productid'>>(
+        '/productimage/' + productId,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+      set({ error: 'Ошибка при загрузке изображения' });
+    }
+    set({ changeImagesProcess: false });
+  },
+  deleteProductImage: async (image: ProductImage) => {
+    set({ changeImagesProcess: true });
+    try {
+      await api.delete<string>('/productimage/' + image.id);
+    } catch (error) {
+      console.error(error);
+      set({ error: 'Ошибка при удалении изображения' });
+    }
+    set({ changeImagesProcess: false });
   },
 }));
