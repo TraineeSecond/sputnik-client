@@ -14,7 +14,8 @@ import {useUserStore} from 'entities/user';
 import {useProductListingStore} from 'features/ProductListing';
 import {useSearchCatalogStore} from 'features/Search';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {Colors, TextStyles} from 'shared/libs/helpers';
+import {TrashIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Input} from 'shared/ui';
 import {CustomDropdown} from 'shared/ui/Dropdown/Dropdown';
@@ -43,7 +44,8 @@ export const NewProduct = () => {
       !currentProduct.name ||
       !currentProduct.description ||
       !currentProduct.price ||
-      !currentProduct.category
+      !currentProduct.category ||
+      !currentProduct.image
     ) {
       Alert.alert(t('Заполните все поля'));
       return;
@@ -92,7 +94,33 @@ export const NewProduct = () => {
     );
   };
 
-  // TODO: Добавление изображения
+  const handleRemoveImage = () => {
+    setCurrentProductField('image', '');
+  };
+
+  const renderImageSection = () => {
+    return currentProduct.image ? (
+      <>
+        <TouchableOpacity
+          onPress={handleRemoveImage}
+          style={styles.removeIconContainer}>
+          <TrashIcon
+            fill={Colors.Gray500}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+        <Image
+          source={{uri: currentProduct.image}}
+          style={styles.imagePreview}
+        />
+      </>
+    ) : (
+      <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+        {t('Добавить изображение')}
+      </Text>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -100,16 +128,7 @@ export const NewProduct = () => {
         <TouchableOpacity
           onPress={handleImagePick}
           style={styles.imageContainer}>
-          {currentProduct.image ? (
-            <Image
-              source={{uri: currentProduct.image}}
-              style={styles.imagePreview}
-            />
-          ) : (
-            <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-              {t('Добавить изображение')}
-            </Text>
-          )}
+          {renderImageSection()}
         </TouchableOpacity>
         <View style={styles.inputs}>
           <CustomDropdown

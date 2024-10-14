@@ -58,4 +58,13 @@ export const NewProductStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  removeIconContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    zIndex: 10,
+    padding: 6,
+    borderRadius: '100%',
+    backgroundColor: Colors.Black100Opacity20,
+  },
 });
