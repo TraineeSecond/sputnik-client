@@ -8,6 +8,7 @@ export type ListingProduct = {
   price: string;
   category: string;
   userId: number;
+  image?: string;
 };
 
 type ProductListingStore = {
@@ -30,6 +31,7 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
     description: '',
     price: '',
     category: '',
+    image: '',
     userId: 1,
   },
 
@@ -47,6 +49,7 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
         product,
       );
       set({loading: false});
+      console.log(product);
     } catch (error) {
       console.error(error);
       set({error: 'Ошибка', loading: false});
@@ -60,6 +63,7 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
         description: '',
         price: '',
         category: '',
+        image: '',
         userId: 1,
       },
     }),
