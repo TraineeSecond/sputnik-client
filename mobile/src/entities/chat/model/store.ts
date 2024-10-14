@@ -13,6 +13,10 @@ type ChatStore = {
   isLoading: boolean;
   updatingMessageId: number | null;
   error: boolean;
+  skip: number;
+  wasScroll: boolean;
+  setWasScroll: (value: boolean) => void;
+  setSkip: (value: number) => void;
   setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
   sendMessage: (chatId: number, authorId: number) => void;
@@ -27,7 +31,15 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   isLoading: false,
   error: false,
 
+  skip: 0,
+
+  wasScroll: false,
+
   updatingMessageId: null,
+
+  setWasScroll: wasScroll => set({wasScroll}),
+
+  setSkip: skip => set({skip}),
 
   setUpdatingMessageId: updatingMessageId => set({updatingMessageId}),
 
@@ -39,11 +51,21 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   loadMessages: async (chatId: number) => {
     set({isLoading: true, error: false});
+    console.log(get().skip);
     try {
       const response = await axios.get<IMessage[]>(
-        `https://domennameabcdef.ru/api/chats/${chatId}/messages`,
+        `https://domennameabcdef.ru/api/chats/${chatId}/messages?take=20&skip=${
+          get().skip
+        }`,
       );
-      set({messages: response.data, isLoading: false});
+      const newMessages = response.data.filter(
+        newMsg => !get().messages.some(msg => msg.id === newMsg.id),
+      );
+      set({
+        messages: [...get().messages, ...newMessages],
+        isLoading: false,
+        skip: get().skip + 20,
+      });
     } catch (error) {
       set({error: true, isLoading: false});
     }

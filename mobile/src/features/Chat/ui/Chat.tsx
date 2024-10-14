@@ -1,6 +1,13 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {Alert, KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  RefreshControl,
+  View,
+  VirtualizedList,
+  VirtualizedListProps,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
@@ -30,19 +37,33 @@ export const Chat = () => {
     deleteMessage,
     updatingMessageId,
     setUpdatingMessageId,
+    skip,
+    setSkip,
+    wasScroll,
+    setWasScroll,
   } = useChatStore();
 
   const {user} = useUserStore();
 
+  const listRef = React.useRef<VirtualizedList<IMessage>>(null);
+
   useEffect(() => {
     loadMessages(chatId);
+    setWasScroll(false);
+  }, []);
+
+  useEffect(() => {
+    if (!wasScroll) {
+      scrollToEnd();
+      setWasScroll(true);
+    }
   }, []);
 
   useEffect(() => {
     socket.emit('joinChat', chatId);
 
     socket.on('newMessage', newMessage => {
-      setMessages([...messages, newMessage]);
+      setMessages([newMessage, ...messages]);
     });
 
     socket.on('updatedMessage', messageData => {
@@ -60,8 +81,9 @@ export const Chat = () => {
       socket.off('newMessage');
       socket.off('updatedMessage');
       socket.off('deletedMessage');
+      setSkip(0);
     };
-  }, [chatId, messages]);
+  }, [chatId]);
 
   const handleSendOrUpdate = () => {
     if (updatingMessageId) {
@@ -117,17 +139,36 @@ export const Chat = () => {
     );
   };
 
+  const scrollToEnd = useCallback(() => {
+    listRef.current?.scrollToEnd({animated: true});
+  }, []);
+
+  const handleLoadMoreMessages = async () => {
+    await loadMessages(chatId);
+  };
+
+  const handleScroll = (event: any) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    if (offsetY <= 0) {
+      handleLoadMoreMessages();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.messagesContainer}>
         <VirtualizedList
-          data={messages}
+          ref={listRef}
+          data={messages.reverse()}
           initialNumToRender={20}
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
           getItemCount={data => data.length}
           getItem={(data, index) => data[index]}
           contentContainerStyle={styles.contentContainer}
+          onScroll={handleScroll}
+          // onStartReached={wasScroll && handleLoadMoreMessages}
+          // onStartReachedThreshold={5}
         />
         <ChatTextarea
           message={currentMessage}

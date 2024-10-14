@@ -14,8 +14,7 @@ import {ChatItem} from 'shared/ui';
 import {ChatListStyles as styles} from './ChatsList.styles';
 
 export const ChatsList = () => {
-  const {chatList, loadChats, deleteChat, isLoading, error} =
-    useChatListStore();
+  const {chatList, loadChats, deleteChat} = useChatListStore();
   const {user} = useUserStore();
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
