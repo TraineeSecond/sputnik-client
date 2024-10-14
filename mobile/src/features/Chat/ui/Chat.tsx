@@ -37,7 +37,6 @@ export const Chat = () => {
     deleteMessage,
     updatingMessageId,
     setUpdatingMessageId,
-    skip,
     setSkip,
     wasScroll,
     setWasScroll,
@@ -50,14 +49,14 @@ export const Chat = () => {
   useEffect(() => {
     loadMessages(chatId);
     setWasScroll(false);
-  }, []);
+  }, [chatId]);
 
   useEffect(() => {
-    if (!wasScroll) {
+    if (!wasScroll && messages.length > 0) {
       scrollToEnd();
       setWasScroll(true);
     }
-  }, []);
+  }, [messages]);
 
   useEffect(() => {
     socket.emit('joinChat', chatId);
@@ -82,6 +81,7 @@ export const Chat = () => {
       socket.off('updatedMessage');
       socket.off('deletedMessage');
       setSkip(0);
+      setMessages([]);
     };
   }, [chatId]);
 
@@ -100,8 +100,6 @@ export const Chat = () => {
   };
 
   const handleAttachFile = () => {};
-
-  //-------------------------------------------------------
 
   const longPress = (messageId: number) => {
     const handleDelete = () => handleDeleteMessage(messageId);
@@ -143,14 +141,10 @@ export const Chat = () => {
     listRef.current?.scrollToEnd({animated: true});
   }, []);
 
-  const handleLoadMoreMessages = async () => {
-    await loadMessages(chatId);
-  };
-
-  const handleScroll = (event: any) => {
+  const handleScroll = async (event: any) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     if (offsetY <= 0) {
-      handleLoadMoreMessages();
+      await loadMessages(chatId);
     }
   };
 
@@ -167,8 +161,6 @@ export const Chat = () => {
           getItem={(data, index) => data[index]}
           contentContainerStyle={styles.contentContainer}
           onScroll={handleScroll}
-          // onStartReached={wasScroll && handleLoadMoreMessages}
-          // onStartReachedThreshold={5}
         />
         <ChatTextarea
           message={currentMessage}

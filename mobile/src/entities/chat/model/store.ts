@@ -51,7 +51,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   loadMessages: async (chatId: number) => {
     set({isLoading: true, error: false});
-    console.log(get().skip);
     try {
       const response = await axios.get<IMessage[]>(
         `https://domennameabcdef.ru/api/chats/${chatId}/messages?take=20&skip=${
