@@ -213,7 +213,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
       </View>
     );
   };
-  console.log(product);
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>{renderImage()}</View>

@@ -43,8 +43,7 @@ export const NewProduct = () => {
       !currentProduct.name ||
       !currentProduct.description ||
       !currentProduct.price ||
-      !currentProduct.category ||
-      !currentProduct.image
+      !currentProduct.category
     ) {
       Alert.alert(t('Заполните все поля'));
       return;
