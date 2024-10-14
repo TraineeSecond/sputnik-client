@@ -1,19 +1,11 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  RefreshControl,
-  View,
-  VirtualizedList,
-  VirtualizedListProps,
-} from 'react-native';
+import React, {useEffect, useMemo} from 'react';
+import {Alert, KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
-import {chats, users} from 'shared/assets/mockChats';
 import {ChatTextarea, Message} from 'shared/ui';
 import {io} from 'socket.io-client';
 
@@ -46,9 +38,10 @@ export const Chat = () => {
 
   const listRef = React.useRef<VirtualizedList<IMessage>>(null);
 
+  const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
+
   useEffect(() => {
     loadMessages(chatId);
-    setWasScroll(false);
   }, [chatId]);
 
   useEffect(() => {
@@ -137,9 +130,9 @@ export const Chat = () => {
     );
   };
 
-  const scrollToEnd = useCallback(() => {
+  const scrollToEnd = () => {
     listRef.current?.scrollToEnd({animated: true});
-  }, []);
+  };
 
   const handleScroll = async (event: any) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -153,7 +146,7 @@ export const Chat = () => {
       <KeyboardAvoidingView style={styles.messagesContainer}>
         <VirtualizedList
           ref={listRef}
-          data={messages.reverse()}
+          data={reversedMessages}
           initialNumToRender={20}
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
