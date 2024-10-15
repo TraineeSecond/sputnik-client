@@ -15,7 +15,6 @@ import {
   HistoryIcon,
   LogOutIcon,
   MessageIcon,
-  ProductIcon,
   ReviewIcon,
 } from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
@@ -47,10 +46,6 @@ export const Profile = () => {
     navigation.navigate(Screens.SETTINGS);
   };
 
-  const handleAddProduct = () => {
-    navigation.navigate(Screens.NEWPRODUCT);
-  };
-
   const handleSellerProducts = () => {
     navigation.navigate(Screens.SELLERPRODUCTS);
   };
@@ -62,16 +57,10 @@ export const Profile = () => {
   const renderSellerInterface = () => (
     <>
       <MenuItem
-        title={t('Добавить продукт')}
+        title={t('Мои продукты')}
         accessoryLeft={CubeIcon}
         accessoryRight={ForwardIcon}
-        onPress={handleAddProduct}
-      />
-      <MenuItem
-        title={t('Мои продукты')}
-        accessoryLeft={HistoryIcon}
-        accessoryRight={ForwardIcon}
-        onPress={handlePurchaseHistory}
+        onPress={handleSellerProducts}
       />
     </>
   );

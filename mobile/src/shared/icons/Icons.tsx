@@ -56,6 +56,9 @@ export const AddImgIcon = (props: any) => (
 export const SendIcon = (props: any) => (
   <Icon {...props} name="arrow-upward-outline" />
 );
+export const PlusIcon = (props: any) => (
+  <Icon {...props} name="plus-square-outline" />
+);
 export const CubeIcon = (props: any) => <Icon {...props} name="cube-outline" />;
 export const HeartFilledIcon = (props: any) => <Icon {...props} name="heart" />;
 export const ArrowBack = (props: any) => <Icon {...props} name="arrow-back" />;
