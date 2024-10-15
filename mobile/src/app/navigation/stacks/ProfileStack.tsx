@@ -8,7 +8,7 @@ import {
   Orders,
   Profile,
   ReviewsPoints,
-  SellerProducts,
+  SellerDashboard,
   Settings,
 } from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
@@ -103,7 +103,7 @@ export const ProfileStackNavigator = () => {
       />
       <ProfileStack.Screen
         name={Screens.SELLERPRODUCTS}
-        component={SellerProducts}
+        component={SellerDashboard}
         options={{
           header: () => (
             <Header

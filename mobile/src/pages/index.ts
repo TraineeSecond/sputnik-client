@@ -11,4 +11,4 @@ export * from './NewProduct/ui/NewProduct';
 export * from './ReviewsPoints/ui/ReviewsPoints';
 export * from './ChatsList/ui/ChatsList';
 export * from './Messenger/ui/Messenger';
-export * from './SellerProducts/ui/SellerProducts';
+export * from './SellerDashboard/ui/SellerDashboard';
