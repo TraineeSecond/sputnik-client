@@ -81,6 +81,13 @@ export const ProductInfoStyles = StyleSheet.create({
     backgroundColor: Colors.Green500,
     borderRadius: 10,
   },
+  buttonRedirect: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderRadius: 10,
+  },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',

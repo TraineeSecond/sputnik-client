@@ -4,7 +4,7 @@ import {User} from 'entities/user';
 export interface IMessage {
   id: number;
   chatId: number;
-  chat: any[];
+  chat?: any[];
   message: string;
   authorId: number;
   author: User;

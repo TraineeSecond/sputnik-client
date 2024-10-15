@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 
+import {ImageOwn} from 'entities/product';
 import {TrashIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 
@@ -16,7 +17,7 @@ type ChatItemProps = {
   seller: string;
   productName: string;
   productPrice: number;
-  productImage?: ImageSourcePropType;
+  productImage?: ImageOwn[];
   onPress: () => void;
   onDelete: () => void;
 };
@@ -34,7 +35,10 @@ export const ChatItem = memo(
       <TouchableOpacity style={styles.container} onPress={onPress}>
         <View style={styles.imageContainer}>
           {productImage ? (
-            <Image source={productImage} style={styles.image} />
+            <Image
+              source={{uri: productImage[0].image as string}}
+              style={styles.image}
+            />
           ) : (
             <View style={styles.noImage}>
               <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>

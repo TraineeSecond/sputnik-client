@@ -1,3 +1,4 @@
+import {Button} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
@@ -178,6 +179,10 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     setUserRating(rating);
   };
 
+  const handleGoToChat = () => {
+    // тут будет redirect на чат с продавцом
+  };
+
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -294,6 +299,12 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             )}
           </View>
         )}
+        <Button
+          onPress={handleGoToChat}
+          status="warning"
+          style={styles.buttonRedirect}>
+          <Text>{t('Перейти в чат')}</Text>
+        </Button>
       </View>
     </View>
   );
