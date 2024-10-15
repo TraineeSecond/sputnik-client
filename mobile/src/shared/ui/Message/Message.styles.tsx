@@ -15,6 +15,12 @@ export const MessageStyles = StyleSheet.create({
     backgroundColor: Colors.Green300,
     borderTopRightRadius: 0,
   },
+  backGroundChangeLeft: {
+    backgroundColor: Colors.Gray100,
+  },
+  backGroundChangeRight: {
+    backgroundColor: Colors.Green500,
+  },
   messageContainerLeft: {
     justifyContent: 'flex-start',
   },

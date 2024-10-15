@@ -42,11 +42,31 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
 
   addProduct: async (product: ListingProduct) => {
     set({loading: true, error: null});
+    const formData = new FormData();
+
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('price', product.price.toString());
+    formData.append('category', product.category);
+    formData.append('userId', product.userId.toString());
+
+    if (product.image) {
+      formData.append('image', {
+        uri: product.image,
+        name: 'firstImage.jpg',
+        type: 'image/jpeg',
+      });
+    }
 
     try {
       await axios.post<Product>(
         'https://domennameabcdef.ru/api/product',
-        product,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
       set({loading: false});
     } catch (error) {
@@ -62,8 +82,8 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
         description: '',
         price: '',
         category: '',
-        userId: 1,
         image: '',
+        userId: 1,
       },
     }),
 }));

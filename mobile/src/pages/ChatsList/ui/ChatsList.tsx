@@ -1,5 +1,5 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, RefreshControl, View, VirtualizedList} from 'react-native';
 
@@ -7,16 +7,22 @@ import {Screens} from 'app/navigation/navigationEnums';
 import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {Chat} from 'entities/chat';
 import {useUserStore} from 'entities/user';
+import {useChatListStore} from 'features/ChatList';
 import {chats} from 'shared/assets/mockChats';
 import {ChatItem} from 'shared/ui';
 
 import {ChatListStyles as styles} from './ChatsList.styles';
 
 export const ChatsList = () => {
-  // const {chatList, loadChats, deleteChat, isLoading, error} = useChatListStore();
+  const {chatList, loadChats, deleteChat} = useChatListStore();
+  const {user} = useUserStore();
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const {t} = useTranslation();
+
+  useEffect(() => {
+    loadChats(user.id);
+  }, []);
 
   const handleDeleteChat = useCallback((chatId: number) => {
     Alert.alert(
@@ -26,7 +32,7 @@ export const ChatsList = () => {
         {
           text: 'Да',
           onPress: () => {
-            // deleteChat(chatId);
+            deleteChat(chatId);
           },
         },
         {
@@ -44,7 +50,7 @@ export const ChatsList = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    // loadChats(user.id);
+    loadChats(user.id);
     setRefreshing(false);
   };
 
@@ -58,7 +64,7 @@ export const ChatsList = () => {
         key={item.id.toString()}
         onDelete={handleDelete}
         onPress={handlePress}
-        productImage={item.product.images[0].image}
+        productImage={item.product.images}
         productName={item.product.name}
         productPrice={item.product.price}
         seller={seller}
@@ -69,7 +75,7 @@ export const ChatsList = () => {
   return (
     <View style={styles.container}>
       <VirtualizedList
-        data={chats}
+        data={chatList}
         initialNumToRender={20}
         renderItem={renderChatItem}
         keyExtractor={item => item.id.toString()}

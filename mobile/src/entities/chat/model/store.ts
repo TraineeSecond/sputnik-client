@@ -1,17 +1,27 @@
 import axios from 'axios';
+import {io} from 'socket.io-client';
 import {create} from 'zustand';
 
 import {IMessage} from './types';
 
+const socket = io('http://domennameabcdef.ru:5555');
+
 type ChatStore = {
   messages: IMessage[];
+  setMessages: (messages: IMessage[]) => void;
   currentMessage: string;
   isLoading: boolean;
+  updatingMessageId: number | null;
   error: boolean;
+  skip: number;
+  wasScroll: boolean;
+  setWasScroll: (value: boolean) => void;
+  setSkip: (value: number) => void;
+  setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
-  sendMessage: (chatId: number) => Promise<void>;
-  deleteMessage: (messageId: number) => Promise<void>;
-  editMessage: (messageId: number, newContent: string) => Promise<void>;
+  sendMessage: (chatId: number, authorId: number) => void;
+  deleteMessage: (chatId: number, messageId: number) => void;
+  editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
 };
 
@@ -20,6 +30,17 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   currentMessage: '',
   isLoading: false,
   error: false,
+  skip: 0,
+  wasScroll: false,
+  updatingMessageId: null,
+
+  setWasScroll: wasScroll => set({wasScroll}),
+
+  setSkip: skip => set({skip}),
+
+  setUpdatingMessageId: updatingMessageId => set({updatingMessageId}),
+
+  setMessages: (messages: IMessage[]) => set({messages}),
 
   setCurrentMessage: (message: string) => {
     set({currentMessage: message});
@@ -29,61 +50,35 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({isLoading: true, error: false});
     try {
       const response = await axios.get<IMessage[]>(
-        `https://domennameabcdef.ru/api/chats/${chatId}/messages`,
+        `https://domennameabcdef.ru/api/chats/${chatId}/messages?take=20&skip=${
+          get().skip
+        }`,
       );
-      set({messages: response.data, isLoading: false});
+      const newMessages = response.data.filter(
+        newMsg => !get().messages.some(msg => msg.id === newMsg.id),
+      );
+      set({
+        messages: [...get().messages, ...newMessages],
+        isLoading: false,
+        skip: get().skip + 20,
+      });
     } catch (error) {
       set({error: true, isLoading: false});
     }
   },
 
-  sendMessage: async (chatId: number) => {
-    set({isLoading: true, error: false});
-    try {
-      const response = await axios.post<IMessage>(
-        `https://domennameabcdef.ru/api/chats/${chatId}/messages`,
-        {message: get().currentMessage},
-      );
-      set(state => ({
-        messages: [...state.messages, response.data],
-        currentMessage: '',
-        isLoading: false,
-      }));
-    } catch (error) {
-      set({error: true, isLoading: false});
-    }
+  sendMessage: (chatId: number, authorId: number) => {
+    const message = get().currentMessage;
+    if (!message) return;
+
+    socket.emit('sendMessage', {chatId, message, authorId});
   },
 
-  deleteMessage: async (messageId: number) => {
-    set({isLoading: true, error: false});
-    try {
-      await axios.delete(
-        `https://domennameabcdef.ru/api/messages/${messageId}`,
-      );
-      set(state => ({
-        messages: state.messages.filter(msg => msg.id !== messageId),
-        isLoading: false,
-      }));
-    } catch (error) {
-      set({error: true, isLoading: false});
-    }
+  deleteMessage: (chatId: number, messageId: number) => {
+    socket.emit('deleteMessage', {chatId, messageId});
   },
 
-  editMessage: async (messageId: number, newContent: string) => {
-    set({isLoading: true, error: false});
-    try {
-      const response = await axios.put<IMessage>(
-        `https://domennameabcdef.ru/api/messages/${messageId}`,
-        {message: newContent},
-      );
-      set(state => ({
-        messages: state.messages.map(msg =>
-          msg.id === messageId ? response.data : msg,
-        ),
-        isLoading: false,
-      }));
-    } catch (error) {
-      set({error: true, isLoading: false});
-    }
+  editMessage: (chatId: number, messageId: number, message: string) => {
+    socket.emit('updateMessage', {chatId, messageId, message});
   },
 }));
