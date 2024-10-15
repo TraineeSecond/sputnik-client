@@ -30,11 +30,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   currentMessage: '',
   isLoading: false,
   error: false,
-
   skip: 0,
-
   wasScroll: false,
-
   updatingMessageId: null,
 
   setWasScroll: wasScroll => set({wasScroll}),

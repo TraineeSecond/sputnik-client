@@ -32,6 +32,7 @@ export const Chat = () => {
     setSkip,
     wasScroll,
     setWasScroll,
+    isLoading,
   } = useChatStore();
 
   const {user} = useUserStore();
@@ -42,14 +43,13 @@ export const Chat = () => {
 
   useEffect(() => {
     loadMessages(chatId);
-  }, [chatId]);
 
-  useEffect(() => {
-    if (!wasScroll && messages.length > 0) {
-      scrollToEnd();
-      setWasScroll(true);
-    }
-  }, [messages]);
+    return () => {
+      setMessages([]);
+      setSkip(0);
+      setWasScroll(false);
+    };
+  }, [chatId]);
 
   useEffect(() => {
     socket.emit('joinChat', chatId);
@@ -73,10 +73,15 @@ export const Chat = () => {
       socket.off('newMessage');
       socket.off('updatedMessage');
       socket.off('deletedMessage');
-      setSkip(0);
-      setMessages([]);
     };
-  }, [chatId]);
+  }, [messages]);
+
+  useEffect(() => {
+    if (!wasScroll && !isLoading && messages.length > 0) {
+      scrollToEnd();
+      setWasScroll(true);
+    }
+  }, [wasScroll, messages, isLoading]);
 
   const handleSendOrUpdate = () => {
     if (updatingMessageId) {
@@ -131,7 +136,9 @@ export const Chat = () => {
   };
 
   const scrollToEnd = () => {
-    listRef.current?.scrollToEnd({animated: true});
+    setTimeout(() => {
+      listRef.current?.scrollToEnd();
+    }, 0);
   };
 
   const handleScroll = async (event: any) => {
