@@ -3,6 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -12,7 +13,9 @@ import {
 import {useUserStore} from 'entities/user';
 import {useProductListingStore} from 'features/ProductListing';
 import {useSearchCatalogStore} from 'features/Search';
-import {Colors, TextStyles} from 'shared/libs/helpers';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {TrashIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Input} from 'shared/ui';
 import {CustomDropdown} from 'shared/ui/Dropdown/Dropdown';
@@ -41,7 +44,8 @@ export const NewProduct = () => {
       !currentProduct.name ||
       !currentProduct.description ||
       !currentProduct.price ||
-      !currentProduct.category
+      !currentProduct.category ||
+      !currentProduct.image
     ) {
       Alert.alert(t('Заполните все поля'));
       return;
@@ -73,16 +77,59 @@ export const NewProduct = () => {
     setCurrentProductField('category', value);
   };
 
-  // TODO: Добавление изображения
+  const handleImagePick = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1,
+      },
+      response => {
+        if (response.assets && response.assets.length > 0) {
+          const {uri} = response.assets[0];
+          if (uri) {
+            setCurrentProductField('image', uri);
+          }
+        }
+      },
+    );
+  };
+
+  const handleRemoveImage = () => {
+    setCurrentProductField('image', '');
+  };
+
+  const renderImageSection = () => {
+    return currentProduct.image ? (
+      <>
+        <TouchableOpacity
+          onPress={handleRemoveImage}
+          style={styles.removeIconContainer}>
+          <TrashIcon
+            fill={Colors.Gray500}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+        <Image
+          source={{uri: currentProduct.image}}
+          style={styles.imagePreview}
+        />
+      </>
+    ) : (
+      <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+        {t('Добавить изображение')}
+      </Text>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.content}>
-        <View style={styles.imageContainer}>
-          <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-            {t('Добавить изображение')}
-          </Text>
-        </View>
+        <TouchableOpacity
+          onPress={handleImagePick}
+          style={styles.imageContainer}>
+          {renderImageSection()}
+        </TouchableOpacity>
         <View style={styles.inputs}>
           <CustomDropdown
             data={categories}
