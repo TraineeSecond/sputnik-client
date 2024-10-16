@@ -18,7 +18,7 @@ export const SellerProducts = () => {
 
   const onRefresh = useCallback(async () => {
     setIsRefresh(true);
-    await Promise.all([fetchSellerProducts()]);
+    fetchSellerProducts();
     setIsRefresh(false);
   }, [fetchSellerProducts]);
 
@@ -41,6 +41,7 @@ export const SellerProducts = () => {
       reviewerscount,
       user: {name: sellerName, surname: sellerSurname},
     } = item;
+    const handlePress = () => handleProductPress(item);
 
     return (
       <ProductItem
@@ -53,7 +54,7 @@ export const SellerProducts = () => {
         reviewerscount={reviewerscount}
         sellerName={sellerName}
         sellerSurname={sellerSurname}
-        onPress={() => handleProductPress(item)}
+        onPress={handlePress}
         style={styles.productItem}
       />
     );
