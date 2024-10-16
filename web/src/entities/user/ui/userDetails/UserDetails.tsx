@@ -1,3 +1,4 @@
+import ProductList from 'entities/product/ui/productList/ProductList';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from 'shared/auth/model/authStore';
 
@@ -5,10 +6,12 @@ import {
   StyledButton,
   StyledDescriptions,
   StyledProfileSection,
+  StyledTitle,
 } from './UserDetails.styles';
 
 const UserDetails = () => {
   const { logout, user } = useAuthStore();
+
   const { t } = useTranslation();
   // TODO: переделать позже
   const handleLogout = () => {
@@ -39,17 +42,21 @@ const UserDetails = () => {
   ];
 
   return (
-    <StyledProfileSection>
-      <StyledDescriptions
-        layout='vertical'
-        title={t('Информация о пользователе')}
-        bordered
-        items={items}
-      />
-      <StyledButton type='primary' onClick={handleLogout}>
-        {t('Выйти')}
-      </StyledButton>
-    </StyledProfileSection>
+    <>
+      <StyledProfileSection>
+        <StyledTitle>{t('Ваши товары')}</StyledTitle>
+        <ProductList />
+        <StyledDescriptions
+          layout='vertical'
+          title={t('Информация о пользователе')}
+          bordered
+          items={items}
+        />
+        <StyledButton type='primary' onClick={handleLogout}>
+          {t('Выйти')}
+        </StyledButton>
+      </StyledProfileSection>
+    </>
   );
 };
 

@@ -69,5 +69,11 @@
   "Фильтры": "Filters",
   "Категория": "Category",
   "Выберите категорию товара": "Select a product category",
-  "без фильтров": "no filters"
+  "без фильтров": "no filters",
+  "добавление изображения": "add image",
+  "Загрузить изображение": "load image",
+  "загрузить новое изображение": "load new image",
+  "удалить это изображение": "delete this image",
+  "Ваши товары": "Your products",
+  "Подтвердить": "confirm"
 }
