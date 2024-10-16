@@ -18,6 +18,8 @@ type ChatItemProps = {
   productName: string;
   productPrice: number;
   productImage?: ImageOwn[];
+  lastMessage: string;
+  isUserMessage: boolean;
   onPress: () => void;
   onDelete: () => void;
 };
@@ -30,11 +32,13 @@ export const ChatItem = memo(
     productPrice,
     onPress,
     onDelete,
+    lastMessage,
+    isUserMessage,
   }: ChatItemProps) => {
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
         <View style={styles.imageContainer}>
-          {productImage ? (
+          {productImage && productImage[0]?.image ? (
             <Image
               source={{uri: productImage[0].image as string}}
               style={styles.image}
@@ -55,14 +59,19 @@ export const ChatItem = memo(
             {seller}
           </Text>
           <Text
-            style={TextStyles.span1.changeColor(Colors.Gray500)}
+            style={TextStyles.span1.changeColor(Colors.Black100)}
             numberOfLines={1}
             ellipsizeMode="tail">
-            {productName}
+            {productName} {productPrice} ₽
           </Text>
-          <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
-            {productPrice}
-          </Text>
+          {lastMessage && (
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={TextStyles.span1.changeColor(Colors.Gray500)}>
+              {isUserMessage ? 'Вы: ' : 'Продавец: '} {lastMessage}
+            </Text>
+          )}
         </View>
         <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
           <TrashIcon

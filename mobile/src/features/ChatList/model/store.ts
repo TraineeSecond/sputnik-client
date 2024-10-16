@@ -6,25 +6,41 @@ type ChatListStore = {
   chatList: Chat[];
   isLoading: boolean;
   error: boolean;
+  skip: number;
+  setSkip: (skip: number) => void;
+  setChatList: (chatList: Chat[]) => void;
   addChat: (productId: number) => Promise<void>;
   deleteChat: (chatId: number) => void;
   loadChats: (userId: number) => Promise<void>;
 };
 
-// TODO: Поменять на нормальные запросы
-
-export const useChatListStore = create<ChatListStore>(set => ({
+export const useChatListStore = create<ChatListStore>((set, get) => ({
   chatList: [],
   isLoading: false,
   error: false,
+  skip: 0,
+
+  setSkip: (skip: number) => set({skip}),
+
+  setChatList: (chatList: Chat[]) => set({chatList}),
 
   loadChats: async (userId: number) => {
     set({isLoading: true, error: false});
+    console.log('123123', get().skip);
     try {
       const response = await axios.get<Chat[]>(
-        `https://domennameabcdef.ru/api/${userId}/chats`,
+        `https://domennameabcdef.ru/api/${userId}/chats?take=20&skip=${
+          get().skip
+        }`,
       );
-      set({chatList: response.data, isLoading: false});
+      const newChats = response.data.filter(
+        newChat => !get().chatList.some(chat => chat.id === newChat.id),
+      );
+      set({
+        chatList: [...get().chatList, ...newChats],
+        isLoading: false,
+        skip: get().skip + newChats.length,
+      });
     } catch (error) {
       set({error: true, isLoading: false});
     }
