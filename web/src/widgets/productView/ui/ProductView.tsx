@@ -52,9 +52,8 @@ const ProductView = ({
   const { currentImage, setCurrentImage } = useProductViewStore();
   const discount = calculateDiscount(product.price, product.new_price);
   const { toggleShowChangeImageFormPopUp } = useChangeImageFormStore();
-  const { deleteProductImage, loadProductById, changeImagesProcess } =
-    useProductStore();
-
+  const { deleteProductImage, loadProductById, changeImagesProcess } = useProductStore();
+  
   const { t } = useTranslation();
 
   useEffect(() => {

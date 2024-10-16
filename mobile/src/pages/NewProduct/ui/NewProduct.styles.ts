@@ -54,4 +54,17 @@ export const NewProductStyles = StyleSheet.create({
     backgroundColor: Colors.Gray200,
     borderRadius: 10,
   },
+  imagePreview: {
+    width: '100%',
+    height: '100%',
+  },
+  removeIconContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    zIndex: 10,
+    padding: 6,
+    borderRadius: '100%',
+    backgroundColor: Colors.Black100Opacity20,
+  },
 });

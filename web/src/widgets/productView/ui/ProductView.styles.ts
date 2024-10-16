@@ -84,6 +84,6 @@ export const StyledRate = styled(Rate)`
   margin-bottom: 1rem;
 `;
 
-export const StyledButtom = styled(Button)``;
+export const StyledButton = styled(Button)``;
 
 export const StyledSpin = styled(Spin)``;

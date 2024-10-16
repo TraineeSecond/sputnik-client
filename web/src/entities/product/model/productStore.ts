@@ -63,7 +63,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       set({ products: data });
     } catch (error) {
       console.error(error);
-      set({ error: 'Ошибка при загрузке продуктов' }); // Добавлено состояние ошибки
+      set({ error: 'Ошибка при загрузке продуктов' });
     }
   },
 
@@ -101,6 +101,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
     set({ changeImagesProcess: false });
   },
+
   deleteProductImage: async (image: ProductImage) => {
     set({ changeImagesProcess: true });
     try {
