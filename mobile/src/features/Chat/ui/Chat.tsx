@@ -40,7 +40,6 @@ export const Chat = () => {
   const listRef = React.useRef<VirtualizedList<IMessage>>(null);
 
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
-  console.log(chatId);
   useEffect(() => {
     loadMessages(chatId);
 
