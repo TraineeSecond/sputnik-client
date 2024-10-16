@@ -8,11 +8,16 @@ export interface IMessage {
   message: string;
   authorId: number;
   author: User;
-  reactions: any;
+  reactions?: Reactions[];
   images?: any[];
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
+}
+
+export interface Reactions {
+  reaction: string;
+  count: number;
 }
 
 export interface Participant {

@@ -1,11 +1,18 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useMemo} from 'react';
-import {Alert, KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Text,
+  View,
+  VirtualizedList,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
+import {reactions} from 'shared/libs/helpers';
 import {ChatTextarea, Message} from 'shared/ui';
 import {io} from 'socket.io-client';
 
@@ -150,6 +157,7 @@ export const Chat = () => {
 
   return (
     <View style={styles.container}>
+      <Text>{reactions.smile}</Text>
       <KeyboardAvoidingView style={styles.messagesContainer}>
         <VirtualizedList
           ref={listRef}
