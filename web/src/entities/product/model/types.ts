@@ -1,3 +1,5 @@
+import { RcFile } from 'antd/es/upload';
+
 import { User } from 'shared/auth/model/types';
 
 export type FiltersResponse = string[];
@@ -7,13 +9,18 @@ export interface ProductState {
   product: Product | null;
   sortName: string;
   sortCategory: string;
+  sellerId: number | null;
   categories: string[];
   loadCategories: () => Promise<void>;
   setSortName: (name: string) => Promise<void>;
   setSortCategory: (category: string) => Promise<void>;
   loadProductById: (productId: number) => Promise<void>;
   loadProducts: () => Promise<void>;
+  setSellerId: (id: number | null) => Promise<void>;
+  addImageToProduct: (productId: number, image: RcFile) => Promise<void>;
+  deleteProductImage: (image: ProductImage) => Promise<void>;
   loadingProduct: boolean;
+  changeImagesProcess: boolean;
   error: string | null;
 }
 

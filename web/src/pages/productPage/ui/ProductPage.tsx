@@ -46,6 +46,7 @@ const ProductPage = () => {
         quantity={quantity}
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
+        userId={user?.id}
         isBuyer={isBuyer}
         loading={loading}
       />
