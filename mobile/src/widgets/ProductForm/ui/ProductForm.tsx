@@ -14,9 +14,9 @@ import {Product} from 'entities/product';
 import {ListingProduct} from 'features/ProductListing';
 import {useSearchCatalogStore} from 'features/Search';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {TrashIcon} from 'shared/icons';
+import {PlusIcon, TrashIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
-import {CustomDropdown, Input} from 'shared/ui';
+import {Carousel, CustomDropdown, Input} from 'shared/ui';
 
 import {ProductFormStyles as styles} from './ProductForm.styles';
 
@@ -78,7 +78,14 @@ export const ProductForm = ({
         if (response.assets && response.assets.length > 0) {
           const {uri} = response.assets[0];
           if (uri) {
-            setProduct({...product, image: uri});
+            if (mode === 'edit') {
+              setProduct({
+                ...product,
+                images: [...product.images, {id: uri, image: uri}],
+              });
+            } else if (mode === 'create') {
+              setProduct({...product, image: uri});
+            }
           }
         }
       },
@@ -94,8 +101,7 @@ export const ProductForm = ({
       !product.name ||
       !product.description ||
       !product.price ||
-      !product.category ||
-      !product.image
+      !product.category
     ) {
       Alert.alert(t('Заполните все поля'));
       return;
@@ -104,31 +110,50 @@ export const ProductForm = ({
   };
 
   const renderImageSection = () => {
-    return product.image ? (
-      <>
+    if (mode === 'create') {
+      return product.image ? (
+        <>
+          <TouchableOpacity
+            onPress={handleRemoveImage}
+            style={styles.iconContainer}>
+            <TrashIcon
+              fill={Colors.Gray500}
+              width={IconStyles.medium.width}
+              height={IconStyles.medium.height}
+            />
+          </TouchableOpacity>
+          <Image source={{uri: product.image}} style={styles.imagePreview} />
+        </>
+      ) : (
         <TouchableOpacity
-          onPress={handleRemoveImage}
-          style={styles.removeIconContainer}>
-          <TrashIcon
-            fill={Colors.Gray500}
-            width={IconStyles.medium.width}
-            height={IconStyles.medium.height}
-          />
+          onPress={handleImagePick}
+          style={styles.imageContainer}>
+          <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
+            {t('Добавить изображение')}
+          </Text>
         </TouchableOpacity>
-        <Image source={{uri: product.image}} style={styles.imagePreview} />
-      </>
-    ) : (
-      <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
-        {t('Добавить изображение')}
-      </Text>
-    );
+      );
+    } else if (mode === 'edit') {
+      return (
+        <>
+          <TouchableOpacity
+            onPress={handleImagePick}
+            style={styles.iconContainer}>
+            <PlusIcon
+              fill={Colors.Gray500}
+              width={IconStyles.large.width}
+              height={IconStyles.large.height}
+            />
+          </TouchableOpacity>
+          <Carousel images={[...product.images]} />
+        </>
+      );
+    }
   };
 
   return (
-    <ScrollView style={styles.content}>
-      <TouchableOpacity onPress={handleImagePick} style={styles.imageContainer}>
-        {renderImageSection()}
-      </TouchableOpacity>
+    <ScrollView style={styles.content} keyboardShouldPersistTaps="handled">
+      <View style={styles.imageContainer}>{renderImageSection()}</View>
       <View style={styles.inputs}>
         {mode === 'edit' && (
           <View>

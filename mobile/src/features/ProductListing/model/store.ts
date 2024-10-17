@@ -1,3 +1,5 @@
+import {ImageURISource} from 'react-native';
+
 import axios from 'axios';
 import {Product} from 'entities/product';
 import {create} from 'zustand';
@@ -11,6 +13,15 @@ export type ListingProduct = {
   image?: string;
 };
 
+export type EditingProduct = {
+  name: string;
+  description: string;
+  price: string;
+  category: string;
+  userId: number;
+  images?: {image: ImageURISource | number}[];
+};
+
 type ProductListingStore = {
   loading: boolean;
   error: string | null;
@@ -21,7 +32,7 @@ type ProductListingStore = {
   ) => void;
   clearProduct: () => void;
   addProduct: (product: ListingProduct) => Promise<void>;
-  updateProduct: (productId: number, product: ListingProduct) => Promise<void>;
+  updateProduct: (productId: number, product: EditingProduct) => Promise<void>;
 };
 
 export const useProductListingStore = create<ProductListingStore>(set => ({
@@ -76,7 +87,38 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
     }
   },
 
-  updateProduct: async (productId: number, product: ListingProduct) => {},
+  updateProduct: async (productId: number, product: EditingProduct) => {
+    //TODO: добавить изменения всего остального как появится запрос
+
+    set({loading: true, error: null});
+    const formData = new FormData();
+
+    if (product.images) {
+      product.images.forEach((image, index) => {
+        // console.log(image.image);
+        formData.append('image', {
+          uri: image.image,
+          name: `image${index + 1}.jpg`,
+          type: 'image/jpeg',
+        });
+      });
+    }
+
+    try {
+      await axios.post(
+        `https://domennameabcdef.ru/api/productimage/${productId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      set({loading: false});
+    } catch (error) {
+      set({error: 'Ошибка', loading: false});
+    }
+  },
 
   clearProduct: () =>
     set({

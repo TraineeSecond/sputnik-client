@@ -58,7 +58,7 @@ export const ProductFormStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  removeIconContainer: {
+  iconContainer: {
     position: 'absolute',
     bottom: 10,
     right: 10,

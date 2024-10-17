@@ -5,7 +5,7 @@ import {Alert, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {Product} from 'entities';
+import {useProductStore} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import {
   ListingProduct,
@@ -26,6 +26,8 @@ export const NewProduct = ({route}: NewProductProps) => {
   const {loading, addProduct, clearProduct, updateProduct} =
     useProductListingStore();
 
+  const {fetchProduct} = useProductStore();
+
   const {fetchSellerProducts} = useSellerProductsStore();
 
   const {user} = useUserStore();
@@ -45,12 +47,14 @@ export const NewProduct = ({route}: NewProductProps) => {
 
     if (product) {
       await updateProduct(product.id, productWithUserId);
+      await fetchProduct(product.id);
       Alert.alert(t('Продукт успешно обновлен'));
     } else {
       await addProduct(productWithUserId);
       Alert.alert(t('Продукт успешно добавлен'));
     }
     await fetchSellerProducts();
+
     handleGoBack();
     clearProduct();
   };
