@@ -11,6 +11,12 @@ export const DropdownStyles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 8,
   },
+  disabledDropdown: {
+    backgroundColor: Colors.Gray200,
+  },
+  disabledSelectedText: {
+    color: Colors.Gray500,
+  },
   icon: {
     marginRight: 5,
   },

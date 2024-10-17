@@ -6,6 +6,8 @@ export type ProductRouteParams = {product: Product};
 
 export type MessengerRouteParams = {chatId: number};
 
+export type NewProductRouteParams = {product?: Product};
+
 export type RootStackParamsList = {
   Main: NavigatorScreenParams<MainTabsStackParamsList>;
   Cart: undefined;
@@ -13,6 +15,7 @@ export type RootStackParamsList = {
   HomeTab: undefined;
   Product: ProductRouteParams;
   Messenger: MessengerRouteParams;
+  NewProduct: NewProductRouteParams;
 };
 
 export type MainTabsStackParamsList = {
@@ -42,6 +45,6 @@ export type ProfileStackParamsList = {
   ReviewsPoints: undefined;
   ChatList: undefined;
   SellerProducts: undefined;
-  NewProduct: undefined;
   Messenger: MessengerRouteParams;
+  NewProduct: NewProductRouteParams;
 };

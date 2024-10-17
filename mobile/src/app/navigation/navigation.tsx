@@ -2,7 +2,7 @@ import {createNavigationContainerRef} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
-import {Auth, Cart, Messenger, Product} from 'pages';
+import {Auth, Cart, Messenger, NewProduct, Product} from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation.tsx';
 import {Header} from 'widgets';
 
@@ -30,6 +30,13 @@ export const RootNavigator = () => {
       <RootStack.Screen
         name={Screens.PRODUCT}
         component={Product}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
+      <RootStack.Screen
+        name={Screens.NEWPRODUCT}
+        component={NewProduct}
         options={{
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}

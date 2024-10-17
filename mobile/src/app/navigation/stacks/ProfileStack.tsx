@@ -44,6 +44,7 @@ export const ProfileStackNavigator = () => {
       screen: Screens.PROFILE_TAB,
       params: {
         screen: Screens.NEWPRODUCT,
+        params: {},
       },
     });
   };

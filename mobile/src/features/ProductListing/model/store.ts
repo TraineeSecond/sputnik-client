@@ -21,6 +21,7 @@ type ProductListingStore = {
   ) => void;
   clearProduct: () => void;
   addProduct: (product: ListingProduct) => Promise<void>;
+  updateProduct: (productId: number, product: ListingProduct) => Promise<void>;
 };
 
 export const useProductListingStore = create<ProductListingStore>(set => ({
@@ -74,6 +75,8 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
       set({error: 'Ошибка', loading: false});
     }
   },
+
+  updateProduct: async (productId: number, product: ListingProduct) => {},
 
   clearProduct: () =>
     set({
