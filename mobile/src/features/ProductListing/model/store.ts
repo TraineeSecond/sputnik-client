@@ -88,36 +88,43 @@ export const useProductListingStore = create<ProductListingStore>(set => ({
   },
 
   updateProduct: async (productId: number, product: EditingProduct) => {
-    //TODO: добавить изменения всего остального как появится запрос
+    //TODO: пока что на бэке возможно только добавить картинки
+
+    // запрос идет по очереди пачкой добавить нельзя
 
     set({loading: true, error: null});
-    const formData = new FormData();
 
     if (product.images) {
-      product.images.forEach((image, index) => {
-        // console.log(image.image);
-        formData.append('image', {
-          uri: image.image,
-          name: `image${index + 1}.jpg`,
-          type: 'image/jpeg',
-        });
-      });
+      for (const [index, image] of product.images.entries()) {
+        const imageUri = image.image as string;
+
+        if (typeof imageUri === 'string' && imageUri.startsWith('file://')) {
+          const formData = new FormData();
+
+          formData.append('image', {
+            uri: imageUri,
+            name: `image${index + 1}.jpg`,
+            type: 'image/jpeg',
+          });
+
+          try {
+            await axios.post(
+              `https://domennameabcdef.ru/api/productimage/${productId}`,
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              },
+            );
+          } catch (error) {
+            set({error: `Ошибка`, loading: false});
+          }
+        }
+      }
     }
 
-    try {
-      await axios.post(
-        `https://domennameabcdef.ru/api/productimage/${productId}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );
-      set({loading: false});
-    } catch (error) {
-      set({error: 'Ошибка', loading: false});
-    }
+    set({loading: false});
   },
 
   clearProduct: () =>
