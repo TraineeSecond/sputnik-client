@@ -9,12 +9,12 @@ import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/index';
 import {
+  CubeIcon,
   FlagIcon,
   ForwardIcon,
   HistoryIcon,
   LogOutIcon,
   MessageIcon,
-  ProductIcon,
   ReviewIcon,
 } from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
@@ -46,8 +46,8 @@ export const Profile = () => {
     navigation.navigate(Screens.SETTINGS);
   };
 
-  const handleAddProduct = () => {
-    navigation.navigate(Screens.NEWPRODUCT);
+  const handleSellerProducts = () => {
+    navigation.navigate(Screens.SELLERPRODUCTS);
   };
 
   const handleChat = () => {
@@ -55,12 +55,14 @@ export const Profile = () => {
   };
 
   const renderSellerInterface = () => (
-    <MenuItem
-      title={t('Добавить продукт')}
-      accessoryLeft={ProductIcon}
-      accessoryRight={ForwardIcon}
-      onPress={handleAddProduct}
-    />
+    <>
+      <MenuItem
+        title={t('Мои продукты')}
+        accessoryLeft={CubeIcon}
+        accessoryRight={ForwardIcon}
+        onPress={handleSellerProducts}
+      />
+    </>
   );
 
   const renderBuyerInterface = () => (

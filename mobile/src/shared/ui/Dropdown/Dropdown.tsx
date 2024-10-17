@@ -6,9 +6,10 @@ import {DropdownStyles as styles} from './Dropdown.styles';
 
 type CustomDropdownProps = {
   data: string[];
+  disabled?: boolean;
   value: string | null;
-  onChange: (value: string) => void;
   placeholder?: string;
+  onChange: (value: string) => void;
 };
 
 export const CustomDropdown = ({
@@ -16,6 +17,7 @@ export const CustomDropdown = ({
   value,
   onChange,
   placeholder,
+  disabled = false,
 }: CustomDropdownProps) => {
   const formattedData = data.map(item => ({
     label: item,
@@ -24,9 +26,12 @@ export const CustomDropdown = ({
 
   return (
     <Dropdown
-      style={styles.dropdown}
+      style={[styles.dropdown, disabled && styles.disabledDropdown]}
       placeholderStyle={styles.placeholderStyle}
-      selectedTextStyle={styles.selectedTextStyle}
+      selectedTextStyle={[
+        styles.selectedTextStyle,
+        disabled && styles.disabledSelectedText,
+      ]}
       iconStyle={styles.iconStyle}
       data={formattedData}
       maxHeight={300}
@@ -37,6 +42,7 @@ export const CustomDropdown = ({
       onChange={item => {
         onChange(item.value);
       }}
+      disable={disabled}
     />
   );
 };

@@ -69,5 +69,9 @@
   "Ошибка при удалении чата": "Error deleting chat",
   "Удалить чат?": "Delete chat?",
   "Это действие невозможно отменить": "This action cannot be undone.",
-  "Введите сообщение": "Type message"
+  "Введите сообщение": "Type message",
+  "Продукт успешно обновлен": "Product successfully updated",
+  "Редактировать": "Edit",
+  "Сохранить изменения": "Save changes",
+  "Редактирование описания временно отключено": "Description editing is temporarily disabled"
 }

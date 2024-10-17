@@ -23,6 +23,7 @@ type InputType = {
   keyboardType?: KeyboardTypeOptions;
   onClear?: () => void;
   setValue: (text: string) => void;
+  disabled?: boolean;
 };
 
 export const Input = ({
@@ -37,9 +38,10 @@ export const Input = ({
   keyboardType = 'default',
   showClear = false,
   isPassword = false,
+  disabled = false,
 }: InputType) => {
   const handleChangeText = (value: string) => {
-    setValue(value);
+    if (!disabled) setValue(value);
   };
 
   return (
@@ -54,10 +56,14 @@ export const Input = ({
         autoCapitalize="none"
         placeholderTextColor={Colors.Gray500}
         onChangeText={handleChangeText}
+        editable={!disabled}
         style={[
           styles.input,
-          TextStyles.p1.changeColor(Colors.Black100),
+          TextStyles.p1.changeColor(
+            disabled ? Colors.Gray500 : Colors.Black100,
+          ),
           style,
+          disabled && styles.disabledInput,
         ]}
       />
       {value && showClear && (

@@ -6,6 +6,7 @@ import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {Category, Product} from 'entities';
 import {useUserStore} from 'entities/user';
 import {useSearchCatalogStore} from 'features/Search';
+import {useSellerProductsStore} from 'features/SellerProducts';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
@@ -24,6 +25,8 @@ export const Home = () => {
 
   const {getOrders} = useOrderStore();
 
+  const {fetchSellerProducts} = useSellerProductsStore();
+
   const {error, isLoading, categories, allProductList, fetchStartData} =
     useSearchCatalogStore();
 
@@ -36,6 +39,7 @@ export const Home = () => {
 
   useEffect(() => {
     getOrders(user.id, token);
+    user.role === 'seller' && fetchSellerProducts();
   }, [user.id, token]);
 
   const onRefresh = useCallback(async () => {
@@ -43,6 +47,7 @@ export const Home = () => {
       fetchStartData(),
       loadUserData(),
       getOrders(user.id, token),
+      user.role === 'seller' && fetchSellerProducts(),
     ]);
   }, [fetchStartData, loadUserData, getOrders]);
 

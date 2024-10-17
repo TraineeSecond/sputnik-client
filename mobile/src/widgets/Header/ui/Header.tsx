@@ -2,7 +2,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Text, TouchableOpacity, View} from 'react-native';
 
-import {ArrowBack, CartIcon, SearchIcon} from 'shared/icons';
+import {ArrowBack, CartIcon, PlusIcon, SearchIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {Input} from 'shared/ui';
 
@@ -14,6 +14,8 @@ type HeaderProps = {
   showCartButton?: boolean;
   showSearchInput?: boolean;
   searchText?: string;
+  showAddButton?: boolean;
+  onAddPress?: () => void;
   setSearchText?: (text: string) => void;
   onBackPress?: () => void;
   onCartPress?: () => void;
@@ -26,10 +28,12 @@ export const Header = ({
   showBackButton = false,
   showCartButton = false,
   showSearchInput = false,
+  showAddButton = false,
   searchText = '',
   setSearchText,
   onBackPress,
   onCartPress,
+  onAddPress,
   onSearch,
   onClearSearch,
 }: HeaderProps) => {
@@ -73,6 +77,16 @@ export const Header = ({
       {showCartButton && (
         <TouchableOpacity onPress={onCartPress}>
           <CartIcon
+            fill={IconStyles.medium.changeColor(Colors.Gray500).color}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+      )}
+
+      {showAddButton && (
+        <TouchableOpacity onPress={onAddPress}>
+          <PlusIcon
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
             width={IconStyles.medium.width}
             height={IconStyles.medium.height}

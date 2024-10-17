@@ -46,6 +46,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const {token, user} = useUserStore();
 
   const hideButton = user.role === 'seller';
+  const isAuthor = user.id === product.user.id;
 
   useEffect(() => {
     getReview(product.id, user.id);
@@ -183,6 +184,34 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     // тут будет redirect на чат с продавцом
   };
 
+  const handleEditProduct = () => {
+    navigation.navigate(Screens.NEWPRODUCT, {product});
+  };
+
+  const renderActionButton = () => {
+    if (isAuthor) {
+      return (
+        <Button
+          onPress={handleEditProduct}
+          status="primary"
+          style={styles.buttonRedirect}>
+          <Text>{t('Редактировать')}</Text>
+        </Button>
+      );
+    } else if (!hideButton) {
+      return (
+        <Button
+          onPress={handleGoToChat}
+          status="warning"
+          style={styles.buttonRedirect}>
+          <Text>{t('Перейти в чат')}</Text>
+        </Button>
+      );
+    } else {
+      return null;
+    }
+  };
+
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -299,12 +328,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
             )}
           </View>
         )}
-        <Button
-          onPress={handleGoToChat}
-          status="warning"
-          style={styles.buttonRedirect}>
-          <Text>{t('Перейти в чат')}</Text>
-        </Button>
+        {renderActionButton()}
       </View>
     </View>
   );
