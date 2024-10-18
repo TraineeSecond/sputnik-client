@@ -8,7 +8,7 @@ export interface IMessage {
   message: string;
   authorId: number;
   author: User;
-  reactions?: Reactions[];
+  reactions: Reactions[];
   images?: any[];
   createdAt: string;
   updatedAt: string;

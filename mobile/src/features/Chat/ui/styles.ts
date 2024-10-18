@@ -15,4 +15,11 @@ export const ChatStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
+  modalContainer: {
+    width: 320,
+    height: 800,
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 });

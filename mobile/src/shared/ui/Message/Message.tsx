@@ -1,16 +1,29 @@
 import React, {memo} from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Pressable, Text, TouchableOpacity, View} from 'react-native';
+
+import {Reactions} from 'entities';
+import {emoji} from 'shared/libs/helpers';
 
 import {MessageStyles as styles} from './Message.styles';
 
 type MessageProps = {
   message: string;
   isCurrentUser: boolean;
+  reactions: Reactions[];
   onLongPress: () => void;
+  setSelectedReaction: (value: string) => void;
+  onSendReaction: () => void;
 };
 
 export const Message = memo(
-  ({message, isCurrentUser, onLongPress}: MessageProps) => {
+  ({
+    message,
+    isCurrentUser,
+    onLongPress,
+    reactions,
+    onSendReaction,
+    setSelectedReaction,
+  }: MessageProps) => {
     return (
       <View
         style={[
@@ -36,6 +49,17 @@ export const Message = memo(
             ]}>
             {message}
           </Text>
+
+          <TouchableOpacity
+            onPress={onSendReaction}
+            style={styles.reactionsContainer}>
+            {reactions.map((reaction, ix) => (
+              <Text key={ix}>
+                {emoji[reaction.reaction as keyof typeof emoji]}{' '}
+                {reaction.count}
+              </Text>
+            ))}
+          </TouchableOpacity>
         </Pressable>
       </View>
     );

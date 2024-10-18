@@ -1,5 +1,5 @@
-export enum reactions {
-  smile = '😀',
+export enum emoji {
+  smileFace = '😀',
   cross = '✖︎',
   ok = '✔︎',
 }
