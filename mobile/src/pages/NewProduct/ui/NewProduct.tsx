@@ -18,11 +18,11 @@ import {ProductForm} from 'widgets';
 import {NewProductStyles as styles} from './NewProduct.styles';
 
 type NewProductProps = {
-  route: RouteProp<RootStackParamsList, Screens.NEWPRODUCT>;
+  route?: RouteProp<RootStackParamsList, Screens.NEWPRODUCT>;
 };
 
 export const NewProduct = ({route}: NewProductProps) => {
-  const {product} = route.params || {};
+  const {product} = route?.params || {};
   const {loading, addProduct, clearProduct, updateProduct} =
     useProductListingStore();
 

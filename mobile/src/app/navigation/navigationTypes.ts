@@ -46,5 +46,5 @@ export type ProfileStackParamsList = {
   ChatList: undefined;
   SellerProducts: undefined;
   Messenger: MessengerRouteParams;
-  NewProduct: NewProductRouteParams;
+  NewProduct?: NewProductRouteParams;
 };
