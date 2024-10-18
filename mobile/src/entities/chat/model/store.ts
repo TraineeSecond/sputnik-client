@@ -15,11 +15,23 @@ type ChatStore = {
   error: boolean;
   skip: number;
   wasScroll: boolean;
+  selectedReaction: string;
+  modalVisible: boolean;
+  selectedMessageId: number;
+  setSelectedMessageId: (value: number) => void;
+  setModalVisible: (value: boolean) => void;
+  setSelectedReaction: (value: string) => void;
   setWasScroll: (value: boolean) => void;
   setSkip: (value: number) => void;
   setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
   sendMessage: (chatId: number, authorId: number) => void;
+  sendReaction: (
+    chatId: number,
+    userId: number,
+    messageId: number,
+    reaction: string,
+  ) => void;
   deleteMessage: (chatId: number, messageId: number) => void;
   editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
@@ -28,17 +40,26 @@ type ChatStore = {
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
   currentMessage: '',
+  selectedReaction: '',
   isLoading: false,
   error: false,
   skip: 0,
   wasScroll: false,
   updatingMessageId: null,
 
+  modalVisible: false,
+
+  selectedMessageId: 0,
+  setSelectedMessageId: value => set({selectedMessageId: value}),
+  setModalVisible: value => set({modalVisible: value}),
+
   setWasScroll: wasScroll => set({wasScroll}),
 
   setSkip: skip => set({skip}),
 
   setUpdatingMessageId: updatingMessageId => set({updatingMessageId}),
+
+  setSelectedReaction: value => set({selectedReaction: value}),
 
   setMessages: (messages: IMessage[]) => set({messages}),
 
@@ -72,6 +93,15 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     if (!message) return;
 
     socket.emit('sendMessage', {chatId, message, authorId});
+  },
+
+  sendReaction: (
+    chatId: number,
+    userId: number,
+    messageId: number,
+    reaction: string,
+  ) => {
+    socket.emit('sendReaction', {chatId, userId, messageId, reaction});
   },
 
   deleteMessage: (chatId: number, messageId: number) => {
