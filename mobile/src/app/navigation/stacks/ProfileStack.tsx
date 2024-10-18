@@ -8,6 +8,7 @@ import {
   Orders,
   Profile,
   ReviewsPoints,
+  SellerDashboard,
   Settings,
 } from 'pages';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
@@ -38,6 +39,24 @@ export const ProfileStackNavigator = () => {
     });
   };
 
+  const handleAddProduct = () => {
+    navigation.navigate(Stacks.MAIN, {
+      screen: Screens.PROFILE_TAB,
+      params: {
+        screen: Screens.NEWPRODUCT,
+      },
+    });
+  };
+
+  const handleGoSeller = () => {
+    navigation.navigate(Stacks.MAIN, {
+      screen: Screens.PROFILE_TAB,
+      params: {
+        screen: Screens.SELLERPRODUCTS,
+      },
+    });
+  };
+
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
@@ -51,7 +70,7 @@ export const ProfileStackNavigator = () => {
         name={Screens.NEWPRODUCT}
         component={NewProduct}
         options={{
-          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+          header: () => <Header showBackButton onBackPress={handleGoSeller} />,
         }}
       />
       <ProfileStack.Screen
@@ -80,6 +99,20 @@ export const ProfileStackNavigator = () => {
         component={ChatsList}
         options={{
           header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        }}
+      />
+      <ProfileStack.Screen
+        name={Screens.SELLERPRODUCTS}
+        component={SellerDashboard}
+        options={{
+          header: () => (
+            <Header
+              showBackButton
+              showAddButton
+              onAddPress={handleAddProduct}
+              onBackPress={handleGoBack}
+            />
+          ),
         }}
       />
       <ProfileStack.Screen
