@@ -15,12 +15,10 @@ type ChatStore = {
   error: boolean;
   skip: number;
   wasScroll: boolean;
-  selectedReaction: string;
   modalVisible: boolean;
   selectedMessageId: number;
   setSelectedMessageId: (value: number) => void;
   setModalVisible: (value: boolean) => void;
-  setSelectedReaction: (value: string) => void;
   setWasScroll: (value: boolean) => void;
   setSkip: (value: number) => void;
   setUpdatingMessageId: (value: number | null) => void;
@@ -40,7 +38,6 @@ type ChatStore = {
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
   currentMessage: '',
-  selectedReaction: '',
   isLoading: false,
   error: false,
   skip: 0,
@@ -58,8 +55,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   setSkip: skip => set({skip}),
 
   setUpdatingMessageId: updatingMessageId => set({updatingMessageId}),
-
-  setSelectedReaction: value => set({selectedReaction: value}),
 
   setMessages: (messages: IMessage[]) => set({messages}),
 

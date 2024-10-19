@@ -7,6 +7,9 @@ export const ChatStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.White100,
   },
+  centerText: {
+    textAlign: 'center',
+  },
   messagesContainer: {
     flex: 1,
     position: 'relative',
@@ -16,10 +19,31 @@ export const ChatStyles = StyleSheet.create({
     paddingVertical: 10,
   },
   modalContainer: {
-    width: 320,
-    height: 800,
+    backgroundColor: Colors.Gray200,
+    width: 350,
+    height: 550,
+    padding: 20,
+    borderRadius: 10,
+  },
+  emojiListContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 5,
+    paddingBottom: 20,
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  buttonsGroup: {
+    flexDirection: 'column',
+    paddingHorizontal: 10,
+  },
+  margin: {
+    marginBottom: 10,
+  },
+  reactionItem: {
+    width: 50,
+    height: 50,
   },
 });

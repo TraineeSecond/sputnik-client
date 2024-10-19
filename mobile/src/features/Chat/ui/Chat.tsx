@@ -1,6 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {Button, Card, Modal} from '@ui-kitten/components';
 import React, {useEffect, useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -15,7 +16,7 @@ import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
-import {emoji} from 'shared/libs/helpers';
+import {Colors, TextStyles, emoji} from 'shared/libs/helpers';
 import {ChatTextarea, Message} from 'shared/ui';
 import {io} from 'socket.io-client';
 
@@ -26,6 +27,8 @@ type ProductRouteProp = RouteProp<RootStackParamsList, Screens.MESSENGER>;
 const socket = io('http://domennameabcdef.ru:5555');
 
 export const Chat = () => {
+  const {t} = useTranslation();
+
   const route = useRoute<ProductRouteProp>();
   const {chatId} = route.params;
   const {
@@ -44,8 +47,6 @@ export const Chat = () => {
     setWasScroll,
     isLoading,
     sendReaction,
-    selectedReaction,
-    setSelectedReaction,
     modalVisible,
     setModalVisible,
     selectedMessageId,
@@ -145,29 +146,47 @@ export const Chat = () => {
       <Modal
         visible={modalVisible}
         backdropStyle={styles.backdrop}
+        style={styles.modalContainer}
         onBackdropPress={onBackdropPress}>
-        <Card disabled={true}>
-          <ScrollView>
-            <Text>Выберите действие</Text>
-            <View>
-              {emojiKeys.map(key => {
-                const handleSendReaction = () => {
-                  sendReaction(chatId, user.id, selectedMessageId, key);
-                  setModalVisible(false);
-                };
+        <Text
+          style={[
+            styles.centerText,
+            TextStyles.h2.changeColor(Colors.Black100),
+          ]}>
+          {t('Выберите реакцию')}
+        </Text>
 
-                return (
-                  <TouchableOpacity onPress={handleSendReaction}>
-                    <Text>{emoji[key]}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-            <Button onPress={handleUpdate}>Изменить</Button>
-            <Button onPress={handleDelete}>Удалить</Button>
-            <Button onPress={onBackdropPress}>Отмена</Button>
-          </ScrollView>
-        </Card>
+        <ScrollView contentContainerStyle={styles.emojiListContainer}>
+          {emojiKeys.map((reaction, ix) => {
+            const handleSendReaction = () => {
+              sendReaction(chatId, user.id, selectedMessageId, reaction);
+              setModalVisible(false);
+            };
+
+            return (
+              <TouchableOpacity
+                style={styles.reactionItem}
+                key={ix}
+                onPress={handleSendReaction}>
+                <Text style={TextStyles.reaction.changeColor(Colors.White100)}>
+                  {emoji[reaction]}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        <View style={styles.buttonsGroup}>
+          <Button style={styles.margin} onPress={handleUpdate}>
+            {t('Изменить')}
+          </Button>
+          <Button style={styles.margin} onPress={handleDelete}>
+            {t('Удалить')}
+          </Button>
+          <Button style={styles.margin} onPress={onBackdropPress}>
+            {t('Отмена')}
+          </Button>
+        </View>
       </Modal>
     );
   };
@@ -180,9 +199,9 @@ export const Chat = () => {
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === user.id;
     const handleLongPress = () => longPress(item.id);
-    console.log(item.id, item.reactions);
-    const onSendReaction = () =>
-      sendReaction(chatId, user.id, item.id, selectedReaction);
+    const onSendReaction = (reaction: string) => {
+      sendReaction(chatId, user.id, item.id, reaction);
+    };
     return (
       <>
         <Message
@@ -191,7 +210,6 @@ export const Chat = () => {
           onLongPress={handleLongPress}
           reactions={item.reactions}
           onSendReaction={onSendReaction}
-          setSelectedReaction={setSelectedReaction}
         />
       </>
     );

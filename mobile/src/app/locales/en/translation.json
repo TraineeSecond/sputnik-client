@@ -69,5 +69,7 @@
   "Ошибка при удалении чата": "Error deleting chat",
   "Удалить чат?": "Delete chat?",
   "Это действие невозможно отменить": "This action cannot be undone.",
-  "Введите сообщение": "Type message"
+  "Введите сообщение": "Type message",
+  "Выберите реакцию": "Select a reaction",
+  "Изменить": "Change"
 }

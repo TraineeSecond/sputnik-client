@@ -32,6 +32,7 @@ interface ITextStyle {
   h1: TextStyle;
   h2: TextStyle;
   h3: TextStyle;
+  reaction: TextStyle;
   button1: TextStyle;
   button2: TextStyle;
 }
@@ -76,6 +77,7 @@ export const TextStyles: ITextStyle = {
   h1: new TextStyle(26, '700', Colors.Blue100, 'Unbounded-Regular'),
   h2: new TextStyle(24, '700', Colors.Blue100, 'Unbounded-Regular'),
   h3: new TextStyle(22, '700', Colors.Blue100, 'Unbounded-Regular'),
+  reaction: new TextStyle(40, '700', Colors.Blue100, 'Unbounded-Regular'),
   button1: new TextStyle(16, '700', Colors.White100, 'Unbounded-SemiBold'),
   button2: new TextStyle(20, '700', Colors.Blue100, 'Unbounded-SemiBold'),
 };
