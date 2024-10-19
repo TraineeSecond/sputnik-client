@@ -111,7 +111,6 @@ export const Chat = () => {
   };
 
   const handleDeleteMessage = () => {
-    console.log(selectedMessageId);
     deleteMessage(chatId, selectedMessageId);
     closeloseModal();
   };
