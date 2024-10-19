@@ -13,6 +13,10 @@ export const InputStyles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
   },
+  disabledInput: {
+    backgroundColor: Colors.Gray200,
+    borderColor: Colors.Gray300,
+  },
   clearButton: {
     position: 'absolute',
     right: 10,

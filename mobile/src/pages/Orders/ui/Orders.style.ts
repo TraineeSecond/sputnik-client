@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const {width} = Dimensions.get('window');
 
 export const OrdersPageStyles = StyleSheet.create({
   container: {
@@ -7,9 +9,8 @@ export const OrdersPageStyles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   productItem: {
-    width: '46%',
-    margin: '2%',
-    marginBottom: 15,
+    width: width / 2 - 16,
+    margin: 8,
   },
   toptext: {
     textAlign: 'center',
