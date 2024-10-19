@@ -10,21 +10,23 @@ import {HeaderStyles as styles} from './Header.styles';
 
 type HeaderProps = {
   showTitle?: boolean;
+  searchText?: string;
+  hideBorder?: boolean;
+  showAddButton?: boolean;
   showBackButton?: boolean;
   showCartButton?: boolean;
   showSearchInput?: boolean;
-  searchText?: string;
-  showAddButton?: boolean;
+  onSearch?: () => void;
   onAddPress?: () => void;
-  setSearchText?: (text: string) => void;
   onBackPress?: () => void;
   onCartPress?: () => void;
-  onSearch?: () => void;
   onClearSearch?: () => void;
+  setSearchText?: (text: string) => void;
 };
 
 export const Header = ({
   showTitle,
+  hideBorder,
   showBackButton = false,
   showCartButton = false,
   showSearchInput = false,
@@ -39,7 +41,7 @@ export const Header = ({
 }: HeaderProps) => {
   const {t} = useTranslation();
   return (
-    <View style={[styles.container, !showCartButton && styles.border]}>
+    <View style={[styles.container, !hideBorder && styles.border]}>
       {showBackButton && (
         <TouchableOpacity onPress={onBackPress}>
           <ArrowBack
