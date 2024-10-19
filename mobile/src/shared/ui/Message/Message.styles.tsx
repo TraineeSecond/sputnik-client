@@ -42,4 +42,5 @@ export const MessageStyles = StyleSheet.create({
   messageTextRight: {
     color: Colors.White100,
   },
+  reactionsContainer: {},
 });
