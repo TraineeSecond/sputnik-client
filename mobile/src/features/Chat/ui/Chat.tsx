@@ -1,22 +1,12 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {Button, Card, Modal} from '@ui-kitten/components';
 import React, {useEffect, useMemo} from 'react';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  VirtualizedList,
-} from 'react-native';
+import {KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
-import {emoji} from 'shared/libs/helpers';
-import {ChatTextarea, Message} from 'shared/ui';
+import {ChatTextarea, Message, MessageActionsModal} from 'shared/ui';
 import {io} from 'socket.io-client';
 
 import {ChatStyles as styles} from './styles';
@@ -44,8 +34,6 @@ export const Chat = () => {
     setWasScroll,
     isLoading,
     sendReaction,
-    selectedReaction,
-    setSelectedReaction,
     modalVisible,
     setModalVisible,
     selectedMessageId,
@@ -118,59 +106,32 @@ export const Chat = () => {
     setCurrentMessage('');
   };
 
-  const handleDeleteMessage = (messageId: number) => {
-    deleteMessage(chatId, messageId);
+  const closeloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleDeleteMessage = () => {
+    deleteMessage(chatId, selectedMessageId);
+    closeloseModal();
+  };
+
+  const handleUpdate = () => {
+    const messageToEdit = messages.find(msg => msg.id === selectedMessageId);
+    if (messageToEdit) {
+      setCurrentMessage(messageToEdit.message);
+      setUpdatingMessageId(messageToEdit.id);
+    }
+    closeloseModal();
+  };
+
+  const onBackdropPress = () => closeloseModal();
+
+  const handleSendReaction = (reaction: string) => {
+    sendReaction(chatId, user.id, selectedMessageId, reaction);
+    closeloseModal();
   };
 
   const handleAttachFile = () => {};
-
-  const MessageActionsModal = () => {
-    const onBackdropPress = () => setModalVisible(false);
-    const handleDelete = () => {
-      handleDeleteMessage(selectedMessageId);
-      setModalVisible(false);
-    };
-
-    const handleUpdate = () => {
-      const messageToEdit = messages.find(msg => msg.id === selectedMessageId);
-      if (messageToEdit) {
-        setCurrentMessage(messageToEdit.message);
-        setUpdatingMessageId(messageToEdit.id);
-      }
-      setModalVisible(false);
-    };
-    const emojiKeys = Object.keys(emoji) as Array<keyof typeof emoji>;
-
-    return (
-      <Modal
-        visible={modalVisible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={onBackdropPress}>
-        <Card disabled={true}>
-          <ScrollView>
-            <Text>Выберите действие</Text>
-            <View>
-              {emojiKeys.map(key => {
-                const handleSendReaction = () => {
-                  sendReaction(chatId, user.id, selectedMessageId, key);
-                  setModalVisible(false);
-                };
-
-                return (
-                  <TouchableOpacity onPress={handleSendReaction}>
-                    <Text>{emoji[key]}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-            <Button onPress={handleUpdate}>Изменить</Button>
-            <Button onPress={handleDelete}>Удалить</Button>
-            <Button onPress={onBackdropPress}>Отмена</Button>
-          </ScrollView>
-        </Card>
-      </Modal>
-    );
-  };
 
   const longPress = (messageId: number) => {
     setModalVisible(true);
@@ -180,9 +141,9 @@ export const Chat = () => {
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === user.id;
     const handleLongPress = () => longPress(item.id);
-    console.log(item.id, item.reactions);
-    const onSendReaction = () =>
-      sendReaction(chatId, user.id, item.id, selectedReaction);
+    const onSendReaction = (reaction: string) => {
+      sendReaction(chatId, user.id, item.id, reaction);
+    };
     return (
       <>
         <Message
@@ -191,7 +152,6 @@ export const Chat = () => {
           onLongPress={handleLongPress}
           reactions={item.reactions}
           onSendReaction={onSendReaction}
-          setSelectedReaction={setSelectedReaction}
         />
       </>
     );
@@ -230,7 +190,13 @@ export const Chat = () => {
           onSendMessage={handleSendOrUpdate}
           onAttachFile={handleAttachFile}
         />
-        <MessageActionsModal />
+        <MessageActionsModal
+          modalVisible={modalVisible}
+          onBackdropPress={onBackdropPress}
+          handleDelete={handleDeleteMessage}
+          handleUpdate={handleUpdate}
+          sendReaction={handleSendReaction}
+        />
       </KeyboardAvoidingView>
     </View>
   );

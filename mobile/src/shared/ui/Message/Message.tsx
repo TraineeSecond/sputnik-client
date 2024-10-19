@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 
 import {Reactions} from 'entities';
-import {emoji} from 'shared/libs/helpers';
+import {Colors, TextStyles, emoji} from 'shared/libs/helpers';
 
 import {MessageStyles as styles} from './Message.styles';
 
@@ -11,8 +11,7 @@ type MessageProps = {
   isCurrentUser: boolean;
   reactions: Reactions[];
   onLongPress: () => void;
-  setSelectedReaction: (value: string) => void;
-  onSendReaction: () => void;
+  onSendReaction: (reaction: string) => void;
 };
 
 export const Message = memo(
@@ -22,7 +21,6 @@ export const Message = memo(
     onLongPress,
     reactions,
     onSendReaction,
-    setSelectedReaction,
   }: MessageProps) => {
     return (
       <View
@@ -49,17 +47,22 @@ export const Message = memo(
             ]}>
             {message}
           </Text>
-
-          <TouchableOpacity
-            onPress={onSendReaction}
-            style={styles.reactionsContainer}>
-            {reactions.map((reaction, ix) => (
-              <Text key={ix}>
-                {emoji[reaction.reaction as keyof typeof emoji]}{' '}
-                {reaction.count}
-              </Text>
-            ))}
-          </TouchableOpacity>
+          <View style={styles.reactionsContainer}>
+            {reactions.map((reaction, ix) => {
+              const onPress = () => onSendReaction(reaction.reaction);
+              return (
+                <TouchableOpacity
+                  key={ix}
+                  onPress={onPress}
+                  style={styles.reaction}>
+                  <Text style={TextStyles.span1.changeColor(Colors.White100)}>
+                    {emoji[reaction.reaction as keyof typeof emoji]}{' '}
+                    {reaction.count}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </Pressable>
       </View>
     );

@@ -21,6 +21,7 @@ export interface Reactions {
 }
 
 export interface Participant {
+  user: User;
   chatId: number;
   userId: number;
 }

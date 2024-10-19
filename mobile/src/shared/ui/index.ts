@@ -9,3 +9,4 @@ export * from './ChatItem/ChatItem';
 export * from './Message/Message';
 export * from './ChatTextarea/ChatTextarea';
 export * from './Dropdown/Dropdown';
+export * from './MessageActionsModal/MessageActionsModal';

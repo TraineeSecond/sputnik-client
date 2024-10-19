@@ -2,28 +2,16 @@ import {StyleSheet} from 'react-native';
 
 import {Colors} from 'shared/libs/helpers/colors';
 
-export const ChatStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.White100,
-  },
-  centerText: {
-    textAlign: 'center',
-  },
-  messagesContainer: {
-    flex: 1,
-    position: 'relative',
-  },
-  contentContainer: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  },
+export const MessageActionsModalStyles = StyleSheet.create({
   modalContainer: {
     backgroundColor: Colors.Gray200,
     width: 350,
     height: 550,
     padding: 20,
     borderRadius: 10,
+  },
+  centerText: {
+    textAlign: 'center',
   },
   emojiListContainer: {
     justifyContent: 'space-between',
