@@ -1,6 +1,6 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useMemo} from 'react';
-import {KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import {FlatList, KeyboardAvoidingView, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
@@ -42,8 +42,7 @@ export const Chat = () => {
 
   const {user} = useUserStore();
 
-  const listRef = React.useRef<VirtualizedList<IMessage>>(null);
-
+  const listRef = React.useRef<FlatList<IMessage>>(null);
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
   useEffect(() => {
     loadMessages(chatId);
@@ -173,14 +172,12 @@ export const Chat = () => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.messagesContainer}>
-        <VirtualizedList
+        <FlatList
           ref={listRef}
           data={reversedMessages}
           initialNumToRender={20}
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
-          getItemCount={data => data.length}
-          getItem={(data, index) => data[index]}
           contentContainerStyle={styles.contentContainer}
           onScroll={handleScroll}
         />
