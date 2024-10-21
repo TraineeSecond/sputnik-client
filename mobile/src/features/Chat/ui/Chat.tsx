@@ -17,7 +17,7 @@ const socket = io('http://domennameabcdef.ru:5555');
 
 export const Chat = () => {
   const route = useRoute<ProductRouteProp>();
-  const {chatId} = route.params;
+  const {chatId, productName, sellerName} = route.params;
   const {
     messages,
     currentMessage,

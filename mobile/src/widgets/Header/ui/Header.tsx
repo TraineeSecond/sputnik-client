@@ -16,6 +16,8 @@ type HeaderProps = {
   showBackButton?: boolean;
   showCartButton?: boolean;
   showSearchInput?: boolean;
+  productName?: string;
+  sellerName?: string;
   onSearch?: () => void;
   onAddPress?: () => void;
   onBackPress?: () => void;
@@ -27,6 +29,8 @@ type HeaderProps = {
 export const Header = ({
   showTitle,
   hideBorder,
+  sellerName,
+  productName,
   showBackButton = false,
   showCartButton = false,
   showSearchInput = false,
@@ -94,6 +98,17 @@ export const Header = ({
             height={IconStyles.medium.height}
           />
         </TouchableOpacity>
+      )}
+
+      {sellerName && productName && (
+        <View style={styles.marginRight}>
+          <Text style={TextStyles.p3.changeColor(Colors.Green500)}>
+            {sellerName}
+          </Text>
+          <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+            {productName}
+          </Text>
+        </View>
       )}
     </View>
   );

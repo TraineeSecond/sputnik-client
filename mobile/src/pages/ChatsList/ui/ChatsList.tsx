@@ -44,9 +44,12 @@ export const ChatsList = () => {
     );
   }, []);
 
-  const handleChatPress = useCallback((chatId: number) => {
-    navigation.navigate(Screens.MESSENGER, {chatId});
-  }, []);
+  const handleChatPress = useCallback(
+    (chatId: number, productName: string, sellerName: string) => {
+      navigation.navigate(Screens.MESSENGER, {chatId, productName, sellerName});
+    },
+    [navigation],
+  );
 
   const onRefresh = async () => {
     setChatList([]);
@@ -61,11 +64,13 @@ export const ChatsList = () => {
   };
 
   const renderChatItem = ({item}: {item: Chat}) => {
-    const handleDelete = () => handleDeleteChat(item.id);
-    const handlePress = () => handleChatPress(item.id);
     const seller = `${item.product.user.name} ${item.product.user.surname}`;
     const lastMessage = item?.messages[0]?.message;
     const isUserMessage = item?.messages[0]?.authorId === user.id;
+
+    const handleDelete = () => handleDeleteChat(item.id);
+    const handlePress = () =>
+      handleChatPress(item.id, item.product.name, seller);
 
     return (
       <ChatItem

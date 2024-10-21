@@ -28,4 +28,7 @@ export const HeaderStyles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: Colors.Gray200,
   },
+  marginRight: {
+    marginRight: '15%',
+  },
 });
