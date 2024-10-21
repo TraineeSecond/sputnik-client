@@ -101,7 +101,7 @@ export const Header = ({
       )}
 
       {sellerName && productName && (
-        <View style={styles.marginRight}>
+        <View style={styles.chatTitle}>
           <Text style={TextStyles.p3.changeColor(Colors.Green500)}>
             {sellerName}
           </Text>

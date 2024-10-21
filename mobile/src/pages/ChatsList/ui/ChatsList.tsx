@@ -64,25 +64,33 @@ export const ChatsList = () => {
   };
 
   const renderChatItem = ({item}: {item: Chat}) => {
-    const seller = `${item.product.user.name} ${item.product.user.surname}`;
+    const sellerParticipant = item.participants[0];
+    const buyerParticipant = item.participants[1];
+
+    const chatPartner =
+      user.role === 'buyer'
+        ? `${sellerParticipant.user.name} ${sellerParticipant.user.surname}`
+        : `${buyerParticipant.user.name} ${buyerParticipant.user.surname}`;
+
     const lastMessage = item?.messages[0]?.message;
-    const isUserMessage = item?.messages[0]?.authorId === user.id;
+    const isYourMessage = item?.messages[0]?.authorId === user.id;
 
     const handleDelete = () => handleDeleteChat(item.id);
     const handlePress = () =>
-      handleChatPress(item.id, item.product.name, seller);
+      handleChatPress(item.id, item.product.name, chatPartner);
 
     return (
       <ChatItem
+        viewBy={user.role}
         key={item.id.toString()}
         onDelete={handleDelete}
         onPress={handlePress}
         productImage={item.product?.images}
         productName={item.product.name}
         productPrice={item.product.price}
-        seller={seller}
+        chatPartner={chatPartner}
         lastMessage={lastMessage}
-        isUserMessage={isUserMessage}
+        isYourMessage={isYourMessage}
       />
     );
   };
