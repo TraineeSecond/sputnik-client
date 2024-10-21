@@ -1,4 +1,5 @@
 import { Rate } from 'antd';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const StyledCard = styled.div`
@@ -38,22 +39,6 @@ export const StyledRow = styled.div`
   padding: 0.5rem;
 `;
 
-export const StyledTitleLink = styled.a`
-  margin: 0;
-  overflow: hidden;
-  font-size: 1.15rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  color: black;
-  text-decoration: none;
-
-  &:hover {
-    color: blue;
-    text-decoration: none;
-  }
-`;
-
 export const StyledPriceSection = styled.div`
   display: flex;
   align-items: baseline;
@@ -77,7 +62,23 @@ export const StyledDiscount = styled.span`
   color: red;
 `;
 
-export const StyledImageLink = styled.a`
+export const StyledTitleLink = styled(Link)`
+  margin: 0;
+  overflow: hidden;
+  font-size: 1.15rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: blue;
+    text-decoration: none;
+  }
+`;
+
+export const StyledImageLink = styled(Link)`
   &:hover + ${StyledRow} ${StyledTitleLink} {
     color: blue;
     text-decoration: none;

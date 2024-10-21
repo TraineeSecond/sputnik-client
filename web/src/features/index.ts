@@ -2,3 +2,9 @@ export { default as ProductListingForm } from './productListing/ui/ProductListin
 export { default as AddToCartButton } from './cart/ui/addToCartButton/AddToCartButton';
 export { default as FilterForm } from './filters/ui/FilterForm';
 export { default as CartItem } from './cart/ui/cartItem/CartItem';
+export { default as Message } from './chat/ui/message/Message';
+export { default as MessageInput } from './chat/ui/messageInput/MessageInput';
+export { default as MessageList } from './chat/ui/messageList/MessageList';
+export { default as ChatList } from './chat/ui/chatList/ChatList';
+export { default as ChatListItem } from './chat/ui/chatListItem/ChatListItem';
+export { default as Chat } from './chat/ui/chat/Chat';

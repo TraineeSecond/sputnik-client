@@ -4,8 +4,11 @@ import { useProductStore } from 'entities/product/model/productStore';
 import { AddToCartButton } from 'features';
 import { useChangeImageFormStore } from 'features/changeImagesForm/model/changeImageForm';
 import ChangeImagesForm from 'features/changeImagesForm/ui/ChangeImagesForm';
+import { useChatStore } from 'features/chat/model/chatStore';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { calculateDiscount, formatPriceRub } from 'shared';
+import { useAuthStore } from 'shared/auth/model/authStore';
 
 import {
   StyledCarousel,
@@ -52,13 +55,29 @@ const ProductView = ({
   const { currentImage, setCurrentImage } = useProductViewStore();
   const discount = calculateDiscount(product.price, product.new_price);
   const { toggleShowChangeImageFormPopUp } = useChangeImageFormStore();
-  const { deleteProductImage, loadProductById, changeImagesProcess } = useProductStore();
-  
+  const { deleteProductImage, loadProductById, changeImagesProcess } =
+    useProductStore();
+  const navigate = useNavigate();
+  const { user, token } = useAuthStore();
+  const { startChatWithSeller } = useChatStore();
   const { t } = useTranslation();
 
   useEffect(() => {
     setCurrentImage(product.images[0] || null);
   }, [product.images, setCurrentImage]);
+
+  const handleWriteToSeller = async () => {
+    if (!product || !user || !token) return;
+    const chatId = await startChatWithSeller(
+      user.id,
+      product.userid,
+      token,
+      product.id,
+    );
+    if (chatId) {
+      navigate(`/chat/${chatId}`);
+    }
+  };
 
   const renderOldPriceAndDiscount = () => {
     if (product.price !== product.new_price) {
@@ -113,6 +132,17 @@ const ProductView = ({
     }
   };
 
+  const renderWriteToSellerButton = () => {
+    if (isBuyer && product.userid !== user?.id) {
+      return (
+        <StyledButton type='primary' onClick={handleWriteToSeller}>
+          {t('Чат с продавцом')}
+        </StyledButton>
+      );
+    }
+    return null;
+  };
+
   const handleCarouselChange = (current: number) => {
     setCurrentImage(product.images[current]);
   };
@@ -157,6 +187,7 @@ const ProductView = ({
             </StyledProductDetails>
             {renderAddToCartButton()}
             {renderImageChangeButtons()}
+            {renderWriteToSellerButton()}
           </StyledWrapper>
         </StyledProductContainer>
       </StyledProductView>
