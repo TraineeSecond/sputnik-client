@@ -75,5 +75,13 @@
   "загрузить новое изображение": "load new image",
   "удалить это изображение": "delete this image",
   "Ваши товары": "Your products",
-  "Подтвердить": "confirm"
+  "Подтвердить": "confirm",
+  "Пункт выдачи": "Pick-up point",
+  "выберите точку": "choose point",
+  "Дата заказа": "Order date",
+  "укажите дату": "choose date",
+  "Оформить доставку": "arrange delivery",
+  "Заказ": "Order",
+  "товары": "products",
+  "количество": "quantity"
 }

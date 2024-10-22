@@ -6,3 +6,4 @@ export { default as Register } from './register/ui/Register';
 export { default as Login } from './login/ui/Login';
 export { default as CreateListing } from './createListing/ui/CreateListing';
 export { default as ProductPage } from './productPage/ui/ProductPage';
+export { default as Delivery } from './delivery/ui/Delivery';

@@ -1,3 +1,4 @@
+import OrderList from 'entities/order/ui/OrderList/OrderList';
 import ProductList from 'entities/product/ui/productList/ProductList';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from 'shared/auth/model/authStore';
@@ -41,22 +42,32 @@ const UserDetails = () => {
     },
   ];
 
+  const ProductListRender = () => {
+    if (user?.role == 'seller') {
+      return <ProductList />;
+    }
+  };
+  const OrderListRender = () => {
+    if (user?.role == 'buyer') {
+      return <OrderList />;
+    }
+  };
+
   return (
-    <>
-      <StyledProfileSection>
-        <StyledTitle>{t('Ваши товары')}</StyledTitle>
-        <ProductList />
-        <StyledDescriptions
-          layout='vertical'
-          title={t('Информация о пользователе')}
-          bordered
-          items={items}
-        />
-        <StyledButton type='primary' onClick={handleLogout}>
-          {t('Выйти')}
-        </StyledButton>
-      </StyledProfileSection>
-    </>
+    <StyledProfileSection>
+      <StyledTitle>{t('Ваши товары')}</StyledTitle>
+      <ProductListRender />
+      <OrderListRender />
+      <StyledDescriptions
+        layout='vertical'
+        title={t('Информация о пользователе')}
+        bordered
+        items={items}
+      />
+      <StyledButton type='primary' onClick={handleLogout}>
+        {t('Выйти')}
+      </StyledButton>
+    </StyledProfileSection>
   );
 };
 

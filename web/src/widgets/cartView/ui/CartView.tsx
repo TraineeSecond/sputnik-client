@@ -3,6 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { CartItem } from 'features';
 import { useCartStore } from 'features/cart/model/cartStore';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from 'shared/auth/model/authStore';
 
 import {
@@ -28,11 +29,16 @@ const CartView = () => {
   } = useCartStore();
   const { token, user } = useAuthStore();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (items.length === 0) return;
     void loadCartDetails();
   }, [items, loadCartDetails]);
+
+  const goToDelivery = () => {
+    navigate('/delivery');
+  };
 
   const handleIncrement = useCallback(
     (productid: number) => {
@@ -100,7 +106,7 @@ const CartView = () => {
         <StyledTitle
           level={3}
         >{`${t('Общая сумма:')} ${getTotalPrice()} ₽`}</StyledTitle>
-        <StyledButton type='primary' size='large'>
+        <StyledButton onClick={goToDelivery} type='primary' size='large'>
           {t('Перейти к оплате')}
         </StyledButton>
       </StyledTotalContainer>
