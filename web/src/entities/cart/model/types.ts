@@ -1,4 +1,4 @@
-import { Product } from 'entities/product/model/types';
+import { IProduct } from 'entities/product/model/types';
 
 export type CartItemType = {
   productid: number;
@@ -13,4 +13,4 @@ export type CartResponse = {
   };
 };
 
-export type CartDetails = Record<number, Product>;
+export type CartDetails = Record<number, IProduct>;

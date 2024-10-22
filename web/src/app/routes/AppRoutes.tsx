@@ -6,6 +6,7 @@ import {
   ChatListPage,
   ChatPage,
   CreateListing,
+  Delivery,
   Home,
   Login,
   NotFound,
@@ -37,6 +38,9 @@ const AppRoutes = () => {
         {/* Маршруты для покупателей */}
         <Route element={<RoleBasedRoute allowedRoles={['buyer']} />}>
           <Route path='/cart' element={<Cart />} />
+        </Route>
+        <Route element={<RoleBasedRoute allowedRoles={['buyer']} />}>
+          <Route path='/delivery' element={<Delivery />} />
         </Route>
 
         {/* Маршруты для продавцов */}

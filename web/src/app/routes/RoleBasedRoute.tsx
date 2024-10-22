@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from 'shared/auth/model/authStore';
 
-import { UserRole } from 'shared/auth/model/types';
+import { TUserRole } from 'shared/auth/model/types';
 
 interface RoleBasedRouteProps {
-  allowedRoles: UserRole[];
+  allowedRoles: TUserRole[];
   redirectPath?: string;
 }
 

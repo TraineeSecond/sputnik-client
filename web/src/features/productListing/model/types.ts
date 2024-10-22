@@ -1,4 +1,4 @@
-export interface ListingProduct {
+export interface IListingProduct {
   name: string;
   description: string;
   price: number;
@@ -6,13 +6,13 @@ export interface ListingProduct {
   userId: number;
 }
 
-export interface ProductListingState {
+export interface IProductListingState {
   loading: boolean;
   error: string | null;
-  createProduct: (product: ListingProduct) => Promise<void>;
+  createProduct: (product: IListingProduct) => Promise<void>;
 }
 
-export interface CreateProductResponse {
+export interface ICreateProductResponse {
   id: number;
   description: string;
   category: string;

@@ -8,3 +8,4 @@ export { default as CreateListing } from './createListing/ui/CreateListing';
 export { default as ProductPage } from './productPage/ui/ProductPage';
 export { default as ChatPage } from './chatPage/ui/ChatPage';
 export { default as ChatListPage } from './chatListPage/ui/ChatListPage';
+export { default as Delivery } from './delivery/ui/Delivery';

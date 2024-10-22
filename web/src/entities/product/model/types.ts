@@ -1,12 +1,12 @@
 import { RcFile } from 'antd/es/upload';
 
-import { User } from 'shared/auth/model/types';
+import { IUser } from 'shared/auth/model/types';
 
-export type FiltersResponse = string[];
+export type TFiltersResponse = string[];
 
-export interface ProductState {
-  products: Product[];
-  product: Product | null;
+export interface IProductState {
+  products: IProduct[];
+  product: IProduct | null;
   sortName: string;
   sortCategory: string;
   sellerId: number | null;
@@ -18,19 +18,19 @@ export interface ProductState {
   loadProducts: () => Promise<void>;
   setSellerId: (id: number | null) => Promise<void>;
   addImageToProduct: (productId: number, image: RcFile) => Promise<void>;
-  deleteProductImage: (image: ProductImage) => Promise<void>;
+  deleteProductImage: (image: IProductImage) => Promise<void>;
   loadingProduct: boolean;
   changeImagesProcess: boolean;
   error: string | null;
 }
 
-export interface ProductImage {
+export interface IProductImage {
   id: number;
   image: string;
   productid: number;
 }
 
-export interface Product {
+export interface IProduct {
   id: number;
   description: string;
   category: string;
@@ -40,8 +40,8 @@ export interface Product {
   userid: number;
   rating: number;
   reviewerscount: number;
-  user: User;
-  images: ProductImage[];
+  user: IUser;
+  images: IProductImage[];
 }
 
-export type ProductsResponse = Product[];
+export type TProductsResponse = IProduct[];

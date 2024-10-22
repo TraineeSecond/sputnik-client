@@ -1,8 +1,8 @@
-export type Filter = string;
+export type TFilter = string;
 
-export type FiltersResponse = Filter[];
+export type TFiltersResponse = TFilter[];
 
-export interface FiltersState {
+export interface IFiltersState {
   showFilterPopUp: boolean;
   toggleShowFilterPopUp: () => void;
 }
