@@ -15,11 +15,21 @@ type ChatStore = {
   error: boolean;
   skip: number;
   wasScroll: boolean;
+  modalVisible: boolean;
+  selectedMessageId: number;
+  setSelectedMessageId: (value: number) => void;
+  setModalVisible: (value: boolean) => void;
   setWasScroll: (value: boolean) => void;
   setSkip: (value: number) => void;
   setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
   sendMessage: (chatId: number, authorId: number) => void;
+  sendReaction: (
+    chatId: number,
+    userId: number,
+    messageId: number,
+    reaction: string,
+  ) => void;
   deleteMessage: (chatId: number, messageId: number) => void;
   editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
@@ -33,6 +43,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   skip: 0,
   wasScroll: false,
   updatingMessageId: null,
+
+  modalVisible: false,
+
+  selectedMessageId: 0,
+  setSelectedMessageId: value => set({selectedMessageId: value}),
+  setModalVisible: value => set({modalVisible: value}),
 
   setWasScroll: wasScroll => set({wasScroll}),
 
@@ -72,6 +88,15 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     if (!message) return;
 
     socket.emit('sendMessage', {chatId, message, authorId});
+  },
+
+  sendReaction: (
+    chatId: number,
+    userId: number,
+    messageId: number,
+    reaction: string,
+  ) => {
+    socket.emit('sendReaction', {chatId, userId, messageId, reaction});
   },
 
   deleteMessage: (chatId: number, messageId: number) => {

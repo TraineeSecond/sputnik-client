@@ -42,4 +42,15 @@ export const MessageStyles = StyleSheet.create({
   messageTextRight: {
     color: Colors.White100,
   },
+  reactionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    gap: 10,
+    marginTop: 5,
+  },
+  reaction: {
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: Colors.Blue200,
+  },
 });

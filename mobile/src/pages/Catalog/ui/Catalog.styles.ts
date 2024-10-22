@@ -1,21 +1,21 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 import {Colors} from 'shared/libs/helpers/colors';
+
+const {width} = Dimensions.get('window');
 
 export const CatalogPageStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.White100,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   scrollView: {
     paddingVertical: 10,
   },
   productItem: {
-    width: '46%',
-    margin: '2%',
-    marginBottom: 15,
+    width: width / 2 - 16,
+    margin: 8,
   },
   filters: {
     justifyContent: 'center',

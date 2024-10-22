@@ -4,6 +4,7 @@ import {
   FilterOutlined,
   GlobalOutlined,
   HomeOutlined,
+  MessageOutlined,
   PlusOutlined,
   ShoppingOutlined,
   UserOutlined,
@@ -61,6 +62,10 @@ const Header = () => {
     navigate('/create-listing');
   };
 
+  const goToChat = () => {
+    navigate('/chat');
+  };
+
   return (
     <>
       <StyledContainer>
@@ -94,6 +99,13 @@ const Header = () => {
           icon={<GlobalOutlined />}
           aria-label={t('Сменить язык')}
           onClick={changeLanguage}
+        />
+
+        <StyledButton
+          size='large'
+          icon={<MessageOutlined />}
+          aria-label={t('Чат')}
+          onClick={goToChat}
         />
 
         <StyledButton

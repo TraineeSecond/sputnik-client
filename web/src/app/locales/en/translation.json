@@ -84,4 +84,12 @@
   "Заказ": "Order",
   "товары": "products",
   "количество": "quantity"
+  "Подтвердить": "confirm",
+  "Чат": "Chat",
+  "Чат с продавцом": "Chat with seller",
+  "Нет сообщений в этом чате": "No messages in this chat",
+  "Введите сообщение...": "Type your message...",
+  "Отправить": "Send",
+  "Чат успешно удален": "Chat successfully deleted",
+  "Ошибка при удалении чата": "Error deleting chat"
 }

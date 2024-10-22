@@ -3,6 +3,8 @@ import PublicRoute from 'app/routes/PublicRoute';
 import RoleBasedRoute from 'app/routes/RoleBasedRoute';
 import {
   Cart,
+  ChatListPage,
+  ChatPage,
   CreateListing,
   Delivery,
   Home,
@@ -29,6 +31,8 @@ const AppRoutes = () => {
         <Route path='/' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/product/:id' element={<ProductPage />} />
+        <Route path='/chat' element={<ChatListPage />} />
+        <Route path='/chat/:chatId' element={<ChatPage />} />
         <Route path='*' element={<NotFound />} />
 
         {/* Маршруты для покупателей */}
