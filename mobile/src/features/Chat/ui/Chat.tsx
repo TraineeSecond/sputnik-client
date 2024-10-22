@@ -20,6 +20,7 @@ export const Chat = () => {
   const {chatId} = route.params;
   const {
     messages,
+    sendingMessages,
     currentMessage,
     setCurrentMessage,
     loadMessages,
@@ -59,7 +60,8 @@ export const Chat = () => {
     socket.emit('joinChat', chatId);
 
     socket.on('newMessage', newMessage => {
-      setMessages([newMessage, ...messages]);
+      const messagesWithoutLast = messages.slice(1);
+      setMessages([newMessage, ...messagesWithoutLast]);
     });
 
     socket.on('updatedMessage', messageData => {
@@ -144,6 +146,9 @@ export const Chat = () => {
     const onSendReaction = (reaction: string) => {
       sendReaction(chatId, user.id, item.id, reaction);
     };
+
+    const isSending = !!sendingMessages[item.id];
+
     return (
       <>
         <Message
@@ -152,6 +157,7 @@ export const Chat = () => {
           onLongPress={handleLongPress}
           reactions={item.reactions}
           onSendReaction={onSendReaction}
+          isSending={isSending}
         />
       </>
     );

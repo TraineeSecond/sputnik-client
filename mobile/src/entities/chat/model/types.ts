@@ -13,6 +13,7 @@ export interface IMessage {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
+  isSending?: boolean;
 }
 
 export interface Reactions {

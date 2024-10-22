@@ -53,4 +53,8 @@ export const MessageStyles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.Blue200,
   },
+  statusIcon: {
+    position: 'relative',
+    right: 0,
+  },
 });
