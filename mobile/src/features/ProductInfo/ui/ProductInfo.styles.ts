@@ -33,11 +33,17 @@ export const ProductInfoStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: -10,
+    backgroundColor: 'blue',
+    maxWidth: '100%',
   },
   brandReviews: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    maxWidth: '100%',
+  },
+  shrink: {
+    flexShrink: 1,
   },
   score: {
     flexDirection: 'row',
