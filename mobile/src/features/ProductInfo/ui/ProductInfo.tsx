@@ -1,11 +1,14 @@
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Button} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
+import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {CartItemType, Product} from 'entities';
 import {useUserStore} from 'entities/user';
+import {useChatListStore} from 'features/ChatList';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
@@ -25,6 +28,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
 
+  const navigationChat =
+    useNavigation<NavigationProp<ProfileStackParamsList>>();
+
   const {orders, isProductOrdered} = useOrderStore();
   const {
     hasReview,
@@ -43,6 +49,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     decrementItem,
     getItemQuantity,
   } = useCartStore();
+
+  const {addChat} = useChatListStore();
+
   const {token, user} = useUserStore();
 
   const hideButton = user.role === 'seller';
@@ -75,6 +84,14 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const handleGoToCart = () => {
     navigation.navigate(Screens.CART);
+  };
+
+  const handleGoToChat = async () => {
+    const newChat = await addChat(product.id, [product.user.id, user.id]);
+    if (newChat) {
+      const chatId = newChat.id;
+      navigationChat.navigate(Screens.MESSENGER, {chatId});
+    }
   };
 
   const handleIncrementItem = () => {
@@ -147,7 +164,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     );
   };
 
-  //TODO: Отзывы если они будут добавлены
   const renderScore = () => {
     return (
       <View style={styles.score}>
@@ -178,10 +194,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const handleStarPress = (rating: number) => {
     setUserRating(rating);
-  };
-
-  const handleGoToChat = () => {
-    // тут будет redirect на чат с продавцом
   };
 
   const handleEditProduct = () => {

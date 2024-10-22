@@ -18,7 +18,7 @@ type CartItemProps = {
   title: string;
   price: number;
   quantity: number;
-  image: ImageSourcePropType;
+  images: ImageOwn[];
   onRemove: () => void;
   onIncrement: () => void;
   onDecrement: () => void;
@@ -29,7 +29,7 @@ export const CartItem = memo(
   ({
     id,
     title,
-    image,
+    images,
     price,
     quantity,
     onRemove,
@@ -46,17 +46,17 @@ export const CartItem = memo(
         <TouchableOpacity
           onPress={handleGoToProduct}
           style={styles.itemContent}>
-          {image ? (
+          {images && images[0]?.image ? (
             <Image
-              source={{uri: image as string}}
+              source={{uri: images[0].image as string}}
               style={styles.image}
-              resizeMode="cover"
             />
           ) : (
-            <Image
-              style={styles.image}
-              source={require('shared/assets/images/mock/tshirt.png')}
-            />
+            <View style={styles.noImage}>
+              <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+                {title}
+              </Text>
+            </View>
           )}
           <View style={styles.infoContainer}>
             <Text style={styles.productName} numberOfLines={1}>

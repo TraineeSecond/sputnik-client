@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+
 import {Colors} from '../../../shared/libs/helpers/colors';
 
 export const CartItemStyles = StyleSheet.create({
@@ -9,6 +10,15 @@ export const CartItemStyles = StyleSheet.create({
     marginVertical: 8,
     borderBottomWidth: 2,
     borderBottomColor: Colors.Gray100,
+  },
+  noImage: {
+    padding: 5,
+    width: 85,
+    height: 85,
+    borderRadius: 10,
+    marginRight: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   itemContent: {
     flexDirection: 'row',
