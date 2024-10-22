@@ -28,9 +28,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
 
-  const navigationChat =
-    useNavigation<NavigationProp<ProfileStackParamsList>>();
-
   const {orders, isProductOrdered} = useOrderStore();
   const {
     hasReview,
@@ -90,7 +87,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     const newChat = await addChat(product.id, [product.user.id, user.id]);
     if (newChat) {
       const chatId = newChat.id;
-      navigationChat.navigate(Screens.MESSENGER, {chatId});
+      navigation.navigate(Screens.MESSENGER, {chatId});
     }
   };
 
