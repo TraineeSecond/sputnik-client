@@ -95,10 +95,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     const message = get().currentMessage;
     if (!message) return;
 
-    // Генерируем временный отрицательный ID на основе текущего времени
     const tempMessageId = -Date.now();
 
-    // Получаем текущее состояние
     const currentMessages = get().messages;
     const currentSendingMessages = get().sendingMessages || {};
 
@@ -119,7 +117,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             name: '',
             surname: '',
           },
-          isSending: true, // Устанавливаем флаг отправки
+          isSending: true,
         },
         ...currentMessages,
       ],
