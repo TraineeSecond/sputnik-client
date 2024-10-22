@@ -26,6 +26,7 @@ export const SearchCatalog = ({
   const handleCategoryPress = useCallback(
     (category: string) => {
       setCategory(category);
+      fetchProducts();
     },
     [setCategory, fetchProducts],
   );
@@ -72,7 +73,6 @@ export const SearchCatalog = ({
 
   return (
     <Slider
-      isLoading={isLoading}
       data={categories}
       renderItem={renderCategoryItem}
       renderSkeleton={renderSkeletonCategory}

@@ -118,11 +118,16 @@ export const ProfileStackNavigator = () => {
       <ProfileStack.Screen
         name={Screens.MESSENGER}
         component={Messenger}
-        options={{
+        options={({route}) => ({
           header: () => (
-            <Header showBackButton onBackPress={handleGoChatList} />
+            <Header
+              showBackButton
+              onBackPress={handleGoChatList}
+              productName={route.params.productName}
+              sellerName={route.params.sellerName}
+            />
           ),
-        }}
+        })}
       />
     </ProfileStack.Navigator>
   );

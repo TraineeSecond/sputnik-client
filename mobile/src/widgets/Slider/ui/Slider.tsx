@@ -16,7 +16,7 @@ import {SliderStyles as styles} from './Slider.styles';
 
 type SliderProps = {
   title?: string;
-  isLoading: boolean;
+  isLoading?: boolean;
   data: Product[] | Category[];
   renderItem: ({item, index}: {item: any; index: number}) => ReactElement;
   renderSkeleton: (index: number) => ReactElement;

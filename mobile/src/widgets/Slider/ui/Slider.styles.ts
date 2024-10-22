@@ -15,7 +15,5 @@ export const SliderStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     paddingHorizontal: 10,
-    // overflow: 'scroll',
-    // баг c flatlist
   },
 });
