@@ -18,7 +18,7 @@ type CarouselProps = {
 
 export const Carousel = ({images}: CarouselProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const virtualizedListRef = useRef<VirtualizedList<ImageOwn>>(null);
+  const flatListRef = useRef<FlatList<ImageOwn>>(null);
 
   const screenWidth = Dimensions.get('window').width;
 
@@ -46,8 +46,8 @@ export const Carousel = ({images}: CarouselProps) => {
 
   return (
     <View style={styles.carousel}>
-      <VirtualizedList
-        ref={virtualizedListRef}
+      <FlatList
+        ref={flatListRef}
         data={images}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
@@ -60,8 +60,6 @@ export const Carousel = ({images}: CarouselProps) => {
         initialNumToRender={1}
         maxToRenderPerBatch={1}
         windowSize={2}
-        getItemCount={data => data.length}
-        getItem={(data, index) => data[index]}
       />
       <View style={styles.dotsContainer}>
         {images.map((_, index) => (
