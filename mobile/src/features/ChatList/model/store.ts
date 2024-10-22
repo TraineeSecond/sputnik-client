@@ -9,7 +9,7 @@ type ChatListStore = {
   skip: number;
   setSkip: (skip: number) => void;
   setChatList: (chatList: Chat[]) => void;
-  addChat: (productId: number) => Promise<void>;
+  addChat: (productId: number, userIds: number[]) => Promise<Chat | null>;
   deleteChat: (chatId: number) => void;
   loadChats: (userId: number) => Promise<void>;
 };
@@ -45,19 +45,32 @@ export const useChatListStore = create<ChatListStore>((set, get) => ({
     }
   },
 
-  addChat: async (productId: number) => {
+  addChat: async (productId: number, userIds: number[]) => {
     set({isLoading: true, error: false});
     try {
       const response = await axios.post<Chat>(
         'https://domennameabcdef.ru/api/chats',
-        {productId},
+        {productId, userIds},
       );
-      set(state => ({
-        chatList: [...state.chatList, response.data],
-        isLoading: false,
-      }));
+
+      set(state => {
+        const chatExists = state.chatList.some(
+          chat => chat.id === response.data.id,
+        );
+
+        if (chatExists) {
+          return {isLoading: false};
+        }
+
+        return {
+          chatList: [response.data, ...state.chatList],
+          isLoading: false,
+        };
+      });
+      return response.data;
     } catch (error) {
       set({error: true, isLoading: false});
+      return null;
     }
   },
 

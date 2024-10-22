@@ -1,5 +1,12 @@
 import React, {useRef, useState} from 'react';
-import {Dimensions, FlatList, Image, View, ViewToken} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  View,
+  ViewToken,
+  VirtualizedList,
+} from 'react-native';
 
 import {ImageOwn} from 'entities/product';
 
