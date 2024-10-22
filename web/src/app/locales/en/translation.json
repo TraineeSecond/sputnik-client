@@ -75,7 +75,6 @@
   "загрузить новое изображение": "load new image",
   "удалить это изображение": "delete this image",
   "Ваши товары": "Your products",
-  "Подтвердить": "confirm",
   "Пункт выдачи": "Pick-up point",
   "выберите точку": "choose point",
   "Дата заказа": "Order date",
@@ -83,7 +82,7 @@
   "Оформить доставку": "arrange delivery",
   "Заказ": "Order",
   "товары": "products",
-  "количество": "quantity"
+  "количество": "quantity",
   "Подтвердить": "confirm",
   "Чат": "Chat",
   "Чат с продавцом": "Chat with seller",
