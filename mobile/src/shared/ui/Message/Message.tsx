@@ -1,7 +1,9 @@
+import {Spinner} from '@ui-kitten/components';
 import React, {memo, useCallback} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 
 import {Reactions} from 'entities';
+import {CheckIcon} from 'shared/icons';
 import {Colors, TextStyles, emoji} from 'shared/libs/helpers';
 
 import {MessageStyles as styles} from './Message.styles';
@@ -12,6 +14,7 @@ type MessageProps = {
   reactions: Reactions[];
   onLongPress: () => void;
   onSendReaction: (reaction: string) => void;
+  isSending: boolean;
 };
 
 export const Message = memo(
@@ -21,6 +24,7 @@ export const Message = memo(
     onLongPress,
     reactions,
     onSendReaction,
+    isSending,
   }: MessageProps) => {
     return (
       <View
@@ -62,6 +66,11 @@ export const Message = memo(
                 </TouchableOpacity>
               );
             })}
+            {isCurrentUser && (
+              <View style={styles.statusIcon}>
+                {isSending ? <Spinner /> : <CheckIcon />}
+              </View>
+            )}
           </View>
         </Pressable>
       </View>
