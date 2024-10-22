@@ -31,10 +31,10 @@ import { StyledButton } from 'features/productListing/ui/ProductListingForm.styl
 
 import { useProductViewStore } from '../model/ProductViewStore';
 
-import { Product } from 'entities/product/model/types';
+import { IProduct } from 'entities/product/model/types';
 
 type ProductViewProps = {
-  product: Product;
+  product: IProduct;
   quantity: number;
   onIncrement: () => void;
   onDecrement: () => void;

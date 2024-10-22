@@ -1,12 +1,12 @@
 import { api } from 'shared';
 import { create } from 'zustand';
 
-import { PointsResponse, PointsState } from './types';
+import { IPointsState, TPointsResponse } from './types';
 
-export const usePointsStore = create<PointsState>((set) => ({
+export const usePointsStore = create<IPointsState>((set) => ({
   points: [],
   loadPoints: async () => {
-    const { data } = await api.get<PointsResponse>('points');
+    const { data } = await api.get<TPointsResponse>('points');
     set({ points: data });
   },
 }));

@@ -1,27 +1,27 @@
 import { CartItemType } from 'entities/cart/model/types';
-import { Point } from 'entities/points/model/types';
-import { Product } from 'entities/product/model/types';
-import { User } from 'shared/auth/model/types';
+import { IPoint } from 'entities/points/model/types';
+import { IProduct } from 'entities/product/model/types';
+import { IUser } from 'shared/auth/model/types';
 
-export interface OrderItem {
+export interface IOrderItem {
   quantity: number;
-  product: Product;
+  product: IProduct;
 }
 
-export interface Order {
+export interface IOrder {
   id: number;
   userid: number;
   createdat: string;
   status: string;
   pointid: number | null;
-  point: Point | null;
+  point: IPoint | null;
   datestring: string | null;
-  orderitems: OrderItem[];
-  user: User;
+  orderitems: IOrderItem[];
+  user: IUser;
 }
 
-export interface OrdersState {
-  orders: Order[];
+export interface IOrdersState {
+  orders: IOrder[];
   addOrder: (
     cart: CartItemType[],
     pointid: number | null,
@@ -30,4 +30,4 @@ export interface OrdersState {
   loadOrders: () => Promise<void>;
 }
 
-export type OrdersResponse = Order[];
+export type TOrdersResponse = IOrder[];

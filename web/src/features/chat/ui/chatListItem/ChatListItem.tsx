@@ -14,12 +14,12 @@ import {
   StyledTitle,
 } from './ChatListItem.styles';
 
-import { Chat } from 'features/chat/model/types';
+import { IChat } from 'features/chat/model/types';
 
 const DEFAULT_AVATAR_TEXT = 'GOZON';
 
 interface ChatListItemProps {
-  chat: Chat;
+  chat: IChat;
   isSelected: boolean;
   handleChatSelect: (chatId: number) => void;
   handleChatDelete: (chatId: number) => Promise<void>;

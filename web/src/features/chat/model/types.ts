@@ -1,13 +1,13 @@
-import { Product } from 'entities/product/model/types';
-import { User } from 'shared/auth/model/types';
+import { IProduct } from 'entities/product/model/types';
+import { IUser } from 'shared/auth/model/types';
 
-export interface Image {
+export interface IImage {
   id: number;
   image: string;
   productId: number;
 }
 
-export interface ChatParticipant {
+export interface IChatParticipant {
   chatId: number;
   userId: number;
 }
@@ -22,18 +22,18 @@ export interface IMessage {
   deletedAt: string | null;
   reactions: string;
   images: [];
-  author: User;
+  author: IUser;
 }
 
-export interface Chat {
+export interface IChat {
   id: number;
   productId: number;
-  product: Product;
-  participants: ChatParticipant[];
+  product: IProduct;
+  participants: IChatParticipant[];
   messages: IMessage[];
 }
 
-export interface Pagination {
+export interface IPagination {
   skip: number;
   hasMoreMessages: boolean;
   isLoadingMessages: boolean;

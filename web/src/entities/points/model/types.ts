@@ -5,7 +5,7 @@ export interface Review {
   pointid: number;
 }
 
-export interface Point {
+export interface IPoint {
   id: number;
   name: string;
   rating: number;
@@ -16,9 +16,9 @@ export interface Point {
   reviews: Review[];
 }
 
-export interface PointsState {
-  points: Point[];
+export interface IPointsState {
+  points: IPoint[];
   loadPoints: () => Promise<void>;
 }
 
-export type PointsResponse = Point[];
+export type TPointsResponse = IPoint[];

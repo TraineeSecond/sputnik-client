@@ -2,17 +2,17 @@ import api from 'shared/api/api';
 import { Socket, io } from 'socket.io-client';
 import { create } from 'zustand';
 
-import { Chat, IMessage, Pagination } from './types';
+import { IChat, IMessage, IPagination } from './types';
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 const TAKE = 20;
 
 interface ChatState {
-  chats: Chat[];
+  chats: IChat[];
   socket: Socket | null;
   selectedChatId: number | null;
   messages: IMessage[];
-  pagination: Pagination;
+  pagination: IPagination;
   isChatsLoading: boolean;
   loadChats: (userId: number) => Promise<void>;
   setSelectedChatId: (chatId: number | null) => void;
@@ -40,7 +40,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   loadChats: async (userId) => {
     set({ isChatsLoading: true });
     try {
-      const response = await api.get<Chat[]>(`${userId}/chats`);
+      const response = await api.get<IChat[]>(`${userId}/chats`);
       set({ chats: response.data, isChatsLoading: false });
     } catch (error) {
       set({ isChatsLoading: false });
@@ -179,7 +179,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     const { setSelectedChatId } = get();
 
     try {
-      const response = await api.post<Chat>(
+      const response = await api.post<IChat>(
         '/chats',
         {
           productId,
@@ -192,7 +192,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
         },
       );
 
-      const newChat: Chat = response.data;
+      const newChat: IChat = response.data;
       setSelectedChatId(newChat.id);
       return newChat.id;
     } catch (error) {

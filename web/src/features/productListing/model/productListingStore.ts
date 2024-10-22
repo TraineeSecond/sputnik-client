@@ -2,20 +2,20 @@ import api from 'shared/api/api';
 import { create } from 'zustand';
 
 import {
-  CreateProductResponse,
-  ListingProduct,
-  ProductListingState,
+  ICreateProductResponse,
+  IListingProduct,
+  IProductListingState,
 } from './types';
 
-export const useProductListingStore = create<ProductListingState>((set) => ({
+export const useProductListingStore = create<IProductListingState>((set) => ({
   loading: false,
   error: null,
 
-  createProduct: async (product: ListingProduct) => {
+  createProduct: async (product: IListingProduct) => {
     set({ loading: true, error: null });
 
     try {
-      await api.post<CreateProductResponse>('/product', product);
+      await api.post<ICreateProductResponse>('/product', product);
       set({ loading: false });
     } catch (error) {
       console.error(error);

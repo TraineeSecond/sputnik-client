@@ -2,9 +2,9 @@ import { api } from 'shared';
 import { useAuthStore } from 'shared/auth/model/authStore';
 import { create } from 'zustand';
 
-import { OrdersResponse, OrdersState } from './types';
+import { IOrdersState, TOrdersResponse } from './types';
 
-export const useOrderStore = create<OrdersState>((set) => ({
+export const useOrderStore = create<IOrdersState>((set) => ({
   orders: [],
   addOrder: async (cart, pointId, dateString) => {
     const { user } = useAuthStore.getState();
@@ -17,7 +17,7 @@ export const useOrderStore = create<OrdersState>((set) => ({
   },
   loadOrders: async () => {
     const { user } = useAuthStore.getState();
-    const { data } = await api.get<OrdersResponse>(`orders/${user?.id}`);
+    const { data } = await api.get<TOrdersResponse>(`orders/${user?.id}`);
     set({ orders: data });
   },
 }));

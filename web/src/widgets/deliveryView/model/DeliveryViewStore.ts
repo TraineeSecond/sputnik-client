@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { DeliveryViewStore } from './types';
+import { IDeliveryViewStore } from './types';
 
-export const useDeliveryViewStore = create<DeliveryViewStore>((set) => ({
+export const useDeliveryViewStore = create<IDeliveryViewStore>((set) => ({
   selectedPointId: null,
   deliveryDate: null,
   setDeliveryDate: (deliveryDate) => {

@@ -2,11 +2,15 @@ import { jwtDecode } from 'jwt-decode';
 import api from 'shared/api/api';
 import { create } from 'zustand';
 
-import { AuthResponse, AuthState, JwtPayload } from 'shared/auth/model/types';
+import {
+  IAuthResponse,
+  IAuthState,
+  IJwtPayload,
+} from 'shared/auth/model/types';
 
-const decodeAndValidateToken = (token: string): JwtPayload | null => {
+const decodeAndValidateToken = (token: string): IJwtPayload | null => {
   try {
-    const payload = jwtDecode<JwtPayload>(token);
+    const payload = jwtDecode<IJwtPayload>(token);
 
     if (payload.id && payload.email && payload.name && payload.role) {
       return payload;
@@ -19,14 +23,14 @@ const decodeAndValidateToken = (token: string): JwtPayload | null => {
   }
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<IAuthState>((set) => ({
   token: localStorage.getItem('token'),
   user: null,
   isLoading: true,
 
   register: async (data) => {
     try {
-      const response = await api.post<AuthResponse>('/register', data);
+      const response = await api.post<IAuthResponse>('/register', data);
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
@@ -43,7 +47,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (email, password) => {
     try {
-      const response = await api.post<AuthResponse>('/login', {
+      const response = await api.post<IAuthResponse>('/login', {
         email,
         password,
       });

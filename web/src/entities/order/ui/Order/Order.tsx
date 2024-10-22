@@ -12,10 +12,10 @@ import {
   StyledText,
 } from './Order.style';
 
-import { OrderItem, Order as OrderType } from 'entities/order/model/types';
+import { IOrder, IOrderItem } from 'entities/order/model/types';
 
 interface OrderProps {
-  order: OrderType;
+  order: IOrder;
 }
 
 const Order = ({ order }: OrderProps) => {
@@ -63,7 +63,7 @@ const Order = ({ order }: OrderProps) => {
       <StyledList
         grid={{ gutter: 16, column: 6 }}
         dataSource={order.orderitems}
-        renderItem={(item: OrderItem) => (
+        renderItem={(item: IOrderItem) => (
           <StyledListItem>
             <StyledProductContainer>
               <StyledImg

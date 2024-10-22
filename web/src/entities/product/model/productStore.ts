@@ -3,14 +3,14 @@ import { api } from 'shared';
 import { create } from 'zustand';
 
 import {
-  FiltersResponse,
-  Product,
-  ProductImage,
-  ProductState,
-  ProductsResponse,
+  IProduct,
+  IProductImage,
+  IProductState,
+  TFiltersResponse,
+  TProductsResponse,
 } from './types';
 
-export const useProductStore = create<ProductState>((set, get) => ({
+export const useProductStore = create<IProductState>((set, get) => ({
   sortName: '',
   sortCategory: '',
   products: [],
@@ -23,7 +23,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
 
   loadCategories: async (): Promise<void> => {
     try {
-      const { data } = await api.get<FiltersResponse>('categories');
+      const { data } = await api.get<TFiltersResponse>('categories');
       set({ categories: data });
     } catch (error) {
       console.error(error);
@@ -52,7 +52,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   loadProducts: async (): Promise<void> => {
     try {
       const { sortName, sortCategory, sellerId } = get();
-      const res = await api.get<ProductsResponse>('products', {
+      const res = await api.get<TProductsResponse>('products', {
         params: {
           name: sortName,
           category: sortCategory,
@@ -70,7 +70,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   loadProductById: async (productId: number): Promise<void> => {
     try {
       set({ loadingProduct: true, error: null });
-      const res = await api.get<Product>('/product', {
+      const res = await api.get<IProduct>('/product', {
         params: { id: productId },
       });
       const { data } = res;
@@ -86,7 +86,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     const formData = new FormData();
     formData.append('image', image);
     try {
-      await api.post<Omit<ProductImage, 'productid'>>(
+      await api.post<Omit<IProductImage, 'productid'>>(
         '/productimage/' + productId,
         formData,
         {
@@ -102,7 +102,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     set({ changeImagesProcess: false });
   },
 
-  deleteProductImage: async (image: ProductImage) => {
+  deleteProductImage: async (image: IProductImage) => {
     set({ changeImagesProcess: true });
     try {
       await api.delete<string>('/productimage/' + image.id);

@@ -1,4 +1,4 @@
-export interface DeliveryViewStore {
+export interface IDeliveryViewStore {
   selectedPointId: number | null;
   deliveryDate: string | null;
   setSelectedPointId: (selectedPointId: number | null) => void;

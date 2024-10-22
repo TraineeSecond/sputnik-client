@@ -1,7 +1,7 @@
 import { Card, List, Typography } from 'antd';
 import styled from 'styled-components';
 
-import { OrderItem } from 'entities/order/model/types';
+import { IOrderItem } from 'entities/order/model/types';
 
 const { Text } = Typography;
 
@@ -17,7 +17,7 @@ export const StyledMainInfoContainer = styled.div`
 
 export const StyledText = styled(Text)``;
 
-export const StyledList = styled(List<OrderItem>)``;
+export const StyledList = styled(List<IOrderItem>)``;
 
 export const StyledListItem = styled(List.Item)``;
 
