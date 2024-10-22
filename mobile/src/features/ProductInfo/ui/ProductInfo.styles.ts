@@ -33,7 +33,6 @@ export const ProductInfoStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: -10,
-    backgroundColor: 'blue',
     maxWidth: '100%',
   },
   brandReviews: {
