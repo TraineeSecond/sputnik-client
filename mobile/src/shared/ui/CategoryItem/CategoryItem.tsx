@@ -25,6 +25,9 @@ export const CategoryItem = memo(
     return (
       <TouchableOpacity
         id={id}
+        accessible={true}
+        accessibilityLabel={title ? `Категория: ${title}` : 'Категория'}
+        accessibilityRole="button"
         onPress={onPress}
         style={styles.container}
         activeOpacity={1}>

@@ -145,6 +145,9 @@ export const Home = () => {
   return (
     <ScrollView
       style={styles.container}
+      accessible={true}
+      accessibilityLabel={t('Главная страница')}
+      accessibilityRole="scrollbar"
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
       }>
@@ -186,6 +189,7 @@ export const Home = () => {
           <Promo
             image={promoPictureSecond}
             style={styles.promo}
+
             // onPress={handlePromoPress}
           />
         </>

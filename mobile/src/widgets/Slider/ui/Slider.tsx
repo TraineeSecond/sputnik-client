@@ -35,13 +35,18 @@ export const Slider = ({
   const keyExtractor = (item: any, index: number) => index.toString();
 
   return (
-    <View style={StyleSheet.compose(styles.container, style)}>
+    <View
+      style={StyleSheet.compose(styles.container, style)}
+      accessible={true}
+      accessibilityLabel={title ? `Слайдер: ${title}` : 'Слайдер'}>
       {title && (
         <View style={styles.header}>
           <Text style={TextStyles.p2.changeColor(Colors.Black200)}>
             {title}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={`Посмотреть все ${title}`}>
             <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
               {t('Посмотреть все')}
             </Text>

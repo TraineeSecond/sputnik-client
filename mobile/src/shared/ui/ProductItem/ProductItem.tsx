@@ -124,11 +124,21 @@ export const ProductItem = memo(
     return (
       <TouchableOpacity
         onPress={onPress}
+        accessible={true}
+        accessibilityLabel={`Товар: ${name}. Цена: ${
+          hasDiscount ? `${newPrice} рублей, скидка` : `${price} рублей`
+        }. Рейтинг: ${rating} из 5. Отзывов: ${reviewerscount}`}
+        accessibilityRole="button"
         style={[styles.container, style]}
         activeOpacity={0.8}>
         <View style={styles.imageContainer}>
           {!hideButton && (
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel={
+                isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'
+              }
+              accessibilityRole="button"
               onPress={handleFavoritePress}
               style={styles.favoriteIcon}>
               {renderFavoriteIcon()}
