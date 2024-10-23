@@ -55,13 +55,17 @@ export const Chat = () => {
       setWasScroll(false);
     };
   }, [chatId]);
-
+  console.log(chatId);
   useEffect(() => {
     socket.emit('joinChat', chatId);
 
     socket.on('newMessage', newMessage => {
-      const messagesWithoutLast = messages.slice(1);
-      setMessages([newMessage, ...messagesWithoutLast]);
+      if (newMessage.authorId === user.id) {
+        const messagesWithoutLast = messages.slice(1);
+        setMessages([newMessage, ...messagesWithoutLast]);
+      } else {
+        setMessages([newMessage, ...messages]);
+      }
     });
 
     socket.on('updatedMessage', messageData => {

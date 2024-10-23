@@ -3,7 +3,7 @@ import React, {memo, useCallback} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 
 import {Reactions} from 'entities';
-import {CheckIcon} from 'shared/icons';
+import {CheckIcon, DoubleCheckIcon} from 'shared/icons';
 import {Colors, TextStyles, emoji} from 'shared/libs/helpers';
 
 import {MessageStyles as styles} from './Message.styles';
@@ -68,7 +68,8 @@ export const Message = memo(
             })}
             {isCurrentUser && (
               <View style={styles.statusIcon}>
-                {isSending ? <Spinner /> : <CheckIcon />}
+                {/* TODO:Попробвать такой же как и у реакций */}
+                {isSending ? <Spinner /> : <DoubleCheckIcon fill={'#8080FF'} />}
               </View>
             )}
           </View>

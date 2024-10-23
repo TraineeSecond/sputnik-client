@@ -12,14 +12,14 @@ export const MessageStyles = StyleSheet.create({
     borderTopLeftRadius: 0,
   },
   bubbleRight: {
-    backgroundColor: Colors.Green300,
+    backgroundColor: Colors.Green100Opacity30,
     borderTopRightRadius: 0,
   },
   backGroundChangeLeft: {
     backgroundColor: Colors.Gray100,
   },
   backGroundChangeRight: {
-    backgroundColor: Colors.Green500,
+    backgroundColor: Colors.Green100,
   },
   messageContainerLeft: {
     justifyContent: 'flex-start',
@@ -40,7 +40,7 @@ export const MessageStyles = StyleSheet.create({
     color: Colors.Black100,
   },
   messageTextRight: {
-    color: Colors.White100,
+    color: Colors.Black100,
   },
   reactionsContainer: {
     flexDirection: 'row',
