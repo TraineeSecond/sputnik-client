@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Text, View} from 'react-native';
 
 import {Colors, TextStyles} from 'shared/libs/helpers';
@@ -9,12 +10,16 @@ type ShowErrorProps = {
   textError: string;
 };
 
-export const ShowError = ({textError}: ShowErrorProps) => (
-  <View
-    style={styles.loaderContainer}
-    accessible={true}
-    accessibilityLabel={`Ошибка: ${textError}`}
-    accessibilityRole="alert">
-    <Text style={TextStyles.p1.changeColor(Colors.Red500)}>{textError}</Text>
-  </View>
-);
+export const ShowError = ({textError}: ShowErrorProps) => {
+  const {t} = useTranslation();
+
+  return (
+    <View
+      style={styles.loaderContainer}
+      accessible={true}
+      accessibilityLabel={t('Главная') + {textError}}
+      accessibilityRole="alert">
+      <Text style={TextStyles.p1.changeColor(Colors.Red500)}>{textError}</Text>
+    </View>
+  );
+};

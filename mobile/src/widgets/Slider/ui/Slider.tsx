@@ -38,7 +38,7 @@ export const Slider = ({
     <View
       style={StyleSheet.compose(styles.container, style)}
       accessible={true}
-      accessibilityLabel={title ? `Слайдер: ${title}` : 'Слайдер'}>
+      accessibilityLabel={t('Слайдер')}>
       {title && (
         <View style={styles.header}>
           <Text style={TextStyles.p2.changeColor(Colors.Black200)}>
@@ -46,7 +46,7 @@ export const Slider = ({
           </Text>
           <TouchableOpacity
             accessible={true}
-            accessibilityLabel={`Посмотреть все ${title}`}>
+            accessibilityLabel={t('Посмотреть все') + {title}}>
             <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
               {t('Посмотреть все')}
             </Text>
