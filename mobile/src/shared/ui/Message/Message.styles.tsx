@@ -25,6 +25,8 @@ export const MessageStyles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   messageContainerRight: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
   bubble: {
@@ -32,6 +34,10 @@ export const MessageStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 10,
+  },
+  messageContent: {
+    flexDirection: 'row', // Размещаем текст и иконку на одной линии
+    alignItems: 'center', // Выравнивание по вертикали
   },
   messageText: {
     fontSize: 16,
@@ -42,11 +48,22 @@ export const MessageStyles = StyleSheet.create({
   messageTextRight: {
     color: Colors.Black100,
   },
+  inlineStatusIcon: {
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: -7,
+    marginBottom: -5,
+  },
   reactionsContainer: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     gap: 10,
     marginTop: 5,
+  },
+  reactionsAndStatusContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   reaction: {
     padding: 5,
@@ -54,15 +71,16 @@ export const MessageStyles = StyleSheet.create({
     backgroundColor: Colors.Blue200,
   },
   statusIcon: {
-    //position: 'absolute',
-    //right: 5,
-    //bottom: 5,
+    marginLeft: 'auto',
+    marginTop: 10,
+    marginRight: -7,
+    marginBottom: -5,
   },
   spaceBetween: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: 10,
   },
 });

@@ -66,6 +66,12 @@ export const Chat = () => {
       } else {
         setMessages([newMessage, ...messages]);
       }
+      socket.emit('readMessages', {chatId: chatId, userId: user.id});
+      setMessages(
+        messages.map((msg: IMessage) =>
+          msg.authorId !== user.id ? {...msg, isRead: true} : msg,
+        ),
+      );
     });
 
     socket.on('updatedMessage', messageData => {
@@ -162,6 +168,7 @@ export const Chat = () => {
           reactions={item.reactions}
           onSendReaction={onSendReaction}
           isSending={isSending}
+          isRead={item.isRead}
         />
       </>
     );

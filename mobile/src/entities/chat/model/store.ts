@@ -118,6 +118,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             surname: '',
           },
           isSending: true,
+          isRead: false,
         },
         ...currentMessages,
       ],

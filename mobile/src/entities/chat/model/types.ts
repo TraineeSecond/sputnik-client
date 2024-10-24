@@ -14,6 +14,7 @@ export interface IMessage {
   updatedAt: string;
   deletedAt?: string;
   isSending?: boolean;
+  isRead: boolean;
 }
 
 export interface Reactions {
