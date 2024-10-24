@@ -15,6 +15,7 @@ type MessageProps = {
   onLongPress: () => void;
   onSendReaction: (reaction: string) => void;
   isSending: boolean;
+  isRead?: boolean;
 };
 
 export const Message = memo(
@@ -25,6 +26,7 @@ export const Message = memo(
     reactions,
     onSendReaction,
     isSending,
+    isRead,
   }: MessageProps) => {
     return (
       <View
@@ -51,25 +53,27 @@ export const Message = memo(
             ]}>
             {message}
           </Text>
-          <View style={styles.reactionsContainer}>
-            {reactions.map((reaction, ix) => {
-              const onPress = () => onSendReaction(reaction.reaction);
-              return (
-                <TouchableOpacity
-                  key={ix}
-                  onPress={onPress}
-                  style={styles.reaction}>
-                  <Text style={TextStyles.span1.changeColor(Colors.White100)}>
-                    {emoji[reaction.reaction as keyof typeof emoji]}{' '}
-                    {reaction.count}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+          <View style={styles.spaceBetween}>
+            <View style={styles.reactionsContainer}>
+              {reactions.map((reaction, ix) => {
+                const onPress = () => onSendReaction(reaction.reaction);
+                return (
+                  <TouchableOpacity
+                    key={ix}
+                    onPress={onPress}
+                    style={styles.reaction}>
+                    <Text style={TextStyles.span1.changeColor(Colors.White100)}>
+                      {emoji[reaction.reaction as keyof typeof emoji]}{' '}
+                      {reaction.count}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
             {isCurrentUser && (
               <View style={styles.statusIcon}>
                 {/* TODO:Попробвать такой же как и у реакций */}
-                {isSending ? <Spinner /> : <DoubleCheckIcon fill={'#8080FF'} />}
+                {isSending ? <Spinner /> : <CheckIcon fill={Colors.Blue200} />}
               </View>
             )}
           </View>

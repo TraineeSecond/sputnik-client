@@ -152,7 +152,7 @@ export const Chat = () => {
     };
 
     const isSending = !!sendingMessages[item.id];
-
+    console.log(item.id, item.message, item.reactions);
     return (
       <>
         <Message

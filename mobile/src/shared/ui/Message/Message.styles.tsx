@@ -54,7 +54,15 @@ export const MessageStyles = StyleSheet.create({
     backgroundColor: Colors.Blue200,
   },
   statusIcon: {
-    position: 'relative',
-    right: 0,
+    //position: 'absolute',
+    //right: 5,
+    //bottom: 5,
+  },
+  spaceBetween: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 10,
   },
 });
