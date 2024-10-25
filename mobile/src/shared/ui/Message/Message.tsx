@@ -86,7 +86,6 @@ export const Message = memo(
               ]}>
               {message}
             </Text>
-            {/* Если нет реакций и это сообщение текущего пользователя, иконка идет сразу после текста */}
             {reactions.length === 0 && isCurrentUser && (
               <View style={styles.inlineStatusIcon}>{renderIcon()}</View>
             )}
@@ -110,7 +109,6 @@ export const Message = memo(
                   );
                 })}
               </View>
-              {/* Индикатор статуса рядом с реакциями */}
               {isCurrentUser && (
                 <View style={styles.statusIcon}>{renderIcon()}</View>
               )}
