@@ -109,6 +109,7 @@ export const Chat = () => {
       socket.off('reactionUpdated');
       socket.off('deletedMessage');
       socket.off('readedMessages');
+      socket.off('messageError');
     };
   }, [messages]);
 
