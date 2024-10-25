@@ -14,6 +14,10 @@ type SearchStore = {
   isLoading: boolean;
   error: boolean;
   allProductList: Product[];
+  page: number;
+  pageSize: number;
+  setPage: (page: number) => void;
+  setPageSize: (pageSize: number) => void;
   setIsLoading: (value: boolean) => void;
   setCategory: (category: string) => void;
   setSearchText: (text: string) => void;
@@ -31,6 +35,8 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
   error: false,
   categories: [],
   allProductList: [],
+  page: 1,
+  pageSize: 10,
 
   setIsLoading: (value: boolean) => set({isLoading: value}),
 
@@ -51,8 +57,13 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
 
   setSearchText: text => set({searchText: text}),
 
+  setPage: (page: number) => set({page}),
+
+  setPageSize: (pageSize: number) => set({pageSize}),
+
   fetchProducts: async () => {
-    const {category, searchText} = get();
+    const {category, searchText, page, pageSize} = get();
+
     set({isLoading: true});
     try {
       const {data} = await axios.get<ProductsResponse>(
@@ -60,8 +71,9 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
         {
           params: {
             category: category,
-            // ...(category && {name: category}),
             ...(searchText && {name: searchText}),
+            ...(page && {page}),
+            ...(pageSize && {pageSize}),
           },
         },
       );
