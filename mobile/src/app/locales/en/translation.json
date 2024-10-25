@@ -76,5 +76,6 @@
   "Редактирование описания временно отключено": "Description editing is temporarily disabled",
   "Выберите реакцию": "Select a reaction",
   "Изменить": "Change",
-  "Перейти в чат": "Go to chat"
+  "Перейти в чат": "Go to chat",
+  "Ошибка отправки сообщения": "Error sending message"
 }

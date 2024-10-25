@@ -1,6 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {memo, useEffect, useMemo} from 'react';
-import {KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Alert, KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
@@ -16,6 +17,7 @@ type ProductRouteProp = RouteProp<RootStackParamsList, Screens.MESSENGER>;
 const socket = io('http://domennameabcdef.ru:5555');
 
 export const Chat = () => {
+  const {t} = useTranslation();
   const route = useRoute<ProductRouteProp>();
   const {chatId} = route.params;
   const {
@@ -57,7 +59,6 @@ export const Chat = () => {
       setWasScroll(false);
     };
   }, [chatId]);
-  console.log(chatId);
 
   useEffect(() => {
     socket.emit('joinChat', chatId);
@@ -78,6 +79,10 @@ export const Chat = () => {
         setMessages([newMessage, ...messages]);
         socket.emit('readMessages', {chatId, userId: user.id});
       }
+    });
+
+    socket.on('messageError', () => {
+      Alert.alert(t('Ошибка отправки сообщения'));
     });
 
     socket.on('updatedMessage', messageData => {
