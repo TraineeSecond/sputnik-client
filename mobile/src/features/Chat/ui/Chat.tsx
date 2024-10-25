@@ -1,5 +1,5 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {useEffect, useMemo} from 'react';
+import React, {memo, useEffect, useMemo} from 'react';
 import {KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
@@ -46,8 +46,10 @@ export const Chat = () => {
   const listRef = React.useRef<VirtualizedList<IMessage>>(null);
 
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
+
   useEffect(() => {
     loadMessages(chatId);
+    socket.emit('readMessages', {chatId, userId: user.id});
 
     return () => {
       setMessages([]);
@@ -56,8 +58,17 @@ export const Chat = () => {
     };
   }, [chatId]);
   console.log(chatId);
+
   useEffect(() => {
     socket.emit('joinChat', chatId);
+
+    socket.on('readedMessages', ({chatId, userId}) => {
+      setMessages(
+        messages.map((msg: IMessage) =>
+          msg.authorId === user.id ? {...msg, isRead: true} : msg,
+        ),
+      );
+    });
 
     socket.on('newMessage', newMessage => {
       if (newMessage.authorId === user.id) {
@@ -65,13 +76,8 @@ export const Chat = () => {
         setMessages([newMessage, ...messagesWithoutLast]);
       } else {
         setMessages([newMessage, ...messages]);
+        socket.emit('readMessages', {chatId, userId: user.id});
       }
-      socket.emit('readMessages', {chatId: chatId, userId: user.id});
-      setMessages(
-        messages.map((msg: IMessage) =>
-          msg.authorId !== user.id ? {...msg, isRead: true} : msg,
-        ),
-      );
     });
 
     socket.on('updatedMessage', messageData => {
@@ -98,6 +104,7 @@ export const Chat = () => {
       socket.off('updatedMessage');
       socket.off('reactionUpdated');
       socket.off('deletedMessage');
+      socket.off('readedMessages');
     };
   }, [messages]);
 
@@ -153,12 +160,12 @@ export const Chat = () => {
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === user.id;
     const handleLongPress = () => longPress(item.id);
+
     const onSendReaction = (reaction: string) => {
       sendReaction(chatId, user.id, item.id, reaction);
     };
 
     const isSending = !!sendingMessages[item.id];
-    console.log(item.id, item.message, item.reactions);
     return (
       <>
         <Message

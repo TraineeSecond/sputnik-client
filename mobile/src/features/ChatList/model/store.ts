@@ -41,6 +41,7 @@ export const useChatListStore = create<ChatListStore>((set, get) => ({
         skip: get().skip + newChats.length,
       });
     } catch (error) {
+      console.error(error);
       set({error: true, isLoading: false});
     }
   },
