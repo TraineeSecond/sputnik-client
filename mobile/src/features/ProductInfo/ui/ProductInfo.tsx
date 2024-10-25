@@ -265,12 +265,18 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
           <View style={styles.topSection}>
             <View style={styles.brandReviews}>
               <Text
-                style={TextStyles.p2.changeColor(Colors.Gray500)}
+                style={[TextStyles.p2.changeColor(Colors.Gray500)]}
                 ellipsizeMode="tail">
                 {product.category}
               </Text>
               {renderScore()}
-              <Text style={TextStyles.p2.changeColor(Colors.Gray500)}>
+              <Text
+                style={[
+                  TextStyles.p2.changeColor(Colors.Gray500),
+                  styles.shrink,
+                ]}
+                numberOfLines={1}
+                ellipsizeMode="tail">
                 {seller}
               </Text>
             </View>

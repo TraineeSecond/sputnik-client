@@ -75,7 +75,7 @@ export const Catalog = () => {
     <View style={styles.container}>
       <View style={styles.filters}>
         <SearchCatalog
-          isLoading={isLoading}
+          isLoading={isRefresh}
           categories={categories}
           category={category}
           setCategory={setCategory}

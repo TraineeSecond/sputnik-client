@@ -27,6 +27,8 @@ export const Home = () => {
 
   const {fetchSellerProducts} = useSellerProductsStore();
 
+  const {setCategory, fetchProducts} = useSearchCatalogStore();
+
   const {error, isLoading, categories, allProductList, fetchStartData} =
     useSearchCatalogStore();
 
@@ -62,16 +64,17 @@ export const Home = () => {
   };
 
   const handleCategoryPress = useCallback(
-    (title: string) => {
+    (category: string) => {
+      setCategory(category);
+      fetchProducts();
       navigation.navigate(Stacks.MAIN, {
         screen: Screens.CATALOG_TAB,
         params: {
           screen: Screens.CATALOG,
-          // title: переход на каталог с включенным фильтром
         },
       });
     },
-    [navigation],
+    [navigation, setCategory],
   );
 
   const renderCategoryItem = ({
