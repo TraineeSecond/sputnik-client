@@ -36,8 +36,8 @@ export const MessageStyles = StyleSheet.create({
     borderRadius: 10,
   },
   messageContent: {
-    flexDirection: 'row', // Размещаем текст и иконку на одной линии
-    alignItems: 'center', // Выравнивание по вертикали
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   messageText: {
     fontSize: 16,
