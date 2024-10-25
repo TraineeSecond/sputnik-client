@@ -27,7 +27,7 @@ export const CategoryItem = memo(
         id={id}
         onPress={onPress}
         style={styles.container}
-        activeOpacity={1}>
+        activeOpacity={0.5}>
         <View style={[styles.imageContainer, style]}>
           {image ? (
             <Image source={image} style={styles.image} />

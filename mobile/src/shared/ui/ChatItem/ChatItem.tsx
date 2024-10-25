@@ -14,27 +14,37 @@ import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {ChatItemStyles as styles} from './ChatItem.styles';
 
 type ChatItemProps = {
-  seller: string;
+  viewBy: string;
+  lastMessage: string;
   productName: string;
   productPrice: number;
+  chatPartner?: string;
+  isYourMessage: boolean;
   productImage?: ImageOwn[];
-  lastMessage: string;
-  isUserMessage: boolean;
   onPress: () => void;
   onDelete: () => void;
 };
 
 export const ChatItem = memo(
   ({
-    seller,
+    viewBy,
+    lastMessage,
+    chatPartner,
     productName,
     productImage,
     productPrice,
+    isYourMessage,
     onPress,
     onDelete,
-    lastMessage,
-    isUserMessage,
   }: ChatItemProps) => {
+    const renderLastMessage = () => {
+      if (viewBy === 'buyer') {
+        return `${isYourMessage ? 'Вы: ' : 'Продавец: '} ${lastMessage}`;
+      } else {
+        return `${isYourMessage ? 'Вы: ' : 'Покупатель: '} ${lastMessage}`;
+      }
+    };
+
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
         <View style={styles.imageContainer}>
@@ -56,7 +66,7 @@ export const ChatItem = memo(
             style={TextStyles.p1.changeColor(Colors.Black100)}
             numberOfLines={2}
             ellipsizeMode="tail">
-            {seller}
+            {chatPartner}
           </Text>
           <Text
             style={TextStyles.span1.changeColor(Colors.Black100)}
@@ -69,7 +79,7 @@ export const ChatItem = memo(
               numberOfLines={1}
               ellipsizeMode="tail"
               style={TextStyles.span1.changeColor(Colors.Gray500)}>
-              {isUserMessage ? 'Вы: ' : 'Продавец: '} {lastMessage}
+              {renderLastMessage()}
             </Text>
           )}
         </View>

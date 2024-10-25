@@ -10,21 +10,27 @@ import {HeaderStyles as styles} from './Header.styles';
 
 type HeaderProps = {
   showTitle?: boolean;
+  searchText?: string;
+  hideBorder?: boolean;
+  showAddButton?: boolean;
   showBackButton?: boolean;
   showCartButton?: boolean;
   showSearchInput?: boolean;
-  searchText?: string;
-  showAddButton?: boolean;
+  productName?: string;
+  sellerName?: string;
+  onSearch?: () => void;
   onAddPress?: () => void;
-  setSearchText?: (text: string) => void;
   onBackPress?: () => void;
   onCartPress?: () => void;
-  onSearch?: () => void;
   onClearSearch?: () => void;
+  setSearchText?: (text: string) => void;
 };
 
 export const Header = ({
   showTitle,
+  hideBorder,
+  sellerName,
+  productName,
   showBackButton = false,
   showCartButton = false,
   showSearchInput = false,
@@ -39,7 +45,7 @@ export const Header = ({
 }: HeaderProps) => {
   const {t} = useTranslation();
   return (
-    <View style={[styles.container, !showCartButton && styles.border]}>
+    <View style={[styles.container, !hideBorder && styles.border]}>
       {showBackButton && (
         <TouchableOpacity onPress={onBackPress}>
           <ArrowBack
@@ -92,6 +98,17 @@ export const Header = ({
             height={IconStyles.medium.height}
           />
         </TouchableOpacity>
+      )}
+
+      {sellerName && productName && (
+        <View style={styles.chatTitle}>
+          <Text style={TextStyles.p3.changeColor(Colors.Green500)}>
+            {sellerName}
+          </Text>
+          <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+            {productName}
+          </Text>
+        </View>
       )}
     </View>
   );

@@ -1,7 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {memo, useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import {Alert, FlatList, KeyboardAvoidingView, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
@@ -19,7 +19,7 @@ const socket = io('http://domennameabcdef.ru:5555');
 export const Chat = () => {
   const {t} = useTranslation();
   const route = useRoute<ProductRouteProp>();
-  const {chatId} = route.params;
+  const {chatId, productName, sellerName} = route.params;
   const {
     messages,
     sendingMessages,
@@ -45,8 +45,7 @@ export const Chat = () => {
 
   const {user} = useUserStore();
 
-  const listRef = React.useRef<VirtualizedList<IMessage>>(null);
-
+  const listRef = React.useRef<FlatList<IMessage>>(null);
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
 
   useEffect(() => {
@@ -202,14 +201,12 @@ export const Chat = () => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.messagesContainer}>
-        <VirtualizedList
+        <FlatList
           ref={listRef}
           data={reversedMessages}
           initialNumToRender={20}
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
-          getItemCount={data => data.length}
-          getItem={(data, index) => data[index]}
           contentContainerStyle={styles.contentContainer}
           onScroll={handleScroll}
         />

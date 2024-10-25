@@ -1,21 +1,21 @@
-export type UserRole = 'buyer' | 'seller';
+export type TUserRole = 'buyer' | 'seller';
 
-export interface User {
+export interface IUser {
   id: number;
   name: string;
   surname?: string;
   email: string;
-  role: UserRole;
+  role: TUserRole;
 }
 
-export interface JwtPayload extends User {
+export interface IJwtPayload extends IUser {
   iat: number;
   exp: number;
 }
 
-export interface AuthState {
+export interface IAuthState {
   token: string | null;
-  user: User | null;
+  user: IUser | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: {
@@ -23,13 +23,13 @@ export interface AuthState {
     surname: string;
     email: string;
     password: string;
-    role: UserRole;
+    role: TUserRole;
   }) => Promise<void>;
   logout: () => void;
   loadUserFromToken: () => void;
 }
 
-export interface AuthResponse {
+export interface IAuthResponse {
   token: string;
-  user: User;
+  user: IUser;
 }

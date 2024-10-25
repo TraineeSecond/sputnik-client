@@ -6,7 +6,7 @@ import {
   CartItemType,
   CartResponse,
 } from 'entities/cart/model/types';
-import { Product } from 'entities/product/model/types';
+import { IProduct } from 'entities/product/model/types';
 
 type CartStore = {
   items: CartItemType[];
@@ -73,7 +73,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
     try {
       const productPromises = itemsToFetch.map((item) =>
-        api.get<Product>(`/product`, { params: { id: item.productid } }),
+        api.get<IProduct>(`/product`, { params: { id: item.productid } }),
       );
 
       const productResponses = await Promise.all(productPromises);

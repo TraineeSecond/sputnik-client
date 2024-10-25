@@ -60,7 +60,7 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
         {
           params: {
             category: category,
-            ...(category && {name: category}),
+            // ...(category && {name: category}),
             ...(searchText && {name: searchText}),
           },
         },

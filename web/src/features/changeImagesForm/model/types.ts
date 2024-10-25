@@ -1,6 +1,6 @@
 import { RcFile } from 'antd/es/upload';
 
-export interface ChangeImageFormState {
+export interface IChangeImageFormState {
   showChangeImageFormPopUp: boolean;
   imagePreview: string | null;
   imageFile: RcFile | null;

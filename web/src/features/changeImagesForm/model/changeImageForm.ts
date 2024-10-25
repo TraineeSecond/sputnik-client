@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { ChangeImageFormState } from './types';
+import { IChangeImageFormState } from './types';
 
-export const useChangeImageFormStore = create<ChangeImageFormState>(
+export const useChangeImageFormStore = create<IChangeImageFormState>(
   (set, get) => ({
     showChangeImageFormPopUp: false,
     imagePreview: null,

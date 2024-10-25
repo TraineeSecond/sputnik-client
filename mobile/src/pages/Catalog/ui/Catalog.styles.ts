@@ -26,9 +26,7 @@ export const CatalogPageStyles = StyleSheet.create({
     elevation: 4,
   },
   skeleton: {
-    marginTop: 80,
     flex: 1,
-    height: 80,
-    width: 80,
+    justifyContent: 'center',
   },
 });

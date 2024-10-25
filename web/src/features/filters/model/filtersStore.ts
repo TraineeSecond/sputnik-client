@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-import { FiltersState } from './types';
+import { IFiltersState } from './types';
 
-export const useFiltersStore = create<FiltersState>((set, get) => ({
+export const useFiltersStore = create<IFiltersState>((set, get) => ({
   showFilterPopUp: false,
   toggleShowFilterPopUp: () => {
     set({ showFilterPopUp: !get().showFilterPopUp });
