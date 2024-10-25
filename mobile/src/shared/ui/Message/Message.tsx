@@ -3,7 +3,7 @@ import React, {memo, useCallback} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 
 import {Reactions} from 'entities';
-import {CheckIcon, DoubleCheckIcon} from 'shared/icons';
+import {AlertIcon, CheckIcon, DoubleCheckIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles, emoji} from 'shared/libs/helpers';
 
 import {MessageStyles as styles} from './Message.styles';
@@ -16,6 +16,7 @@ type MessageProps = {
   onSendReaction: (reaction: string) => void;
   isSending: boolean;
   isRead?: boolean;
+  hasError?: boolean;
 };
 
 export const Message = memo(
@@ -27,8 +28,19 @@ export const Message = memo(
     onSendReaction,
     isSending,
     isRead,
+    hasError,
   }: MessageProps) => {
     const renderIcon = () => {
+      if (hasError) {
+        return (
+          <AlertIcon
+            style={{
+              width: IconStyles.small.width,
+              height: IconStyles.small.height,
+            }}
+          />
+        );
+      }
       if (isSending)
         return (
           <Spinner

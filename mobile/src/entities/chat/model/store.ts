@@ -125,7 +125,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       sendingMessages: {...currentSendingMessages, [tempMessageId]: true},
     });
 
-    socket.emit('sendMessage', {chatId, message, authorId});
+    socket.emit('sendMessage', {chatId, message, authorId, tempMessageId});
   },
 
   sendReaction: (

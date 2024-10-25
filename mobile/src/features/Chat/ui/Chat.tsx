@@ -80,8 +80,13 @@ export const Chat = () => {
       }
     });
 
-    socket.on('messageError', () => {
+    socket.on('messageError', ({messageId}) => {
       Alert.alert(t('Ошибка отправки сообщения'));
+      setMessages(
+        messages.map(msg =>
+          msg.id === messageId ? {...msg, hasError: true} : msg,
+        ),
+      );
     });
 
     socket.on('updatedMessage', messageData => {
@@ -171,6 +176,8 @@ export const Chat = () => {
     };
 
     const isSending = !!sendingMessages[item.id];
+
+    const hasError = item?.hasError;
     return (
       <>
         <Message
@@ -181,6 +188,7 @@ export const Chat = () => {
           onSendReaction={onSendReaction}
           isSending={isSending}
           isRead={item.isRead}
+          hasError={hasError}
         />
       </>
     );

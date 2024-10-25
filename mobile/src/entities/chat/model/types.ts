@@ -15,6 +15,7 @@ export interface IMessage {
   deletedAt?: string;
   isSending?: boolean;
   isRead: boolean;
+  hasError?: boolean;
 }
 
 export interface Reactions {

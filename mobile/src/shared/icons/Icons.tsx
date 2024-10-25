@@ -74,3 +74,6 @@ export const CheckIcon = (props: any) => (
 export const DoubleCheckIcon = (props: any) => (
   <Icon {...props} name="done-all-outline" />
 );
+export const AlertIcon = (props: any) => (
+  <Icon {...props} name="alert-circle-outline" />
+);
