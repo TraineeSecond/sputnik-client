@@ -50,6 +50,18 @@ export const Catalog = () => {
     });
   };
 
+  const handleEndReached = () => {
+    if (!isPaginationLoading && hasMore && !isMomentumScroll) {
+      incrementPage();
+      fetchProducts();
+      setIsMomentumScroll(true);
+    }
+  };
+
+  const handleMomentumScrollBegin = () => {
+    setIsMomentumScroll(false);
+  };
+
   const renderProductItem = (item: Product) => {
     const {id, name, price, new_price, user, rating, reviewerscount, images} =
       item;
@@ -106,16 +118,8 @@ export const Catalog = () => {
           contentContainerStyle={styles.scrollView}
           initialNumToRender={10}
           onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (!isPaginationLoading && hasMore && !isMomentumScroll) {
-              incrementPage();
-              fetchProducts();
-              setIsMomentumScroll(true);
-            }
-          }}
-          onMomentumScrollBegin={() => {
-            setIsMomentumScroll(false);
-          }}
+          onEndReached={handleEndReached}
+          onMomentumScrollBegin={handleMomentumScrollBegin}
           ListFooterComponent={
             isPaginationLoading && !isRefresh ? (
               <ActivityIndicator size="large" color={Colors.Gray500} />
