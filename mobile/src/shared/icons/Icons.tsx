@@ -38,6 +38,9 @@ export const SearchIcon = (props: any) => (
 export const CloseIcon = (props: any) => (
   <Icon {...props} name="close-outline" />
 );
+export const CloseCircleIcon = (props: any) => (
+  <Icon {...props} name="close-circle-outline" />
+);
 export const ProductIcon = (props: any) => (
   <Icon {...props} name="gift-outline" />
 );

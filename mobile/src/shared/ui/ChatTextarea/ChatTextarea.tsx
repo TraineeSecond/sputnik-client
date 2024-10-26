@@ -12,6 +12,7 @@ type ChatTextareaProps = {
   setMessage: (text: string) => void;
   onAttachFile: () => void;
   onSendMessage: () => void;
+  attachedImage: string[] | null;
 };
 
 export const ChatTextarea = ({

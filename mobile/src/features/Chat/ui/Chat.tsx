@@ -1,13 +1,23 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, FlatList, KeyboardAvoidingView, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Image,
+  KeyboardAvoidingView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {CloseCircleIcon, CloseIcon} from 'shared/icons';
+import {Colors, IconStyles} from 'shared/libs/helpers';
 import {ChatTextarea, Message, MessageActionsModal} from 'shared/ui';
 import {io} from 'socket.io-client';
 
@@ -20,7 +30,6 @@ const socket = io('http://domennameabcdef.ru:5555');
 export const Chat = () => {
   const {t} = useTranslation();
   const route = useRoute<ProductRouteProp>();
-  console.log('route in chat', route);
   const {chatId, productName, sellerName} = route.params;
   const {
     messages,
@@ -43,6 +52,8 @@ export const Chat = () => {
     setModalVisible,
     selectedMessageId,
     setSelectedMessageId,
+    attachedImages,
+    setAttachedImages,
   } = useChatStore();
 
   const {user} = useUserStore();
@@ -57,6 +68,7 @@ export const Chat = () => {
     return () => {
       setMessages([]);
       setSkip(0);
+      setAttachedImages([]);
       setWasScroll(false);
     };
   }, [chatId]);
@@ -127,14 +139,19 @@ export const Chat = () => {
     }
   }, [wasScroll, messages, isLoading]);
 
+  useEffect(() => {
+    console.log(attachedImages);
+  }, [attachedImages]);
+
   const handleSendOrUpdate = () => {
     if (updatingMessageId) {
       editMessage(chatId, updatingMessageId, currentMessage);
       setUpdatingMessageId(null);
     } else {
-      sendMessage(chatId, user.id);
+      sendMessage(chatId, user.id, attachedImages);
     }
     setCurrentMessage('');
+    setAttachedImages([]);
   };
 
   const closeloseModal = () => {
@@ -162,32 +179,59 @@ export const Chat = () => {
     closeloseModal();
   };
 
-  const handleAttachFile = () => {};
+  const handleAttachFile = () => {
+    handleImagePick();
+  };
 
   const handleImagePick = () => {
     launchImageLibrary(
       {
         mediaType: 'photo',
         quality: 1,
+        selectionLimit: 0,
       },
       response => {
         if (response.assets && response.assets.length > 0) {
-          const {uri} = response.assets[0];
-          if (uri) {
-            // TODO: картинку в сообщение
-          }
+          const newImages = response.assets
+            .map(asset => asset.uri)
+            .filter((uri): uri is string => uri !== undefined);
+
+          setAttachedImages([...attachedImages, ...newImages]);
         }
       },
     );
   };
 
-  // const handleRemoveImage = () => {
-  //   setProduct({...product, image: ''});
-  // };
+  const handleRemoveImage = (uri: string) => {
+    setAttachedImages(attachedImages.filter(imageUri => imageUri !== uri));
+  };
 
   const longPress = (messageId: number) => {
     setModalVisible(true);
     setSelectedMessageId(messageId);
+  };
+
+  const renderAttachedImages = () => {
+    if (attachedImages.length === 0) return null;
+
+    return (
+      <View style={styles.imageContainer}>
+        {attachedImages.map(uri => (
+          <View key={uri} style={styles.previewImageWrapper}>
+            <Image source={{uri}} style={styles.previewImage} />
+            <TouchableOpacity
+              onPress={() => handleRemoveImage(uri)}
+              style={styles.closeButton}>
+              <CloseCircleIcon
+                fill={Colors.White100}
+                width={IconStyles.medium.width}
+                height={IconStyles.medium.height}
+              />
+            </TouchableOpacity>
+          </View>
+        ))}
+      </View>
+    );
   };
 
   const renderMessage = ({item}: {item: IMessage}) => {
@@ -242,10 +286,12 @@ export const Chat = () => {
           contentContainerStyle={styles.contentContainer}
           onScroll={handleScroll}
         />
+        {renderAttachedImages()}
         <ChatTextarea
           message={currentMessage}
           setMessage={setCurrentMessage}
           onSendMessage={handleSendOrUpdate}
+          attachedImage={attachedImages}
           onAttachFile={handleAttachFile}
         />
         <MessageActionsModal

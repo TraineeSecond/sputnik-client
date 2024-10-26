@@ -97,7 +97,6 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
       const productName = product?.name;
       const sellerName = `${product?.user?.name} ${product?.user?.surname}`;
 
-      console.log('Params from product info:', chatId, productName, sellerName);
       navigateToChat(chatId, productName, sellerName);
     }
   };

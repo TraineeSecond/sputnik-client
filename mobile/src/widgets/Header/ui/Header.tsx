@@ -44,7 +44,6 @@ export const Header = ({
   onClearSearch,
 }: HeaderProps) => {
   const {t} = useTranslation();
-  // console.log(sellerName, productName);
   return (
     <View style={[styles.container, !hideBorder && styles.border]}>
       {showBackButton && (

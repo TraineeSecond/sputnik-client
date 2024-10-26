@@ -46,4 +46,24 @@ export const ChatStyles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  imageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
+  previewImageWrapper: {
+    position: 'relative',
+    marginRight: 8, // Убираем marginRight из previewImage
+  },
+  previewImage: {
+    width: 75,
+    height: 75,
+    borderRadius: 12,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 4,
+  },
 });

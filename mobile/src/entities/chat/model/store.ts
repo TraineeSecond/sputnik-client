@@ -19,13 +19,18 @@ type ChatStore = {
   wasScroll: boolean;
   modalVisible: boolean;
   selectedMessageId: number;
+  attachedImages: string[];
   setSelectedMessageId: (value: number) => void;
   setModalVisible: (value: boolean) => void;
   setWasScroll: (value: boolean) => void;
   setSkip: (value: number) => void;
   setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
-  sendMessage: (chatId: number, authorId: number) => void;
+  sendMessage: (
+    chatId: number,
+    authorId: number,
+    imageUris: string[] | null,
+  ) => void;
   sendReaction: (
     chatId: number,
     userId: number,
@@ -35,6 +40,7 @@ type ChatStore = {
   deleteMessage: (chatId: number, messageId: number) => void;
   editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
+  setAttachedImages: (imageUris: string[]) => void;
 };
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -55,6 +61,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   modalVisible: false,
 
   selectedMessageId: 0,
+
+  attachedImages: [],
+  setAttachedImages: imageUris => set({attachedImages: imageUris}),
+
   setSelectedMessageId: value => set({selectedMessageId: value}),
   setModalVisible: value => set({modalVisible: value}),
 
@@ -91,7 +101,11 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  sendMessage: (chatId: number, authorId: number) => {
+  sendMessage: (
+    chatId: number,
+    authorId: number,
+    imageUris: string[] | null,
+  ) => {
     const message = get().currentMessage;
     if (!message) return;
 
@@ -107,6 +121,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           chatId,
           message,
           authorId,
+          images: imageUris || [],
           reactions: [],
           createdAt: new Date().toString(),
           updatedAt: new Date().toString(),
@@ -125,7 +140,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       sendingMessages: {...currentSendingMessages, [tempMessageId]: true},
     });
 
-    socket.emit('sendMessage', {chatId, message, authorId, tempMessageId});
+    socket.emit('sendMessage', {
+      chatId,
+      message,
+      authorId,
+      tempMessageId,
+      // imageUris,
+    });
   },
 
   sendReaction: (
