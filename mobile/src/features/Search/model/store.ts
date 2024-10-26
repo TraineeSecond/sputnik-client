@@ -11,17 +11,21 @@ type SearchStore = {
   searchText: string;
   foundProducts: Product[];
   categories: Category[];
-  isLoading: boolean;
+  isSearchLoading: boolean;
+  isPaginationLoading: boolean;
+  isMomentumScroll: boolean;
   error: boolean;
   allProductList: Product[];
   page: number;
   pageSize: number;
+  hasMore: boolean;
+  incrementPage: () => void;
   setPage: (page: number) => void;
   setPageSize: (pageSize: number) => void;
-  setIsLoading: (value: boolean) => void;
   setCategory: (category: string) => void;
   setSearchText: (text: string) => void;
   setFoundProducts: (products: Product[]) => void;
+  setIsMomentumScroll: (value: boolean) => void;
   fetchProducts: () => Promise<void>;
   fetchCategories: () => Promise<void>;
   fetchStartData: () => Promise<void>;
@@ -31,40 +35,51 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
   category: '',
   searchText: '',
   foundProducts: [],
-  isLoading: false,
+  hasMore: true,
+  isSearchLoading: false,
+  isPaginationLoading: false,
+  isMomentumScroll: false,
   error: false,
   categories: [],
   allProductList: [],
   page: 1,
   pageSize: 10,
 
-  setIsLoading: (value: boolean) => set({isLoading: value}),
-
   setFoundProducts: (foundProducts: Product[]) => set({foundProducts}),
-
-  setCategory: (category: string) => {
-    set(state => {
-      const newCategory = state.category === category ? '' : category;
-      if (!newCategory) {
-        return {
-          category: '',
-          foundProducts: state.allProductList,
-        };
-      }
-      return {category: newCategory};
-    });
-  },
 
   setSearchText: text => set({searchText: text}),
 
   setPage: (page: number) => set({page}),
 
+  incrementPage: () => set(state => ({page: state.page + 1})),
+
   setPageSize: (pageSize: number) => set({pageSize}),
 
-  fetchProducts: async () => {
-    const {category, searchText, page, pageSize} = get();
+  setIsMomentumScroll: (value: boolean) => set({isMomentumScroll: value}),
 
-    set({isLoading: true});
+  setCategory: (category: string) => {
+    set(state => {
+      const newCategory = state.category === category ? '' : category;
+      return {
+        category: newCategory,
+        foundProducts: [],
+        page: 1,
+        isSearchLoading: true,
+        isPaginationLoading: false,
+      };
+    });
+    get().fetchProducts();
+  },
+
+  fetchProducts: async () => {
+    const {category, searchText, page, pageSize, foundProducts} = get();
+    console.log(1);
+    if (page === 1) {
+      set({isSearchLoading: true});
+    } else {
+      set({isPaginationLoading: true});
+    }
+
     try {
       const {data} = await axios.get<ProductsResponse>(
         'https://domennameabcdef.ru/api/products',
@@ -72,16 +87,20 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
           params: {
             category: category,
             ...(searchText && {name: searchText}),
-            ...(page && {page}),
-            ...(pageSize && {pageSize}),
+            page,
+            pageSize,
           },
         },
       );
-      set({foundProducts: data});
+
+      const newProducts = page === 1 ? data : [...foundProducts, ...data];
+      const hasMore = data.length === pageSize;
+
+      set({foundProducts: newProducts, hasMore});
     } catch (error) {
       set({error: true});
     } finally {
-      set({isLoading: false});
+      set({isSearchLoading: false, isPaginationLoading: false});
     }
   },
 
@@ -98,10 +117,21 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
   },
 
   fetchStartData: async () => {
-    set({error: false, isLoading: true});
+    set({
+      error: false,
+      isSearchLoading: true,
+      isPaginationLoading: false,
+      page: 1,
+    });
     try {
       const res = await axios.get<ProductsResponse>(
         'https://domennameabcdef.ru/api/products',
+        {
+          params: {
+            page: 1,
+            pageSize: 10,
+          },
+        },
       );
       const {data} = res;
 
@@ -113,7 +143,7 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
     } catch (error) {
       set({error: true});
     } finally {
-      set({isLoading: false});
+      set({isSearchLoading: false});
     }
   },
 }));
