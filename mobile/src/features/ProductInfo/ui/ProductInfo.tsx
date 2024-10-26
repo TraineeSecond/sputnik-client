@@ -87,7 +87,9 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     const newChat = await addChat(product.id, [product.user.id, user.id]);
     if (newChat) {
       const chatId = newChat.id;
-      navigation.navigate(Screens.MESSENGER, {chatId});
+      const productName = product.name;
+      const sellerName = product.user.name;
+      navigation.navigate(Screens.MESSENGER, {chatId, productName, sellerName});
     }
   };
 

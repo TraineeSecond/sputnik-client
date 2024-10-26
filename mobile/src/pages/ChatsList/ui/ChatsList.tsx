@@ -23,7 +23,6 @@ export const ChatsList = () => {
   useEffect(() => {
     loadChats(user.id);
   }, []);
-
   const handleDeleteChat = useCallback((chatId: number) => {
     Alert.alert(
       t('Удалить чат?'),
