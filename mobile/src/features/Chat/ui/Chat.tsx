@@ -7,6 +7,7 @@ import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {ChatTextarea, Message, MessageActionsModal} from 'shared/ui';
 import {io} from 'socket.io-client';
 
@@ -161,6 +162,27 @@ export const Chat = () => {
   };
 
   const handleAttachFile = () => {};
+
+  const handleImagePick = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1,
+      },
+      response => {
+        if (response.assets && response.assets.length > 0) {
+          const {uri} = response.assets[0];
+          if (uri) {
+            // TODO: картинку в сообщение засунуть
+          }
+        }
+      },
+    );
+  };
+
+  // const handleRemoveImage = () => {
+  //   setProduct({...product, image: ''});
+  // };
 
   const longPress = (messageId: number) => {
     setModalVisible(true);

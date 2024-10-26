@@ -24,7 +24,7 @@ export const Login = () => {
 
   const handleLogin = async () => {
     const result = await login(email, password);
-    if (result.message === t('Успешная авторизация')) {
+    if (result.message === 'Успешная авторизация') {
       setIsLoginPage(true);
       clear();
       navigation.navigate(Stacks.HOME_TAB);
