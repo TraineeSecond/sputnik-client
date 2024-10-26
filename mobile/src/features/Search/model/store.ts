@@ -73,7 +73,6 @@ export const useSearchCatalogStore = create<SearchStore>((set, get) => ({
 
   fetchProducts: async () => {
     const {category, searchText, page, pageSize, foundProducts} = get();
-    console.log(1);
     if (page === 1) {
       set({isSearchLoading: true});
     } else {
