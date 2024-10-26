@@ -20,6 +20,7 @@ const socket = io('http://domennameabcdef.ru:5555');
 export const Chat = () => {
   const {t} = useTranslation();
   const route = useRoute<ProductRouteProp>();
+  console.log('route in chat', route);
   const {chatId, productName, sellerName} = route.params;
   const {
     messages,
@@ -173,7 +174,7 @@ export const Chat = () => {
         if (response.assets && response.assets.length > 0) {
           const {uri} = response.assets[0];
           if (uri) {
-            // TODO: картинку в сообщение засунуть
+            // TODO: картинку в сообщение
           }
         }
       },

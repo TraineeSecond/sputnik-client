@@ -44,8 +44,19 @@ export const RootNavigator = () => {
       <RootStack.Screen
         name={Screens.MESSENGER}
         component={Messenger}
-        options={{
-          header: () => <Header showBackButton onBackPress={handleGoBack} />,
+        options={({route}) => {
+          console.log('route', route);
+          console.log('params', route.params);
+          return {
+            header: () => (
+              <Header
+                showBackButton
+                onBackPress={handleGoBack}
+                productName={route.params.productName}
+                sellerName={route.params.sellerName}
+              />
+            ),
+          };
         }}
       />
       <RootStack.Screen
