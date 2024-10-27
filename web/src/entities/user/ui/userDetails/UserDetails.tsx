@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+
 import OrderList from 'entities/order/ui/OrderList/OrderList';
+import { useProductStore } from 'entities/product/model/productStore';
 import ProductList from 'entities/product/ui/productList/ProductList';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from 'shared/auth/model/authStore';
@@ -12,6 +15,15 @@ import {
 
 const UserDetails = () => {
   const { logout, user } = useAuthStore();
+
+  const { setSellerId, rezeroProductPage } = useProductStore();
+
+  useEffect(() => {
+    if (user?.id) {
+      void rezeroProductPage();
+      void setSellerId(user?.id);
+    }
+  }, [rezeroProductPage, setSellerId, user?.id]);
 
   const { t } = useTranslation();
   // TODO: переделать позже

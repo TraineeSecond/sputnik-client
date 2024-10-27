@@ -5,6 +5,8 @@ import { IUser } from 'shared/auth/model/types';
 export type TFiltersResponse = string[];
 
 export interface IProductState {
+  page: number;
+  pageSize: number;
   products: IProduct[];
   product: IProduct | null;
   sortName: string;
@@ -15,10 +17,12 @@ export interface IProductState {
   setSortName: (name: string) => Promise<void>;
   setSortCategory: (category: string) => Promise<void>;
   loadProductById: (productId: number) => Promise<void>;
+  loadNextProductPage: () => Promise<void>;
   loadProducts: () => Promise<void>;
   setSellerId: (id: number | null) => Promise<void>;
   addImageToProduct: (productId: number, image: RcFile) => Promise<void>;
   deleteProductImage: (image: IProductImage) => Promise<void>;
+  rezeroProductPage: () => void;
   loadingProduct: boolean;
   changeImagesProcess: boolean;
   error: string | null;
