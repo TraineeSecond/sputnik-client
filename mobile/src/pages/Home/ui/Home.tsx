@@ -29,7 +29,7 @@ export const Home = () => {
 
   const {setCategory, fetchProducts} = useSearchCatalogStore();
 
-  const {error, isLoading, categories, allProductList, fetchStartData} =
+  const {error, isSearchLoading, categories, allProductList, fetchStartData} =
     useSearchCatalogStore();
 
   const hideButton = user.role === 'seller';
@@ -149,7 +149,7 @@ export const Home = () => {
     <ScrollView
       style={styles.container}
       refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        <RefreshControl refreshing={isSearchLoading} onRefresh={onRefresh} />
       }>
       {error ? (
         <ShowError
@@ -163,7 +163,7 @@ export const Home = () => {
             style={[styles.marginBottom, styles.promo]}
           />
           <Slider
-            isLoading={isLoading || !allProductList.length}
+            isLoading={isSearchLoading || !allProductList.length}
             title={t('Категории')}
             data={categories}
             renderItem={renderCategoryItem}
@@ -171,7 +171,7 @@ export const Home = () => {
             style={styles.marginBottom}
           />
           <Slider
-            isLoading={isLoading || !allProductList.length}
+            isLoading={isSearchLoading || !allProductList.length}
             title="Для вас"
             data={allProductList}
             renderItem={renderProductItem}
@@ -179,7 +179,7 @@ export const Home = () => {
             style={styles.marginBottom}
           />
           <Slider
-            isLoading={isLoading || !allProductList.length}
+            isLoading={isSearchLoading || !allProductList.length}
             title="Подборка на лето"
             data={allProductList}
             renderItem={renderProductItem}
