@@ -48,12 +48,12 @@ export const ChatStyles = StyleSheet.create({
   },
   imageContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'flex-start',
     padding: 8,
   },
   previewImageWrapper: {
     position: 'relative',
-    marginRight: 8, // Убираем marginRight из previewImage
+    marginRight: 8,
   },
   previewImage: {
     width: 75,

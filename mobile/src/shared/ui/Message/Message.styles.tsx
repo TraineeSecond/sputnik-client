@@ -25,19 +25,23 @@ export const MessageStyles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   messageContainerRight: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
   bubble: {
     maxWidth: '80%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     paddingVertical: 8,
     borderRadius: 10,
   },
   messageContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 15,
+    // width: '98%',
   },
   messageText: {
     fontSize: 16,
@@ -49,9 +53,13 @@ export const MessageStyles = StyleSheet.create({
     color: Colors.Black100,
   },
   inlineStatusIcon: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: -7,
+    position: 'absolute',
+    bottom: 0,
+    right: 2,
+    // marginLeft: 'auto',
+    // paddingHorizontal: 4,
+    // marginTop: 10,
+    marginRight: -10,
     marginBottom: -5,
   },
   reactionsContainer: {

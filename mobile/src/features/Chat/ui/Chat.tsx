@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -215,7 +216,7 @@ export const Chat = () => {
     if (attachedImages.length === 0) return null;
 
     return (
-      <View style={styles.imageContainer}>
+      <ScrollView horizontal contentContainerStyle={styles.imageContainer}>
         {attachedImages.map(uri => (
           <View key={uri} style={styles.previewImageWrapper}>
             <Image source={{uri}} style={styles.previewImage} />
@@ -230,7 +231,7 @@ export const Chat = () => {
             </TouchableOpacity>
           </View>
         ))}
-      </View>
+      </ScrollView>
     );
   };
 
