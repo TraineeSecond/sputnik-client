@@ -78,7 +78,9 @@ export const Orders = () => {
         <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
       }>
       <Text
-        style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}>
+        style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}
+        accessible={true}
+        accessibilityLabel={t('Ваша история покупок')}>
         {t('Ваша история покупок')}
       </Text>
       {isLoading

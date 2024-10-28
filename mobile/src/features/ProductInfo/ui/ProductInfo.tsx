@@ -241,15 +241,22 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   };
 
   const renderReviewMake = () => {
+    const reviewText = hasReview ? t('Изменить оценку') : t('Оцените товар');
+
     return (
-      <View style={styles.reviewContainer}>
+      <View
+        style={styles.reviewContainer}
+        accessible={true}
+        accessibilityLabel={reviewText}>
         <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-          {hasReview ? t('Изменить оценку') : t('Оцените товар')}
+          {reviewText}
         </Text>
         <View style={styles.starsContainer}>{renderStars()}</View>
         <View>
           <TouchableOpacity
-            onPress={hasReview ? handleReviewChange : handleReviewMake}>
+            onPress={hasReview ? handleReviewChange : handleReviewMake}
+            accessible={true}
+            accessibilityLabel={t('Отправить')}>
             <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
               {t('Отправить')}
             </Text>
@@ -319,17 +326,26 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity
                     style={styles.quantityButton}
-                    onPress={handleDecrementItem}>
+                    onPress={handleDecrementItem}
+                    accessible={true}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('Уменьшить количество')}>
                     <Text style={TextStyles.p1.changeColor(Colors.White100)}>
                       -
                     </Text>
                   </TouchableOpacity>
-                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                  <Text
+                    style={TextStyles.p1.changeColor(Colors.White100)}
+                    accessible={true}
+                    accessibilityLabel={`${t('Количество')}: ${quantity}`}>
                     {quantity}
                   </Text>
                   <TouchableOpacity
                     style={styles.quantityButton}
-                    onPress={handleIncrementItem}>
+                    onPress={handleIncrementItem}
+                    accessible={true}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('Увеличить количество')}>
                     <Text style={TextStyles.p1.changeColor(Colors.White100)}>
                       +
                     </Text>
@@ -337,7 +353,12 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                 </View>
               </View>
             ) : (
-              <TouchableOpacity onPress={handleAddToCart} style={styles.button}>
+              <TouchableOpacity
+                onPress={handleAddToCart}
+                style={styles.button}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel={t('В корзину')}>
                 <Text style={TextStyles.p1.changeColor(Colors.White100)}>
                   {t('В корзину')}
                 </Text>

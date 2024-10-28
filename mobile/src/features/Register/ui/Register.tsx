@@ -67,29 +67,34 @@ export const Register = () => {
             value={name}
             setValue={setName}
             placeholder={t('Введите имя')}
+            accessibilityLabel={t('Введите имя')}
           />
           <Input
             value={surname}
             setValue={setSurname}
             placeholder={t('Введите фамилию')}
+            accessibilityLabel={t('Введите фамилию')}
           />
           <Input
             value={email}
             setValue={setEmail}
             keyboardType="email-address"
             placeholder={t('Введите почту')}
+            accessibilityLabel={t('Введите почту')}
           />
           <Input
             value={password}
             setValue={setPassword}
             isPassword={true}
             placeholder={t('Введите пароль')}
+            accessibilityLabel={t('Введите пароль')}
           />
           <Input
             value={confirmPassword}
             setValue={setConfirmPassword}
             isPassword={true}
             placeholder={t('Подтвердите пароль')}
+            accessibilityLabel={t('Подтвердите пароль')}
           />
         </View>
 
@@ -100,10 +105,15 @@ export const Register = () => {
             </Text>
             <CheckBox checked={checked} onChange={handleRadioChange} />
           </View>
-          <TouchableOpacity onPress={handleRegister} style={styles.button}>
+          <TouchableOpacity
+            onPress={handleRegister}
+            style={styles.button}
+            accessibilityLabel={t('Зарегистрироваться')}>
             <Text style={TextStyles.button1}>{t('Зарегистрироваться')}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleNavigate}>
+          <TouchableOpacity
+            onPress={handleNavigate}
+            accessibilityLabel={t('Войти')}>
             <Text style={TextStyles.button2}>{t('Войти')}</Text>
           </TouchableOpacity>
         </View>

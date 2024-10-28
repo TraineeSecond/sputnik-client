@@ -58,8 +58,7 @@ export const MapInfo = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      {/* {selectedPoint && ( */}
+    <View style={styles.map}>
       <View style={styles.selectedPointContainer}>
         <Text
           style={[
@@ -80,7 +79,6 @@ export const MapInfo = () => {
           </Text>
         )}
       </View>
-      {/* )} */}
       <YaMap
         showUserPosition
         style={styles.map}

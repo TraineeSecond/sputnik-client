@@ -1,14 +1,8 @@
 import React, {useRef, useState} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  View,
-  ViewToken,
-  VirtualizedList,
-} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Dimensions, FlatList, Image, View, ViewToken} from 'react-native';
 
-import {ImageOwn} from 'entities/product';
+import {ImageOwn} from 'entities';
 
 import {CarouselStyles as styles} from './Carousel.styles';
 
@@ -17,6 +11,8 @@ type CarouselProps = {
 };
 
 export const Carousel = ({images}: CarouselProps) => {
+  const {t} = useTranslation();
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const flatListRef = useRef<FlatList<ImageOwn>>(null);
 
@@ -35,7 +31,12 @@ export const Carousel = ({images}: CarouselProps) => {
   ).current;
 
   const renderItem = ({item}: {item: ImageOwn}) => (
-    <View style={[styles.imageContainer, {width: screenWidth}]}>
+    <View
+      style={[styles.imageContainer, {width: screenWidth}]}
+      accessible={true}
+      accessibilityLabel={`${t('Изображение')} ${currentSlide + 1} ${t('из')} ${
+        images.length
+      }`}>
       <Image
         source={{uri: item.image as string}}
         style={styles.image}
@@ -69,6 +70,12 @@ export const Carousel = ({images}: CarouselProps) => {
               styles.dot,
               currentSlide === index ? styles.activeDot : styles.inactiveDot,
             ]}
+            accessible={true}
+            accessibilityLabel={
+              currentSlide === index
+                ? `${t('Текущий слайд')} ${index + 1}`
+                : `${t('Слайд')} ${index + 1}`
+            }
           />
         ))}
       </View>

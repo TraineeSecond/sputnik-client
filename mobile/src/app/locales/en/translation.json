@@ -100,5 +100,18 @@
   "Уменьшить количество": "Decrease quantity",
   "Увеличить количество": "Increase quantity",
   "Корзина пуста": "Cart is empty",
-  "Необходимо выбрать точку доставки": "You need to select a delivery point"
+  "Необходимо выбрать точку доставки": "You need to select a delivery point",
+  "Перейти на страницу": "Go to page",
+  "Введите": "Enter",
+  "Удалить изображение": "Delete image",
+  "Добавить новое изображение": "Add new image",
+  "Предварительный просмотр изображения": "Image preview",
+  "Изображение": "Image",
+  "из": "of",
+  "Карусель изображений": "Image carousel",
+  "Текущий слайд": "Current slide",
+  "Слайд": "Slide",
+  "Выбрать пункт выдачи": "Select pickup point",
+  "отзывов": "reviews",
+  "Оценка": "Rating"
 }

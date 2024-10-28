@@ -115,11 +115,16 @@ export const ProductForm = ({
         <>
           <TouchableOpacity
             onPress={handleRemoveImage}
-            style={styles.iconContainer}>
+            style={styles.iconContainer}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={t('Удалить изображение')}>
             <TrashIcon
               fill={Colors.Gray500}
               width={IconStyles.medium.width}
               height={IconStyles.medium.height}
+              accessible={true}
+              accessibilityLabel={t('Предварительный просмотр изображения')}
             />
           </TouchableOpacity>
           <Image source={{uri: product.image}} style={styles.imagePreview} />
@@ -127,7 +132,10 @@ export const ProductForm = ({
       ) : (
         <TouchableOpacity
           onPress={handleImagePick}
-          style={styles.imageContainer}>
+          style={styles.imageContainer}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={t('Добавить новое изображение')}>
           <Text style={TextStyles.p1.changeColor(Colors.Gray500)}>
             {t('Добавить изображение')}
           </Text>
@@ -151,6 +159,9 @@ export const ProductForm = ({
     }
   };
 
+  const buttonText =
+    mode === 'create' ? t('Добавить продукт') : t('Сохранить изменения');
+
   return (
     <ScrollView style={styles.content} keyboardShouldPersistTaps="handled">
       <View style={styles.imageContainer}>{renderImageSection()}</View>
@@ -170,6 +181,7 @@ export const ProductForm = ({
           disabled={mode === 'edit'}
         />
         <Input
+          accessibilityLabel={`${t('Введите')} ${t('Название продукта')}`}
           placeholder={t('Название продукта')}
           value={product.name}
           setValue={handleNameChange}
@@ -177,6 +189,7 @@ export const ProductForm = ({
           disabled={mode === 'edit'}
         />
         <Input
+          accessibilityLabel={`${t('Введите')} ${t('Описание продукта')}`}
           placeholder={t('Описание продукта')}
           value={product.description}
           setValue={handleDescriptionChange}
@@ -187,6 +200,7 @@ export const ProductForm = ({
           disabled={mode === 'edit'}
         />
         <Input
+          accessibilityLabel={`${t('Введите')} ${t('Цена')}`}
           placeholder={t('Цена')}
           value={product.price.toString()}
           setValue={handlePriceChange}
@@ -206,10 +220,8 @@ export const ProductForm = ({
               style={styles.loader}
             />
           ) : (
-            <Text style={TextStyles.button1}>
-              {mode === 'create'
-                ? t('Добавить продукт')
-                : t('Сохранить изменения')}
+            <Text style={TextStyles.button1} accessibilityLabel={buttonText}>
+              {buttonText}
             </Text>
           )}
         </TouchableOpacity>

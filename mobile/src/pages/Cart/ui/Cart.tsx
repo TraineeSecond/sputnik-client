@@ -78,6 +78,10 @@ export const Cart = () => {
     clearSelectedPoint();
   };
 
+  const handleNavToMap = () => {
+    navigateMap.navigate(Screens.MAP);
+  };
+
   const renderItem = (item: CartItemType) => {
     const handleIncrement = () => incrementItem(item.id, token, user.id);
     const handleDecrement = () => decrementItem(item.id, token, user.id);
@@ -117,9 +121,9 @@ export const Cart = () => {
     </ContentLoader>
   );
 
-  const handleNavToMap = () => {
-    navigateMap.navigate(Screens.MAP);
-  };
+  const deliveryText = selectedPoint
+    ? `${t('Заказ будет доставлен по адресу')} \n ${selectedPoint.address}`
+    : t('Пожалуйста, выберите точку доставки');
 
   return (
     <View style={styles.container}>
@@ -133,13 +137,7 @@ export const Cart = () => {
             <View
               style={styles.topContainer}
               accessible={true}
-              accessibilityLabel={
-                selectedPoint
-                  ? `${t('Заказ будет доставлен по адресу')} ${
-                      selectedPoint.address
-                    }`
-                  : t('Пожалуйста, выберите точку доставки')
-              }>
+              accessibilityLabel={deliveryText}>
               <Text
                 style={[
                   selectedPoint
@@ -147,11 +145,7 @@ export const Cart = () => {
                     : TextStyles.p1.changeColor(Colors.Red500),
                   styles.centerText,
                 ]}>
-                {selectedPoint
-                  ? `${t('Заказ будет доставлен по адресу')} \n ${
-                      selectedPoint.address
-                    }`
-                  : t('Пожалуйста, выберите точку доставки')}
+                {deliveryText}
               </Text>
               {!selectedPoint && (
                 <Button
