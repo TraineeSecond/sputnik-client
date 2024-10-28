@@ -26,8 +26,8 @@ import {ChatStyles as styles} from './styles';
 
 type ProductRouteProp = RouteProp<RootStackParamsList, Screens.MESSENGER>;
 
-// const socket = io('http://domennameabcdef.ru:5555');
-const socket = io('http://192.168.0.11:5556');
+const socket = io('http://domennameabcdef.ru:5555');
+const socket2 = io('http://172.20.10.2:5556');
 
 export const Chat = () => {
   const {t} = useTranslation();
@@ -86,7 +86,7 @@ export const Chat = () => {
       );
     });
 
-    socket.on('newMessage', newMessage => {
+    socket2.on('newMessage', newMessage => {
       console.log('New Message');
       if (newMessage.authorId === user.id) {
         const messagesWithoutLast = messages.slice(1);
@@ -143,7 +143,7 @@ export const Chat = () => {
   }, [wasScroll, messages, isLoading]);
 
   useEffect(() => {
-    console.log(attachedImages);
+    // console.log(attachedImages);
   }, [attachedImages]);
 
   const handleSendOrUpdate = () => {

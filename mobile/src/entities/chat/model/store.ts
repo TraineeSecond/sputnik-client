@@ -5,6 +5,7 @@ import {create} from 'zustand';
 import {IMessage} from './types';
 
 const socket = io('http://domennameabcdef.ru:5555');
+const socket2 = io('http://172.20.10.2:5556');
 
 type ChatStore = {
   messages: IMessage[];
@@ -84,7 +85,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({isLoading: true, error: false});
     try {
       const response = await axios.get<IMessage[]>(
-        `https://domennameabcdef.ru/api/chats/${chatId}/messages?take=20&skip=${
+        `http://172.20.10.2:5556/chats/${chatId}/messages?take=20&skip=${
           get().skip
         }`,
       );
@@ -101,18 +102,32 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  sendMessage: (
+  sendMessage: async (
     chatId: number,
     authorId: number,
     imageUris: string[] | null,
   ) => {
     const message = get().currentMessage;
-    if (!message) return;
+    if (!message && !imageUris) return;
 
     const tempMessageId = -Date.now();
-
     const currentMessages = get().messages;
     const currentSendingMessages = get().sendingMessages || {};
+
+    const validImageUris = imageUris || [];
+
+    const processedImages = await Promise.all(
+      validImageUris.map(async uri => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        return {
+          uri,
+          name: `image-${Date.now()}.jpg`,
+          type: blob.type,
+          blob,
+        };
+      }),
+    );
 
     set({
       messages: [
@@ -121,7 +136,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           chatId,
           message,
           authorId,
-          images: imageUris || [],
+          images: validImageUris,
           reactions: [],
           createdAt: new Date().toString(),
           updatedAt: new Date().toString(),
@@ -140,12 +155,16 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       sendingMessages: {...currentSendingMessages, [tempMessageId]: true},
     });
 
-    socket.emit('sendMessage', {
+    socket2.emit('sendMessage', {
       chatId,
       message,
       authorId,
       tempMessageId,
-      imageUris,
+      images: processedImages.map(img => ({
+        name: img.name,
+        type: img.type,
+        blob: img.blob,
+      })),
     });
   },
 

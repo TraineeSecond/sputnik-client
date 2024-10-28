@@ -20,6 +20,8 @@ export const ChatsList = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const {t} = useTranslation();
 
+  console.log(user.id);
+
   useEffect(() => {
     loadChats(user.id);
   }, []);
