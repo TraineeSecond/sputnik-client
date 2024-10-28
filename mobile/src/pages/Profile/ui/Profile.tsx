@@ -69,12 +69,18 @@ export const Profile = () => {
     <>
       <MenuItem
         title={t('История покупок')}
+        accessibilityLabel={`${t('Перейти на страницу')}: ${t(
+          'История покупок',
+        )}`}
         accessoryLeft={HistoryIcon}
         accessoryRight={ForwardIcon}
         onPress={handlePurchaseHistory}
       />
       <MenuItem
         title={t('Отзывы пунктов выдачи заказов')}
+        accessibilityLabel={`${t('Перейти на страницу')}: ${t(
+          'Отзывы пунктов выдачи заказов',
+        )}`}
         accessoryLeft={ReviewIcon}
         accessoryRight={ForwardIcon}
         onPress={handleReviewsPoints}
@@ -112,18 +118,28 @@ export const Profile = () => {
               {isSeller ? renderSellerInterface() : renderBuyerInterface()}
               <MenuItem
                 title={t('Сообщения')}
+                accessible={true}
+                accessibilityLabel={`${t('Перейти на страницу')}: ${t(
+                  'Сообщения',
+                )}`}
                 accessoryLeft={MessageIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleChat}
               />
               <MenuItem
                 title={t('Настройки языка')}
+                accessible={true}
+                accessibilityLabel={`${t('Перейти на страницу')}: ${t(
+                  'Настройки языка',
+                )}`}
                 accessoryLeft={FlagIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleSettings}
               />
               <MenuItem
                 title={t('Выйти из аккаунта')}
+                accessible={true}
+                accessibilityLabel={`${t('Выйти из аккаунта')}`}
                 accessoryLeft={LogOutIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleLogout}

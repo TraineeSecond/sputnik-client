@@ -60,12 +60,12 @@ export const Cart = () => {
 
   const handleCheckout = () => {
     if (items.length === 0) {
-      Alert.alert('Корзина пуста');
+      Alert.alert(t('Корзина пуста'));
       return;
     }
 
     if (!selectedPoint) {
-      Alert.alert('Необходимо выбрать точку доставки');
+      Alert.alert(t('Необходимо выбрать точку доставки'));
       return;
     }
 
@@ -76,6 +76,10 @@ export const Cart = () => {
     makeOrder(items, user.id, token);
     clearCart(token, user.id);
     clearSelectedPoint();
+  };
+
+  const handleNavToMap = () => {
+    navigateMap.navigate(Screens.MAP);
   };
 
   const renderItem = (item: CartItemType) => {
@@ -117,9 +121,9 @@ export const Cart = () => {
     </ContentLoader>
   );
 
-  const handleNavToMap = () => {
-    navigateMap.navigate(Screens.MAP);
-  };
+  const deliveryText = selectedPoint
+    ? `${t('Заказ будет доставлен по адресу')} \n ${selectedPoint.address}`
+    : t('Пожалуйста, выберите точку доставки');
 
   return (
     <View style={styles.container}>
@@ -130,7 +134,10 @@ export const Cart = () => {
       ) : items.length > 0 ? (
         <>
           <ScrollView contentContainerStyle={{paddingBottom: 60}}>
-            <View style={styles.topContainer}>
+            <View
+              style={styles.topContainer}
+              accessible={true}
+              accessibilityLabel={deliveryText}>
               <Text
                 style={[
                   selectedPoint
@@ -138,14 +145,16 @@ export const Cart = () => {
                     : TextStyles.p1.changeColor(Colors.Red500),
                   styles.centerText,
                 ]}>
-                {selectedPoint
-                  ? `${t('Заказ будет доставлен по адресу')} \n ${
-                      selectedPoint.address
-                    }`
-                  : t('Пожалуйста, выберите точку доставки')}
+                {deliveryText}
               </Text>
               {!selectedPoint && (
-                <Button status="info" onPress={handleNavToMap}>
+                <Button
+                  status="info"
+                  onPress={handleNavToMap}
+                  accessible={true}
+                  accessibilityLabel={t(
+                    'Перейти на карту для выбора точки доставки',
+                  )}>
                   <Text>{t('Перейти на карту')}</Text>
                 </Button>
               )}
@@ -156,16 +165,17 @@ export const Cart = () => {
           <Button
             style={styles.button}
             status="success"
-            onPress={handleCheckout}>
+            onPress={handleCheckout}
+            accessible={true}
+            accessibilityLabel={t('Оформить заказ')}>
             {t('Оформить заказ')}
           </Button>
         </>
       ) : (
         <Text
-          style={[
-            TextStyles.h2.changeColor(Colors.Blue100),
-            styles.centerText,
-          ]}>
+          style={[TextStyles.h2.changeColor(Colors.Blue100), styles.centerText]}
+          accessible={true}
+          accessibilityLabel={t('Пустая корзина')}>
           {t('Пустая корзина')}
         </Text>
       )}

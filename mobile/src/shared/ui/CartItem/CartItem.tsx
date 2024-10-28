@@ -1,11 +1,6 @@
 import React, {memo} from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {ImageOwn} from 'entities/product';
 import {RemoveIcon} from 'shared/icons';
@@ -37,15 +32,24 @@ export const CartItem = memo(
     onIncrement,
     handleNavigate,
   }: CartItemProps) => {
+    const {t} = useTranslation();
+
     const handleGoToProduct = () => {
       handleNavigate(id);
     };
 
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        accessible={true}
+        accessibilityLabel={`${t('Товар')}: ${title}, ${t(
+          'Количество',
+        )}: ${quantity}, ${t('Цена')}: ${price}`}>
         <TouchableOpacity
           onPress={handleGoToProduct}
-          style={styles.itemContent}>
+          style={styles.itemContent}
+          accessible={true}
+          accessibilityLabel={t('Перейти к товару')}>
           {images && images[0]?.image ? (
             <Image
               source={{uri: images[0].image as string}}
@@ -67,13 +71,19 @@ export const CartItem = memo(
         </TouchableOpacity>
 
         <View style={styles.actionsContainer}>
-          <TouchableOpacity style={styles.deleteButton} onPress={onRemove}>
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={onRemove}
+            accessible={true}
+            accessibilityLabel={t('Удалить товар из корзины')}>
             <RemoveIcon fill={Colors.Green400} />
           </TouchableOpacity>
           <View style={styles.counterContainer}>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={onDecrement}>
+              onPress={onDecrement}
+              accessible={true}
+              accessibilityLabel={t('Уменьшить количество')}>
               <Text style={TextStyles.span1}>-</Text>
             </TouchableOpacity>
             <Text
@@ -85,7 +95,9 @@ export const CartItem = memo(
             </Text>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={onIncrement}>
+              onPress={onIncrement}
+              accessible={true}
+              accessibilityLabel={t('Увеличить количество')}>
               <Text style={TextStyles.span1}>+</Text>
             </TouchableOpacity>
           </View>

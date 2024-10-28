@@ -27,8 +27,11 @@ export const Settings = () => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={TextStyles.p3.changeColor(Colors.Black100)}>
+      <View accessible={true} accessibilityLabel={t('Выбор языка')}>
+        <Text
+          style={TextStyles.p3.changeColor(Colors.Black100)}
+          accessible={true}
+          accessibilityLabel={t('Выбор языка')}>
           {t('Выбор языка')}
         </Text>
         <CustomDropdown

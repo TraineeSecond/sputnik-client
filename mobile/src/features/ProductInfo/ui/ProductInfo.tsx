@@ -1,13 +1,10 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Button} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
-import {CartItemType, Product} from 'entities';
-import {useUserStore} from 'entities/user';
+import {CartItemType, Product, useUserStore} from 'entities';
 import {useChatListStore} from 'features/ChatList';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
@@ -241,15 +238,22 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   };
 
   const renderReviewMake = () => {
+    const reviewText = hasReview ? t('Изменить оценку') : t('Оцените товар');
+
     return (
-      <View style={styles.reviewContainer}>
+      <View
+        style={styles.reviewContainer}
+        accessible={true}
+        accessibilityLabel={reviewText}>
         <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
-          {hasReview ? t('Изменить оценку') : t('Оцените товар')}
+          {reviewText}
         </Text>
         <View style={styles.starsContainer}>{renderStars()}</View>
         <View>
           <TouchableOpacity
-            onPress={hasReview ? handleReviewChange : handleReviewMake}>
+            onPress={hasReview ? handleReviewChange : handleReviewMake}
+            accessible={true}
+            accessibilityLabel={t('Отправить')}>
             <Text style={TextStyles.p1.changeColor(Colors.Black200)}>
               {t('Отправить')}
             </Text>
@@ -319,17 +323,26 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity
                     style={styles.quantityButton}
-                    onPress={handleDecrementItem}>
+                    onPress={handleDecrementItem}
+                    accessible={true}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('Уменьшить количество')}>
                     <Text style={TextStyles.p1.changeColor(Colors.White100)}>
                       -
                     </Text>
                   </TouchableOpacity>
-                  <Text style={TextStyles.p1.changeColor(Colors.White100)}>
+                  <Text
+                    style={TextStyles.p1.changeColor(Colors.White100)}
+                    accessible={true}
+                    accessibilityLabel={`${t('Количество')}: ${quantity}`}>
                     {quantity}
                   </Text>
                   <TouchableOpacity
                     style={styles.quantityButton}
-                    onPress={handleIncrementItem}>
+                    onPress={handleIncrementItem}
+                    accessible={true}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('Увеличить количество')}>
                     <Text style={TextStyles.p1.changeColor(Colors.White100)}>
                       +
                     </Text>
@@ -337,7 +350,12 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
                 </View>
               </View>
             ) : (
-              <TouchableOpacity onPress={handleAddToCart} style={styles.button}>
+              <TouchableOpacity
+                onPress={handleAddToCart}
+                style={styles.button}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel={t('В корзину')}>
                 <Text style={TextStyles.p1.changeColor(Colors.White100)}>
                   {t('В корзину')}
                 </Text>
