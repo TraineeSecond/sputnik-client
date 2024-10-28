@@ -184,10 +184,6 @@ export const Chat = () => {
   };
 
   const handleAttachFile = () => {
-    handleImagePick();
-  };
-
-  const handleImagePick = () => {
     launchImageLibrary(
       {
         mediaType: 'photo',
