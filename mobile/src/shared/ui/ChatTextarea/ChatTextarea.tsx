@@ -24,33 +24,44 @@ export const ChatTextarea = ({
   const {t} = useTranslation();
 
   return (
-    <>
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={onAttachFile}>
-          <AddImgIcon
-            fill={Colors.Gray500}
-            width={IconStyles.medium.width}
-            height={IconStyles.medium.height}
-          />
-        </TouchableOpacity>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={t('Введите сообщение')}
-            placeholderTextColor={Colors.Gray500}
-            multiline
-            value={message}
-            onChangeText={setMessage}
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={onSendMessage}>
-          <SendIcon
-            fill={Colors.Gray500}
-            width={IconStyles.medium.width}
-            height={IconStyles.medium.height}
-          />
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onAttachFile}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel={t('Прикрепить файл')}>
+        <AddImgIcon
+          fill={Colors.Gray500}
+          width={IconStyles.medium.width}
+          height={IconStyles.medium.height}
+        />
+      </TouchableOpacity>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder={t('Введите сообщение')}
+          placeholderTextColor={Colors.Gray500}
+          multiline
+          value={message}
+          onChangeText={setMessage}
+          accessible={true}
+          accessibilityLabel={t('Поле ввода сообщения')}
+          accessibilityHint={t('Введите сообщение')}
+        />
       </View>
-    </>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onSendMessage}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel={t('Отправить сообщение')}>
+        <SendIcon
+          fill={Colors.Gray500}
+          width={IconStyles.medium.width}
+          height={IconStyles.medium.height}
+        />
+      </TouchableOpacity>
+    </View>
   );
 };

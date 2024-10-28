@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {Dropdown} from 'react-native-element-dropdown';
 
@@ -19,6 +20,8 @@ export const CustomDropdown = ({
   placeholder,
   disabled = false,
 }: CustomDropdownProps) => {
+  const {t} = useTranslation();
+
   const formattedData = data.map(item => ({
     label: item,
     value: item,
@@ -43,6 +46,7 @@ export const CustomDropdown = ({
         onChange(item.value);
       }}
       disable={disabled}
+      accessibilityLabel={`${t('Выберите')} ${placeholder}`}
     />
   );
 };

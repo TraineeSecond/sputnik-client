@@ -1,4 +1,5 @@
 import React, {memo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Image,
   ImageSourcePropType,
@@ -22,9 +23,16 @@ type CategoryItemProps = {
 
 export const CategoryItem = memo(
   ({id, title, image, style, showTitle = true, onPress}: CategoryItemProps) => {
+    const {t} = useTranslation();
+
     return (
       <TouchableOpacity
         id={id}
+        accessible={true}
+        accessibilityLabel={
+          title ? `${t('Категория')}: ${title}` : t('Категория')
+        }
+        accessibilityRole="button"
         onPress={onPress}
         style={styles.container}
         activeOpacity={0.5}>

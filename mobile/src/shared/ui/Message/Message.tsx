@@ -1,5 +1,6 @@
 import {Spinner} from '@ui-kitten/components';
 import React, {memo, useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Image,
   Modal,
@@ -17,31 +18,32 @@ import {Colors, IconStyles, TextStyles, emoji} from 'shared/libs/helpers';
 import {MessageStyles as styles} from './Message.styles';
 
 type MessageProps = {
+  isRead?: boolean;
   message: string;
+  isSending: boolean;
+  hasError?: boolean;
   isCurrentUser: boolean;
   reactions: Reactions[];
+  images: TImages[];
   onLongPress: () => void;
   onSendReaction: (reaction: string) => void;
-  isSending: boolean;
-  isRead?: boolean;
-  hasError?: boolean;
-  images: TImages[];
 };
 
 export const Message = memo(
   ({
+    isRead,
     message,
+    hasError,
+    reactions,
+    isSending,
     isCurrentUser,
     onLongPress,
-    reactions,
     onSendReaction,
-    isSending,
-    isRead,
-    hasError,
     images,
   }: MessageProps) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const {t} = useTranslation();
 
     const renderIcon = () => {
       if (hasError) {
@@ -51,6 +53,8 @@ export const Message = memo(
               width: IconStyles.small.width,
               height: IconStyles.small.height,
             }}
+            accessible={true}
+            accessibilityLabel={t('Ошибка отправки сообщения')}
           />
         );
       }
@@ -61,6 +65,8 @@ export const Message = memo(
               width: IconStyles.small.width,
               height: IconStyles.small.height,
             }}
+            accessible={true}
+            accessibilityLabel={t('Сообщение отправляется')}
           />
         );
       else {
@@ -70,6 +76,8 @@ export const Message = memo(
               fill={IconStyles.small.changeColor(Colors.Blue200).color}
               width={IconStyles.small.width}
               height={IconStyles.small.height}
+              accessible={true}
+              accessibilityLabel={t('Сообщение прочитано')}
             />
           );
         else
@@ -78,6 +86,8 @@ export const Message = memo(
               fill={IconStyles.small.changeColor(Colors.Blue200).color}
               width={IconStyles.small.width}
               height={IconStyles.small.height}
+              accessible={true}
+              accessibilityLabel={t('Сообщение доставлено')}
             />
           );
       }
@@ -100,16 +110,35 @@ export const Message = memo(
             isCurrentUser
               ? styles.messageContainerRight
               : styles.messageContainerLeft,
-          ]}>
+          ]}
+          accessible={true}
+          accessibilityRole="text"
+          accessibilityLabel={
+            isCurrentUser ? t('Ваше сообщение') : t('Сообщение от собеседника')
+          }>
           {images && images.length > 0 && (
-            <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              horizontal
+              accessible={true}
+              accessibilityRole="image"
+              accessibilityLabel={t('Изображения, прикрепленные к сообщению')}>
               {images.map((image, index) => {
                 const handleImagePress = () => imagePress(image.image);
                 return (
-                  <Pressable key={index} onPress={handleImagePress}>
+                  <Pressable
+                    key={index}
+                    onPress={handleImagePress}
+                    accessible={true}
+                    accessibilityRole="imagebutton"
+                    accessibilityLabel={t(
+                      'Нажмите, чтобы просмотреть изображение',
+                    )}>
                     <Image
                       source={{uri: image.image}}
                       style={styles.messageImage}
+                      accessible={true}
+                      accessibilityLabel={t('Прикрепленное изображение')}
                     />
                   </Pressable>
                 );
@@ -125,7 +154,10 @@ export const Message = memo(
                   ? styles.backGroundChangeRight
                   : styles.backGroundChangeLeft),
             ]}
-            onLongPress={onLongPress}>
+            onLongPress={onLongPress}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={t('Нажмите и удерживайте для реакции')}>
             <View style={styles.messageContent}>
               <Text
                 style={[
@@ -149,7 +181,12 @@ export const Message = memo(
                       <TouchableOpacity
                         key={ix}
                         onPress={onPress}
-                        style={styles.reaction}>
+                        style={styles.reaction}
+                        accessible={true}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${t('Реакция')} ${
+                          emoji[reaction.reaction as keyof typeof emoji]
+                        }`}>
                         <Text
                           style={TextStyles.span1.changeColor(Colors.White100)}>
                           {emoji[reaction.reaction as keyof typeof emoji]}{' '}
@@ -167,12 +204,27 @@ export const Message = memo(
           </Pressable>
         </View>
 
-        <Modal visible={modalVisible} transparent={false} animationType="slide">
-          <View style={styles.modalConatiner}>
+        <Modal
+          visible={modalVisible}
+          transparent={false}
+          animationType="slide"
+          accessible={true}
+          accessibilityLabel={t('Просмотр изображения')}>
+          <View style={styles.modalContainer}>
             {selectedImage && (
-              <Image source={{uri: selectedImage}} style={styles.modalImage} />
+              <Image
+                source={{uri: selectedImage}}
+                style={styles.modalImage}
+                accessible={true}
+                accessibilityLabel={t('Просматриваемое изображение')}
+              />
             )}
-            <TouchableOpacity onPress={closeModal} style={styles.modalClose}>
+            <TouchableOpacity
+              onPress={closeModal}
+              style={styles.modalClose}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={t('Закрыть изображение')}>
               <CloseIcon />
             </TouchableOpacity>
           </View>

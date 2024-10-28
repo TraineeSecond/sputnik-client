@@ -1,12 +1,11 @@
 import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {RefreshControl, ScrollView, View} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {Category, Product} from 'entities';
 import {useUserStore} from 'entities/user';
-import {useSearchCatalogStore} from 'features/Search';
-import {useSellerProductsStore} from 'features/SellerProducts';
+import {useSearchCatalogStore, useSellerProductsStore} from 'features';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
 import {Colors} from 'shared/libs/helpers';
@@ -148,6 +147,9 @@ export const Home = () => {
   return (
     <ScrollView
       style={styles.container}
+      accessible={true}
+      accessibilityLabel={t('Главная страница')}
+      accessibilityRole="scrollbar"
       refreshControl={
         <RefreshControl refreshing={isSearchLoading} onRefresh={onRefresh} />
       }>
@@ -172,7 +174,7 @@ export const Home = () => {
           />
           <Slider
             isLoading={isSearchLoading || !allProductList.length}
-            title="Для вас"
+            title={t('Для вас')}
             data={allProductList}
             renderItem={renderProductItem}
             renderSkeleton={renderSkeletonProduct}
@@ -180,7 +182,7 @@ export const Home = () => {
           />
           <Slider
             isLoading={isSearchLoading || !allProductList.length}
-            title="Подборка на лето"
+            title={t('Подборка на лето')}
             data={allProductList}
             renderItem={renderProductItem}
             renderSkeleton={renderSkeletonProduct}
@@ -189,6 +191,7 @@ export const Home = () => {
           <Promo
             image={promoPictureSecond}
             style={styles.promo}
+
             // onPress={handlePromoPress}
           />
         </>

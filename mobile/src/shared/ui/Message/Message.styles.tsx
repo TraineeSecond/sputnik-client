@@ -94,7 +94,7 @@ export const MessageStyles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 5,
   },
-  modalConatiner: {
+  modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

@@ -6,3 +6,4 @@ export * from './ProductListing';
 export * from './ChatList';
 export * from './Chat';
 export * from './SellerProducts';
+export * from './MapInfo';

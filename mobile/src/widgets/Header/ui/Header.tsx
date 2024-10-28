@@ -47,7 +47,10 @@ export const Header = ({
   return (
     <View style={[styles.container, !hideBorder && styles.border]}>
       {showBackButton && (
-        <TouchableOpacity onPress={onBackPress}>
+        <TouchableOpacity
+          onPress={onBackPress}
+          accessible={true}
+          accessibilityLabel={t('Вернуться на предыдущий экран')}>
           <ArrowBack
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
             width={IconStyles.medium.width}
@@ -57,7 +60,12 @@ export const Header = ({
       )}
 
       {showTitle && (
-        <Text style={TextStyles.p3.changeColor(Colors.Green500)}>GOZON</Text>
+        <Text
+          style={TextStyles.p3.changeColor(Colors.Green500)}
+          accessible={true}
+          accessibilityLabel={t('Маркетплейс GOZON')}>
+          GOZON
+        </Text>
       )}
 
       {showSearchInput && setSearchText && (
@@ -69,8 +77,12 @@ export const Header = ({
             placeholder={t('Поиск...')}
             setValue={setSearchText}
             onClear={onClearSearch}
+            accessibilityLabel={t('Поле для поиска')}
           />
-          <TouchableOpacity onPress={onSearch}>
+          <TouchableOpacity
+            onPress={onSearch}
+            accessible={true}
+            accessibilityLabel={t('Начать поиск')}>
             <SearchIcon
               fill={IconStyles.medium.changeColor(Colors.Gray500).color}
               width={IconStyles.medium.width}
@@ -81,7 +93,10 @@ export const Header = ({
       )}
 
       {showCartButton && (
-        <TouchableOpacity onPress={onCartPress}>
+        <TouchableOpacity
+          onPress={onCartPress}
+          accessible={true}
+          accessibilityLabel={t('Корзина')}>
           <CartIcon
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
             width={IconStyles.medium.width}
@@ -91,7 +106,10 @@ export const Header = ({
       )}
 
       {showAddButton && (
-        <TouchableOpacity onPress={onAddPress}>
+        <TouchableOpacity
+          onPress={onAddPress}
+          accessible={true}
+          accessibilityLabel={t('Добавить продукт')}>
           <PlusIcon
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
             width={IconStyles.medium.width}
@@ -101,7 +119,12 @@ export const Header = ({
       )}
 
       {sellerName && productName && (
-        <View style={styles.chatTitle}>
+        <View
+          style={styles.chatTitle}
+          accessible={true}
+          accessibilityLabel={`${t('Ваш собеседник в чате')}: ${t(
+            sellerName,
+          )}`}>
           <Text style={TextStyles.p3.changeColor(Colors.Green500)}>
             {sellerName}
           </Text>
