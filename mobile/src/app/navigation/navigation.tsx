@@ -45,8 +45,6 @@ export const RootNavigator = () => {
         name={Screens.MESSENGER}
         component={Messenger}
         options={({route}) => {
-          console.log('route', route);
-          console.log('params', route.params);
           return {
             header: () => (
               <Header

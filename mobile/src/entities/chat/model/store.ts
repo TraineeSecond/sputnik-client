@@ -145,7 +145,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       message,
       authorId,
       tempMessageId,
-      // imageUris,
+      imageUris,
     });
   },
 

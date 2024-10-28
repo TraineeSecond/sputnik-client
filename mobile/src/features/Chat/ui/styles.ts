@@ -25,6 +25,12 @@ export const ChatStyles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
   },
+  messageImage: {
+    width: 150,
+    height: 150,
+    marginRight: 10,
+    borderRadius: 10,
+  },
   emojiListContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -48,7 +54,8 @@ export const ChatStyles = StyleSheet.create({
   },
   imageContainer: {
     flexDirection: 'row',
-    // alignItems: 'flex-start',
+    alignItems: 'flex-start',
+    height: 110,
     padding: 8,
   },
   previewImageWrapper: {
