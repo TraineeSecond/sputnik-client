@@ -2,6 +2,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {TextInput, TouchableOpacity, View} from 'react-native';
 
+import {TImages} from 'entities/chat';
 import {AddImgIcon, SendIcon} from 'shared/icons';
 import {Colors, IconStyles} from 'shared/libs/helpers';
 
@@ -12,7 +13,6 @@ type ChatTextareaProps = {
   setMessage: (text: string) => void;
   onAttachFile: () => void;
   onSendMessage: () => void;
-  attachedImage: string[] | null;
 };
 
 export const ChatTextarea = ({
@@ -22,32 +22,35 @@ export const ChatTextarea = ({
   onSendMessage,
 }: ChatTextareaProps) => {
   const {t} = useTranslation();
+
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={onAttachFile}>
-        <AddImgIcon
-          fill={Colors.Gray500}
-          width={IconStyles.medium.width}
-          height={IconStyles.medium.height}
-        />
-      </TouchableOpacity>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder={t('Введите сообщение')}
-          placeholderTextColor={Colors.Gray500}
-          multiline
-          value={message}
-          onChangeText={setMessage}
-        />
+    <>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={onAttachFile}>
+          <AddImgIcon
+            fill={Colors.Gray500}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={t('Введите сообщение')}
+            placeholderTextColor={Colors.Gray500}
+            multiline
+            value={message}
+            onChangeText={setMessage}
+          />
+        </View>
+        <TouchableOpacity style={styles.button} onPress={onSendMessage}>
+          <SendIcon
+            fill={Colors.Gray500}
+            width={IconStyles.medium.width}
+            height={IconStyles.medium.height}
+          />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.button} onPress={onSendMessage}>
-        <SendIcon
-          fill={Colors.Gray500}
-          width={IconStyles.medium.width}
-          height={IconStyles.medium.height}
-        />
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };

@@ -7,18 +7,18 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
-import {IMessage, useChatStore} from 'entities/chat';
+import {IMessage, TImages, useChatStore} from 'entities/chat';
 import {useUserStore} from 'entities/user';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {CloseCircleIcon, CloseIcon} from 'shared/icons';
+import {CloseCircleIcon} from 'shared/icons';
 import {Colors, IconStyles} from 'shared/libs/helpers';
+import {useMessageStore} from 'shared/stores/MessageStore';
 import {ChatTextarea, Message, MessageActionsModal} from 'shared/ui';
 import {io} from 'socket.io-client';
 
@@ -27,7 +27,6 @@ import {ChatStyles as styles} from './styles';
 type ProductRouteProp = RouteProp<RootStackParamsList, Screens.MESSENGER>;
 
 const socket = io('http://domennameabcdef.ru:5555');
-const socket2 = io('http://172.20.10.2:5556');
 
 export const Chat = () => {
   const {t} = useTranslation();
@@ -63,6 +62,13 @@ export const Chat = () => {
   const listRef = React.useRef<FlatList<IMessage>>(null);
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
 
+  const {
+    modalImageVisible,
+    setModalImageVisible,
+    selectedImage,
+    setSelectedImage,
+  } = useMessageStore();
+
   useEffect(() => {
     loadMessages(chatId);
     socket.emit('readMessages', {chatId, userId: user.id});
@@ -86,8 +92,7 @@ export const Chat = () => {
       );
     });
 
-    socket2.on('newMessage', newMessage => {
-      console.log('New Message');
+    socket.on('newMessage', newMessage => {
       if (newMessage.authorId === user.id) {
         const messagesWithoutLast = messages.slice(1);
         setMessages([newMessage, ...messagesWithoutLast]);
@@ -142,10 +147,6 @@ export const Chat = () => {
     }
   }, [wasScroll, messages, isLoading]);
 
-  useEffect(() => {
-    // console.log(attachedImages);
-  }, [attachedImages]);
-
   const handleSendOrUpdate = () => {
     if (updatingMessageId) {
       editMessage(chatId, updatingMessageId, currentMessage);
@@ -195,9 +196,11 @@ export const Chat = () => {
       },
       response => {
         if (response.assets && response.assets.length > 0) {
-          const newImages = response.assets
-            .map(asset => asset.uri)
-            .filter((uri): uri is string => uri !== undefined);
+          const newImages: TImages[] = response.assets.map((asset, index) => ({
+            id: index,
+            image: asset.uri || '',
+            messageId: -Date.now(),
+          }));
 
           setAttachedImages([...attachedImages, ...newImages]);
         }
@@ -205,8 +208,10 @@ export const Chat = () => {
     );
   };
 
-  const handleRemoveImage = (uri: string) => {
-    setAttachedImages(attachedImages.filter(imageUri => imageUri !== uri));
+  const removeImage = (uri: string) => {
+    setAttachedImages(
+      attachedImages.filter(imageUri => imageUri.image !== uri),
+    );
   };
 
   const longPress = (messageId: number) => {
@@ -218,21 +223,27 @@ export const Chat = () => {
     if (attachedImages.length === 0) return null;
 
     return (
-      <ScrollView horizontal contentContainerStyle={styles.imageContainer}>
-        {attachedImages.map(uri => (
-          <View key={uri} style={styles.previewImageWrapper}>
-            <Image source={{uri}} style={styles.previewImage} />
-            <TouchableOpacity
-              onPress={() => handleRemoveImage(uri)}
-              style={styles.closeButton}>
-              <CloseCircleIcon
-                fill={Colors.White100}
-                width={IconStyles.medium.width}
-                height={IconStyles.medium.height}
-              />
-            </TouchableOpacity>
-          </View>
-        ))}
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        contentContainerStyle={styles.imageContainer}>
+        {attachedImages.map((image, ix) => {
+          const handleRemoveImage = () => removeImage(image.image);
+          return (
+            <View key={ix} style={styles.previewImageWrapper}>
+              <Image source={{uri: image.image}} style={styles.previewImage} />
+              <TouchableOpacity
+                onPress={handleRemoveImage}
+                style={styles.closeButton}>
+                <CloseCircleIcon
+                  fill={Colors.White100}
+                  width={IconStyles.medium.width}
+                  height={IconStyles.medium.height}
+                />
+              </TouchableOpacity>
+            </View>
+          );
+        })}
       </ScrollView>
     );
   };
@@ -247,10 +258,6 @@ export const Chat = () => {
 
     const isSending = !!sendingMessages[item.id];
 
-    item.images &&
-      item?.images.length > 0 &&
-      console.log('картинки', item.images, item.id);
-
     const hasError = item?.hasError;
     return (
       <>
@@ -263,18 +270,8 @@ export const Chat = () => {
           isSending={isSending}
           isRead={item.isRead}
           hasError={hasError}
+          images={item.images}
         />
-        {item.images && item.images.length > 0 && (
-          <ScrollView horizontal>
-            {item.images.map((imageUri, index) => (
-              <Image
-                key={index}
-                source={{uri: imageUri}}
-                style={styles.messageImage}
-              />
-            ))}
-          </ScrollView>
-        )}
       </>
     );
   };
@@ -309,7 +306,6 @@ export const Chat = () => {
           message={currentMessage}
           setMessage={setCurrentMessage}
           onSendMessage={handleSendOrUpdate}
-          attachedImage={attachedImages}
           onAttachFile={handleAttachFile}
         />
         <MessageActionsModal

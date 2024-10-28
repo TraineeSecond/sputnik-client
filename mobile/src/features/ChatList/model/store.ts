@@ -28,7 +28,9 @@ export const useChatListStore = create<ChatListStore>((set, get) => ({
     set({isLoading: true, error: false});
     try {
       const response = await axios.get<Chat[]>(
-        `http://172.20.10.2:5556/${userId}/chats?take=20&skip=${get().skip}`,
+        `https://domennameabcdef.ru/api/${userId}/chats?take=20&skip=${
+          get().skip
+        }`,
       );
       const newChats = response.data.filter(
         newChat => !get().chatList.some(chat => chat.id === newChat.id),

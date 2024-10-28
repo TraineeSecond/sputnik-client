@@ -10,6 +10,7 @@ export const ChatTextareaStyles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 15,
     borderTopColor: Colors.Gray100,
+
     borderTopWidth: 1,
   },
   inputContainer: {

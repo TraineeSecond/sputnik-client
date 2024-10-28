@@ -2,10 +2,9 @@ import axios from 'axios';
 import {io} from 'socket.io-client';
 import {create} from 'zustand';
 
-import {IMessage} from './types';
+import {IMessage, TImages} from './types';
 
 const socket = io('http://domennameabcdef.ru:5555');
-const socket2 = io('http://172.20.10.2:5556');
 
 type ChatStore = {
   messages: IMessage[];
@@ -20,7 +19,7 @@ type ChatStore = {
   wasScroll: boolean;
   modalVisible: boolean;
   selectedMessageId: number;
-  attachedImages: string[];
+  attachedImages: TImages[];
   setSelectedMessageId: (value: number) => void;
   setModalVisible: (value: boolean) => void;
   setWasScroll: (value: boolean) => void;
@@ -30,7 +29,7 @@ type ChatStore = {
   sendMessage: (
     chatId: number,
     authorId: number,
-    imageUris: string[] | null,
+    imageUris: TImages[] | null,
   ) => void;
   sendReaction: (
     chatId: number,
@@ -41,7 +40,7 @@ type ChatStore = {
   deleteMessage: (chatId: number, messageId: number) => void;
   editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
-  setAttachedImages: (imageUris: string[]) => void;
+  setAttachedImages: (imageUris: TImages[]) => void;
 };
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -85,7 +84,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set({isLoading: true, error: false});
     try {
       const response = await axios.get<IMessage[]>(
-        `http://172.20.10.2:5556/chats/${chatId}/messages?take=20&skip=${
+        `https://domennameabcdef.ru/api/chats/${chatId}/messages?take=20&skip=${
           get().skip
         }`,
       );
@@ -105,7 +104,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   sendMessage: async (
     chatId: number,
     authorId: number,
-    imageUris: string[] | null,
+    imageUris: TImages[] | null,
   ) => {
     const message = get().currentMessage;
     if (!message && !imageUris) return;
@@ -117,14 +116,21 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     const validImageUris = imageUris || [];
 
     const processedImages = await Promise.all(
-      validImageUris.map(async uri => {
-        const response = await fetch(uri);
+      validImageUris.map(async image => {
+        const response = await fetch(image.image);
         const blob = await response.blob();
+
+        const arrayBuffer = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(blob);
+        });
+
         return {
-          uri,
           name: `image-${Date.now()}.jpg`,
           type: blob.type,
-          blob,
+          buffer: arrayBuffer,
         };
       }),
     );
@@ -155,16 +161,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       sendingMessages: {...currentSendingMessages, [tempMessageId]: true},
     });
 
-    socket2.emit('sendMessage', {
+    socket.emit('sendMessage', {
       chatId,
       message,
       authorId,
       tempMessageId,
-      images: processedImages.map(img => ({
-        name: img.name,
-        type: img.type,
-        blob: img.blob,
-      })),
+      images: processedImages,
     });
   },
 

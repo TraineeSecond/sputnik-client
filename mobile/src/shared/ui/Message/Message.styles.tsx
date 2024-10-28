@@ -26,7 +26,7 @@ export const MessageStyles = StyleSheet.create({
   },
   messageContainerRight: {
     width: '100%',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
@@ -41,7 +41,6 @@ export const MessageStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingRight: 15,
-    // width: '98%',
   },
   messageText: {
     fontSize: 16,
@@ -87,5 +86,30 @@ export const MessageStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     gap: 10,
+  },
+  messageImage: {
+    width: 150,
+    height: 150,
+    marginRight: 10,
+    borderRadius: 10,
+    marginBottom: 5,
+  },
+  modalConatiner: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  modalClose: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: Colors.Black100Opacity20,
+    borderRadius: 20,
+    padding: 10,
   },
 });

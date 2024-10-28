@@ -18,54 +18,26 @@ export const ChatStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
-  modalContainer: {
-    backgroundColor: Colors.Gray200,
-    width: 350,
-    height: 550,
-    padding: 20,
-    borderRadius: 10,
-  },
   messageImage: {
     width: 150,
     height: 150,
     marginRight: 10,
     borderRadius: 10,
   },
-  emojiListContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 5,
-    paddingBottom: 20,
-  },
-  backdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  buttonsGroup: {
-    flexDirection: 'column',
-    paddingHorizontal: 10,
-  },
-  margin: {
-    marginBottom: 10,
-  },
-  reactionItem: {
-    width: 50,
-    height: 50,
-  },
   imageContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    height: 110,
-    padding: 8,
+    alignItems: 'flex-end',
+    paddingTop: 80,
+    paddingHorizontal: 10,
   },
   previewImageWrapper: {
     position: 'relative',
     marginRight: 8,
   },
   previewImage: {
-    width: 75,
-    height: 75,
-    borderRadius: 12,
+    width: 100,
+    height: 100,
+    borderRadius: 10,
   },
   closeButton: {
     position: 'absolute',
