@@ -113,5 +113,19 @@
   "Слайд": "Slide",
   "Выбрать пункт выдачи": "Select pickup point",
   "отзывов": "reviews",
-  "Оценка": "Rating"
+  "Оценка": "Rating",
+  "Прикрепить файл": "Attach file",
+  "Поле ввода сообщения": "Message input field",
+  "Отправить сообщение": "Send message",
+  "Ваше сообщение": "Your message",
+  "Сообщение от собеседника": "Message from contact",
+  "Сообщение отправляется": "Message is being sent",
+  "Сообщение прочитано": "Message read",
+  "Сообщение доставлено": "Message delivered",
+  "Нажмите и удерживайте для реакции": "Press and hold for reaction",
+  "Реакция": "Reaction",
+  "Выберите действие с сообщением": "Select message action",
+  "Отправить реакцию": "Send reaction",
+  "Изменить сообщение": "Edit message",
+  "Удалить сообщение": "Delete message"
 }

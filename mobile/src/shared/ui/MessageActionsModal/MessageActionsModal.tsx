@@ -30,9 +30,13 @@ export const MessageActionsModal = ({
       visible={modalVisible}
       backdropStyle={styles.backdrop}
       style={styles.modalContainer}
-      onBackdropPress={onBackdropPress}>
+      onBackdropPress={onBackdropPress}
+      accessible={true}
+      accessibilityLabel={t('Выберите действие с сообщением')}>
       <Text
-        style={[styles.centerText, TextStyles.h2.changeColor(Colors.Black100)]}>
+        style={[styles.centerText, TextStyles.h2.changeColor(Colors.Black100)]}
+        accessible={true}
+        accessibilityRole="header">
         {t('Выберите реакцию')}
       </Text>
 
@@ -46,7 +50,12 @@ export const MessageActionsModal = ({
             <TouchableOpacity
               style={styles.reactionItem}
               key={ix}
-              onPress={handleSendReaction}>
+              onPress={handleSendReaction}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={`${t('Отправить реакцию')} ${
+                emoji[reaction]
+              }`}>
               <Text style={TextStyles.reaction.changeColor(Colors.White100)}>
                 {emoji[reaction]}
               </Text>
@@ -56,13 +65,28 @@ export const MessageActionsModal = ({
       </ScrollView>
 
       <View style={styles.buttonsGroup}>
-        <Button style={styles.margin} onPress={handleUpdate}>
+        <Button
+          style={styles.margin}
+          onPress={handleUpdate}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={t('Изменить сообщение')}>
           {t('Изменить')}
         </Button>
-        <Button style={styles.margin} onPress={handleDelete}>
+        <Button
+          style={styles.margin}
+          onPress={handleDelete}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={t('Удалить сообщение')}>
           {t('Удалить')}
         </Button>
-        <Button style={styles.margin} onPress={onBackdropPress}>
+        <Button
+          style={styles.margin}
+          onPress={onBackdropPress}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={t('Отмена')}>
           {t('Отмена')}
         </Button>
       </View>

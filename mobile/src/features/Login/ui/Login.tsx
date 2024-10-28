@@ -39,7 +39,12 @@ export const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[TextStyles.h1]}>{t('Авторизация')}</Text>
+      <Text
+        style={[TextStyles.h1]}
+        accessible={true}
+        accessibilityLabel={t('Авторизация')}>
+        {t('Авторизация')}
+      </Text>
       <Image
         style={styles.image}
         source={require('shared/assets/images/tempimage.png')}
@@ -49,6 +54,7 @@ export const Login = () => {
           value={email}
           setValue={setEmail}
           placeholder={t('Введите почту')}
+          accessibilityLabel={t('Введите почту')}
           style={styles.input}
         />
         <Input
@@ -56,15 +62,25 @@ export const Login = () => {
           setValue={setPassword}
           isPassword={true}
           placeholder={t('Введите пароль')}
+          accessibilityLabel={t('Введите пароль')}
           style={styles.input}
         />
 
         <View style={styles.controls}>
-          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+          <TouchableOpacity
+            onPress={handleLogin}
+            style={styles.button}
+            accessible={true}
+            accessibilityLabel={t('Войти')}>
             <Text style={TextStyles.button1}>{t('Войти')}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleNavigate}>
-            <Text style={TextStyles.button2}>{t('Зарегистрироваться')}</Text>
+            <Text
+              style={TextStyles.button2}
+              accessible={true}
+              accessibilityLabel={t('Зарегистрироваться')}>
+              {t('Зарегистрироваться')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

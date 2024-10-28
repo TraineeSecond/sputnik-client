@@ -1,13 +1,10 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Button} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
-import {CartItemType, Product} from 'entities';
-import {useUserStore} from 'entities/user';
+import {CartItemType, Product, useUserStore} from 'entities';
 import {useChatListStore} from 'features/ChatList';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
