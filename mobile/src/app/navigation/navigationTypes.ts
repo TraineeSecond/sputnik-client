@@ -4,7 +4,11 @@ import {Product} from 'entities/product';
 
 export type ProductRouteParams = {product: Product};
 
-export type MessengerRouteParams = {chatId: number};
+export type MessengerRouteParams = {
+  chatId: number;
+  productName: string;
+  sellerName: string;
+};
 
 export type NewProductRouteParams = {product?: Product};
 
@@ -45,6 +49,5 @@ export type ProfileStackParamsList = {
   ReviewsPoints: undefined;
   ChatList: undefined;
   SellerProducts: undefined;
-  Messenger: MessengerRouteParams;
   NewProduct?: NewProductRouteParams;
 };

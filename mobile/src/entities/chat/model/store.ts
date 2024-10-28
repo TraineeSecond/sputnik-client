@@ -8,6 +8,8 @@ const socket = io('http://domennameabcdef.ru:5555');
 
 type ChatStore = {
   messages: IMessage[];
+  sendingMessages: {[key: string]: boolean};
+  setSendingMessage: (messageId: string, status: boolean) => void;
   setMessages: (messages: IMessage[]) => void;
   currentMessage: string;
   isLoading: boolean;
@@ -37,6 +39,12 @@ type ChatStore = {
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
+  sendingMessages: {},
+  setSendingMessage: (messageId, status) => {
+    set(state => ({
+      sendingMessages: {...state.sendingMessages, [messageId]: status},
+    }));
+  },
   currentMessage: '',
   isLoading: false,
   error: false,
@@ -87,7 +95,37 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     const message = get().currentMessage;
     if (!message) return;
 
-    socket.emit('sendMessage', {chatId, message, authorId});
+    const tempMessageId = -Date.now();
+
+    const currentMessages = get().messages;
+    const currentSendingMessages = get().sendingMessages || {};
+
+    set({
+      messages: [
+        {
+          id: tempMessageId,
+          chatId,
+          message,
+          authorId,
+          reactions: [],
+          createdAt: new Date().toString(),
+          updatedAt: new Date().toString(),
+          author: {
+            id: 0,
+            email: '',
+            role: '',
+            name: '',
+            surname: '',
+          },
+          isSending: true,
+          isRead: false,
+        },
+        ...currentMessages,
+      ],
+      sendingMessages: {...currentSendingMessages, [tempMessageId]: true},
+    });
+
+    socket.emit('sendMessage', {chatId, message, authorId, tempMessageId});
   },
 
   sendReaction: (

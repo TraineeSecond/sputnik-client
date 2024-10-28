@@ -1,6 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useMemo} from 'react';
-import {KeyboardAvoidingView, View, VirtualizedList} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Alert, FlatList, KeyboardAvoidingView, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
@@ -16,10 +17,12 @@ type ProductRouteProp = RouteProp<RootStackParamsList, Screens.MESSENGER>;
 const socket = io('http://domennameabcdef.ru:5555');
 
 export const Chat = () => {
+  const {t} = useTranslation();
   const route = useRoute<ProductRouteProp>();
-  const {chatId} = route.params;
+  const {chatId, productName, sellerName} = route.params;
   const {
     messages,
+    sendingMessages,
     currentMessage,
     setCurrentMessage,
     loadMessages,
@@ -42,11 +45,12 @@ export const Chat = () => {
 
   const {user} = useUserStore();
 
-  const listRef = React.useRef<VirtualizedList<IMessage>>(null);
-
+  const listRef = React.useRef<FlatList<IMessage>>(null);
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
+
   useEffect(() => {
     loadMessages(chatId);
+    socket.emit('readMessages', {chatId, userId: user.id});
 
     return () => {
       setMessages([]);
@@ -58,8 +62,31 @@ export const Chat = () => {
   useEffect(() => {
     socket.emit('joinChat', chatId);
 
+    socket.on('readedMessages', ({chatId, userId}) => {
+      setMessages(
+        messages.map((msg: IMessage) =>
+          msg.authorId === user.id ? {...msg, isRead: true} : msg,
+        ),
+      );
+    });
+
     socket.on('newMessage', newMessage => {
-      setMessages([newMessage, ...messages]);
+      if (newMessage.authorId === user.id) {
+        const messagesWithoutLast = messages.slice(1);
+        setMessages([newMessage, ...messagesWithoutLast]);
+      } else {
+        setMessages([newMessage, ...messages]);
+        socket.emit('readMessages', {chatId, userId: user.id});
+      }
+    });
+
+    socket.on('messageError', ({messageId}) => {
+      Alert.alert(t('Ошибка отправки сообщения'));
+      setMessages(
+        messages.map(msg =>
+          msg.id === messageId ? {...msg, hasError: true} : msg,
+        ),
+      );
     });
 
     socket.on('updatedMessage', messageData => {
@@ -86,6 +113,8 @@ export const Chat = () => {
       socket.off('updatedMessage');
       socket.off('reactionUpdated');
       socket.off('deletedMessage');
+      socket.off('readedMessages');
+      socket.off('messageError');
     };
   }, [messages]);
 
@@ -141,9 +170,14 @@ export const Chat = () => {
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === user.id;
     const handleLongPress = () => longPress(item.id);
+
     const onSendReaction = (reaction: string) => {
       sendReaction(chatId, user.id, item.id, reaction);
     };
+
+    const isSending = !!sendingMessages[item.id];
+
+    const hasError = item?.hasError;
     return (
       <>
         <Message
@@ -152,6 +186,9 @@ export const Chat = () => {
           onLongPress={handleLongPress}
           reactions={item.reactions}
           onSendReaction={onSendReaction}
+          isSending={isSending}
+          isRead={item.isRead}
+          hasError={hasError}
         />
       </>
     );
@@ -173,14 +210,12 @@ export const Chat = () => {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView style={styles.messagesContainer}>
-        <VirtualizedList
+        <FlatList
           ref={listRef}
           data={reversedMessages}
           initialNumToRender={20}
           renderItem={renderMessage}
           keyExtractor={item => item.id.toString()}
-          getItemCount={data => data.length}
-          getItem={(data, index) => data[index]}
           contentContainerStyle={styles.contentContainer}
           onScroll={handleScroll}
         />

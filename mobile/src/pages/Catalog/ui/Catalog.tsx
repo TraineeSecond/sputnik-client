@@ -18,28 +18,48 @@ export const Catalog = () => {
   const [isRefresh, setIsRefresh] = useState(false);
   const {
     error,
+    hasMore,
     category,
-    isLoading,
     categories,
     foundProducts,
+    isSearchLoading,
+    isMomentumScroll,
+    isPaginationLoading,
+    setPage,
     setCategory,
+    incrementPage,
     fetchProducts,
     fetchStartData,
+    setIsMomentumScroll,
   } = useSearchCatalogStore();
   const {user} = useUserStore();
+  let onEndReachedCalledDuringMomentum = false;
 
   const hideButton = user.role === 'seller';
 
   const onRefresh = useCallback(async () => {
     setIsRefresh(true);
-    await Promise.all([fetchStartData()]);
+    setPage(1);
+    await fetchStartData();
     setIsRefresh(false);
-  }, [fetchStartData]);
+  }, [fetchStartData, setPage]);
 
   const handleProductPress = (product: Product) => {
     navigation.navigate(Screens.PRODUCT, {
       product,
     });
+  };
+
+  const handleEndReached = () => {
+    if (!isPaginationLoading && hasMore && !isMomentumScroll) {
+      incrementPage();
+      fetchProducts();
+      setIsMomentumScroll(true);
+    }
+  };
+
+  const handleMomentumScrollBegin = () => {
+    setIsMomentumScroll(false);
   };
 
   const renderProductItem = (item: Product) => {
@@ -69,13 +89,11 @@ export const Catalog = () => {
   const renderFlatListItem = ({item}: {item: Product}) =>
     renderProductItem(item);
 
-  const showLoader = isLoading && !isRefresh && !error;
-
   return (
     <View style={styles.container}>
       <View style={styles.filters}>
         <SearchCatalog
-          isLoading={isLoading}
+          isLoading={isRefresh}
           categories={categories}
           category={category}
           setCategory={setCategory}
@@ -87,7 +105,7 @@ export const Catalog = () => {
           textError={`${t('Ошибка')} ${t('Попробуйте перезагрузить страницу')}`}
         />
       )}
-      {showLoader ? (
+      {isSearchLoading ? (
         <View style={styles.skeleton}>
           <ActivityIndicator size="large" color={Colors.Gray500} />
         </View>
@@ -98,9 +116,17 @@ export const Catalog = () => {
           renderItem={renderFlatListItem}
           keyExtractor={item => item.id.toString()}
           contentContainerStyle={styles.scrollView}
-          initialNumToRender={8}
+          initialNumToRender={10}
+          onEndReachedThreshold={0.5}
+          onEndReached={handleEndReached}
+          onMomentumScrollBegin={handleMomentumScrollBegin}
+          ListFooterComponent={
+            isPaginationLoading && !isRefresh ? (
+              <ActivityIndicator size="large" color={Colors.Gray500} />
+            ) : null
+          }
           refreshControl={
-            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+            <RefreshControl refreshing={isRefresh} onRefresh={onRefresh} />
           }
         />
       )}

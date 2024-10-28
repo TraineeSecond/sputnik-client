@@ -1,8 +1,10 @@
+import {Spinner} from '@ui-kitten/components';
 import React, {memo, useCallback} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 
 import {Reactions} from 'entities';
-import {Colors, TextStyles, emoji} from 'shared/libs/helpers';
+import {AlertIcon, CheckIcon, DoubleCheckIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles, emoji} from 'shared/libs/helpers';
 
 import {MessageStyles as styles} from './Message.styles';
 
@@ -12,6 +14,9 @@ type MessageProps = {
   reactions: Reactions[];
   onLongPress: () => void;
   onSendReaction: (reaction: string) => void;
+  isSending: boolean;
+  isRead?: boolean;
+  hasError?: boolean;
 };
 
 export const Message = memo(
@@ -21,7 +26,50 @@ export const Message = memo(
     onLongPress,
     reactions,
     onSendReaction,
+    isSending,
+    isRead,
+    hasError,
   }: MessageProps) => {
+    const renderIcon = () => {
+      if (hasError) {
+        return (
+          <AlertIcon
+            style={{
+              width: IconStyles.small.width,
+              height: IconStyles.small.height,
+            }}
+          />
+        );
+      }
+      if (isSending)
+        return (
+          <Spinner
+            style={{
+              width: IconStyles.small.width,
+              height: IconStyles.small.height,
+            }}
+          />
+        );
+      else {
+        if (isRead)
+          return (
+            <DoubleCheckIcon
+              fill={IconStyles.small.changeColor(Colors.Blue200).color}
+              width={IconStyles.small.width}
+              height={IconStyles.small.height}
+            />
+          );
+        else
+          return (
+            <CheckIcon
+              fill={IconStyles.small.changeColor(Colors.Blue200).color}
+              width={IconStyles.small.width}
+              height={IconStyles.small.height}
+            />
+          );
+      }
+    };
+
     return (
       <View
         style={[
@@ -40,29 +88,44 @@ export const Message = memo(
                 : styles.backGroundChangeLeft),
           ]}
           onLongPress={onLongPress}>
-          <Text
-            style={[
-              styles.messageText,
-              isCurrentUser ? styles.messageTextRight : styles.messageTextLeft,
-            ]}>
-            {message}
-          </Text>
-          <View style={styles.reactionsContainer}>
-            {reactions.map((reaction, ix) => {
-              const onPress = () => onSendReaction(reaction.reaction);
-              return (
-                <TouchableOpacity
-                  key={ix}
-                  onPress={onPress}
-                  style={styles.reaction}>
-                  <Text style={TextStyles.span1.changeColor(Colors.White100)}>
-                    {emoji[reaction.reaction as keyof typeof emoji]}{' '}
-                    {reaction.count}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+          <View style={styles.messageContent}>
+            <Text
+              style={[
+                styles.messageText,
+                isCurrentUser
+                  ? styles.messageTextRight
+                  : styles.messageTextLeft,
+              ]}>
+              {message}
+            </Text>
+            {reactions.length === 0 && isCurrentUser && (
+              <View style={styles.inlineStatusIcon}>{renderIcon()}</View>
+            )}
           </View>
+          {reactions.length > 0 && (
+            <View style={styles.reactionsAndStatusContainer}>
+              <View style={styles.reactionsContainer}>
+                {reactions.map((reaction, ix) => {
+                  const onPress = () => onSendReaction(reaction.reaction);
+                  return (
+                    <TouchableOpacity
+                      key={ix}
+                      onPress={onPress}
+                      style={styles.reaction}>
+                      <Text
+                        style={TextStyles.span1.changeColor(Colors.White100)}>
+                        {emoji[reaction.reaction as keyof typeof emoji]}{' '}
+                        {reaction.count}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              {isCurrentUser && (
+                <View style={styles.statusIcon}>{renderIcon()}</View>
+              )}
+            </View>
+          )}
         </Pressable>
       </View>
     );

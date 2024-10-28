@@ -30,15 +30,6 @@ export const ProfileStackNavigator = () => {
     });
   };
 
-  const handleGoChatList = () => {
-    navigation.navigate(Stacks.MAIN, {
-      screen: Screens.PROFILE_TAB,
-      params: {
-        screen: Screens.CHATLIST,
-      },
-    });
-  };
-
   const handleAddProduct = () => {
     navigation.navigate(Stacks.MAIN, {
       screen: Screens.PROFILE_TAB,
@@ -112,15 +103,6 @@ export const ProfileStackNavigator = () => {
               onAddPress={handleAddProduct}
               onBackPress={handleGoBack}
             />
-          ),
-        }}
-      />
-      <ProfileStack.Screen
-        name={Screens.MESSENGER}
-        component={Messenger}
-        options={{
-          header: () => (
-            <Header showBackButton onBackPress={handleGoChatList} />
           ),
         }}
       />

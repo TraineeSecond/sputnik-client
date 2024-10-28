@@ -39,7 +39,7 @@ export const MainTabsNavigator = () => {
     setSearchText('');
   };
 
-  const showCart = user.role !== 'seller';
+  const isUserBuyer = user.role !== 'seller';
 
   return (
     <MainTabsStack.Navigator
@@ -73,7 +73,7 @@ export const MainTabsNavigator = () => {
           header: () => (
             <Header
               showTitle
-              showCartButton={showCart}
+              showCartButton={isUserBuyer}
               onCartPress={handleNavigateToCart}
             />
           ),
@@ -86,8 +86,9 @@ export const MainTabsNavigator = () => {
           title: t('Каталог'),
           header: () => (
             <Header
+              hideBorder
               showSearchInput
-              showCartButton={showCart}
+              showCartButton={isUserBuyer}
               searchText={searchText}
               onSearch={handleSearch}
               setSearchText={setSearchText}

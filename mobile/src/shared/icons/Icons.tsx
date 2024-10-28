@@ -67,3 +67,13 @@ export const StarIcon = (props: any) => <Icon {...props} name="star" />;
 export const RemoveIcon = (props: any) => <Icon {...props} name="trash-2" />;
 export const FlagIcon = (props: any) => <Icon {...props} name="flag-outline" />;
 export const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;
+
+export const CheckIcon = (props: any) => (
+  <Icon {...props} name="checkmark-outline" />
+);
+export const DoubleCheckIcon = (props: any) => (
+  <Icon {...props} name="done-all-outline" />
+);
+export const AlertIcon = (props: any) => (
+  <Icon {...props} name="alert-circle-outline" />
+);

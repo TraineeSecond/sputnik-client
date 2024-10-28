@@ -13,6 +13,9 @@ export interface IMessage {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
+  isSending?: boolean;
+  isRead: boolean;
+  hasError?: boolean;
 }
 
 export interface Reactions {

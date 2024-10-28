@@ -30,7 +30,7 @@ export const CategoryItem = memo(
         accessibilityRole="button"
         onPress={onPress}
         style={styles.container}
-        activeOpacity={1}>
+        activeOpacity={0.5}>
         <View style={[styles.imageContainer, style]}>
           {image ? (
             <Image source={image} style={styles.image} />
