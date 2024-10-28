@@ -1,4 +1,5 @@
 import React, {memo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {ImageOwn} from 'entities/product';
@@ -38,14 +39,32 @@ export const ProductItem = memo(
     onPress,
   }: ProductItemProps) => {
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
+    const {t} = useTranslation();
 
     const handleFavoritePress = () => {
       setIsFavorite(!isFavorite);
       // добавление в избранное
     };
 
-    const seller = `${sellerName} ${sellerSurname}`;
     const hasDiscount = newPrice < price;
+
+    const seller = `${sellerName} ${sellerSurname}`;
+
+    const accessibilityProduct =
+      t('Товар') +
+      `: ${name}. ` +
+      t('Цена') +
+      `: ${price}. ` +
+      t('Рейтинг') +
+      `: ${rating} ` +
+      t('из 5') +
+      `. ` +
+      t('Отзывов') +
+      `: ${reviewerscount}`;
+
+    const accessabilityLikeButton = t(
+      isFavorite ? 'Удалить из избранного' : 'Добавить в избранное',
+    );
 
     const renderFavoriteIcon = () => {
       return isFavorite ? (
@@ -125,9 +144,7 @@ export const ProductItem = memo(
       <TouchableOpacity
         onPress={onPress}
         accessible={true}
-        accessibilityLabel={`Товар: ${name}. Цена: ${
-          hasDiscount ? `${newPrice} рублей, скидка` : `${price} рублей`
-        }. Рейтинг: ${rating} из 5. Отзывов: ${reviewerscount}`}
+        accessibilityLabel={accessibilityProduct}
         accessibilityRole="button"
         style={[styles.container, style]}
         activeOpacity={0.8}>
@@ -135,9 +152,7 @@ export const ProductItem = memo(
           {!hideButton && (
             <TouchableOpacity
               accessible={true}
-              accessibilityLabel={
-                isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'
-              }
+              accessibilityLabel={accessabilityLikeButton}
               accessibilityRole="button"
               onPress={handleFavoritePress}
               style={styles.favoriteIcon}>

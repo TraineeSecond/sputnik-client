@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   KeyboardTypeOptions,
   TextInput,
@@ -21,16 +22,16 @@ type InputType = {
   isPassword?: boolean;
   containerStyle?: object;
   keyboardType?: KeyboardTypeOptions;
+  accessibilityLabel: string;
+  disabled?: boolean;
   onClear?: () => void;
   setValue: (text: string) => void;
-  disabled?: boolean;
 };
 
 export const Input = ({
   style,
   value,
-  onClear,
-  setValue,
+  accessibilityLabel,
   placeholder,
   numberOfLines,
   containerStyle,
@@ -39,13 +40,20 @@ export const Input = ({
   showClear = false,
   isPassword = false,
   disabled = false,
+  onClear,
+  setValue,
 }: InputType) => {
+  const {t} = useTranslation();
+
   const handleChangeText = (value: string) => {
     if (!disabled) setValue(value);
   };
 
   return (
-    <View style={[styles.inputContainer, containerStyle]}>
+    <View
+      style={[styles.inputContainer, containerStyle]}
+      accessibilityLabel={accessibilityLabel}
+      accessible={true}>
       <TextInput
         value={value}
         secureTextEntry={isPassword}
@@ -67,7 +75,11 @@ export const Input = ({
         ]}
       />
       {value && showClear && (
-        <TouchableOpacity onPress={onClear} style={styles.clearButton}>
+        <TouchableOpacity
+          onPress={onClear}
+          style={styles.clearButton}
+          accessible={true}
+          accessibilityLabel={t('Стереть текст')}>
           <CloseIcon
             fill={IconStyles.medium.changeColor(Colors.Gray500).color}
             width={IconStyles.medium.width}
