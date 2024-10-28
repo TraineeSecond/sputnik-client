@@ -1,10 +1,15 @@
+import { Suspense, lazy } from 'react';
+
 import { MainLayout } from 'widgets';
-import DeliveryView from 'widgets/deliveryView/ui/DeliveryView';
+
+const DeliveryView = lazy(() => import('widgets/deliveryView/ui/DeliveryView'));
 
 const Delivery = () => {
   return (
     <MainLayout>
-      <DeliveryView />
+      <Suspense fallback={<></>}>
+        <DeliveryView />
+      </Suspense>
     </MainLayout>
   );
 };

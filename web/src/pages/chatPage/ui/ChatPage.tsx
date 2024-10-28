@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 
-import { Chat } from 'features';
 import { useChatStore } from 'features/chat/model/chatStore';
 import { useParams } from 'react-router-dom';
 import { MainLayout } from 'widgets';
 
-//TODO:убрать возможность перехода на несуществующий чат
+const Chat = lazy(() =>
+  import('features').then((module) => ({ default: module.Chat })),
+);
+
+//TODO: убрать возможность перехода на несуществующий чат
 
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
@@ -21,7 +24,9 @@ const ChatPage = () => {
 
   return (
     <MainLayout>
-      <Chat />
+      <Suspense fallback={<></>}>
+        <Chat />
+      </Suspense>
     </MainLayout>
   );
 };

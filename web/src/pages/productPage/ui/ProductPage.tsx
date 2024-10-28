@@ -1,11 +1,14 @@
-import { useCallback, useEffect } from 'react';
+import { Suspense, lazy, useCallback, useEffect } from 'react';
 
 import { useProductStore } from 'entities/product/model/productStore';
 import { useCartStore } from 'features/cart/model/cartStore';
 import { useParams } from 'react-router-dom';
 import { useAuthStore } from 'shared/auth/model/authStore';
-import { MainLayout, ProductView } from 'widgets';
+import { MainLayout } from 'widgets';
 
+const ProductView = lazy(() =>
+  import('widgets').then((module) => ({ default: module.ProductView })),
+);
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
   const { product, loadProductById } = useProductStore();
@@ -41,15 +44,17 @@ const ProductPage = () => {
 
   return (
     <MainLayout>
-      <ProductView
-        product={product}
-        quantity={quantity}
-        onIncrement={handleIncrement}
-        onDecrement={handleDecrement}
-        userId={user?.id}
-        isBuyer={isBuyer}
-        loading={loading}
-      />
+      <Suspense fallback={<></>}>
+        <ProductView
+          product={product}
+          quantity={quantity}
+          onIncrement={handleIncrement}
+          onDecrement={handleDecrement}
+          userId={user?.id}
+          isBuyer={isBuyer}
+          loading={loading}
+        />
+      </Suspense>
     </MainLayout>
   );
 };
