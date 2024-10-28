@@ -11,6 +11,8 @@ import {
 } from './types';
 
 export const useProductStore = create<IProductState>((set, get) => ({
+  page: 1,
+  pageSize: 11,
   sortName: '',
   sortCategory: '',
   products: [],
@@ -34,33 +36,47 @@ export const useProductStore = create<IProductState>((set, get) => ({
   setSellerId: async (id: number | null) => {
     set({ sellerId: id });
     set({ products: [] });
+    get().rezeroProductPage();
     await get().loadProducts();
   },
 
   setSortCategory: async (category) => {
     set({ sortCategory: category });
     set({ products: [] });
+    get().rezeroProductPage();
     await get().loadProducts();
   },
 
   setSortName: async (name: string): Promise<void> => {
     set({ sortName: name });
     set({ products: [] });
+    get().rezeroProductPage();
+    await get().loadProducts();
+  },
+
+  rezeroProductPage: (): void => {
+    set({ page: 1 });
+    set({ products: [] });
+  },
+
+  loadNextProductPage: async (): Promise<void> => {
+    set({ page: get().page + 1 });
     await get().loadProducts();
   },
 
   loadProducts: async (): Promise<void> => {
     try {
-      const { sortName, sortCategory, sellerId } = get();
+      const { sortName, sortCategory, sellerId, page, pageSize } = get();
       const res = await api.get<TProductsResponse>('products', {
         params: {
           name: sortName,
           category: sortCategory,
           userid: sellerId,
+          ...(sellerId === null && { page, pageSize }),
         },
       });
       const { data } = res;
-      set({ products: data });
+      set({ products: [...get().products, ...data] });
     } catch (error) {
       console.error(error);
       set({ error: 'Ошибка при загрузке продуктов' });

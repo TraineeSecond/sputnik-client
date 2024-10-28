@@ -30,15 +30,6 @@ export const ProfileStackNavigator = () => {
     });
   };
 
-  const handleGoChatList = () => {
-    navigation.navigate(Stacks.MAIN, {
-      screen: Screens.PROFILE_TAB,
-      params: {
-        screen: Screens.CHATLIST,
-      },
-    });
-  };
-
   const handleAddProduct = () => {
     navigation.navigate(Stacks.MAIN, {
       screen: Screens.PROFILE_TAB,
@@ -115,22 +106,6 @@ export const ProfileStackNavigator = () => {
           ),
         }}
       />
-      {/* <ProfileStack.Screen
-        name={Screens.MESSENGER}
-        component={Messenger}
-        options={({route}) => {
-          return {
-            header: () => (
-              <Header
-                showBackButton
-                onBackPress={handleGoChatList}
-                productName={route.params.productName}
-                sellerName={route.params.sellerName}
-              />
-            ),
-          };
-        }}
-      /> */}
     </ProfileStack.Navigator>
   );
 };

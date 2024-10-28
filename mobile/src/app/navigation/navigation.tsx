@@ -44,18 +44,16 @@ export const RootNavigator = () => {
       <RootStack.Screen
         name={Screens.MESSENGER}
         component={Messenger}
-        options={({route}) => {
-          return {
-            header: () => (
-              <Header
-                showBackButton
-                onBackPress={handleGoBack}
-                productName={route.params.productName}
-                sellerName={route.params.sellerName}
-              />
-            ),
-          };
-        }}
+        options={({route}) => ({
+          header: () => (
+            <Header
+              showBackButton
+              onBackPress={handleGoBack}
+              productName={route.params.productName}
+              sellerName={route.params.sellerName}
+            />
+          ),
+        })}
       />
       <RootStack.Screen
         name={Screens.CART}
