@@ -17,7 +17,7 @@ export const ShowError = ({textError}: ShowErrorProps) => {
     <View
       style={styles.loaderContainer}
       accessible={true}
-      accessibilityLabel={t('Главная') + {textError}}
+      accessibilityLabel={`${t('Ошибка')}: ${textError}`}
       accessibilityRole="alert">
       <Text style={TextStyles.p1.changeColor(Colors.Red500)}>{textError}</Text>
     </View>

@@ -33,7 +33,6 @@ export const Catalog = () => {
     setIsMomentumScroll,
   } = useSearchCatalogStore();
   const {user} = useUserStore();
-  let onEndReachedCalledDuringMomentum = false;
 
   const hideButton = user.role === 'seller';
 
@@ -90,7 +89,10 @@ export const Catalog = () => {
     renderProductItem(item);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessible={true}
+      accessibilityLabel={t('Каталог товаров')}>
       <View style={styles.filters}>
         <SearchCatalog
           isLoading={isRefresh}

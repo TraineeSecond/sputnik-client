@@ -17,7 +17,6 @@ type SearchProps = {
 };
 
 export const SearchCatalog = ({
-  isLoading,
   categories,
   category,
   setCategory,

@@ -91,5 +91,14 @@
   "Маркетплейс GOZON": "Marketplace GOZON",
   "Ваш собеседник в чате": "Your chat companion",
   "Стереть текст": "Clear text",
-  "Вернуться на предыдущий экран": "Go back to the previous screen"
+  "Вернуться на предыдущий экран": "Go back to the previous screen",
+  "Каталог товаров": "Product catalog",
+  "Количество": "Quantity",
+  "Перейти к товару": "Go to product",
+  "Перейти на карту для выбора точки доставки": "Go to map to select a delivery point",
+  "Удалить товар из корзины": "Remove item from cart",
+  "Уменьшить количество": "Decrease quantity",
+  "Увеличить количество": "Increase quantity",
+  "Корзина пуста": "Cart is empty",
+  "Необходимо выбрать точку доставки": "You need to select a delivery point"
 }
