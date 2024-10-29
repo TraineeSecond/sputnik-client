@@ -11,6 +11,7 @@ import {
   SellerDashboard,
   Settings,
 } from 'pages';
+import {Appeals} from 'pages/Appeals/ui/Appeals';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Header} from 'widgets';
 
@@ -93,17 +94,10 @@ export const ProfileStackNavigator = () => {
         }}
       />
       <ProfileStack.Screen
-        name={Screens.SELLERPRODUCTS}
-        component={SellerDashboard}
+        name={Screens.APPEALS}
+        component={Appeals}
         options={{
-          header: () => (
-            <Header
-              showBackButton
-              showAddButton
-              onAddPress={handleAddProduct}
-              onBackPress={handleGoBack}
-            />
-          ),
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}
       />
     </ProfileStack.Navigator>

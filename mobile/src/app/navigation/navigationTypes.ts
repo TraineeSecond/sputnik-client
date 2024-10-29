@@ -50,4 +50,5 @@ export type ProfileStackParamsList = {
   ChatList: undefined;
   SellerProducts: undefined;
   NewProduct?: NewProductRouteParams;
+  Appeals: undefined;
 };
