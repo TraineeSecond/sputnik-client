@@ -64,7 +64,7 @@ export const useChatListStore = create<ChatListStore>((set, get) => ({
         }
 
         return {
-          chatList: [response.data, ...state.chatList],
+          chatList: [{...response.data, messages: []}, ...state.chatList],
           isLoading: false,
         };
       });

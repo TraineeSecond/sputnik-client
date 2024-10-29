@@ -2,6 +2,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {TextInput, TouchableOpacity, View} from 'react-native';
 
+import {TImages} from 'entities/chat';
 import {AddImgIcon, SendIcon} from 'shared/icons';
 import {Colors, IconStyles} from 'shared/libs/helpers';
 
@@ -21,6 +22,7 @@ export const ChatTextarea = ({
   onSendMessage,
 }: ChatTextareaProps) => {
   const {t} = useTranslation();
+
   return (
     <View style={styles.container}>
       <TouchableOpacity

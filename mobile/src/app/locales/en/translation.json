@@ -127,5 +127,11 @@
   "Выберите действие с сообщением": "Select message action",
   "Отправить реакцию": "Send reaction",
   "Изменить сообщение": "Edit message",
-  "Удалить сообщение": "Delete message"
+  "Удалить сообщение": "Delete message",
+  "Изображения, прикрепленные к сообщению": "Images attached to the message",
+  "Нажмите, чтобы просмотреть изображение": "Click to view image",
+  "Прикрепленное изображение": "Attached image",
+  "Просмотр изображения": "View image",
+  "Просматриваемое изображение": "Viewable image",
+  "Закрыть изображение": "Close image"
 }

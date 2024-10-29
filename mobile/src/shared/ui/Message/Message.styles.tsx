@@ -25,19 +25,22 @@ export const MessageStyles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   messageContainerRight: {
-    flexDirection: 'row',
+    width: '100%',
+    flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
   bubble: {
     maxWidth: '80%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     paddingVertical: 8,
     borderRadius: 10,
   },
   messageContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 15,
   },
   messageText: {
     fontSize: 16,
@@ -49,9 +52,10 @@ export const MessageStyles = StyleSheet.create({
     color: Colors.Black100,
   },
   inlineStatusIcon: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: -7,
+    position: 'absolute',
+    bottom: 0,
+    right: 2,
+    marginRight: -10,
     marginBottom: -5,
   },
   reactionsContainer: {
@@ -82,5 +86,30 @@ export const MessageStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     gap: 10,
+  },
+  messageImage: {
+    width: 150,
+    height: 150,
+    marginRight: 10,
+    borderRadius: 10,
+    marginBottom: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  modalClose: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: Colors.Black100Opacity20,
+    borderRadius: 20,
+    padding: 10,
   },
 });

@@ -1,5 +1,5 @@
 import {Button} from '@ui-kitten/components';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 
@@ -80,13 +80,21 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
     navigation.navigate(Screens.CART);
   };
 
+  const navigateToChat = useCallback(
+    (chatId: number, productName: string, sellerName: string) => {
+      navigation.navigate(Screens.MESSENGER, {chatId, productName, sellerName});
+    },
+    [navigation],
+  );
+
   const handleGoToChat = async () => {
     const newChat = await addChat(product.id, [product.user.id, user.id]);
     if (newChat) {
-      const chatId = newChat.id;
-      const productName = product.name;
-      const sellerName = product.user.name;
-      navigation.navigate(Screens.MESSENGER, {chatId, productName, sellerName});
+      const chatId = newChat?.id;
+      const productName = product?.name;
+      const sellerName = `${product?.user?.name} ${product?.user?.surname}`;
+
+      navigateToChat(chatId, productName, sellerName);
     }
   };
 

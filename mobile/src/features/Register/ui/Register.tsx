@@ -40,7 +40,7 @@ export const Register = () => {
 
   const handleRegister = async () => {
     const result = await register(email, password, checked, name, surname);
-    if (result.message === t('Пользователь зарегистрирован')) {
+    if (result.message === 'Пользователь зарегистрирован') {
       setIsLoginPage(true);
       clear();
       navigation.navigate(Stacks.HOME_TAB);

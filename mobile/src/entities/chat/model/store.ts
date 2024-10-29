@@ -2,7 +2,7 @@ import axios from 'axios';
 import {io} from 'socket.io-client';
 import {create} from 'zustand';
 
-import {IMessage} from './types';
+import {IMessage, TImages} from './types';
 
 const socket = io('http://domennameabcdef.ru:5555');
 
@@ -19,13 +19,18 @@ type ChatStore = {
   wasScroll: boolean;
   modalVisible: boolean;
   selectedMessageId: number;
+  attachedImages: TImages[];
   setSelectedMessageId: (value: number) => void;
   setModalVisible: (value: boolean) => void;
   setWasScroll: (value: boolean) => void;
   setSkip: (value: number) => void;
   setUpdatingMessageId: (value: number | null) => void;
   loadMessages: (chatId: number) => Promise<void>;
-  sendMessage: (chatId: number, authorId: number) => void;
+  sendMessage: (
+    chatId: number,
+    authorId: number,
+    imageUris: TImages[] | null,
+  ) => void;
   sendReaction: (
     chatId: number,
     userId: number,
@@ -35,6 +40,7 @@ type ChatStore = {
   deleteMessage: (chatId: number, messageId: number) => void;
   editMessage: (chatId: number, messageId: number, newMessage: string) => void;
   setCurrentMessage: (message: string) => void;
+  setAttachedImages: (imageUris: TImages[]) => void;
 };
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -55,6 +61,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   modalVisible: false,
 
   selectedMessageId: 0,
+
+  attachedImages: [],
+  setAttachedImages: imageUris => set({attachedImages: imageUris}),
+
   setSelectedMessageId: value => set({selectedMessageId: value}),
   setModalVisible: value => set({modalVisible: value}),
 
@@ -91,14 +101,39 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  sendMessage: (chatId: number, authorId: number) => {
+  sendMessage: async (
+    chatId: number,
+    authorId: number,
+    imageUris: TImages[] | null,
+  ) => {
     const message = get().currentMessage;
-    if (!message) return;
+    if (!message && !imageUris) return;
 
     const tempMessageId = -Date.now();
-
     const currentMessages = get().messages;
     const currentSendingMessages = get().sendingMessages || {};
+
+    const validImageUris = imageUris || [];
+
+    const processedImages = await Promise.all(
+      validImageUris.map(async image => {
+        const response = await fetch(image.image);
+        const blob = await response.blob();
+
+        const arrayBuffer = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(blob);
+        });
+
+        return {
+          name: `image-${Date.now()}.jpg`,
+          type: blob.type,
+          buffer: arrayBuffer,
+        };
+      }),
+    );
 
     set({
       messages: [
@@ -107,6 +142,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           chatId,
           message,
           authorId,
+          images: validImageUris,
           reactions: [],
           createdAt: new Date().toString(),
           updatedAt: new Date().toString(),
@@ -125,7 +161,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       sendingMessages: {...currentSendingMessages, [tempMessageId]: true},
     });
 
-    socket.emit('sendMessage', {chatId, message, authorId, tempMessageId});
+    socket.emit('sendMessage', {
+      chatId,
+      message,
+      authorId,
+      tempMessageId,
+      images: processedImages,
+    });
   },
 
   sendReaction: (

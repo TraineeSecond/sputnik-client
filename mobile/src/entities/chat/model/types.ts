@@ -1,3 +1,5 @@
+import {ImageSourcePropType} from 'react-native';
+
 import {Product} from 'entities/product';
 import {User} from 'entities/user';
 
@@ -9,7 +11,7 @@ export interface IMessage {
   authorId: number;
   author: User;
   reactions: Reactions[];
-  images?: any[];
+  images: TImages[];
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
@@ -17,6 +19,12 @@ export interface IMessage {
   isRead: boolean;
   hasError?: boolean;
 }
+
+export type TImages = {
+  id: number;
+  image: string;
+  messageId: number;
+};
 
 export interface Reactions {
   reaction: string;

@@ -63,13 +63,19 @@ export const ChatsList = () => {
   };
 
   const renderChatItem = ({item}: {item: Chat}) => {
-    const sellerParticipant = item.participants[0];
-    const buyerParticipant = item.participants[1];
+    const buyerParticipant =
+      user.id === item?.participants[0]?.user?.id
+        ? item.participants[0]
+        : item.participants[1];
+    const sellerParticipant =
+      user.id !== item?.participants[0]?.user?.id
+        ? item.participants[0]
+        : item.participants[1];
 
     const chatPartner =
-      user.role === 'buyer'
-        ? `${sellerParticipant.user.name} ${sellerParticipant.user.surname}`
-        : `${buyerParticipant.user.name} ${buyerParticipant.user.surname}`;
+      user?.role === 'buyer'
+        ? `${sellerParticipant?.user?.name} ${sellerParticipant?.user?.surname}`
+        : `${buyerParticipant?.user?.name} ${buyerParticipant?.user?.surname}`;
 
     const lastMessage = item?.messages[0]?.message;
     const isYourMessage = item?.messages[0]?.authorId === user.id;
