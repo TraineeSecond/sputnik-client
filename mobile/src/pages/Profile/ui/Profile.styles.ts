@@ -5,12 +5,13 @@ import {Colors} from 'shared/libs/helpers/colors';
 export const ProfileStyles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
+    flexDirection: 'row',
+    paddingVertical: 60,
     backgroundColor: Colors.White100,
   },
   textCenter: {
-    textAlign: 'center',
-    marginBottom: 20,
+    // textAlign: 'center',
+    // marginBottom: 20,
   },
   image: {
     width: 150,
