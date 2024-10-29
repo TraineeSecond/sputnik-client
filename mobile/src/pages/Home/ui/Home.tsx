@@ -38,6 +38,8 @@ export const Home = () => {
     fetchStartData();
   }, []);
 
+  console.log(user.id);
+
   useEffect(() => {
     getOrders(user.id, token);
     user.role === 'seller' && fetchSellerProducts();

@@ -49,9 +49,8 @@ export const Orders = () => {
   );
 
   const renderProductItem = (order: Order) => {
-    return order.orderItems.map(item => {
+    return order.orderitems.map(item => {
       const {id, product} = item;
-
       return (
         <ProductItem
           key={id}

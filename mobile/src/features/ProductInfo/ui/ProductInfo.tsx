@@ -4,7 +4,8 @@ import {useTranslation} from 'react-i18next';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
-import {CartItemType, Product, useUserStore} from 'entities';
+import {CartItemType, Product} from 'entities';
+import {useUserStore} from 'entities/user/model/store';
 import {useChatListStore} from 'features/ChatList';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
