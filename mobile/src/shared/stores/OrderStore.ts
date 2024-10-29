@@ -51,8 +51,10 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         quantity: item.quantity,
         productid: item.id,
       }));
+      console.log('formattedItems', formattedItems);
       const {data} = await axios.post(
         'https://domennameabcdef.ru/api/orders',
+        // 'http://192.168.0.11/orders',
         {
           userid,
           orderItems: formattedItems,
@@ -63,11 +65,13 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
           },
         },
       );
-      if (data?.orderitems) {
-        set({
-          orders: data.orderitems,
-        });
-      }
+      console.log('data: ', data);
+      set({orders: [...get().orders, ...data]});
+      // if (data?.orderitems) {
+      //   set({
+      //     orders: data.orderitems,
+      //   });
+      // }
     } catch (error: any) {
       console.error(error.response);
     }

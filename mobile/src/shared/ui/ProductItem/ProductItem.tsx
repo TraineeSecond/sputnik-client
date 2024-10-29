@@ -20,6 +20,7 @@ type ProductItemProps = {
   rating: number;
   reviewerscount: number;
   style?: object;
+  apellationButton?: boolean;
   onPress: () => void;
 };
 
@@ -37,6 +38,7 @@ export const ProductItem = memo(
     sellerSurname,
     reviewerscount,
     onPress,
+    apellationButton,
   }: ProductItemProps) => {
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
     const {t} = useTranslation();
@@ -121,7 +123,6 @@ export const ProductItem = memo(
       );
     };
 
-    //TODO: Отзывы
     const renderReviews = () => {
       return (
         <View style={styles.reviews}>
