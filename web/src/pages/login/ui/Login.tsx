@@ -1,10 +1,17 @@
-import { LoginForm } from 'shared';
+import { Suspense, lazy } from 'react';
+
 import { AuthLayout } from 'widgets';
+
+const LoginForm = lazy(() =>
+  import('shared').then((module) => ({ default: module.LoginForm })),
+);
 
 const Login = () => {
   return (
     <AuthLayout>
-      <LoginForm />
+      <Suspense fallback={<></>}>
+        <LoginForm />
+      </Suspense>
     </AuthLayout>
   );
 };

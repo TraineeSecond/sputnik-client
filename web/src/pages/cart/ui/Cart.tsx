@@ -1,9 +1,17 @@
-import { CartView, MainLayout } from 'widgets';
+import { Suspense, lazy } from 'react';
+
+import { MainLayout } from 'widgets';
+
+const CartView = lazy(() =>
+  import('widgets').then((module) => ({ default: module.CartView })),
+);
 
 const Cart = () => {
   return (
     <MainLayout>
-      <CartView />
+      <Suspense fallback={<></>}>
+        <CartView />
+      </Suspense>
     </MainLayout>
   );
 };

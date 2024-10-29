@@ -1,13 +1,18 @@
-import { ProductListingForm } from 'features';
+import { Suspense, lazy } from 'react';
+
 import { MainLayout } from 'widgets';
+
+const ProductListingForm = lazy(() =>
+  import('features').then((module) => ({ default: module.ProductListingForm })),
+);
 
 const CreateListing = () => {
   return (
-    <>
-      <MainLayout>
+    <MainLayout>
+      <Suspense fallback={<></>}>
         <ProductListingForm />
-      </MainLayout>
-    </>
+      </Suspense>
+    </MainLayout>
   );
 };
 

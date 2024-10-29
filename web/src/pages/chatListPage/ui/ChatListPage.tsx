@@ -1,10 +1,13 @@
-import { useCallback, useEffect } from 'react';
+import { Suspense, lazy, useCallback, useEffect } from 'react';
 
-import { ChatList } from 'features';
 import { useChatStore } from 'features/chat/model/chatStore';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from 'shared/auth/model/authStore';
 import { MainLayout } from 'widgets';
+
+const ChatList = lazy(() =>
+  import('features').then((module) => ({ default: module.ChatList })),
+);
 
 const ChatListPage = () => {
   const { user } = useAuthStore();
@@ -28,12 +31,15 @@ const ChatListPage = () => {
     (chatId: number) => deleteChat(chatId),
     [deleteChat],
   );
+
   return (
     <MainLayout>
-      <ChatList
-        handleChatSelect={handleChatSelect}
-        handleChatDelete={handleChatDelete}
-      />
+      <Suspense fallback={<></>}>
+        <ChatList
+          handleChatSelect={handleChatSelect}
+          handleChatDelete={handleChatDelete}
+        />
+      </Suspense>
     </MainLayout>
   );
 };
