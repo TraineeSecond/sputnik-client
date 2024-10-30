@@ -70,6 +70,7 @@ export const Orders = () => {
           onPress={() => handleProductPress(product)}
           style={styles.productItem}
           apellationButton={true}
+          sellerId={product.user.id}
         />
       );
     });

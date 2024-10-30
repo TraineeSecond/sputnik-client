@@ -1,10 +1,17 @@
 import React, {memo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 
+import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {ImageOwn} from 'entities/product';
-import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
+import {
+  AlertIcon,
+  HeartFilledIcon,
+  HeartOutlineIcon,
+  StarIcon,
+} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 
 import {ProductItemStyles as styles} from './ProductItem.styles';
 
@@ -21,6 +28,7 @@ type ProductItemProps = {
   reviewerscount: number;
   style?: object;
   apellationButton?: boolean;
+  sellerId?: number;
   onPress: () => void;
 };
 
@@ -39,7 +47,10 @@ export const ProductItem = memo(
     reviewerscount,
     onPress,
     apellationButton,
+    sellerId,
   }: ProductItemProps) => {
+    const navigation = useAppNavigation();
+
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
     const {t} = useTranslation();
 
@@ -141,6 +152,31 @@ export const ProductItem = memo(
       );
     };
 
+    const handleAppelRedirect = () => {
+      console.log(id, sellerId);
+      navigation.navigate(Stacks.MAIN, {
+        screen: Screens.PROFILE_TAB,
+        params: {
+          screen: Screens.APPEALS,
+          params: {
+            isSeller: false,
+            product: {id, sellerId},
+          },
+        },
+      });
+    };
+
+    const handleAppelPress = () => {
+      Alert.alert(
+        `Апелляция на товар ${name}`,
+        'Вы будете перенаправлены на страницу с апелляциями для заполнения формы',
+        [
+          {text: 'Отмена', style: 'cancel'},
+          {text: 'Перейти', onPress: handleAppelRedirect},
+        ],
+      );
+    };
+
     return (
       <TouchableOpacity
         onPress={onPress}
@@ -178,6 +214,17 @@ export const ProductItem = memo(
           {name}
         </Text>
         {renderPrice()}
+        {apellationButton && (
+          <TouchableOpacity
+            onPress={handleAppelPress}
+            style={styles.alertButton}>
+            <AlertIcon
+              fill={Colors.Red500}
+              width={IconStyles.medium.width}
+              height={IconStyles.medium.height}
+            />
+          </TouchableOpacity>
+        )}
       </TouchableOpacity>
     );
   },

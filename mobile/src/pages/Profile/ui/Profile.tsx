@@ -9,6 +9,7 @@ import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/index';
 import {
+  AlertIcon,
   CubeIcon,
   FlagIcon,
   ForwardIcon,
@@ -90,6 +91,10 @@ export const Profile = () => {
 
   const isSeller = user.role === 'seller';
 
+  const handleAppelations = () => {
+    navigation.navigate(Screens.APPEALS, {isSeller});
+  };
+
   return (
     <>
       {token ? (
@@ -125,6 +130,14 @@ export const Profile = () => {
                 accessoryLeft={MessageIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleChat}
+              />
+              <MenuItem
+                title={t('Апелляции')}
+                accessible={true}
+                accessibilityLabel={`${t('Апелляции')}`}
+                accessoryLeft={AlertIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handleAppelations}
               />
               <MenuItem
                 title={t('Настройки языка')}

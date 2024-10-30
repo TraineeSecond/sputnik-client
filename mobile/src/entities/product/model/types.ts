@@ -19,3 +19,8 @@ export type Product = {
   rating: number;
   reviewerscount: number;
 };
+
+export type AppelsProduct = {
+  id: string;
+  sellerId: number | undefined;
+};
