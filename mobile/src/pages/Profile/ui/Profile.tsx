@@ -94,13 +94,13 @@ export const Profile = () => {
     <>
       {token ? (
         <View style={styles.container}>
-          {/* <Text
+          <Text
             style={[
               TextStyles.h2.changeColor(Colors.Black200),
               styles.textCenter,
             ]}>
             {t('Профиль')}
-          </Text> */}
+          </Text>
           <Image
             style={styles.image}
             source={require('shared/assets/images/tempimage.png')}

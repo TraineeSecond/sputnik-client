@@ -2,7 +2,9 @@ import {Dimensions, StyleSheet} from 'react-native';
 
 import {Colors} from 'shared/libs/helpers/colors';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
+const isLandscape = width > height;
+const itemWidth = isLandscape ? width / 4 - 16 : width / 2 - 16;
 
 export const CatalogPageStyles = StyleSheet.create({
   container: {
@@ -14,7 +16,7 @@ export const CatalogPageStyles = StyleSheet.create({
     paddingVertical: 10,
   },
   productItem: {
-    width: width / 2 - 16,
+    width: itemWidth,
     margin: 8,
   },
   filters: {

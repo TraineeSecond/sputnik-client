@@ -10,8 +10,8 @@ export const ProfileStyles = StyleSheet.create({
     backgroundColor: Colors.White100,
   },
   textCenter: {
-    // textAlign: 'center',
-    // marginBottom: 20,
+    textAlign: 'center',
+    marginBottom: 20,
   },
   image: {
     width: 150,

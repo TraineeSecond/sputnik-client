@@ -6,6 +6,7 @@ import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import {SearchCatalog, useSearchCatalogStore} from 'features/Search';
+import {useOrientation} from 'shared/hooks';
 import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {ProductItem, ShowError} from 'shared/ui';
@@ -15,6 +16,7 @@ import {CatalogPageStyles as styles} from './Catalog.styles';
 export const Catalog = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
+  const isLandscape = useOrientation();
   const [isRefresh, setIsRefresh] = useState(false);
   const {
     error,
@@ -113,7 +115,8 @@ export const Catalog = () => {
         </View>
       ) : (
         <FlatList
-          numColumns={2}
+          key={`flatList-${isLandscape ? 4 : 2}`}
+          numColumns={isLandscape ? 4 : 2}
           data={foundProducts}
           renderItem={renderFlatListItem}
           keyExtractor={item => item.id.toString()}
