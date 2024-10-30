@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
-import {Screens} from 'app/navigation/navigationEnums';
+import {Screens, Stacks} from 'app/navigation/navigationEnums';
 import {MapStackParamsList} from 'app/navigation/navigationTypes';
 import {CartItemType} from 'entities/cartItem';
 import {useUserStore} from 'entities/user';
@@ -38,7 +38,6 @@ export const Cart = () => {
   const {token, user} = useUserStore();
 
   const navigation = useAppNavigation();
-  const navigateMap = useNavigation<NavigationProp<MapStackParamsList>>();
 
   const {t} = useTranslation();
 
@@ -79,7 +78,14 @@ export const Cart = () => {
   };
 
   const handleNavToMap = () => {
-    navigateMap.navigate(Screens.MAP);
+    navigation.navigate(Stacks.MAIN, {
+      screen: Screens.MAP_TAB,
+      params: {
+        screen: Screens.MAP,
+      },
+    });
+
+    // navigateMap.navigate(Screens.MAP);
   };
 
   const renderItem = (item: CartItemType) => {
