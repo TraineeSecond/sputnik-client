@@ -1,6 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
@@ -17,6 +23,7 @@ export const Catalog = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
   const isLandscape = useOrientation();
+
   const [isRefresh, setIsRefresh] = useState(false);
   const {
     error,
@@ -37,6 +44,8 @@ export const Catalog = () => {
   const {user} = useUserStore();
 
   const hideButton = user.role === 'seller';
+  const {width} = Dimensions.get('window');
+  const itemWidth = isLandscape ? width / 4 - 16 : width / 2 - 16;
 
   const onRefresh = useCallback(async () => {
     setIsRefresh(true);
@@ -79,7 +88,7 @@ export const Catalog = () => {
         newPrice={new_price}
         sellerName={user.name}
         hideButton={hideButton}
-        style={styles.productItem}
+        style={[styles.productItem, {width: itemWidth}]}
         sellerSurname={user.surname}
         reviewerscount={reviewerscount}
         onPress={handlePress}
