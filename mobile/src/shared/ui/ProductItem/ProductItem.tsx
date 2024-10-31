@@ -160,7 +160,7 @@ export const ProductItem = memo(
           screen: Screens.APPEALS,
           params: {
             isSeller: false,
-            product: {id, sellerId},
+            product: {id, sellerId, name},
           },
         },
       });

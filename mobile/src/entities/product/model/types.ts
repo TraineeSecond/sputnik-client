@@ -23,4 +23,5 @@ export type Product = {
 export type AppelsProduct = {
   id: string;
   sellerId: number | undefined;
+  name: string;
 };
