@@ -154,13 +154,15 @@ export const ProductItem = memo(
 
     const handleAppelRedirect = () => {
       console.log(id, sellerId);
+
+      const image = images && (images[0]?.image as string);
       navigation.navigate(Stacks.MAIN, {
         screen: Screens.PROFILE_TAB,
         params: {
           screen: Screens.APPEALS,
           params: {
             isSeller: false,
-            product: {id, sellerId, name},
+            product: {id, sellerId, name, image, price},
           },
         },
       });

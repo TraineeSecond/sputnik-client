@@ -1,10 +1,20 @@
-import {Input, Modal} from '@ui-kitten/components';
+import {Button, Input, Modal} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import {AppelsProduct} from 'entities';
-import {CloseIcon} from 'shared/icons';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {CloseCircleIcon, CloseIcon} from 'shared/icons';
+import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 
 import {useAppealsBuyer} from '../model/store';
 import {AppealsBuyerStyles as styles} from './AppealsBuyer.styles';
@@ -14,47 +24,139 @@ type AppealsBuyerProps = {
 };
 
 export const AppealsBuyer = ({product}: AppealsBuyerProps) => {
-  const {modalVisible, setModalVisible} = useAppealsBuyer();
-  const [appealText, setAppealText] = useState('');
+  const {
+    modalVisible,
+    setModalVisible,
+    appealText,
+    setAppealText,
+    setAttachedImages,
+    attachedImages,
+  } = useAppealsBuyer();
   const {t} = useTranslation();
 
   useEffect(() => {
     if (product?.id) setModalVisible(true);
   }, [product]);
 
-  console.log(product);
   const closeModal = () => {
     setModalVisible(false);
+    setAppealText('');
+    setAttachedImages([]);
   };
+
+  const handleSubmit = () => {
+    // TODO:отправка апелляции
+    closeModal();
+  };
+
+  const handleAttachFile = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1,
+        selectionLimit: 5,
+      },
+      response => {
+        if (response.assets && response.assets.length > 0) {
+          const newImages: string[] = response.assets.map(
+            asset => asset.uri || '',
+          );
+
+          setAttachedImages([...attachedImages, ...newImages]);
+        }
+      },
+    );
+  };
+
+  const removeImage = (imageDelete: string) => {
+    const newImages = attachedImages.filter(image => image !== imageDelete);
+    setAttachedImages(newImages);
+  };
+
   return (
     <>
-      <View>
-        <Text>123</Text>
-      </View>
+      {/* TODO:ренденр апелляций */}
+      <Text>123123</Text>
       <Modal visible={modalVisible} animationType="slide">
-        <View style={styles.modalContainer}>
-          <Text>{product && product.name}</Text>
-          <Input
-            placeholder="Ну давай пожалуйся на товар"
-            value={appealText}
-            onChangeText={nextValue => setAppealText(nextValue)}
-            multiline
-          />
-          <Input
-            placeholder="А пруфы есть?"
-            value={appealText}
-            onChangeText={nextValue => setAppealText(nextValue)}
-            multiline
-          />
-          <TouchableOpacity
-            onPress={closeModal}
-            style={styles.modalClose}
-            accessible={true}
-            accessibilityRole="button"
-            accessibilityLabel={t('Закрыть изображение')}>
-            <CloseIcon />
-          </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView>
+          <ScrollView contentContainerStyle={styles.modalContainer}>
+            <TouchableOpacity onPress={closeModal} style={styles.modalClose}>
+              <CloseIcon />
+            </TouchableOpacity>
+            <View style={styles.modalHeader}>
+              {product && product.image ? (
+                <Image source={{uri: product.image}} style={styles.image} />
+              ) : (
+                <View style={styles.noImage}>
+                  <Text style={TextStyles.span1.changeColor(Colors.Gray500)}>
+                    {product && product.name}
+                  </Text>
+                </View>
+              )}
+              <View style={styles.productInfo}>
+                <Text
+                  style={TextStyles.p1.changeColor(Colors.Black100)}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
+                  {product && product.name.trim()}
+                </Text>
+                <Text style={TextStyles.p2.changeColor(Colors.Black100)}>
+                  {product && product.price} ₽
+                </Text>
+              </View>
+            </View>
+            <Text style={TextStyles.p1.changeColor(Colors.Black100)}>
+              {t('Опишите проблему')}
+            </Text>
+            <Input
+              placeholder={t('Напишите, что произошло')}
+              value={appealText}
+              onChangeText={setAppealText}
+              multiline
+              style={[
+                styles.inputField,
+                TextStyles.p2.changeColor(Colors.Black100),
+              ]}
+            />
+
+            <Text style={TextStyles.p1.changeColor(Colors.Black100)}>
+              {t('Прикрепите до 5 фото доказательств проблемы')}
+            </Text>
+            <View style={styles.imagesContainer}>
+              {attachedImages.map((image, ix) => {
+                const handleRemoveImage = () => removeImage(image);
+                return (
+                  <View key={ix} style={styles.previewImageWrapper}>
+                    <Image source={{uri: image}} style={styles.previewImage} />
+                    <TouchableOpacity
+                      onPress={handleRemoveImage}
+                      style={styles.closeButton}>
+                      <CloseCircleIcon
+                        fill={Colors.White100}
+                        width={IconStyles.medium.width}
+                        height={IconStyles.medium.height}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
+              {attachedImages.length < 5 && (
+                <TouchableOpacity
+                  onPress={handleAttachFile}
+                  style={styles.attachFilesButton}>
+                  <Text>+</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            <Button
+              onPress={handleSubmit}
+              disabled={!appealText.trim()}
+              style={styles.submitButton}>
+              {t('Отправить апелляцию')}
+            </Button>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
     </>
   );
