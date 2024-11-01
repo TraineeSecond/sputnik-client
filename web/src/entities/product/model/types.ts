@@ -4,6 +4,11 @@ import { IUser } from 'shared/auth/model/types';
 
 export type TFiltersResponse = string[];
 
+export type TDeleteProductResponse = {
+  message: string;
+  product: IProduct;
+};
+
 export interface IProductState {
   page: number;
   pageSize: number;
@@ -22,6 +27,7 @@ export interface IProductState {
   setSellerId: (id: number | null) => Promise<void>;
   addImageToProduct: (productId: number, image: RcFile) => Promise<void>;
   deleteProductImage: (image: IProductImage) => Promise<void>;
+  deleteProduct: (id: number) => Promise<void>;
   rezeroProductPage: () => void;
   loadingProduct: boolean;
   changeImagesProcess: boolean;
