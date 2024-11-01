@@ -11,7 +11,8 @@ import {
   View,
 } from 'react-native';
 
-import {AppelsProduct} from 'entities';
+import {AppelsProduct, FormAppeal} from 'entities';
+import {useUserStore} from 'entities/user';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {CloseCircleIcon, CloseIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
@@ -31,12 +32,21 @@ export const AppealsBuyer = ({product}: AppealsBuyerProps) => {
     setAppealText,
     setAttachedImages,
     attachedImages,
+    sendAppeal,
+    appeals,
+    getAppeals,
   } = useAppealsBuyer();
+
   const {t} = useTranslation();
+  const {user} = useUserStore();
 
   useEffect(() => {
     if (product?.id) setModalVisible(true);
   }, [product]);
+
+  useEffect(() => {
+    getAppeals(user.id);
+  }, [user.id]);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -45,8 +55,19 @@ export const AppealsBuyer = ({product}: AppealsBuyerProps) => {
   };
 
   const handleSubmit = () => {
-    // TODO:отправка апелляции
-    closeModal();
+    // TODO: отправка апелляции
+    if (product) {
+      const formatedAppel: FormAppeal = {
+        productId: product.id,
+        sellerId: product.sellerId,
+        buyerId: user.id,
+        images: attachedImages,
+        problem: appealText,
+      };
+      console.log(formatedAppel);
+      sendAppeal(formatedAppel);
+      closeModal();
+    }
   };
 
   const handleAttachFile = () => {

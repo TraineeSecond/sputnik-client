@@ -22,7 +22,7 @@ export type Product = {
 
 export type AppelsProduct = {
   id: string;
-  sellerId: number | undefined;
+  sellerId: number;
   name: string;
   image: string | undefined;
   price: number;
