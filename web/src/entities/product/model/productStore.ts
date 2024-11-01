@@ -6,6 +6,7 @@ import {
   IProduct,
   IProductImage,
   IProductState,
+  TDeleteProductResponse,
   TFiltersResponse,
   TProductsResponse,
 } from './types';
@@ -127,5 +128,14 @@ export const useProductStore = create<IProductState>((set, get) => ({
       set({ error: 'Ошибка при удалении изображения' });
     }
     set({ changeImagesProcess: false });
+  },
+
+  deleteProduct: async (id: number) => {
+    try {
+      await api.delete<TDeleteProductResponse>('/product/' + id);
+    } catch (error) {
+      console.error(error);
+      set({ error: 'Ошибка при удалении продукта' });
+    }
   },
 }));

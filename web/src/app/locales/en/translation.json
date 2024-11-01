@@ -90,5 +90,6 @@
   "Введите сообщение...": "Type your message...",
   "Отправить": "Send",
   "Чат успешно удален": "Chat successfully deleted",
-  "Ошибка при удалении чата": "Error deleting chat"
+  "Ошибка при удалении чата": "Error deleting chat",
+  "удалить продукт": "delete product"
 }
