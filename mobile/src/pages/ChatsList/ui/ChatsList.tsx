@@ -45,7 +45,9 @@ export const ChatsList = () => {
 
   const handleChatPress = useCallback(
     (chatId: number, productName: string, sellerName: string) => {
-      navigation.navigate(Screens.MESSENGER, {chatId, productName, sellerName});
+      navigation
+        .getParent()
+        ?.navigate(Screens.MESSENGER, {chatId, productName, sellerName});
     },
     [navigation],
   );
