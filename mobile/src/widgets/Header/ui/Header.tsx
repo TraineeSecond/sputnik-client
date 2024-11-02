@@ -2,6 +2,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Text, TouchableOpacity, View} from 'react-native';
 
+import {useOrientation} from 'shared/hooks';
 import {ArrowBack, CartIcon, PlusIcon, SearchIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
 import {Input} from 'shared/ui';
@@ -74,6 +75,7 @@ export const Header = ({
             showClear={true}
             value={searchText}
             style={styles.input}
+            containerStyle={styles.inputContainerStyle}
             placeholder={t('Поиск...')}
             setValue={setSearchText}
             onClear={onClearSearch}

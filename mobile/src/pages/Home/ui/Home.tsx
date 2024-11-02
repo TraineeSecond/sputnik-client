@@ -8,6 +8,7 @@ import {useUserStore} from 'entities/user';
 import {useSearchCatalogStore, useSellerProductsStore} from 'features';
 import ContentLoader, {Circle, Rect} from 'react-content-loader/native';
 import {promoPicture, promoPictureSecond} from 'shared/assets/mockData';
+import {useOrientation} from 'shared/hooks';
 import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useOrderStore} from 'shared/stores/OrderStore';
@@ -30,6 +31,8 @@ export const Home = () => {
 
   const {error, isSearchLoading, categories, allProductList, fetchStartData} =
     useSearchCatalogStore();
+
+  const isLandscape = useOrientation();
 
   const hideButton = user.role === 'seller';
 
@@ -162,7 +165,11 @@ export const Home = () => {
           <Promo
             image={promoPicture}
             // onPress={handlePromoPress}
-            style={[styles.marginBottom, styles.promo]}
+            style={[
+              styles.marginBottom,
+              styles.promo,
+              isLandscape && {height: 150},
+            ]}
           />
           <Slider
             isLoading={isSearchLoading || !allProductList.length}
@@ -190,7 +197,7 @@ export const Home = () => {
           />
           <Promo
             image={promoPictureSecond}
-            style={styles.promo}
+            style={[styles.promo, isLandscape && {height: 150}]}
 
             // onPress={handlePromoPress}
           />

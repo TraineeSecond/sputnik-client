@@ -5,7 +5,6 @@ import {Colors} from 'shared/libs/helpers/colors';
 export const ProfileStyles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
     paddingVertical: 60,
     backgroundColor: Colors.White100,
   },
