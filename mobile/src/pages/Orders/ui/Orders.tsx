@@ -58,7 +58,7 @@ export const Orders = () => {
       return (
         <ProductItem
           key={id}
-          id={id.toString()}
+          id={product.id.toString()}
           price={product.price}
           name={product.name}
           images={product.images}

@@ -50,7 +50,7 @@ export const ProductItem = memo(
     sellerId,
   }: ProductItemProps) => {
     const navigation = useAppNavigation();
-
+    console.log('productId', id);
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
     const {t} = useTranslation();
 

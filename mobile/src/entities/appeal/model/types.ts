@@ -23,7 +23,7 @@ export type AppealImages = {
 
 export type FormAppeal = {
   productId: string;
-  sellerId: number;
+  sellerId: number | undefined;
   buyerId: number;
   images: string[];
   problem: string;

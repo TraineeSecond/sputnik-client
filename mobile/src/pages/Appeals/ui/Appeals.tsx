@@ -14,9 +14,9 @@ type AppealsRouteParams = RouteProp<ProfileStackParamsList, Screens.APPEALS>;
 export const Appeals = () => {
   const route = useRoute<AppealsRouteParams>();
 
-  console.log(route.params);
-
   const {isSeller, product} = route.params;
+
+  console.log('параметры на страницу', route.params);
 
   return (
     <View style={styles.container}>

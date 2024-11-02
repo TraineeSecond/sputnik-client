@@ -48,6 +48,8 @@ export const AppealsBuyer = ({product}: AppealsBuyerProps) => {
     getAppeals(user.id);
   }, [user.id]);
 
+  console.log(appeals);
+
   const closeModal = () => {
     setModalVisible(false);
     setAppealText('');
@@ -64,9 +66,10 @@ export const AppealsBuyer = ({product}: AppealsBuyerProps) => {
         images: attachedImages,
         problem: appealText,
       };
-      console.log(formatedAppel);
+      console.log('formatedAppel', formatedAppel);
+      console.log('product', product);
       sendAppeal(formatedAppel);
-      closeModal();
+      // closeModal();
     }
   };
 
@@ -98,6 +101,9 @@ export const AppealsBuyer = ({product}: AppealsBuyerProps) => {
     <>
       {/* TODO:ренденр апелляций */}
       <Text>123123</Text>
+      {appeals.length > 0 &&
+        appeals.map(appeal => <Text key={appeal.id}>{appeal.problem}</Text>)}
+      <Text>ХУЙХУЙХУХЙУХ</Text>
       <Modal visible={modalVisible} animationType="slide">
         <KeyboardAvoidingView>
           <ScrollView contentContainerStyle={styles.modalContainer}>
