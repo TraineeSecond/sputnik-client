@@ -75,11 +75,7 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
         });
       }
       const response = await axios.post<Appeal>(
-        // `https://domennameabcdef.ru/api/appeals`,
-        `http://10.0.85.2:5556/appeals/`,
-        // 172.20.10.2
-        // 192.168.0.11
-        // 10.0.85.2
+        `https://domennameabcdef.ru/api/appeals`,
         formData,
         {
           headers: {
@@ -100,8 +96,7 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
   deleteAppeal: async (appealId: number) => {
     set({loading: true, error: false});
     try {
-      // await axios.delete(`https://domennameabcdef.ru/api/chats/${chatId}`);
-      await axios.delete(`http://10.0.85.2:5556/appeals/${appealId}`);
+      await axios.delete(`https://domennameabcdef.ru/api/appeals/${appealId}`);
 
       set(state => ({
         appeals: state.appeals.filter(appeal => appeal.id !== appealId),
