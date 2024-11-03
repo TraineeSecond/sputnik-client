@@ -50,9 +50,7 @@ export const useChatListStore = create<ChatListStore>((set, get) => ({
     set({isLoading: true, error: false});
     try {
       const response = await axios.post<Chat>(
-        // 'https://domennameabcdef.ru/api/chats',
-        `http://192.168.0.11:5556/chats/`,
-
+        'https://domennameabcdef.ru/api/chats',
         {productId, userIds},
       );
 
