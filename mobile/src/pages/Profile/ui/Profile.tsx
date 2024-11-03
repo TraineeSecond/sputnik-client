@@ -19,6 +19,7 @@ import {
   ReviewIcon,
 } from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 
 import {ProfileStyles as styles} from './Profile.styles';
 
@@ -30,6 +31,7 @@ export const Profile = () => {
   const {t} = useTranslation();
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
+  // const navigation = useAppNavigation();
 
   const handleLogout = () => {
     clearUserData();

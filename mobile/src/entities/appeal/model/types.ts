@@ -6,7 +6,7 @@ export type Appeal = {
   participants: AppealsParticipant[];
   problem: string;
   images: AppealImages[];
-  status: string;
+  status: 'pending' | 'rejected' | 'accepted';
   product: Product;
   productId: number;
 };

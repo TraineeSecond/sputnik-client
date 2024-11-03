@@ -16,8 +16,6 @@ export const Appeals = () => {
 
   const {isSeller, product} = route.params;
 
-  console.log('параметры на страницу', route.params);
-
   return (
     <View style={styles.container}>
       {isSeller ? <AppealsSeller /> : <AppealsBuyer product={product} />}

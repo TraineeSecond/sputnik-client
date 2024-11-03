@@ -1,6 +1,5 @@
 import axios from 'axios';
-import {Appeal, FormAppeal, User} from 'entities';
-import {storage} from 'shared/libs/storage';
+import {Appeal, FormAppeal} from 'entities';
 import {create} from 'zustand';
 
 type AppealsBuyerStore = {
@@ -10,12 +9,13 @@ type AppealsBuyerStore = {
   appeals: Appeal[];
 
   loading: boolean;
-  error: string | null;
-
-  setAppeals: (appeal: Appeal) => void;
+  error: boolean;
+  refreshing: boolean;
+  setRefreshing: (value: boolean) => void;
 
   getAppeals(userId: number): Promise<void>;
   sendAppeal(appeal: FormAppeal): Promise<void>;
+  deleteAppeal(appealId: number): Promise<void>;
 
   setModalVisible: (value: boolean) => void;
   setAppealText: (value: string) => void;
@@ -29,11 +29,10 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
   appeals: [],
 
   loading: false,
-  error: null,
+  error: false,
 
-  setAppeals: (appeal: Appeal) => {
-    set({appeals: [appeal, ...get().appeals]});
-  },
+  refreshing: false,
+  setRefreshing: (value: boolean) => set({refreshing: value}),
 
   setModalVisible: (value: boolean) => set({modalVisible: value}),
   setAppealText: (value: string) => set({appealText: value}),
@@ -41,7 +40,7 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
 
   getAppeals: async (userId: number) => {
     try {
-      set({loading: true, error: null});
+      set({loading: true, error: false});
       console.log(userId);
       const response = await axios.get<Appeal[]>(
         `http://192.168.0.11:5556/appeals/${userId}`,
@@ -55,13 +54,13 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
       set({loading: false});
     } catch (error) {
       console.error(error);
-      set({loading: false, error: 'Ошибка', appeals: []});
+      set({loading: false, error: true, appeals: []});
     }
   },
 
   sendAppeal: async (appeal: FormAppeal) => {
     try {
-      set({loading: true, error: null});
+      set({loading: true, error: false});
       const formData = new FormData();
 
       formData.append('productId', appeal.productId);
@@ -97,12 +96,27 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
       );
       console.log(response.data);
       if (response.data) {
-        set({appeals: [response.data, ...get().appeals]});
+        set({appeals: [...get().appeals, response.data]});
       }
       set({loading: false});
     } catch (error) {
       console.error(error);
-      set({loading: false, error: 'Ошибка'});
+      set({loading: false, error: true});
+    }
+  },
+
+  deleteAppeal: async (appealId: number) => {
+    set({loading: true, error: false});
+    try {
+      // await axios.delete(`https://domennameabcdef.ru/api/chats/${chatId}`);
+      await axios.delete(`http://10.0.85.2:5556/appeals/${appealId}`);
+
+      set(state => ({
+        appeals: state.appeals.filter(appeal => appeal.id !== appealId),
+        loading: false,
+      }));
+    } catch (error) {
+      set({error: true, loading: false});
     }
   },
 }));

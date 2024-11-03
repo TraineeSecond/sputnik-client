@@ -5,7 +5,6 @@ import {useTranslation} from 'react-i18next';
 import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens, Stacks} from 'app/navigation/navigationEnums';
-import {MapStackParamsList} from 'app/navigation/navigationTypes';
 import {CartItemType} from 'entities/cartItem';
 import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
@@ -84,8 +83,6 @@ export const Cart = () => {
         screen: Screens.MAP,
       },
     });
-
-    // navigateMap.navigate(Screens.MAP);
   };
 
   const renderItem = (item: CartItemType) => {

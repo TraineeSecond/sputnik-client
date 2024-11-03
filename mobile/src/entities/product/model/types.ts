@@ -20,7 +20,7 @@ export type Product = {
   reviewerscount: number;
 };
 
-export type AppelsProduct = {
+export type AppealsProduct = {
   id: string;
   sellerId: number | undefined;
   name: string;
