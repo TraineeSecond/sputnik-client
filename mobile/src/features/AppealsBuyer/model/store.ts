@@ -41,10 +41,8 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
   getAppeals: async (userId: number) => {
     try {
       set({loading: true, error: false});
-      console.log(userId);
       const response = await axios.get<Appeal[]>(
-        `http://192.168.0.11:5556/appeals/${userId}`,
-        // `https://domennameabcdef.ru/api/appeals/${userId}`,
+        `https://domennameabcdef.ru/api/appeals/${userId}`,
       );
       if (response.data) {
         set({appeals: response.data});
@@ -67,7 +65,6 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
       formData.append('problem', appeal.problem);
       formData.append('buyerId', appeal.buyerId);
       formData.append('sellerId', appeal.sellerId);
-      console.log('appeal', appeal);
       if (appeal.images) {
         appeal.images.forEach((image, index) => {
           formData.append('images', {
@@ -77,10 +74,6 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
           });
         });
       }
-
-      console.log(formData);
-      console.log(formData);
-
       const response = await axios.post<Appeal>(
         // `https://domennameabcdef.ru/api/appeals`,
         `http://10.0.85.2:5556/appeals/`,
@@ -94,7 +87,6 @@ export const useAppealsBuyer = create<AppealsBuyerStore>((set, get) => ({
           },
         },
       );
-      console.log(response.data);
       if (response.data) {
         set({appeals: [...get().appeals, response.data]});
       }

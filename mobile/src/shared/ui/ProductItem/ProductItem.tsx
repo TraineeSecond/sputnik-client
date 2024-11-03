@@ -50,7 +50,6 @@ export const ProductItem = memo(
     sellerId,
   }: ProductItemProps) => {
     const navigation = useAppNavigation();
-    console.log('productId', id);
     const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
     const {t} = useTranslation();
 
@@ -153,8 +152,6 @@ export const ProductItem = memo(
     };
 
     const handleAppelRedirect = () => {
-      console.log(id, sellerId);
-
       const image = images && (images[0]?.image as string);
       navigation.navigate(Stacks.MAIN, {
         screen: Screens.PROFILE_TAB,
