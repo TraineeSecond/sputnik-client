@@ -30,8 +30,7 @@ export const useAppealsSeller = create<AppealsSellerStore>((set, get) => ({
     try {
       set({loading: true, error: false});
       const response = await axios.get<Appeal[]>(
-        `http://192.168.0.11:5556/appeals/${userId}`,
-        // `https://domennameabcdef.ru/api/appeals/${userId}`,
+        `https://domennameabcdef.ru/api/appeals/${userId}`,
       );
       if (response.data) {
         set({appeals: response.data});
@@ -50,14 +49,10 @@ export const useAppealsSeller = create<AppealsSellerStore>((set, get) => ({
   ) => {
     try {
       set({loading: true, error: false});
-      await axios.put<Appeal[]>(
-        `http://192.168.0.11:5556/appeals`,
-        {
-          appealId,
-          newStatus,
-        },
-        // `https://domennameabcdef.ru/api/appeals`,
-      );
+      await axios.put<Appeal[]>(`https://domennameabcdef.ru/api/appeals`, {
+        appealId,
+        newStatus,
+      });
       const newAppealsList = get().appeals.map(appeal =>
         appeal.id === appealId ? {...appeal, status: newStatus} : appeal,
       );
