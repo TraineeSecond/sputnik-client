@@ -3,6 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
 import {Stacks} from 'navigation/navigationEnums';
+import {useOrientation} from 'shared/hooks';
 import {TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useIsLoginStore} from 'shared/stores/isLoginStore';
@@ -22,6 +23,8 @@ export const Login = () => {
 
   const navigation = useAppNavigation();
 
+  const isLandscape = useOrientation();
+
   const handleLogin = async () => {
     const result = await login(email, password);
     if (result.message === 'Успешная авторизация') {
@@ -38,17 +41,20 @@ export const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text
-        style={[TextStyles.h1]}
-        accessible={true}
-        accessibilityLabel={t('Авторизация')}>
-        {t('Авторизация')}
-      </Text>
-      <Image
-        style={styles.image}
-        source={require('shared/assets/images/tempimage.png')}
-      />
+    <View style={[styles.container, isLandscape && styles.landscape]}>
+      <View style={styles.center}>
+        <Text
+          style={[TextStyles.h1]}
+          accessible={true}
+          accessibilityLabel={t('Авторизация')}>
+          {t('Авторизация')}
+        </Text>
+        <Image
+          style={styles.image}
+          source={require('shared/assets/images/tempimage.png')}
+        />
+      </View>
+
       <View style={styles.form}>
         <Input
           value={email}

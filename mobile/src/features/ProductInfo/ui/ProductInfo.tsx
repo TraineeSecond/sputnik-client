@@ -1,11 +1,11 @@
 import {Button} from '@ui-kitten/components';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Dimensions, Text, TouchableOpacity, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {CartItemType, Product} from 'entities';
-import {useUserStore} from 'entities/user/model/store';
+import {useUserStore} from 'entities/user';
 import {useChatListStore} from 'features/ChatList';
 import {HeartFilledIcon, HeartOutlineIcon, StarIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles} from 'shared/libs/helpers';
@@ -25,6 +25,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false); //временно тут затем из запроса
   const {t} = useTranslation();
   const navigation = useAppNavigation();
+  const imageHeight = Dimensions.get('window').height / 2;
 
   const {orders, isProductOrdered} = useOrderStore();
   const {
@@ -117,7 +118,7 @@ export const ProductInfo = ({product}: ProductInfoProps) => {
 
   const renderImage = () => {
     return (
-      <View style={styles.imageContainer}>
+      <View style={[styles.imageContainer, {height: imageHeight}]}>
         {!!product.images.length ? (
           <Carousel images={product.images} />
         ) : (

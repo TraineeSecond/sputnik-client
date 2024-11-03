@@ -8,6 +8,7 @@ import {Screens} from 'app/navigation/navigationEnums';
 import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/index';
+import {useOrientation} from 'shared/hooks';
 import {
   AlertIcon,
   CubeIcon,
@@ -29,6 +30,7 @@ export const Profile = () => {
     undefined,
   );
   const {t} = useTranslation();
+  const isLandscape = useOrientation();
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
   // const navigation = useAppNavigation();
@@ -100,28 +102,36 @@ export const Profile = () => {
   return (
     <>
       {token ? (
-        <View style={styles.container}>
-          <Text
-            style={[
-              TextStyles.h2.changeColor(Colors.Black200),
-              styles.textCenter,
-            ]}>
-            {t('Профиль')}
-          </Text>
-          <Image
-            style={styles.image}
-            source={require('shared/assets/images/tempimage.png')}
-          />
-          <Text
-            style={[
-              TextStyles.p2.changeColor(Colors.Black200),
-              styles.textCenter,
-            ]}>
-            {`${user.name} ${user.surname}`}
-          </Text>
+        <View style={[styles.container, isLandscape && styles.landscape]}>
+          <View style={[isLandscape && styles.smallHeader]}>
+            <Text
+              style={[
+                TextStyles.h2.changeColor(Colors.Black200),
+                styles.textCenter,
+              ]}>
+              {t('Профиль')}
+            </Text>
+            <Image
+              style={styles.image}
+              source={require('shared/assets/images/tempimage.png')}
+            />
+            <Text
+              style={[
+                TextStyles.p2.changeColor(Colors.Black200),
+                styles.textCenter,
+              ]}>
+              {`${user.name} ${user.surname}`}
+            </Text>
+          </View>
 
-          <View style={styles.menuContainer}>
-            <Menu onSelect={index => setSelectedIndex(index)}>
+          <View
+            style={[
+              styles.menuContainer,
+              isLandscape && styles.containerLandscape,
+            ]}>
+            <Menu
+              style={isLandscape && styles.menuLandscape}
+              onSelect={index => setSelectedIndex(index)}>
               {isSeller ? renderSellerInterface() : renderBuyerInterface()}
               <MenuItem
                 title={t('Сообщения')}
