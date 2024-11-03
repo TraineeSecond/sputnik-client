@@ -33,7 +33,6 @@ export const Profile = () => {
   const isLandscape = useOrientation();
 
   const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
-  // const navigation = useAppNavigation();
 
   const handleLogout = () => {
     clearUserData();
