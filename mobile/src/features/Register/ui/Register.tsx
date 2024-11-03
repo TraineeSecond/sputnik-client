@@ -5,6 +5,7 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
 import {Stacks} from 'navigation/navigationEnums';
+import {useOrientation} from 'shared/hooks';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {useCartStore} from 'shared/stores/CartStore';
@@ -35,6 +36,7 @@ export const Register = () => {
   const {setUser, setToken, user} = useUserStore();
   const {setBasket} = useCartStore();
   const {t} = useTranslation();
+  const isLandscape = useOrientation();
 
   const navigation = useAppNavigation();
 
@@ -60,7 +62,11 @@ export const Register = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollView,
+          isLandscape && styles.landscape,
+        ]}>
         <Text style={[TextStyles.h1]}>Регистрация</Text>
         <View style={styles.form}>
           <Input

@@ -9,6 +9,14 @@ export const LoginStyles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  landscape: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
   form: {
     justifyContent: 'flex-start',
     gap: 10,

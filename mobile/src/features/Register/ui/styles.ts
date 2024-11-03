@@ -17,12 +17,20 @@ export const RegisterStyles = StyleSheet.create({
     width: 275,
     paddingTop: 60,
   },
+  landscape: {
+    flex: 1,
+    flexDirection: 'row',
+    width: 'auto',
+    paddingTop: 0,
+    gap: 30,
+    justifyContent: 'space-between',
+  },
   form: {
     justifyContent: 'flex-start',
     gap: 10,
   },
   seller: {
-    width: '100%',
+    width: 200,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -32,7 +40,7 @@ export const RegisterStyles = StyleSheet.create({
     alignItems: 'center',
     gap: 35,
     paddingBottom: 30,
-    width: '100%',
+    width: 275,
   },
   button: {
     backgroundColor: Colors.Green500,

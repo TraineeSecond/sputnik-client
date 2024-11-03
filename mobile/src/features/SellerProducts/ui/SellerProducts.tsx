@@ -1,9 +1,16 @@
 import {useCallback, useState} from 'react';
-import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useOrientation} from 'shared/hooks';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {ProductItem} from 'shared/ui';
 
@@ -15,6 +22,9 @@ export const SellerProducts = () => {
     useSellerProductsStore();
   const navigation = useAppNavigation();
   const [isRefresh, setIsRefresh] = useState(false);
+  const isLandscape = useOrientation();
+  const {width} = Dimensions.get('window');
+  const itemWidth = isLandscape ? width / 4 - 16 : width / 2 - 16;
 
   const onRefresh = useCallback(async () => {
     setIsRefresh(true);
@@ -55,7 +65,7 @@ export const SellerProducts = () => {
         sellerName={sellerName}
         sellerSurname={sellerSurname}
         onPress={handlePress}
-        style={styles.productItem}
+        style={[styles.productItem, {width: itemWidth}]}
       />
     );
   };
@@ -67,7 +77,8 @@ export const SellerProducts = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        numColumns={2}
+        key={`flatList-${isLandscape ? 4 : 2}`}
+        numColumns={isLandscape ? 4 : 2}
         data={products}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}

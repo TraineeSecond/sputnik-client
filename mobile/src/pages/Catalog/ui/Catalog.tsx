@@ -1,11 +1,18 @@
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  View,
+} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import {SearchCatalog, useSearchCatalogStore} from 'features/Search';
+import {useOrientation} from 'shared/hooks';
 import {Colors} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {ProductItem, ShowError} from 'shared/ui';
@@ -15,6 +22,8 @@ import {CatalogPageStyles as styles} from './Catalog.styles';
 export const Catalog = () => {
   const {t} = useTranslation();
   const navigation = useAppNavigation();
+  const isLandscape = useOrientation();
+
   const [isRefresh, setIsRefresh] = useState(false);
   const {
     error,
@@ -35,6 +44,8 @@ export const Catalog = () => {
   const {user} = useUserStore();
 
   const hideButton = user.role === 'seller';
+  const {width} = Dimensions.get('window');
+  const itemWidth = isLandscape ? width / 4 - 16 : width / 2 - 16;
 
   const onRefresh = useCallback(async () => {
     setIsRefresh(true);
@@ -77,7 +88,7 @@ export const Catalog = () => {
         newPrice={new_price}
         sellerName={user.name}
         hideButton={hideButton}
-        style={styles.productItem}
+        style={[styles.productItem, {width: itemWidth}]}
         sellerSurname={user.surname}
         reviewerscount={reviewerscount}
         onPress={handlePress}
@@ -113,7 +124,8 @@ export const Catalog = () => {
         </View>
       ) : (
         <FlatList
-          numColumns={2}
+          key={`flatList-${isLandscape ? 4 : 2}`}
+          numColumns={isLandscape ? 4 : 2}
           data={foundProducts}
           renderItem={renderFlatListItem}
           keyExtractor={item => item.id.toString()}
