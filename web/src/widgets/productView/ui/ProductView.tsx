@@ -55,8 +55,12 @@ const ProductView = ({
   const { currentImage, setCurrentImage } = useProductViewStore();
   const discount = calculateDiscount(product.price, product.new_price);
   const { toggleShowChangeImageFormPopUp } = useChangeImageFormStore();
-  const { deleteProductImage, loadProductById, changeImagesProcess } =
-    useProductStore();
+  const {
+    deleteProductImage,
+    loadProductById,
+    changeImagesProcess,
+    deleteProduct,
+  } = useProductStore();
   const navigate = useNavigate();
   const { user, token } = useAuthStore();
   const { startChatWithSeller } = useChatStore();
@@ -112,6 +116,11 @@ const ProductView = ({
     }
   };
 
+  const handleDeleteProductButton = async () => {
+    await deleteProduct(product.id);
+    navigate(`/profile`);
+  };
+
   const renderImageChangeButtons = () => {
     if (!isBuyer && product.userid === userId) {
       if (changeImagesProcess) {
@@ -127,6 +136,9 @@ const ProductView = ({
               {t(`удалить это изображение`)}
             </StyledButton>
           )}
+          <StyledButton onClick={handleDeleteProductButton}>
+            {t(`удалить продукт`)}
+          </StyledButton>
         </>
       );
     }

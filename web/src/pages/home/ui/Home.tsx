@@ -1,10 +1,15 @@
+import { Suspense, lazy } from 'react';
+
 import { MainLayout } from 'widgets';
-import HomeView from 'widgets/HomeView/ui/HomeView';
+
+const HomeView = lazy(() => import('widgets/HomeView/ui/HomeView'));
 
 const Home = () => {
   return (
     <MainLayout>
-      <HomeView />
+      <Suspense fallback={<></>}>
+        <HomeView />
+      </Suspense>
     </MainLayout>
   );
 };
