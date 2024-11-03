@@ -1,7 +1,7 @@
 import {Button} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Modal, Text, TouchableOpacity, View} from 'react-native';
+import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {useUserStore} from 'entities/user';
 import {Point, useMapStore} from 'features/MapInfo/model/store';
@@ -90,7 +90,7 @@ export const ReviewsPoints = () => {
         accessibilityLabel={t('Отзывы пунктов выдачи заказов')}>
         {t('Отзывы пунктов выдачи заказов')}
       </Text>
-      <View>
+      <ScrollView>
         {points.map(point => {
           const handleModal = () => handleOpenModal(point);
           return (
@@ -118,7 +118,7 @@ export const ReviewsPoints = () => {
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
 
       {isModalVisible && (
         <Modal

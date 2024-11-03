@@ -8,6 +8,16 @@ export const ProfileStyles = StyleSheet.create({
     paddingVertical: 60,
     backgroundColor: Colors.White100,
   },
+  landscape: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingVertical: 0,
+  },
+  smallHeader: {
+    maxWidth: '50%',
+    paddingHorizontal: 20,
+  },
   textCenter: {
     textAlign: 'center',
     marginBottom: 20,
@@ -23,6 +33,12 @@ export const ProfileStyles = StyleSheet.create({
   menuContainer: {
     marginTop: 20,
     paddingHorizontal: 20,
+  },
+  containerLandscape: {
+    flex: 1,
+  },
+  menuLandscape: {
+    backgroundColor: Colors.White100,
   },
   menuItem: {
     flexDirection: 'row',
