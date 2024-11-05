@@ -10,13 +10,6 @@ export const MessageActionsModalStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  centerText: {
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  sliderContainer: {
-    position: 'relative',
-  },
   slider: {
     overflow: 'hidden',
     borderRadius: 100,
