@@ -1,7 +1,8 @@
 import {Spinner} from '@ui-kitten/components';
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+  GestureResponderEvent,
   Image,
   Modal,
   Pressable,
@@ -25,12 +26,13 @@ type MessageProps = {
   isCurrentUser: boolean;
   reactions: Reactions[];
   images: TImages[];
-  onLongPress: () => void;
+  onLongPress: (event: GestureResponderEvent) => void;
   onSendReaction: (reaction: string) => void;
 };
 
 export const Message = memo(
   ({
+    images,
     isRead,
     message,
     hasError,
@@ -39,7 +41,6 @@ export const Message = memo(
     isCurrentUser,
     onLongPress,
     onSendReaction,
-    images,
   }: MessageProps) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
