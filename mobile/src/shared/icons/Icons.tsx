@@ -80,3 +80,11 @@ export const DoubleCheckIcon = (props: any) => (
 export const AlertIcon = (props: any) => (
   <Icon {...props} name="alert-circle-outline" />
 );
+
+export const ArrowLeftIcon = (props: any) => (
+  <Icon {...props} name="arrow-back-outline" />
+);
+
+export const ArrowRightIcon = (props: any) => (
+  <Icon {...props} name="arrow-forward-outline" />
+);

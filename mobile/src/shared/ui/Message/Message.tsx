@@ -1,9 +1,8 @@
 import {Spinner} from '@ui-kitten/components';
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Image,
-  Modal,
   Pressable,
   ScrollView,
   Text,
@@ -12,8 +11,9 @@ import {
 } from 'react-native';
 
 import {Reactions, TImages} from 'entities';
-import {AlertIcon, CheckIcon, CloseIcon, DoubleCheckIcon} from 'shared/icons';
+import {AlertIcon, CheckIcon, DoubleCheckIcon} from 'shared/icons';
 import {Colors, IconStyles, TextStyles, emoji} from 'shared/libs/helpers';
+import {ModalFullImage} from 'shared/ui';
 
 import {MessageStyles as styles} from './Message.styles';
 
@@ -41,8 +41,8 @@ export const Message = memo(
     onSendReaction,
     images,
   }: MessageProps) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
     const {t} = useTranslation();
 
     const renderIcon = () => {
@@ -93,8 +93,8 @@ export const Message = memo(
       }
     };
 
-    const imagePress = (uri: string) => {
-      setSelectedImage(uri);
+    const imagePress = (uri: string, index: number) => {
+      setSelectedImageIndex(index);
       setModalVisible(true);
     };
 
@@ -124,10 +124,10 @@ export const Message = memo(
               accessibilityRole="image"
               accessibilityLabel={t('Изображения, прикрепленные к сообщению')}>
               {images.map((image, index) => {
-                const handleImagePress = () => imagePress(image.image);
+                const handleImagePress = () => imagePress(image.image, index);
                 return (
                   <Pressable
-                    key={index}
+                    key={image.id}
                     onPress={handleImagePress}
                     accessible={true}
                     accessibilityRole="imagebutton"
@@ -203,32 +203,13 @@ export const Message = memo(
             )}
           </Pressable>
         </View>
-
-        <Modal
-          visible={modalVisible}
-          transparent={false}
-          animationType="slide"
-          accessible={true}
-          accessibilityLabel={t('Просмотр изображения')}>
-          <View style={styles.modalContainer}>
-            {selectedImage && (
-              <Image
-                source={{uri: selectedImage}}
-                style={styles.modalImage}
-                accessible={true}
-                accessibilityLabel={t('Просматриваемое изображение')}
-              />
-            )}
-            <TouchableOpacity
-              onPress={closeModal}
-              style={styles.modalClose}
-              accessible={true}
-              accessibilityRole="button"
-              accessibilityLabel={t('Закрыть изображение')}>
-              <CloseIcon />
-            </TouchableOpacity>
-          </View>
-        </Modal>
+        <ModalFullImage
+          selectedImageIndex={selectedImageIndex}
+          setSelectedImageIndex={setSelectedImageIndex}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          images={images}
+        />
       </>
     );
   },
