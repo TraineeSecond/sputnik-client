@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import OrderList from 'entities/order/ui/OrderList/OrderList';
 import { useProductStore } from 'entities/product/model/productStore';
 import ProductList from 'entities/product/ui/productList/ProductList';
+import { useUserDetailsStore } from 'entities/user/model/userDetailsStore';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from 'shared/auth/model/authStore';
+import ConfirmationDialog from 'shared/сonfirmationDialog/ui/ConfirmationDialog';
 
 import {
   StyledButton,
@@ -15,6 +17,8 @@ import {
 
 const UserDetails = () => {
   const { logout, user } = useAuthStore();
+
+  const { showLogoutConfirm, setShowLogoutConfirm } = useUserDetailsStore();
 
   const { setSellerId, rezeroProductPage } = useProductStore();
 
@@ -28,7 +32,16 @@ const UserDetails = () => {
   const { t } = useTranslation();
   // TODO: переделать позже
   const handleLogout = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const handleLogoutConfirm = () => {
     logout();
+    setShowLogoutConfirm(false);
+  };
+
+  const handleLogoutUnconfirm = () => {
+    setShowLogoutConfirm(false);
   };
 
   const getTranslatedRole = (role: string | undefined) => {
@@ -79,6 +92,14 @@ const UserDetails = () => {
       <StyledButton type='primary' onClick={handleLogout}>
         {t('Выйти')}
       </StyledButton>
+      {showLogoutConfirm && (
+        <ConfirmationDialog
+          title={t('Выйти')}
+          content={t('вы точно хотите выйти?')}
+          onCancel={handleLogoutUnconfirm}
+          onConfirm={handleLogoutConfirm}
+        />
+      )}
     </StyledProfileSection>
   );
 };
