@@ -95,22 +95,4 @@ export const MessageStyles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 5,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-  },
-  modalClose: {
-    position: 'absolute',
-    top: 40,
-    right: 20,
-    backgroundColor: Colors.Black100Opacity20,
-    borderRadius: 20,
-    padding: 10,
-  },
 });

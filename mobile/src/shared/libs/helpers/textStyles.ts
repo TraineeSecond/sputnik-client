@@ -26,9 +26,11 @@ type FontFamily =
 
 interface ITextStyle {
   span1: TextStyle;
+  span2: TextStyle;
   p1: TextStyle;
   p2: TextStyle;
   p3: TextStyle;
+  p4: TextStyle;
   h1: TextStyle;
   h2: TextStyle;
   h3: TextStyle;
@@ -71,9 +73,11 @@ class TextStyle {
 
 export const TextStyles: ITextStyle = {
   span1: new TextStyle(12, '900', Colors.Gray100, 'Unbounded-Black'),
+  span2: new TextStyle(12, '700', Colors.White100, 'Unbounded-Bold'),
   p1: new TextStyle(16, '700', Colors.Gray100, 'Unbounded-Regular'),
   p2: new TextStyle(18, '700', Colors.Gray100, 'Unbounded-Regular', 26),
   p3: new TextStyle(20, '700', Colors.Gray100, 'Unbounded-Regular'),
+  p4: new TextStyle(14, '500', Colors.Black100, 'Unbounded-Regular', 20),
   h1: new TextStyle(26, '700', Colors.Blue100, 'Unbounded-Regular'),
   h2: new TextStyle(24, '700', Colors.Blue100, 'Unbounded-Regular'),
   h3: new TextStyle(22, '700', Colors.Blue100, 'Unbounded-Regular'),

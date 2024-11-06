@@ -19,3 +19,11 @@ export type Product = {
   rating: number;
   reviewerscount: number;
 };
+
+export type AppealsProduct = {
+  id: string;
+  sellerId: number | undefined;
+  name: string;
+  image: string | undefined;
+  price: number;
+};

@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
+import {SellerProducts} from 'features/SellerProducts';
 import {
   ChatsList,
   Messenger,
@@ -11,6 +12,7 @@ import {
   SellerDashboard,
   Settings,
 } from 'pages';
+import {Appeals} from 'pages/Appeals/ui/Appeals';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Header} from 'widgets';
 
@@ -104,6 +106,13 @@ export const ProfileStackNavigator = () => {
               onBackPress={handleGoBack}
             />
           ),
+        }}
+      />
+      <ProfileStack.Screen
+        name={Screens.APPEALS}
+        component={Appeals}
+        options={{
+          header: () => <Header showBackButton onBackPress={handleGoBack} />,
         }}
       />
     </ProfileStack.Navigator>

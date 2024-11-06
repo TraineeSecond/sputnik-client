@@ -24,4 +24,5 @@ export enum Screens {
   CHATLIST = 'ChatList',
   MESSENGER = 'Messenger',
   SELLERPRODUCTS = 'SellerProducts',
+  APPEALS = 'Appeals',
 }

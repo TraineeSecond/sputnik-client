@@ -8,6 +8,7 @@ import {ProfileStackParamsList} from 'app/navigation/navigationTypes';
 import {Chat} from 'entities/chat';
 import {useUserStore} from 'entities/user';
 import {useChatListStore} from 'features/ChatList';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {ChatItem} from 'shared/ui';
 
 import {ChatListStyles as styles} from './ChatsList.styles';
@@ -16,7 +17,7 @@ export const ChatsList = () => {
   const {chatList, setChatList, setSkip, loadChats, deleteChat} =
     useChatListStore();
   const {user} = useUserStore();
-  const navigation = useNavigation<NavigationProp<ProfileStackParamsList>>();
+  const navigation = useAppNavigation();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const {t} = useTranslation();
 

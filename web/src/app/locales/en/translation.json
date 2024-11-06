@@ -91,5 +91,9 @@
   "Отправить": "Send",
   "Чат успешно удален": "Chat successfully deleted",
   "Ошибка при удалении чата": "Error deleting chat",
-  "удалить продукт": "delete product"
+  "удалить продукт": "delete product",
+  "после удаления продукта его будет невозможно восстановить": "Once a product is deleted, it will be impossible to restore it",
+  "да": "yes",
+  "нет": "no",
+  "вы точно хотите выйти?": "Are you sure you want to log out?"
 }
