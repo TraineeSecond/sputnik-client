@@ -32,6 +32,12 @@ export const SettingsIcon = (props: any) => (
 export const HeartOutlineIcon = (props: any) => (
   <Icon {...props} name="heart-outline" />
 );
+export const PenOutlineIcon = (props: any) => (
+  <Icon {...props} name="edit-outline" />
+);
+export const CopyOutlineIcon = (props: any) => (
+  <Icon {...props} name="copy-outline" />
+);
 export const SearchIcon = (props: any) => (
   <Icon {...props} name="search-outline" />
 );
