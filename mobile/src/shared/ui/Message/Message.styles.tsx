@@ -6,6 +6,7 @@ export const MessageStyles = StyleSheet.create({
   messageContainer: {
     flexDirection: 'row',
     marginVertical: 5,
+    borderRadius: 100,
   },
   bubbleLeft: {
     backgroundColor: Colors.Gray200,

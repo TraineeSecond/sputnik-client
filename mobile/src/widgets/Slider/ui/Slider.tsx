@@ -1,13 +1,6 @@
 import React, {ReactElement} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {Category, Product} from 'entities';
 import {Colors, TextStyles} from 'shared/libs/helpers';
@@ -19,7 +12,7 @@ type SliderProps = {
   isLoading?: boolean;
   data: Product[] | Category[];
   renderItem: ({item, index}: {item: any; index: number}) => ReactElement;
-  renderSkeleton: (index: number) => ReactElement;
+  renderSkeleton?: (index: number) => ReactElement;
   style?: object;
 };
 
@@ -27,12 +20,18 @@ export const Slider = ({
   title,
   data,
   style,
-  isLoading,
+  isLoading = false,
   renderItem,
   renderSkeleton,
 }: SliderProps) => {
   const {t} = useTranslation();
   const keyExtractor = (item: any, index: number) => index.toString();
+  const renderElement = (item: any, index: number) => {
+    if (isLoading) {
+      return renderSkeleton ? renderSkeleton(index) : <View key={index} />;
+    }
+    return renderItem({item, index});
+  };
 
   return (
     <View
@@ -57,9 +56,7 @@ export const Slider = ({
         horizontal
         data={isLoading ? [1, 2, 3, 4, 5] : data}
         keyExtractor={keyExtractor}
-        renderItem={({item, index}) =>
-          isLoading ? renderSkeleton(index) : renderItem({item, index})
-        }
+        renderItem={({item, index}) => renderElement(item, index)}
         initialNumToRender={5}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatList}

@@ -40,7 +40,9 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
   isProductOrdered: (productId: number) => {
     const orders = get().orders;
     return orders?.some(order =>
-      order?.orderitems?.some(orderItem => orderItem.product.id === productId),
+      order?.orderitems?.some(
+        orderItem => orderItem?.product?.id === productId,
+      ),
     );
   },
 
@@ -50,7 +52,8 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         quantity: item.quantity,
         productid: item.id,
       }));
-      const {data} = await axios.post(
+      console.log('formattedItems', userid, formattedItems);
+      const {data} = await axios.post<Order>(
         'https://domennameabcdef.ru/api/orders',
         {
           userid,
@@ -62,9 +65,10 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
           },
         },
       );
-      set({orders: [...get().orders, ...data]});
-    } catch (error: any) {
-      console.error(error.response);
+      console.log('data', data);
+      set({orders: [...get().orders, data]});
+    } catch (error) {
+      console.error(error);
     }
   },
 

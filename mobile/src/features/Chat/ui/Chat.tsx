@@ -1,9 +1,11 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Alert,
+  Dimensions,
   FlatList,
+  GestureResponderEvent,
   Image,
   KeyboardAvoidingView,
   ScrollView,
@@ -11,6 +13,7 @@ import {
   View,
 } from 'react-native';
 
+import Clipboard from '@react-native-clipboard/clipboard';
 import {Screens} from 'app/navigation/navigationEnums';
 import {RootStackParamsList} from 'app/navigation/navigationTypes';
 import {IMessage, TImages, useChatStore} from 'entities/chat';
@@ -27,6 +30,9 @@ import {ChatStyles as styles} from './styles';
 type ProductRouteProp = RouteProp<RootStackParamsList, Screens.MESSENGER>;
 
 const socket = io('http://domennameabcdef.ru:5555');
+
+const MODAL_HEIGHT = 200;
+const MODAL_WIDTH = 330;
 
 export const Chat = () => {
   const {t} = useTranslation();
@@ -61,6 +67,8 @@ export const Chat = () => {
 
   const listRef = React.useRef<FlatList<IMessage>>(null);
   const reversedMessages = useMemo(() => [...messages].reverse(), [messages]);
+  const [modalPosition, setModalPosition] = useState({x: 0, y: 0});
+  const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
   const {
     modalImageVisible,
@@ -158,13 +166,13 @@ export const Chat = () => {
     setAttachedImages([]);
   };
 
-  const closeloseModal = () => {
+  const closeModal = () => {
     setModalVisible(false);
   };
 
   const handleDeleteMessage = () => {
     deleteMessage(chatId, selectedMessageId);
-    closeloseModal();
+    closeModal();
   };
 
   const handleUpdate = () => {
@@ -173,14 +181,20 @@ export const Chat = () => {
       setCurrentMessage(messageToEdit.message);
       setUpdatingMessageId(messageToEdit.id);
     }
-    closeloseModal();
+    closeModal();
   };
 
-  const onBackdropPress = () => closeloseModal();
+  const handleCopy = () => {
+    const messageToCopy = messages.find(msg => msg.id === selectedMessageId);
+    if (messageToCopy) Clipboard.setString(messageToCopy.message);
+    closeModal();
+  };
+
+  const onBackdropPress = () => closeModal();
 
   const handleSendReaction = (reaction: string) => {
     sendReaction(chatId, user.id, selectedMessageId, reaction);
-    closeloseModal();
+    closeModal();
   };
 
   const handleAttachFile = () => {
@@ -210,7 +224,13 @@ export const Chat = () => {
     );
   };
 
-  const longPress = (messageId: number) => {
+  const longPress = (event: GestureResponderEvent, messageId: number) => {
+    const {pageX, pageY} = event.nativeEvent;
+
+    const modalX = Math.min(pageX, screenWidth - MODAL_WIDTH);
+    const modalY = Math.min(pageY, screenHeight - MODAL_HEIGHT);
+
+    setModalPosition({x: modalX, y: modalY});
     setModalVisible(true);
     setSelectedMessageId(messageId);
   };
@@ -246,7 +266,8 @@ export const Chat = () => {
 
   const renderMessage = ({item}: {item: IMessage}) => {
     const isCurrentUser = item.authorId === user.id;
-    const handleLongPress = () => longPress(item.id);
+    const handleLongPress = (event: GestureResponderEvent) =>
+      longPress(event, item.id);
 
     const onSendReaction = (reaction: string) => {
       sendReaction(chatId, user.id, item.id, reaction);
@@ -306,10 +327,12 @@ export const Chat = () => {
         />
         <MessageActionsModal
           modalVisible={modalVisible}
-          onBackdropPress={onBackdropPress}
-          handleDelete={handleDeleteMessage}
+          modalPosition={modalPosition}
+          handleCopy={handleCopy}
           handleUpdate={handleUpdate}
+          onBackdropPress={onBackdropPress}
           sendReaction={handleSendReaction}
+          handleDelete={handleDeleteMessage}
         />
       </KeyboardAvoidingView>
     </View>

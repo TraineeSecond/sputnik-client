@@ -50,7 +50,7 @@ export const ModalFullImage = memo(
         accessibilityLabel={t('Просмотр изображения')}>
         <View style={styles.modalContainer}>
           <Image
-            source={{uri: images[selectedImageIndex].image}}
+            source={{uri: images[selectedImageIndex]?.image}}
             style={styles.modalImage}
             accessible={true}
             accessibilityLabel={t('Просматриваемое изображение')}

@@ -5,7 +5,7 @@ const {width} = Dimensions.get('window');
 export const OrdersPageStyles = StyleSheet.create({
   container: {
     padding: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
   },
   productItem: {
@@ -16,6 +16,11 @@ export const OrdersPageStyles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 10,
+    // marginBottom: 5,
+  },
+  ordersContainer: {
+    paddingTop: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });

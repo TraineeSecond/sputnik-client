@@ -4,34 +4,47 @@ import {Colors} from 'shared/libs/helpers/colors';
 
 export const MessageActionsModalStyles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: Colors.Gray200,
-    width: 350,
-    height: 550,
-    padding: 20,
+    width: 300,
+    gap: 10,
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  centerText: {
-    textAlign: 'center',
-  },
-  emojiListContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 5,
-    paddingBottom: 20,
+  slider: {
+    overflow: 'hidden',
+    borderRadius: 100,
+    height: 40,
+    backgroundColor: Colors.Gray200,
   },
   backdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   buttonsGroup: {
+    width: 200,
     flexDirection: 'column',
-    paddingHorizontal: 10,
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: Colors.Gray200,
   },
-  margin: {
-    marginBottom: 10,
+  button: {
+    paddingLeft: 15,
+    borderRadius: 0,
+    borderWidth: 0,
+    justifyContent: 'flex-start',
+    gap: 15,
+    backgroundColor: Colors.Gray200,
   },
   reactionItem: {
-    width: 50,
-    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emoji: {
+    fontSize: 24,
+  },
+  skeleton: {
+    height: 24,
+    width: 24,
+    borderRadius: 10,
+    backgroundColor: Colors.Gray200,
   },
 });

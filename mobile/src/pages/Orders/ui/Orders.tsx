@@ -55,6 +55,7 @@ export const Orders = () => {
   const renderProductItem = (order: Order) => {
     return order.orderitems.map(item => {
       const {id, product} = item;
+      console.log(item);
       return (
         <ProductItem
           key={id}
@@ -88,9 +89,11 @@ export const Orders = () => {
         accessibilityLabel={t('Ваша история покупок')}>
         {t('Ваша история покупок')}
       </Text>
-      {isLoading
-        ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))
-        : orders.map(renderProductItem)}
+      <View style={styles.ordersContainer}>
+        {isLoading
+          ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))
+          : orders.map(renderProductItem)}
+      </View>
     </ScrollView>
   );
 };
