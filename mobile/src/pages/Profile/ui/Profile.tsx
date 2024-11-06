@@ -10,6 +10,7 @@ import {useUserStore} from 'entities/user';
 import {Auth} from 'pages/index';
 import {useOrientation} from 'shared/hooks';
 import {
+  AlertIcon,
   CubeIcon,
   FlagIcon,
   ForwardIcon,
@@ -19,6 +20,7 @@ import {
   ReviewIcon,
 } from 'shared/icons';
 import {Colors, TextStyles} from 'shared/libs/helpers';
+import {useAppNavigation} from 'shared/libs/useAppNavigation';
 
 import {ProfileStyles as styles} from './Profile.styles';
 
@@ -92,6 +94,10 @@ export const Profile = () => {
 
   const isSeller = user.role === 'seller';
 
+  const handleAppelations = () => {
+    navigation.navigate(Screens.APPEALS, {isSeller});
+  };
+
   return (
     <>
       {token ? (
@@ -135,6 +141,14 @@ export const Profile = () => {
                 accessoryLeft={MessageIcon}
                 accessoryRight={ForwardIcon}
                 onPress={handleChat}
+              />
+              <MenuItem
+                title={t('Апелляции')}
+                accessible={true}
+                accessibilityLabel={`${t('Апелляции')}`}
+                accessoryLeft={AlertIcon}
+                accessoryRight={ForwardIcon}
+                onPress={handleAppelations}
               />
               <MenuItem
                 title={t('Настройки языка')}

@@ -9,7 +9,7 @@ export const OrdersPageStyles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   productItem: {
-    width: width / 2 - 16,
+    width: width / 2 - 26,
     margin: 8,
   },
   toptext: {

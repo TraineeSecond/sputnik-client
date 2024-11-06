@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {RefreshControl, ScrollView, Text, View} from 'react-native';
 
@@ -18,6 +18,10 @@ export const Orders = () => {
   const {user, token} = useUserStore();
 
   const {t} = useTranslation();
+
+  useEffect(() => {
+    getOrders(user.id, token);
+  }, [user.id]);
 
   const navigation = useAppNavigation();
 
@@ -49,13 +53,12 @@ export const Orders = () => {
   );
 
   const renderProductItem = (order: Order) => {
-    return order.orderItems.map(item => {
+    return order.orderitems.map(item => {
       const {id, product} = item;
-
       return (
         <ProductItem
           key={id}
-          id={id.toString()}
+          id={product.id.toString()}
           price={product.price}
           name={product.name}
           images={product.images}
@@ -66,6 +69,8 @@ export const Orders = () => {
           reviewerscount={product.reviewerscount}
           onPress={() => handleProductPress(product)}
           style={styles.productItem}
+          apellationButton={true}
+          sellerId={product.user.id}
         />
       );
     });

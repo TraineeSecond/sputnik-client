@@ -58,4 +58,10 @@ export const ProductItemStyles = StyleSheet.create({
   strikethroughPrice: {
     textDecorationLine: 'line-through',
   },
+  alertButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: 10,
+  },
 });

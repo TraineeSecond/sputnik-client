@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {CartItemType, Product} from 'entities';
+import {CartItemType, Product, User} from 'entities';
 import {create} from 'zustand';
 
 export type OrderItem = {
@@ -8,11 +8,12 @@ export type OrderItem = {
   productid: number;
   quantity: number;
   product: Product;
+  user: User;
 };
 
 export type Order = {
   id: number;
-  orderItems: OrderItem[];
+  orderitems: OrderItem[];
 };
 
 type OrderStore = {
@@ -38,8 +39,8 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
 
   isProductOrdered: (productId: number) => {
     const orders = get().orders;
-    return orders.some(order =>
-      order.orderItems.some(orderItem => orderItem.product.id === productId),
+    return orders?.some(order =>
+      order?.orderitems?.some(orderItem => orderItem.product.id === productId),
     );
   },
 
@@ -61,11 +62,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
           },
         },
       );
-      if (data?.orderitems) {
-        set({
-          orders: data.orderitems,
-        });
-      }
+      set({orders: [...get().orders, ...data]});
     } catch (error: any) {
       console.error(error.response);
     }
@@ -73,7 +70,7 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
 
   getOrders: async (userid: number, token: string) => {
     try {
-      const {data} = await axios.get(
+      const {data} = await axios.get<Order[]>(
         `https://domennameabcdef.ru/api/orders/${userid}`,
         {
           headers: {
@@ -82,41 +79,8 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         },
       );
 
-      const formattedOrders = data.map((order: any) => {
-        return {
-          id: order.id,
-          orderItems: order.orderitems.map((orderItem: any) => {
-            return {
-              id: orderItem.id,
-              orderid: orderItem.orderid,
-              productid: orderItem.productid,
-              quantity: orderItem.quantity,
-              product: {
-                id: orderItem.product.id,
-                category: orderItem.product.category,
-                description: orderItem.product.description,
-                name: orderItem.product.name,
-                price: orderItem.product.price,
-                new_price: orderItem.product.new_price,
-                images: orderItem.product.images,
-                rating: orderItem.product.rating,
-                reviewerscount: orderItem.product.reviewerscount,
-                user: {
-                  id: order.user.id,
-                  email: order.user.email,
-                  role: order.user.role,
-                  name: order.user.name,
-                  surname: order.user.surname,
-                },
-                image: '',
-              },
-            };
-          }),
-        };
-      });
-
       set({
-        orders: formattedOrders,
+        orders: data,
       });
     } catch (error: any) {}
   },

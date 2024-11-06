@@ -1,6 +1,6 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 
-import {Product} from 'entities/product';
+import {AppealsProduct, Product} from 'entities';
 
 export type ProductRouteParams = {product: Product};
 
@@ -11,6 +11,8 @@ export type MessengerRouteParams = {
 };
 
 export type NewProductRouteParams = {product?: Product};
+
+export type AppealsRouteParams = {isSeller?: boolean; product?: AppealsProduct};
 
 export type RootStackParamsList = {
   Main: NavigatorScreenParams<MainTabsStackParamsList>;
@@ -50,4 +52,5 @@ export type ProfileStackParamsList = {
   ChatList: undefined;
   SellerProducts: undefined;
   NewProduct?: NewProductRouteParams;
+  Appeals: AppealsRouteParams;
 };
