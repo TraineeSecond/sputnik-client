@@ -80,7 +80,6 @@ export const Orders = () => {
           rating={product.rating}
           reviewerscount={product.reviewerscount}
           onPress={() => handleProductPress(product)}
-          // style={style}
           style={[styles.productItem, {width: itemWidth}]}
           apellationButton={true}
           sellerId={product.user.id}
