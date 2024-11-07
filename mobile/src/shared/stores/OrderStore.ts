@@ -52,7 +52,6 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
         quantity: item.quantity,
         productid: item.id,
       }));
-      console.log('formattedItems', userid, formattedItems);
       const {data} = await axios.post<Order>(
         'https://domennameabcdef.ru/api/orders',
         {
@@ -65,7 +64,6 @@ export const useOrderStore = create<OrderStore>((set, get) => ({
           },
         },
       );
-      console.log('data', data);
       set({orders: [...get().orders, data]});
     } catch (error) {
       console.error(error);
