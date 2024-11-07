@@ -1,13 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  Dimensions,
-  FlatList,
-  RefreshControl,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, FlatList, RefreshControl, Text, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
