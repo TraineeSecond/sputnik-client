@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { calculateDiscount, formatPriceRub } from 'shared';
 import { useAuthStore } from 'shared/auth/model/authStore';
+import ConfirmationDialog from 'shared/сonfirmationDialog/ui/ConfirmationDialog';
 
 import {
   StyledCarousel,
@@ -52,7 +53,12 @@ const ProductView = ({
   isBuyer,
   userId,
 }: ProductViewProps) => {
-  const { currentImage, setCurrentImage } = useProductViewStore();
+  const {
+    currentImage,
+    setCurrentImage,
+    showDeleteConfirm,
+    setShowDeleteConfirm,
+  } = useProductViewStore();
   const discount = calculateDiscount(product.price, product.new_price);
   const { toggleShowChangeImageFormPopUp } = useChangeImageFormStore();
   const {
@@ -116,9 +122,18 @@ const ProductView = ({
     }
   };
 
-  const handleDeleteProductButton = async () => {
+  const handleDeleteProductButton = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const handleDeleteProductConfirm = async () => {
     await deleteProduct(product.id);
+    setShowDeleteConfirm(false);
     navigate(`/profile`);
+  };
+
+  const handleDeleteProductUnconfirm = () => {
+    setShowDeleteConfirm(false);
   };
 
   const renderImageChangeButtons = () => {
@@ -204,6 +219,16 @@ const ProductView = ({
         </StyledProductContainer>
       </StyledProductView>
       <ChangeImagesForm id={product.id} />
+      {showDeleteConfirm && (
+        <ConfirmationDialog
+          title={t('удалить продукт')}
+          content={t(
+            'после удаления продукта его будет невозможно восстановить',
+          )}
+          onCancel={handleDeleteProductUnconfirm}
+          onConfirm={handleDeleteProductConfirm}
+        />
+      )}
     </>
   );
 };
