@@ -70,13 +70,6 @@ export const Chat = () => {
   const [modalPosition, setModalPosition] = useState({x: 0, y: 0});
   const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-  const {
-    modalImageVisible,
-    setModalImageVisible,
-    selectedImage,
-    setSelectedImage,
-  } = useMessageStore();
-
   useEffect(() => {
     loadMessages(chatId);
     socket.emit('readMessages', {chatId, userId: user.id});
@@ -121,14 +114,20 @@ export const Chat = () => {
 
     socket.on('updatedMessage', messageData => {
       setMessages(
-        messages.map(msg => (msg.id === messageData.id ? messageData : msg)),
+        messages.map(msg =>
+          msg.id === messageData.id
+            ? {...msg, message: messageData.message}
+            : msg,
+        ),
       );
     });
 
     socket.on('reactionUpdated', updatedMessage => {
       setMessages(
         messages.map(msg =>
-          msg.id === updatedMessage.id ? updatedMessage : msg,
+          msg.id === updatedMessage.id
+            ? {...msg, reactions: updatedMessage.reactions}
+            : msg,
         ),
       );
     });
