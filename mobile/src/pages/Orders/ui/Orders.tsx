@@ -1,11 +1,12 @@
 import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {RefreshControl, ScrollView, Text, View} from 'react-native';
+import {Dimensions, FlatList, RefreshControl, Text, View} from 'react-native';
 
 import {Screens} from 'app/navigation/navigationEnums';
 import {Product} from 'entities/product';
 import {useUserStore} from 'entities/user';
 import ContentLoader, {Rect} from 'react-content-loader/native';
+import {useOrientation} from 'shared/hooks';
 import {Colors, TextStyles} from 'shared/libs/helpers';
 import {useAppNavigation} from 'shared/libs/useAppNavigation';
 import {Order, useOrderStore} from 'shared/stores/OrderStore';
@@ -18,6 +19,10 @@ export const Orders = () => {
   const {user, token} = useUserStore();
 
   const {t} = useTranslation();
+
+  const isLandscape = useOrientation();
+  const {width} = Dimensions.get('window');
+  const itemWidth = isLandscape ? width / 4 - 21 : width / 2 - 26;
 
   useEffect(() => {
     getOrders(user.id, token);
@@ -52,7 +57,7 @@ export const Orders = () => {
     </View>
   );
 
-  const renderProductItem = (order: Order) => {
+  const renderProductItem = ({order, index}: {order: Order; index: number}) => {
     return order.orderitems.map(item => {
       const {id, product} = item;
       return (
@@ -68,7 +73,7 @@ export const Orders = () => {
           rating={product.rating}
           reviewerscount={product.reviewerscount}
           onPress={() => handleProductPress(product)}
-          style={styles.productItem}
+          style={[styles.productItem, {width: itemWidth}]}
           apellationButton={true}
           sellerId={product.user.id}
         />
@@ -76,21 +81,37 @@ export const Orders = () => {
     });
   };
 
+  const renderElement = ({item, index}: {item: Order; index: number}) => {
+    if (isLoading) {
+      return renderSkeleton(index);
+    }
+    return <>{renderProductItem({order: item as Order, index})}</>;
+  };
+
+  const keyExtractor = (item: any, index: number) =>
+    isLoading ? index.toString() : item.id.toString();
+
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
+    <FlatList
+      key={`flatListOrders-${isLandscape ? 4 : 2}`}
+      data={isLoading ? [1, 2, 3, 4, 5] : orders}
+      keyExtractor={keyExtractor}
+      renderItem={({item, index}) => renderElement({item, index})}
+      initialNumToRender={5}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.ordersContainer}
+      ListHeaderComponent={
+        <Text
+          style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}
+          accessible={true}
+          accessibilityLabel={t('Ваша история покупок')}>
+          {t('Ваша история покупок')}
+        </Text>
+      }
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-      }>
-      <Text
-        style={[TextStyles.h1.changeColor(Colors.Green400), styles.toptext]}
-        accessible={true}
-        accessibilityLabel={t('Ваша история покупок')}>
-        {t('Ваша история покупок')}
-      </Text>
-      {isLoading
-        ? [1, 2, 3, 4, 5, 6].map((_, index) => renderSkeleton(index))
-        : orders.map(renderProductItem)}
-    </ScrollView>
+      }
+      numColumns={isLandscape ? 5 : 3}
+    />
   );
 };

@@ -204,13 +204,15 @@ export const Message = memo(
             )}
           </Pressable>
         </View>
-        <ModalFullImage
-          selectedImageIndex={selectedImageIndex}
-          setSelectedImageIndex={setSelectedImageIndex}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          images={images}
-        />
+        {images && (
+          <ModalFullImage
+            selectedImageIndex={selectedImageIndex}
+            setSelectedImageIndex={setSelectedImageIndex}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            images={images}
+          />
+        )}
       </>
     );
   },
